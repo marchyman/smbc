@@ -29,18 +29,19 @@ struct ContentView : View {
     var body: some View {
         NavigationView {
             VStack {
-                Text("Sunday Morning Breakfast Club\nBreakfast and beyond since 1949")
+                Text("""
+                     Sunday Morning Breakfast Club
+                     Breakfast and beyond since 1949
+                     """)
                     .lineLimit(2)
-                    .padding(.top, 50)
-                Text("")
-//                Spacer()      // adding spacer shrinks the following image
+                    .padding()
                 Image("smbc")
                     .resizable()
                     .aspectRatio(1.0, contentMode: .fit)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.black, lineWidth: 2))
-                    .padding()
-//                Spacer()      // adding spacer shrinks the above image
+                    .padding(.leading)
+                    .padding(.trailing)
                 HStack {
                     Spacer()
                     NavigationButton(destination: RestaurantView()) {
@@ -51,8 +52,8 @@ struct ContentView : View {
                         Text("Rides").font(.title)
                     }.buttonStyle(.smbc)
                     Spacer()
-                }.padding(.bottom, 50)
-            }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                }.padding()
+             }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
              .background(LinearGradient(gradient: Gradient(colors: [.white, .gray, .white]), startPoint: .top, endPoint: .bottom), cornerRadius: 0)
              .navigationBarTitle(Text("SMBC"))
         }
