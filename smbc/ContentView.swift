@@ -8,29 +8,54 @@
 
 import SwiftUI
 
+public struct SmbcButtonStyle: ButtonStyle {
+    public func body(configuration: Button<Self.Label>, isPressed: Bool) -> some View {
+        configuration
+            .accentColor(.black)
+            .padding()
+            .background(Color.gray)
+            .opacity(0.60)
+            .cornerRadius(20)
+    }
+}
+
+extension StaticMember where Base : ButtonStyle {
+    public static var smbc: SmbcButtonStyle.Member {
+        StaticMember<SmbcButtonStyle>(SmbcButtonStyle())
+    }
+}
+
 struct ContentView : View {
     var body: some View {
-        VStack {
-            Button(action: { } ) {
-                Text("Breakfast rides")
+        NavigationView {
+            VStack {
+                Text("Sunday Morning Breakfast Club\nBreakfast and beyond since 1949")
+                    .lineLimit(2)
+                    .padding(.top, 50)
+                Text("")
+//                Spacer()      // adding spacer shrinks the following image
+                Image("smbc")
+                    .resizable()
+                    .aspectRatio(1.0, contentMode: .fit)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.black, lineWidth: 2))
                     .padding()
-            }
-            Button(action: {} ) {
-                Text("Other rides")
-                    .padding()
-            }
-            Button(action: {} ) {
-                Text("Restaurants")
-                    .padding()
-            }
-            // self.backgroundImage(geometry.size.width, geometry.size.height)
+//                Spacer()      // adding spacer shrinks the above image
+                HStack {
+                    Spacer()
+                    NavigationButton(destination: RestaurantView()) {
+                        Text("Restaurants").font(.title)
+                    }.buttonStyle(.smbc)
+                    Spacer()
+                    NavigationButton(destination: RideView()) {
+                        Text("Rides").font(.title)
+                    }.buttonStyle(.smbc)
+                    Spacer()
+                }.padding(.bottom, 50)
+            }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+             .background(LinearGradient(gradient: Gradient(colors: [.white, .gray, .white]), startPoint: .top, endPoint: .bottom), cornerRadius: 0)
+             .navigationBarTitle(Text("SMBC"))
         }
-    }
-    
-    func backgroundImage(width: CGFloat, height: CGFloat) -> Image {
-        let name = "l\(Int(width))x\(Int(height))"
-        print(name)
-        return Image(systemName: "slowmo")
     }
 }
 

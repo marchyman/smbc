@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		493BBFDB22C01AE600E2B437 /* RestaurantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDA22C01AE600E2B437 /* RestaurantView.swift */; };
+		493BBFDD22C01B1000E2B437 /* RideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDC22C01B1000E2B437 /* RideView.swift */; };
 		49B1969D22BEADE2009F51E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B1969C22BEADE2009F51E5 /* AppDelegate.swift */; };
 		49B1969F22BEADE2009F51E5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B1969E22BEADE2009F51E5 /* SceneDelegate.swift */; };
 		49B196A122BEADE2009F51E5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B196A022BEADE2009F51E5 /* ContentView.swift */; };
@@ -35,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		493BBFDA22C01AE600E2B437 /* RestaurantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantView.swift; sourceTree = "<group>"; };
+		493BBFDC22C01B1000E2B437 /* RideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideView.swift; sourceTree = "<group>"; };
 		49B1969922BEADE2009F51E5 /* smbc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = smbc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49B1969C22BEADE2009F51E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49B1969E22BEADE2009F51E5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -102,6 +106,8 @@
 				49B1969C22BEADE2009F51E5 /* AppDelegate.swift */,
 				49B1969E22BEADE2009F51E5 /* SceneDelegate.swift */,
 				49B196A022BEADE2009F51E5 /* ContentView.swift */,
+				493BBFDA22C01AE600E2B437 /* RestaurantView.swift */,
+				493BBFDC22C01B1000E2B437 /* RideView.swift */,
 				49B196A222BEADE3009F51E5 /* Assets.xcassets */,
 				49B196A722BEADE3009F51E5 /* LaunchScreen.storyboard */,
 				49B196AA22BEADE3009F51E5 /* Info.plist */,
@@ -267,9 +273,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				493BBFDD22C01B1000E2B437 /* RideView.swift in Sources */,
 				49B1969D22BEADE2009F51E5 /* AppDelegate.swift in Sources */,
 				49B1969F22BEADE2009F51E5 /* SceneDelegate.swift in Sources */,
 				49B196A122BEADE2009F51E5 /* ContentView.swift in Sources */,
+				493BBFDB22C01AE600E2B437 /* RestaurantView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,7 +442,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "smbc/Preview\\ Content";
 				DEVELOPMENT_TEAM = A3UXBEBE8Z;
@@ -456,7 +463,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "smbc/Preview\\ Content";
 				DEVELOPMENT_TEAM = A3UXBEBE8Z;
