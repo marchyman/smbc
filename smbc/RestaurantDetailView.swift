@@ -25,17 +25,21 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct RestaurantDetailView : View {
     let restaurant: Restaurant
     
     var body: some View {
         VStack {
-            Text(restaurant.name).font(.title)
+            Text(restaurant.name)
+                .font(.title)
+                .padding()
             Text(restaurant.address)
             Text(restaurant.city)
             Text(restaurant.phone)
-            Spacer()
+            MapView(center: CLLocationCoordinate2D(latitude: 37.7244,
+                                                   longitude: -122.4381))
             }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
              .background(LinearGradient(gradient: Gradient(colors: [.white, .gray, .white]), startPoint: .top, endPoint: .bottom), cornerRadius: 0)
     }
