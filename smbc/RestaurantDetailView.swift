@@ -1,8 +1,8 @@
 //
-//  RestaruantView.swift
+//  RestaurantDetailView.swift
 //  smbc
 //
-//  Created by Marco S Hyman on 6/23/19.
+//  Created by Marco S Hyman on 6/24/19.
 //  Copyright © 2019 Marco S Hyman. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -26,38 +26,30 @@
 
 import SwiftUI
 
-struct RestaurantRow: View {
-    var restaurant: Restaurant
-
+struct RestaurantDetailView : View {
+    let restaurant: Restaurant
+    
     var body: some View {
-        var city = restaurant.city
-        if restaurant.status != "open" {
-            city += " -- \(restaurant.status)"
-        }
-        return NavigationButton(destination: RestaurantDetailView(restaurant: restaurant)) {
-            VStack (alignment: .leading) {
-                Text(restaurant.name).font(.headline)
-                Text(city).font(.subheadline)
-            }
-        }
-    }
-}
-
-struct RestaurantView : View {
-    @EnvironmentObject var smbcData: SMBCData
-
-    var body: some View {
-        List (smbcData.restaurants.identified(by: \.id)) {
-            restaurant in
-            RestaurantRow(restaurant: restaurant)
-        }.navigationBarTitle(Text("SMBC Restaurants"))
+        VStack {
+            Text(restaurant.name).font(.title)
+            Text(restaurant.address)
+            Text(restaurant.city)
+            Text(restaurant.phone)
+            Spacer()
+            }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+             .background(LinearGradient(gradient: Gradient(colors: [.white, .gray, .white]), startPoint: .top, endPoint: .bottom), cornerRadius: 0)
     }
 }
 
 #if DEBUG
-struct RestaurantView_Previews : PreviewProvider {
+struct RestaurantDetailView_Previews : PreviewProvider {
     static var previews: some View {
-        RestaurantView()
+        RestaurantDetailView(restaurant: Restaurant(id: "test",
+                                                    name: "Test Restaurant",
+                                                    address: "123 Main Street",
+                                                    city: "Some City",
+                                                    phone: "(123) 456-7890",
+                                                    status: "CLOSED"))
     }
 }
 #endif

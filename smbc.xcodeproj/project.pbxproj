@@ -10,6 +10,7 @@
 		493BBFDB22C01AE600E2B437 /* RestaurantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDA22C01AE600E2B437 /* RestaurantView.swift */; };
 		493BBFDD22C01B1000E2B437 /* RideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDC22C01B1000E2B437 /* RideView.swift */; };
 		493BBFDF22C079EE00E2B437 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDE22C079EE00E2B437 /* Data.swift */; };
+		4947F16422C16515008E6D6A /* RestaurantDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4947F16322C16515008E6D6A /* RestaurantDetailView.swift */; };
 		49B1969D22BEADE2009F51E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B1969C22BEADE2009F51E5 /* AppDelegate.swift */; };
 		49B1969F22BEADE2009F51E5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B1969E22BEADE2009F51E5 /* SceneDelegate.swift */; };
 		49B196A122BEADE2009F51E5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B196A022BEADE2009F51E5 /* ContentView.swift */; };
@@ -42,6 +43,7 @@
 		493BBFDC22C01B1000E2B437 /* RideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideView.swift; sourceTree = "<group>"; };
 		493BBFDE22C079EE00E2B437 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		493BBFE022C0966700E2B437 /* smbc.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = smbc.entitlements; sourceTree = "<group>"; };
+		4947F16322C16515008E6D6A /* RestaurantDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailView.swift; sourceTree = "<group>"; };
 		49B1969922BEADE2009F51E5 /* smbc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = smbc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49B1969C22BEADE2009F51E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49B1969E22BEADE2009F51E5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				49B1969E22BEADE2009F51E5 /* SceneDelegate.swift */,
 				49B196A022BEADE2009F51E5 /* ContentView.swift */,
 				493BBFDA22C01AE600E2B437 /* RestaurantView.swift */,
+				4947F16322C16515008E6D6A /* RestaurantDetailView.swift */,
 				493BBFDC22C01B1000E2B437 /* RideView.swift */,
 				493BBFDE22C079EE00E2B437 /* Data.swift */,
 				49B196A222BEADE3009F51E5 /* Assets.xcassets */,
@@ -279,6 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				493BBFDD22C01B1000E2B437 /* RideView.swift in Sources */,
+				4947F16422C16515008E6D6A /* RestaurantDetailView.swift in Sources */,
 				493BBFDF22C079EE00E2B437 /* Data.swift in Sources */,
 				49B1969D22BEADE2009F51E5 /* AppDelegate.swift in Sources */,
 				49B1969F22BEADE2009F51E5 /* SceneDelegate.swift in Sources */,

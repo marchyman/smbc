@@ -72,8 +72,8 @@ struct ContentView : View {
                     Spacer()
                 }.padding()
              }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-             .background(LinearGradient(gradient: Gradient(colors: [.white, .gray, .white]), startPoint: .top, endPoint: .bottom), cornerRadius: 0)
-             .navigationBarTitle(Text("SMBC"))
+              .background(LinearGradient(gradient: Gradient(colors: [.white, .gray, .white]), startPoint: .top, endPoint: .bottom), cornerRadius: 0)
+              .navigationBarTitle(Text("SMBC"))
         }
     }
 }
