@@ -26,9 +26,30 @@
 
 import SwiftUI
 
-struct RestaurantView : View {
+struct RestaurantRow: View {
+    var restaurant: Restaurant
+
     var body: some View {
-        Text("RestaurantView")
+        var city = restaurant.city
+        if restaurant.status != "open" {
+            city += " -- \(restaurant.status)"
+        }
+        return VStack (alignment: .leading) {
+            Text(restaurant.name).font(.headline)
+            Text(city).font(.subheadline)
+        }
+
+    }
+}
+
+struct RestaurantView : View {
+    @EnvironmentObject var smbcData: SMBCData
+
+    var body: some View {
+        List (smbcData.restaurants.identified(by: \.id)) {
+            restaurant in
+            RestaurantRow(restaurant: restaurant)
+        }.navigationBarTitle(Text("SMBC Restaurants"))
     }
 }
 
