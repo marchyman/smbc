@@ -47,7 +47,7 @@ struct RestaurantView : View {
     @EnvironmentObject var smbcData: SMBCData
 
     var body: some View {
-        List (smbcData.restaurants.identified(by: \.id)) {
+        List (smbcData.restaurants) {
             restaurant in
             RestaurantRow(restaurant: restaurant)
         }.navigationBarTitle(Text("SMBC Restaurants"))

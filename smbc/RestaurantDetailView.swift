@@ -34,7 +34,7 @@ struct RestaurantDetailView : View {
         VStack {
                 Text(restaurant.name)
                     .font(.title)
-                    .padding()
+                    .padding(.bottom)
                 if restaurant.status != "open" {
                     Text(restaurant.status)
                         .italic()

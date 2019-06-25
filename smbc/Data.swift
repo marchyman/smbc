@@ -43,7 +43,7 @@ fileprivate let cacheFolderName = "Cache/org.snafu.smbc/"
 fileprivate let restaurantName = "restaurants.json"
 fileprivate let restaurantsUrl = URL(string: serverName + restaurantName)
 
-struct Restaurant: Decodable {
+struct Restaurant: Decodable, Identifiable {
     let id: String
     let name: String
     let address: String
