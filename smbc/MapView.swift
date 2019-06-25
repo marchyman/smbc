@@ -29,7 +29,7 @@ import MapKit
 
 struct MapView: UIViewRepresentable {
     var center: CLLocationCoordinate2D
-    var altitude = 5000.0
+    var altitude = 2000.0
     
     func makeUIView(context: Context) -> MKMapView {
         MKMapView(frame: .zero)

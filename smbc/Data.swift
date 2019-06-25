@@ -50,6 +50,8 @@ struct Restaurant: Decodable {
     let city: String
     let phone: String
     let status: String
+    let lat: Double
+    let lon: Double
 }
 
 /// SMBCData holds all data needed for the app.  It is stored in the environment.

@@ -32,14 +32,20 @@ struct RestaurantDetailView : View {
     
     var body: some View {
         VStack {
-            Text(restaurant.name)
-                .font(.title)
-                .padding()
+                Text(restaurant.name)
+                    .font(.title)
+                    .padding()
+                if restaurant.status != "open" {
+                    Text(restaurant.status)
+                        .italic()
+                        .font(.footnote)
+                        .offset(x: 0, y: -20)
+                }
             Text(restaurant.address)
             Text(restaurant.city)
             Text(restaurant.phone)
-            MapView(center: CLLocationCoordinate2D(latitude: 37.7244,
-                                                   longitude: -122.4381))
+            MapView(center: CLLocationCoordinate2D(latitude: restaurant.lat,
+                                                   longitude: restaurant.lon))
             }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
              .background(LinearGradient(gradient: Gradient(colors: [.white, .gray, .white]), startPoint: .top, endPoint: .bottom), cornerRadius: 0)
     }
@@ -53,7 +59,9 @@ struct RestaurantDetailView_Previews : PreviewProvider {
                                                     address: "123 Main Street",
                                                     city: "Some City",
                                                     phone: "(123) 456-7890",
-                                                    status: "CLOSED"))
+                                                    status: "CLOSED",
+                                                    lat: 37.7244,
+                                                    lon: -122.4381))
     }
 }
 #endif
