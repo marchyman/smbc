@@ -38,7 +38,7 @@ import SwiftUI
 
 /// Location and format of Restaurant data
 
-fileprivate let serverName = "http://smbc.snafu.org/"
+fileprivate let serverName = "https://smbc.snafu.org/"
 fileprivate let cacheFolderName = "Cache/org.snafu.smbc/"
 fileprivate let restaurantName = "restaurants.json"
 fileprivate let restaurantsUrl = URL(string: serverName + restaurantName)
