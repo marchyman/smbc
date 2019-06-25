@@ -42,7 +42,10 @@ fileprivate let serverName = "https://smbc.snafu.org/"
 fileprivate let cacheFolderName = "Cache/org.snafu.smbc/"
 fileprivate let restaurantName = "restaurants.json"
 fileprivate let restaurantsUrl = URL(string: serverName + restaurantName)
+fileprivate let scheduleName = "schedule.json"
+fileprivate let scheduleUrl = URL(string: serverName + scheduleName)
 
+/// Format of a restaurant record retrieved from server
 struct Restaurant: Decodable, Identifiable {
     let id: String
     let name: String
@@ -55,24 +58,41 @@ struct Restaurant: Decodable, Identifiable {
     let lon: Double
 }
 
+/// Format of a scheduled ride record retrieved from server
+/// All rides have an ID and a start date.
+/// Breakfast rides have restaurant and possibly a comment
+/// Trips have an end date , a description, and possibly a comment
+struct ScheduledRide: Decodable, Identifiable {
+    let id = UUID()
+    let start: String
+    let restaurant: String? = nil
+    let end: String? = nil
+    let description: String? = nil
+    let comment: String? = nil
+}
+
 /// SMBCData holds all data needed for the app.  It is stored in the environment.
 
 class SMBCData: BindableObject {
     let didChange = PassthroughSubject<Void, Never>()
     var restaurants = [Restaurant]()
+    var rides = [ScheduledRide]()
 
     init() {
         getRestaurants()
-        getSchedule()
+        getRides()
     }
+
+    // MARK: - common functions for fetching restaurants and rides
 
     /// Copy data returned from a network request to a cache
     ///
     /// - Parameter source: URL of data to be cached
+    /// - Parameter name: Name of file inside of cache folder
     ///
     /// A cache folder inside the users Library will be created if necessary
     private
-    func cacheRestaurants(source: URL) throws {
+    func cacheData(source: URL, name: String) throws {
         let fileManager = FileManager.default
         let libraryDir = try fileManager.url(for: .libraryDirectory,
                                              in: .userDomainMask,
@@ -82,14 +102,56 @@ class SMBCData: BindableObject {
         try fileManager.createDirectory(at: cacheFolder,
                                         withIntermediateDirectories: true,
                                         attributes: nil)
-        let cachedFile = cacheFolder.appendingPathComponent(restaurantName)
+        let cachedFile = cacheFolder.appendingPathComponent(name)
         if fileManager.fileExists(atPath: cachedFile.path) {
             try? fileManager.removeItem(at: cachedFile)
         }
         try fileManager.copyItem(at: source, to: cachedFile)
+
+    }
+    
+    private
+    func dataFromCache(name: String, reader: @escaping (URL) throws -> ()) {
+        let fileManager = FileManager.default
+        do {
+            let libraryDir = try fileManager.url(for: .libraryDirectory,
+                                                 in: .userDomainMask,
+                                                 appropriateFor: nil,
+                                                 create: false)
+            let cacheFolder = libraryDir.appendingPathComponent(cacheFolderName)
+            let cachedFile = cacheFolder.appendingPathComponent(name)
+            try reader(cachedFile)
+        } catch {
+            dataFromBundle(name: name, reader: reader)
+        }
+        
     }
 
-    /// Get known restaurants from a file.
+    private
+    func dataFromBundle(name: String, reader: (URL) throws -> ()) {
+        // get data from bundle
+
+//        let url = Bundle.main.url(forResource: "restaurants",
+//                                  withExtension: "json")
+//        do {
+//            try readRestaurants(from: url!)
+//        } catch {
+//            fatalError("Cannot find list of restaurants")
+//        }
+    }
+
+    // MARK: - Get list of restaurants
+
+    /// Copy restaurant data returned from a network request to a cache
+    ///
+    /// - Parameter source: URL of data to be cached
+    ///
+    private
+    func cacheRestaurants(source: URL) throws {
+        try cacheData(source: source, name: restaurantName)
+    }
+
+    /// read and decode restaurants from a file.
     ///
     /// - Parameter url: A file URL within the device of the file to read
     ///
@@ -105,65 +167,71 @@ class SMBCData: BindableObject {
         }
     }
 
-    /// Read the list of restaurants baked into the bundle
-    ///
-    /// This function will only be called when there has never been network connecttivity since the
-    /// app was installed.
-    private
-    func restaurantsFromBundle() {
-        let url = Bundle.main.url(forResource: "restaurants",
-                                  withExtension: "json")
-        do {
-            try readRestaurants(from: url!)
-        } catch {
-            fatalError("Cannot find list of restaurants")
-        }
-   }
-
-    /// Read the list of restaurants from the cache.
-    ///
-    /// Called upon failure to read from the network.  If the restaurants cant be found in the cache
-    /// they will be read from the bundle.
-    private
-    func restaurantsFromCache() {
-        let fileManager = FileManager.default
-        do {
-            let libraryDir = try fileManager.url(for: .libraryDirectory,
-                                             in: .userDomainMask,
-                                             appropriateFor: nil,
-                                             create: false)
-            let cacheFolder = libraryDir.appendingPathComponent(cacheFolderName)
-            let cachedFile = cacheFolder.appendingPathComponent(restaurantName)
-            try readRestaurants(from: cachedFile)
-        } catch {
-            restaurantsFromBundle()
-        }
-    }
-    
     /// Attempt to download the current list of restaurants.
     ///
     /// Any failure will result in an attempt to read the restaurants from data cached during
     /// the last sucessful download.
     private
     func getRestaurants() {
-        let task = URLSession.shared.downloadTask(with: restaurantsUrl!) {
+        URLSession.shared.downloadTask(with: restaurantsUrl!) {
             localURL, urlResponse, error in
             if let localURL = localURL {
                 do {
                     try self.cacheRestaurants(source: localURL)
                     try self.readRestaurants(from: localURL)
                 } catch {
-                    self.restaurantsFromCache()
+                    self.dataFromCache(name: restaurantName,
+                                       reader: self.readRestaurants)
                 }
             } else {
-                self.restaurantsFromCache()
+                self.dataFromCache(name: restaurantName,
+                                   reader: self.readRestaurants)
             }
-        }
-        task.resume()
+        }.resume()
+    }
+
+    // MARK: - Get scheduled rides
+
+    /// Copy schedule data returned from a network request to a cache
+    ///
+    /// - Parameter source: URL of data to be cached
+    ///
+    private
+    func cacheRides(source: URL) throws {
+        try cacheData(source: source, name: scheduleName)
     }
     
+    /// read and decode ride schedule from a file.
+    ///
+    /// - Parameter url: A file URL within the device of the file to read
+    ///
+    /// url points to a cache or a location within the bundle.
     private
-    func getSchedule() {
-        //
+    func readRides(from url: URL) throws {
+        let data = try Data(contentsOf: url)
+        let decoder = JSONDecoder()
+        rides = try decoder.decode([ScheduledRide].self, from: data)
+        DispatchQueue.main.async {
+            self.didChange.send(())
+        }
+    }
+
+    private
+    func getRides() {
+        URLSession.shared.downloadTask(with: scheduleUrl!) {
+            localURL, urlResponse, error in
+            if let localURL = localURL {
+                do {
+                    try self.cacheRides(source: localURL)
+                    try self.readRides(from: localURL)
+                } catch {
+                    self.dataFromCache(name: scheduleName,
+                                       reader: self.readRides)
+                }
+            } else {
+                self.dataFromCache(name: scheduleName,
+                                   reader: self.readRides)
+            }
+        }.resume()
     }
 }
