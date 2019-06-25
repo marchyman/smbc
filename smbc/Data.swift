@@ -38,7 +38,7 @@ import SwiftUI
 
 /// Location and format of Restaurant data
 
-fileprivate let serverName = "https://smbc.snafu.org/"
+fileprivate let serverName = "http://smbc.snafu.org/"
 fileprivate let cacheFolderName = "Cache/org.snafu.smbc/"
 fileprivate let restaurantName = "restaurants.json"
 fileprivate let restaurantsUrl = URL(string: serverName + restaurantName)
@@ -89,14 +89,55 @@ class SMBCData: BindableObject {
         try fileManager.copyItem(at: source, to: cachedFile)
     }
 
+    /// Get known restaurants from a file.
+    ///
+    /// - Parameter url: A file URL within the device of the file to read
+    ///
+    /// url points to a cache or a location within the bundle.
     private
-    func restaurantsFromBundle() {
-        //
+    func readRestaurants(from url: URL) throws {
+        let data = try Data(contentsOf: url)
+        let decoder = JSONDecoder()
+        restaurants = try decoder.decode([Restaurant].self,
+                                         from: data)
+        DispatchQueue.main.async {
+            self.didChange.send(())
+        }
     }
 
+    /// Read the list of restaurants baked into the bundle
+    ///
+    /// This function will only be called when there has never been network connecttivity since the
+    /// app was installed.
+    private
+    func restaurantsFromBundle() {
+        let url = Bundle.main.url(forResource: "restaurants",
+                                  withExtension: "json")
+        do {
+            try readRestaurants(from: url!)
+        } catch {
+            fatalError("Cannot find list of restaurants")
+        }
+   }
+
+    /// Read the list of restaurants from the cache.
+    ///
+    /// Called upon failure to read from the network.  If the restaurants cant be found in the cache
+    /// they will be read from the bundle.
     private
     func restaurantsFromCache() {
-        //
+        let fileManager = FileManager.default
+        do {
+            let libraryDir = try fileManager.url(for: .libraryDirectory,
+                                             in: .userDomainMask,
+                                             appropriateFor: nil,
+                                             create: false)
+            let cacheFolder = libraryDir.appendingPathComponent(cacheFolderName)
+            let cachedFile = cacheFolder.appendingPathComponent(restaurantName)
+            try readRestaurants(from: cachedFile)
+        } catch {
+            restaurantsFromBundle()
+        }
     }
     
     /// Attempt to download the current list of restaurants.
@@ -110,13 +151,7 @@ class SMBCData: BindableObject {
             if let localURL = localURL {
                 do {
                     try self.cacheRestaurants(source: localURL)
-                    if let data = try? Data(contentsOf: localURL) {
-                        let decoder = JSONDecoder()
-                        self.restaurants = try decoder.decode([Restaurant].self, from: data)
-                        DispatchQueue.main.async {
-                            self.didChange.send(())
-                        }
-                    }
+                    try self.readRestaurants(from: localURL)
                 } catch {
                     self.restaurantsFromCache()
                 }
