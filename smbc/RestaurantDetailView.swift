@@ -44,6 +44,7 @@ struct RestaurantDetailView : View {
             Text(restaurant.address)
             Text(restaurant.city)
             Text(restaurant.phone)
+            Text(restaurant.route).padding(.top)
             MapView(center: CLLocationCoordinate2D(latitude: restaurant.lat,
                                                    longitude: restaurant.lon))
             }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
@@ -57,6 +58,7 @@ struct RestaurantDetailView_Previews : PreviewProvider {
         RestaurantDetailView(restaurant: Restaurant(id: "test",
                                                     name: "Test Restaurant",
                                                     address: "123 Main Street",
+                                                    route: "(101/202/303)",
                                                     city: "Some City",
                                                     phone: "(123) 456-7890",
                                                     status: "CLOSED",

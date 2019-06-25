@@ -47,6 +47,7 @@ struct Restaurant: Decodable {
     let id: String
     let name: String
     let address: String
+    let route: String
     let city: String
     let phone: String
     let status: String
@@ -112,17 +113,15 @@ class SMBCData: BindableObject {
                     if let data = try? Data(contentsOf: localURL) {
                         let decoder = JSONDecoder()
                         self.restaurants = try decoder.decode([Restaurant].self, from: data)
-                        self.didChange.send(())
+                        DispatchQueue.main.async {
+                            self.didChange.send(())
+                        }
                     }
                 } catch {
-                    DispatchQueue.main.async {
-                        self.restaurantsFromCache()
-                    }
-                }
-            } else {
-                DispatchQueue.main.async {
                     self.restaurantsFromCache()
                 }
+            } else {
+                self.restaurantsFromCache()
             }
         }
         task.resume()
