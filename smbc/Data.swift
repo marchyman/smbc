@@ -65,10 +65,10 @@ struct Restaurant: Decodable, Identifiable {
 struct ScheduledRide: Decodable, Identifiable {
     let id = UUID()
     let start: String
-    let restaurant: String? = nil
-    let end: String? = nil
-    let description: String? = nil
-    let comment: String? = nil
+    let restaurant: String?
+    let end: String?
+    let description: String?
+    let comment: String?
 }
 
 /// SMBCData holds all data needed for the app.  It is stored in the environment.
