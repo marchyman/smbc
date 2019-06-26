@@ -129,15 +129,23 @@ class SMBCData: BindableObject {
 
     private
     func dataFromBundle(name: String, reader: (URL) throws -> ()) {
+        // break the name into base name and extension
+        guard let dotIndex = name.lastIndex(of: ".") else {
+            fatalError("malformed resource name: \(name)")
+        }
+        let resource = String(name.prefix(upTo:dotIndex))
+        let extRange = name.index(after: dotIndex)..<name.endIndex
+        let ext = String(name[extRange])
+
         // get data from bundle
 
-//        let url = Bundle.main.url(forResource: "restaurants",
-//                                  withExtension: "json")
-//        do {
-//            try readRestaurants(from: url!)
-//        } catch {
-//            fatalError("Cannot find list of restaurants")
-//        }
+        let url = Bundle.main.url(forResource: resource,
+                                  withExtension: ext)
+        do {
+            try reader(url!)
+        } catch {
+            fatalError("Cannot find list of restaurants")
+        }
     }
 
     // MARK: - Get list of restaurants
