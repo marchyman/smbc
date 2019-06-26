@@ -27,6 +27,10 @@
 import SwiftUI
 import MapKit
 
+/// Restaurant detail view.
+///
+/// This view is used when a restaurant is sellect for the list of restaurants and when a Sunday morning
+/// ride is selected from the rides list.
 struct RestaurantDetailView : View {
     let restaurant: Restaurant
     

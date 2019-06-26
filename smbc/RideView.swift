@@ -26,9 +26,78 @@
 
 import SwiftUI
 
-struct RideView : View {
+// MARK: - RideRow View
+
+struct RideRow: View {
+    @EnvironmentObject var smbcData: SMBCData
+    var ride: ScheduledRide
+    
     var body: some View {
-        Text("Ride View")
+        NavigationButton(destination: RestaurantDetailView(restaurant: idToRestaurant(id: ride.restaurant))) {
+            HStack () {
+                Text(ride.start)
+                    .font(.headline)
+                    .frame(minWidth: 50, alignment: .leading)
+                Text(restaurantName(id: ride.restaurant))
+            }
+        }
+    }
+
+    private
+    func idToRestaurant(id: String?) -> Restaurant {
+        guard let id = id, let restaurant =
+            smbcData.restaurants.first(where: { $0.id == id }) else {
+                fatalError("Missing Restaurant ID")
+        }
+        return restaurant
+    }
+    
+    private
+    func restaurantName(id: String?) -> String {
+        return idToRestaurant(id: id).name
+    }
+}
+
+// MARK: - TripRow View
+
+struct TripRow: View {
+    var ride: ScheduledRide
+    
+    var body: some View {
+        //        return NavigationButton(destination: RestaurantDetailView(restaurant: restaurant)) {
+        HStack () {
+            Text("\(ride.start)\n\(ride.end!)")
+                .font(.headline)
+                .lineLimit(2)
+                .frame(minWidth: 50, alignment: .leading)
+            Text(ride.description!)
+        }
+        //        }
+    }
+}
+
+// MARK: - RideView -- list of rides for the year
+
+struct RideView : View {
+    @EnvironmentObject var smbcData: SMBCData
+    var body: some View {
+        List (smbcData.rides) {
+            ride in
+            if ride.restaurant != nil {
+                RideRow(ride: ride)
+            }
+            if ride.end != nil {
+                TripRow(ride:ride)
+            }
+        }.navigationBarTitle(Text(navTitle()))
+    }
+    
+    private
+    func navTitle() -> String {
+        let yearFormat = DateFormatter()
+        yearFormat.dateFormat = "y"
+        let year = yearFormat.string(from: Date())
+        return "SMBC Rides in \(year)"
     }
 }
 
