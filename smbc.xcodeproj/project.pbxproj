@@ -12,6 +12,7 @@
 		493BBFDF22C079EE00E2B437 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDE22C079EE00E2B437 /* Data.swift */; };
 		4947F16422C16515008E6D6A /* RestaurantDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4947F16322C16515008E6D6A /* RestaurantDetailView.swift */; };
 		4947F16622C1737A008E6D6A /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4947F16522C1737A008E6D6A /* MapView.swift */; };
+		498A078522C421500026FB5D /* schedule.json in Resources */ = {isa = PBXBuildFile; fileRef = 498A078422C421500026FB5D /* schedule.json */; };
 		49B1969D22BEADE2009F51E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B1969C22BEADE2009F51E5 /* AppDelegate.swift */; };
 		49B1969F22BEADE2009F51E5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B1969E22BEADE2009F51E5 /* SceneDelegate.swift */; };
 		49B196A122BEADE2009F51E5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B196A022BEADE2009F51E5 /* ContentView.swift */; };
@@ -47,6 +48,7 @@
 		493BBFE022C0966700E2B437 /* smbc.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = smbc.entitlements; sourceTree = "<group>"; };
 		4947F16322C16515008E6D6A /* RestaurantDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailView.swift; sourceTree = "<group>"; };
 		4947F16522C1737A008E6D6A /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		498A078422C421500026FB5D /* schedule.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schedule.json; sourceTree = "<group>"; };
 		49B1969922BEADE2009F51E5 /* smbc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = smbc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49B1969C22BEADE2009F51E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49B1969E22BEADE2009F51E5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 		49ED466822C1E46D003AAEE4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				498A078422C421500026FB5D /* schedule.json */,
 				49ED466622C1E44A003AAEE4 /* restaurants.json */,
 			);
 			path = Resources;
@@ -271,6 +274,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				498A078522C421500026FB5D /* schedule.json in Resources */,
 				49ED466722C1E44A003AAEE4 /* restaurants.json in Resources */,
 				49B196A922BEADE3009F51E5 /* LaunchScreen.storyboard in Resources */,
 				49B196A622BEADE3009F51E5 /* Preview Assets.xcassets in Resources */,
