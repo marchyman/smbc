@@ -31,13 +31,27 @@ import SwiftUI
 
 struct RideDetailView: View {
     @EnvironmentObject var smbcData: SMBCData
-    let rideStart: String
+    @State var ride: ScheduledRide
     let year: String
-    let id: String
     
     var body: some View {
-        RestaurantDetailView(restaurant: smbcData.idToRestaurant(id: id))
-            .navigationBarTitle(Text("\(rideStart)/\(year) Ride"))
+        RestaurantDetailView(restaurant: restaurant(id: ride.restaurant!))
+            .navigationBarTitle(Text("\(ride.start)/\(year) Ride"))
+            .navigationBarItems(trailing: Button(action: nextRide) {
+                Text("Next ride")
+            })
+    }
+    
+    private
+    func restaurant(id: String) -> Restaurant {
+        return smbcData.idToRestaurant(id: id)
+    }
+    
+    private
+    func nextRide() {
+        if let next = smbcData.ride(following: ride.start) {
+            ride = next
+        }
     }
 }
 
@@ -47,11 +61,9 @@ struct RideRow: View {
     @EnvironmentObject var smbcData: SMBCData
     var ride: ScheduledRide
     let year: String
-    
+
     var body: some View {
-        NavigationButton(destination: RideDetailView(rideStart: ride.start,
-                                                     year: year,
-                                                     id: ride.restaurant!)) {
+        NavigationButton(destination: RideDetailView(ride: ride, year: year)) {
             HStack () {
                 Text(ride.start)
                     .font(.headline)
