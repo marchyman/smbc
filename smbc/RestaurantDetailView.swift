@@ -33,15 +33,9 @@ import MapKit
 /// ride is selected from the rides list.
 struct RestaurantDetailView : View {
     let restaurant: Restaurant
-    let visit: String?
     
     var body: some View {
         VStack {
-            if visit != nil {
-                Text(visit!)
-                    .foregroundColor(.red)
-                    .padding(.top, 0)
-            }
             Text(restaurant.name)
                 .font(.title)
                 .padding(.bottom)
@@ -74,8 +68,7 @@ struct RestaurantDetailView_Previews : PreviewProvider {
                                                     phone: "(123) 456-7890",
                                                     status: "CLOSED",
                                                     lat: 37.7244,
-                                                    lon: -122.4381),
-                             visit: "6/12")
+                                                    lon: -122.4381))
     }
 }
 #endif

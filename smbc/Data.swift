@@ -82,6 +82,16 @@ class SMBCData: BindableObject {
         getRestaurants()
         getRides()
     }
+    
+    // MARK: - Restaurant look up from ID
+    
+    func idToRestaurant(id: String?) -> Restaurant {
+        guard let id = id,
+              let restaurant = restaurants.first(where: { $0.id == id }) else {
+                fatalError("Missing Restaurant ID")
+        }
+        return restaurant
+    }
 
     // MARK: - common functions for fetching restaurants and rides
 

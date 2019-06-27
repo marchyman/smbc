@@ -26,6 +26,21 @@
 
 import SwiftUI
 
+
+// MARK: - Ride Details
+
+struct RideDetailView: View {
+    @EnvironmentObject var smbcData: SMBCData
+    let rideStart: String
+    let year: String
+    let id: String
+    
+    var body: some View {
+        RestaurantDetailView(restaurant: smbcData.idToRestaurant(id: id))
+            .navigationBarTitle(Text("\(rideStart)/\(year) Ride"))
+    }
+}
+
 // MARK: - RideRow View
 
 struct RideRow: View {
@@ -34,8 +49,9 @@ struct RideRow: View {
     let year: String
     
     var body: some View {
-        NavigationButton(destination: RestaurantDetailView(restaurant: idToRestaurant(id: ride.restaurant),
-                                                           visit: visitInfo())) {
+        NavigationButton(destination: RideDetailView(rideStart: ride.start,
+                                                     year: year,
+                                                     id: ride.restaurant!)) {
             HStack () {
                 Text(ride.start)
                     .font(.headline)
@@ -44,24 +60,10 @@ struct RideRow: View {
             }
         }
     }
-
-    private
-    func idToRestaurant(id: String?) -> Restaurant {
-        guard let id = id, let restaurant =
-            smbcData.restaurants.first(where: { $0.id == id }) else {
-                fatalError("Missing Restaurant ID")
-        }
-        return restaurant
-    }
     
     private
     func restaurantName(id: String?) -> String {
-        return idToRestaurant(id: id).name
-    }
-    
-    private
-    func visitInfo() -> String {
-        return "\(ride.start)/\(year) ride"
+        return smbcData.idToRestaurant(id: id).name
     }
 }
 
