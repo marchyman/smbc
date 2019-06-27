@@ -31,9 +31,11 @@ import SwiftUI
 struct RideRow: View {
     @EnvironmentObject var smbcData: SMBCData
     var ride: ScheduledRide
+    let year: String
     
     var body: some View {
-        NavigationButton(destination: RestaurantDetailView(restaurant: idToRestaurant(id: ride.restaurant))) {
+        NavigationButton(destination: RestaurantDetailView(restaurant: idToRestaurant(id: ride.restaurant),
+                                                           visit: visitInfo())) {
             HStack () {
                 Text(ride.start)
                     .font(.headline)
@@ -55,6 +57,11 @@ struct RideRow: View {
     private
     func restaurantName(id: String?) -> String {
         return idToRestaurant(id: id).name
+    }
+    
+    private
+    func visitInfo() -> String {
+        return "\(ride.start)/\(year) ride"
     }
 }
 
@@ -84,7 +91,7 @@ struct RideView : View {
         List (smbcData.rides) {
             ride in
             if ride.restaurant != nil {
-                RideRow(ride: ride)
+                RideRow(ride: ride, year: self.thisYear())
             }
             if ride.end != nil {
                 TripRow(ride:ride)
@@ -93,11 +100,15 @@ struct RideView : View {
     }
     
     private
-    func navTitle() -> String {
+    func thisYear() -> String {
         let yearFormat = DateFormatter()
         yearFormat.dateFormat = "y"
-        let year = yearFormat.string(from: Date())
-        return "SMBC Rides in \(year)"
+        return yearFormat.string(from: Date())
+
+    }
+    private
+    func navTitle() -> String {
+        return "SMBC Rides in \(thisYear())"
     }
 }
 

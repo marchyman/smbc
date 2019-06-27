@@ -33,25 +33,32 @@ import MapKit
 /// ride is selected from the rides list.
 struct RestaurantDetailView : View {
     let restaurant: Restaurant
+    let visit: String?
     
     var body: some View {
         VStack {
-                Text(restaurant.name)
-                    .font(.title)
-                    .padding(.bottom)
-                if restaurant.status != "open" {
-                    Text(restaurant.status)
-                        .italic()
-                        .font(.footnote)
-                        .offset(x: 0, y: -20)
-                }
+            if visit != nil {
+                Text(visit!)
+                    .foregroundColor(.red)
+                    .padding(.top, 0)
+            }
+            Text(restaurant.name)
+                .font(.title)
+                .padding(.bottom)
+            if restaurant.status != "open" {
+                Text(restaurant.status)
+                    .italic()
+                    .font(.footnote)
+                    .offset(x: 0, y: -20)
+            }
             Text(restaurant.address)
             Text(restaurant.city)
             Text(restaurant.phone)
             Text(restaurant.route).padding(.top)
             MapView(center: CLLocationCoordinate2D(latitude: restaurant.lat,
                                                    longitude: restaurant.lon))
-            }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+            }.frame(minWidth: 0, maxWidth: .infinity,
+                    minHeight: 0, maxHeight: .infinity)
              .background(LinearGradient(gradient: Gradient(colors: [.white, .gray, .white]), startPoint: .top, endPoint: .bottom), cornerRadius: 0)
     }
 }
@@ -67,7 +74,8 @@ struct RestaurantDetailView_Previews : PreviewProvider {
                                                     phone: "(123) 456-7890",
                                                     status: "CLOSED",
                                                     lat: 37.7244,
-                                                    lon: -122.4381))
+                                                    lon: -122.4381),
+                             visit: "6/12")
     }
 }
 #endif
