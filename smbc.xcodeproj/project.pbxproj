@@ -22,6 +22,7 @@
 		49B196B422BEADE3009F51E5 /* smbcTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B196B322BEADE3009F51E5 /* smbcTests.swift */; };
 		49B196BF22BEADE3009F51E5 /* smbcUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B196BE22BEADE3009F51E5 /* smbcUITests.swift */; };
 		49ED466722C1E44A003AAEE4 /* restaurants.json in Resources */ = {isa = PBXBuildFile; fileRef = 49ED466622C1E44A003AAEE4 /* restaurants.json */; };
+		49F2C34122C58B980089CF3C /* TripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F2C34022C58B980089CF3C /* TripView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		49B196BE22BEADE3009F51E5 /* smbcUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smbcUITests.swift; sourceTree = "<group>"; };
 		49B196C022BEADE3009F51E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49ED466622C1E44A003AAEE4 /* restaurants.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = restaurants.json; sourceTree = "<group>"; };
+		49F2C34022C58B980089CF3C /* TripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 				4947F16322C16515008E6D6A /* RestaurantDetailView.swift */,
 				4947F16522C1737A008E6D6A /* MapView.swift */,
 				493BBFDC22C01B1000E2B437 /* RideView.swift */,
+				49F2C34022C58B980089CF3C /* TripView.swift */,
 				493BBFDE22C079EE00E2B437 /* Data.swift */,
 				49B196A222BEADE3009F51E5 /* Assets.xcassets */,
 				49B196A722BEADE3009F51E5 /* LaunchScreen.storyboard */,
@@ -306,6 +309,7 @@
 				493BBFDD22C01B1000E2B437 /* RideView.swift in Sources */,
 				4947F16622C1737A008E6D6A /* MapView.swift in Sources */,
 				4947F16422C16515008E6D6A /* RestaurantDetailView.swift in Sources */,
+				49F2C34122C58B980089CF3C /* TripView.swift in Sources */,
 				493BBFDF22C079EE00E2B437 /* Data.swift in Sources */,
 				49B1969D22BEADE2009F51E5 /* AppDelegate.swift in Sources */,
 				49B1969F22BEADE2009F51E5 /* SceneDelegate.swift in Sources */,

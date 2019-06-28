@@ -95,12 +95,15 @@ class SMBCData: BindableObject {
     }
 
     /// return the ride from the rides array following the ride with the given start data
+    /// Only Sunday rides to breakfast are returned.  The function skips over trips.
     func ride(following start: String) -> ScheduledRide? {
-        guard let index = rides.firstIndex(where: { $0.start == start }) else {
+        guard var index = rides.firstIndex(where: { $0.start == start }) else {
             fatalError("Unknown start")
         }
-        let next = rides.index(after: index)
-        return next < rides.endIndex ? rides[next] : nil
+        repeat {
+            index = rides.index(after: index)
+        } while index < rides.endIndex && rides[index].restaurant == nil
+        return index < rides.endIndex ? rides[index] : nil
     }
 
     // MARK: - common functions for fetching restaurants and rides

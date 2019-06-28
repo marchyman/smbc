@@ -85,15 +85,15 @@ struct TripRow: View {
     var ride: ScheduledRide
     
     var body: some View {
-        //        return NavigationButton(destination: RestaurantDetailView(restaurant: restaurant)) {
-        HStack () {
-            Text("\(ride.start)\n\(ride.end!)")
-                .font(.headline)
-                .lineLimit(2)
-                .frame(minWidth: 50, alignment: .leading)
-            Text(ride.description!)
+        NavigationButton(destination: TripView(ride: ride)) {
+            HStack () {
+                Text("\(ride.start)\n\(ride.end!)")
+                    .font(.headline)
+                    .lineLimit(2)
+                    .frame(minWidth: 50, alignment: .leading)
+                Text(ride.description!)
+            }
         }
-        //        }
     }
 }
 
