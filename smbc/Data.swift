@@ -44,6 +44,9 @@ fileprivate let restaurantName = "restaurants.json"
 fileprivate let restaurantsUrl = URL(string: serverName + restaurantName)
 fileprivate let scheduleName = "schedule.json"
 fileprivate let scheduleUrl = URL(string: serverName + scheduleName)
+fileprivate let tripName = "trips.json"
+fileprivate let tripUrl = URL(string: serverName + "schedule/" + tripName)
+
 
 /// Format of a restaurant record retrieved from server
 struct Restaurant: Decodable, Identifiable {
@@ -77,10 +80,12 @@ class SMBCData: BindableObject {
     let didChange = PassthroughSubject<Void, Never>()
     var restaurants = [Restaurant]()
     var rides = [ScheduledRide]()
+    var trips = [String:String]()
 
     init() {
         getRestaurants()
         getRides()
+        getTrips()
     }
     
     // MARK: - Data look up functions
@@ -264,5 +269,51 @@ class SMBCData: BindableObject {
                                    reader: self.readRides)
             }
         }.resume()
+    }
+    
+    // MARK: - Get list of trip descriptions
+
+    /// Copy trip descriptions returned from a network request to a cache
+    ///
+    /// - Parameter source: URL of data to be cached
+    ///
+    private
+    func cacheTrips(source: URL) throws {
+        try cacheData(source: source, name: tripName)
+    }
+
+    /// read and decode trip descriptions from a file.
+    ///
+    /// - Parameter url: A file URL within the device of the file to read
+    ///
+    /// url points to a cache or a location within the bundle.
+    private
+    func readTrips(from url: URL) throws {
+        let data = try Data(contentsOf: url)
+        let decoder = JSONDecoder()
+        trips = try decoder.decode([String : String].self, from: data)
+        DispatchQueue.main.async {
+            self.didChange.send(())
+        }
+    }
+
+    private
+    func getTrips() {
+        URLSession.shared.downloadTask(with: tripUrl!) {
+            localURL, urlResponse, error in
+            if let localURL = localURL {
+                do {
+                    try self.cacheTrips(source: localURL)
+                    try self.readTrips(from: localURL)
+                } catch {
+                    self.dataFromCache(name: tripName,
+                                       reader: self.readTrips)
+                }
+            } else {
+                self.dataFromCache(name: tripName,
+                                   reader: self.readTrips)
+            }
+        }.resume()
+        
     }
 }
