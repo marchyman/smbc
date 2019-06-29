@@ -32,8 +32,9 @@ import MapKit
 /// This view is used when a restaurant is sellect for the list of restaurants and when a Sunday morning
 /// ride is selected from the rides list.
 struct RestaurantDetailView : View {
+    @Environment(\.colorScheme) private var colorScheme: ColorScheme
     let restaurant: Restaurant
-    
+
     var body: some View {
         VStack {
             Text(restaurant.name)
@@ -53,7 +54,21 @@ struct RestaurantDetailView : View {
                                                    longitude: restaurant.lon))
             }.frame(minWidth: 0, maxWidth: .infinity,
                     minHeight: 0, maxHeight: .infinity)
-             .background(LinearGradient(gradient: Gradient(colors: [.white, .gray, .white]), startPoint: .top, endPoint: .bottom), cornerRadius: 0)
+             .background(LinearGradient(gradient: backgroundGradient(), startPoint: .top, endPoint: .bottom), cornerRadius: 0)
+    }
+    
+    private
+    func backgroundGradient() -> Gradient {
+        let color: Color
+        switch colorScheme {
+        case .light:
+            color = .white
+        case .dark:
+            color = .black
+        @unknown default:
+            fatalError("Unknown ColorScheme")
+        }
+        return Gradient(colors: [color, .gray, color])
     }
 }
 

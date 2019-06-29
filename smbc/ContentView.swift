@@ -44,6 +44,8 @@ extension StaticMember where Base : ButtonStyle {
 }
 
 struct ContentView : View {
+    @Environment(\.colorScheme) private var colorScheme: ColorScheme
+
     var body: some View {
         NavigationView {
             VStack {
@@ -51,6 +53,7 @@ struct ContentView : View {
                      Sunday Morning Breakfast Club
                      Breakfast and beyond since 1949
                      """)
+                    .font(.body)
                     .lineLimit(2)
                     .padding()
                 Image("smbc")
@@ -72,9 +75,23 @@ struct ContentView : View {
                     Spacer()
                 }.padding()
              }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-              .background(LinearGradient(gradient: Gradient(colors: [.white, .gray, .white]), startPoint: .top, endPoint: .bottom), cornerRadius: 0)
+              .background(LinearGradient(gradient: backgroundGradient(), startPoint: .top, endPoint: .bottom), cornerRadius: 0)
               .navigationBarTitle(Text("SMBC"))
         }
+    }
+    
+    private
+    func backgroundGradient() -> Gradient {
+        let color: Color
+        switch colorScheme {
+        case .light:
+            color = .white
+        case .dark:
+            color = .black
+        @unknown default:
+            fatalError("Unknown ColorScheme")
+        }
+        return Gradient(colors: [color, .gray, color])
     }
 }
 

@@ -69,6 +69,7 @@ fileprivate let trips = [
 ]
 
 struct TripView: View {
+    @Environment(\.colorScheme) private var colorScheme: ColorScheme
     var ride: ScheduledRide
     
     var body: some View {
@@ -79,7 +80,7 @@ struct TripView: View {
             Spacer()
         }.frame(minWidth: 0, maxWidth: .infinity,
                 minHeight: 0, maxHeight: .infinity)
-         .background(LinearGradient(gradient: Gradient(colors: [.white, .gray, .white]), startPoint: .top, endPoint: .bottom), cornerRadius: 0)
+         .background(LinearGradient(gradient: backgroundGradient(), startPoint: .top, endPoint: .bottom), cornerRadius: 0)
          .navigationBarTitle(Text("\(ride.start) - \(ride.end!) Trip"))
 
 
@@ -101,6 +102,20 @@ struct TripView: View {
                 I don't have any information about
                 \(ride.description!)
                 """
+    }
+    
+    private
+    func backgroundGradient() -> Gradient {
+        let color: Color
+        switch colorScheme {
+        case .light:
+            color = .white
+        case .dark:
+            color = .black
+        @unknown default:
+            fatalError("Unknown ColorScheme")
+        }
+        return Gradient(colors: [color, .gray, color])
     }
 }
 

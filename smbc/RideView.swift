@@ -92,6 +92,7 @@ struct TripRow: View {
                     .lineLimit(2)
                     .frame(minWidth: 50, alignment: .leading)
                 Text(ride.description!)
+                    .color(.orange)
             }
         }
     }
