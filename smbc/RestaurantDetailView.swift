@@ -82,6 +82,7 @@ struct RestaurantDetailView_Previews : PreviewProvider {
                                                     city: "Some City",
                                                     phone: "(123) 456-7890",
                                                     status: "CLOSED",
+                                                    eta: "8:05",
                                                     lat: 37.7244,
                                                     lon: -122.4381))
     }

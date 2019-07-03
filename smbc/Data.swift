@@ -57,6 +57,7 @@ struct Restaurant: Decodable, Identifiable {
     let city: String
     let phone: String
     let status: String
+    let eta: String
     let lat: Double
     let lon: Double
 }
