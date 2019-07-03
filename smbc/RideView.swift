@@ -63,7 +63,7 @@ struct RideRow: View {
     let year: String
 
     var body: some View {
-        NavigationButton(destination: RideDetailView(ride: ride, year: year)) {
+        NavigationLink(destination: RideDetailView(ride: ride, year: year)) {
             HStack () {
                 Text(ride.start)
                     .font(.headline)
@@ -85,7 +85,7 @@ struct TripRow: View {
     var ride: ScheduledRide
     
     var body: some View {
-        NavigationButton(destination: TripView(ride: ride)) {
+        NavigationLink(destination: TripView(ride: ride)) {
             HStack () {
                 Text("\(ride.start)\n\(ride.end!)")
                     .font(.headline)

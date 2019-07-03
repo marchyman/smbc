@@ -65,11 +65,11 @@ struct ContentView : View {
                     .padding(.trailing)
                 HStack {
                     Spacer()
-                    NavigationButton(destination: RestaurantView()) {
+                    NavigationLink(destination: RestaurantView()) {
                         Text("Restaurants").font(.title)
                     }.buttonStyle(.smbc)
                     Spacer()
-                    NavigationButton(destination: RideView()) {
+                    NavigationLink(destination: RideView()) {
                         Text("Rides").font(.title)
                     }.buttonStyle(.smbc)
                     Spacer()
