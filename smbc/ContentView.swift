@@ -109,11 +109,11 @@ struct ContentView : View {
                 """
                 The Sunday Morning Breakfast Club is a loose affiliation of motorcycle riders who meet every Sunday for breakfast. We also have 4-6 longer trips planned each year.
                         
-                Traditionally the riders met at the corner of Laguna and Broadway in Burlingame in time to depart at exactly 7:05.  Many riders now meet at the destination restaurant.
+                Traditionally, riders met at the corner of Laguna and Broadway in Burlingame in time to depart for breakfast at exactly 7:05.  Some still do.  Others meet at the destination restaurant.
 
-                After breakfast some go home, others ride the various bay area back roads. This is decided in the gab fest that often follows breakfast.
+                After breakfast some go home while others ride bay area back roads. Routes are decided in the gab fest that follows breakfast.
 
-                If you show up for breakfast you are a member.  To quit being a member stop showing up.  Some ride every weekend.  Others only ride a few times a year.  Some only join for the multi-day rides.  Come join us.
+                We make it easy to join the club: show up for breakfast and you are a member; stop showing up to quit. You can ride every weekend, a few times a year, or only on multi-day rides.
                 """),
               dismissButton: .default(Text("Got It!")))
     }
