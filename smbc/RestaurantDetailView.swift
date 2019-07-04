@@ -54,21 +54,7 @@ struct RestaurantDetailView : View {
                                                    longitude: restaurant.lon))
             }.frame(minWidth: 0, maxWidth: .infinity,
                     minHeight: 0, maxHeight: .infinity)
-             .background(LinearGradient(gradient: backgroundGradient(), startPoint: .top, endPoint: .bottom), cornerRadius: 0)
-    }
-    
-    private
-    func backgroundGradient() -> Gradient {
-        let color: Color
-        switch colorScheme {
-        case .light:
-            color = .white
-        case .dark:
-            color = .black
-        @unknown default:
-            fatalError("Unknown ColorScheme")
-        }
-        return Gradient(colors: [color, .gray, color])
+             .background(backgroundGradient(colorScheme), cornerRadius: 0)
     }
 }
 

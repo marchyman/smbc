@@ -43,6 +43,22 @@ extension StaticMember where Base : ButtonStyle {
     }
 }
 
+func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
+    let color: Color
+    switch colorScheme {
+    case .light:
+        color = .white
+    case .dark:
+        color = .black
+    @unknown default:
+        fatalError("Unknown ColorScheme")
+    }
+    return LinearGradient(gradient: Gradient(colors: [color, .gray, color]),
+                          startPoint: .top,
+                          endPoint: .bottom)
+}
+
+
 struct ContentView : View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @EnvironmentObject var smbcData: SMBCData
@@ -76,23 +92,9 @@ struct ContentView : View {
                     Spacer()
                 }.padding()
              }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-              .background(LinearGradient(gradient: backgroundGradient(), startPoint: .top, endPoint: .bottom), cornerRadius: 0)
+              .background(backgroundGradient(colorScheme), cornerRadius: 0)
               .navigationBarTitle(Text("SMBC"))
         }
-    }
-    
-    private
-    func backgroundGradient() -> Gradient {
-        let color: Color
-        switch colorScheme {
-        case .light:
-            color = .white
-        case .dark:
-            color = .black
-        @unknown default:
-            fatalError("Unknown ColorScheme")
-        }
-        return Gradient(colors: [color, .gray, color])
     }
 }
 
