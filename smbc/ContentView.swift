@@ -62,6 +62,7 @@ func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
 struct ContentView : View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @EnvironmentObject var smbcData: SMBCData
+    @State private var showingSheet = false
 
     var body: some View {
         NavigationView {
@@ -94,7 +95,29 @@ struct ContentView : View {
              }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
               .background(backgroundGradient(colorScheme), cornerRadius: 0)
               .navigationBarTitle(Text("SMBC"))
+                .navigationBarItems(trailing: Button(action: { self.showingSheet = true }) {
+                    Image(systemName: "info.circle")
+                        .presentation($showingSheet, actionSheet: smbcInfo)
+                })
         }
+    }
+    
+    private
+    func smbcInfo() -> ActionSheet {
+        ActionSheet(title: Text("SMBC Information"),
+                    message: Text(
+                        """
+                        The Sunday Morning Breakfast Club is a loose affiliation of motorcycle riders who meet every Sunday for breakfast. We also have 4-6 longer trips planned each year.
+                        
+                        Traditionally the riders met at the corner of Laguna and Broadway in Burlingame in time to depart at exactly 7:05.  Many riders now meet at the destination restaurant.
+
+                        After breakfast some go home, others ride the various bay area back roads. This is decided in the gab fest that typically follows breakfast.
+
+                        If you show up for breakfast you are a member.  To quit being a member stop showing up.  Some ride every weekend.  Others only ride a few times a year.  Some only join for the multi-day rides.  Come join us.
+                        """
+                    ),
+                    buttons: [.default(Text("Got It!"),
+                                       onTrigger: { self.showingSheet = false })])
     }
 }
 
