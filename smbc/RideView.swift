@@ -63,7 +63,7 @@ struct RideRow: View {
     let year: String
 
     var body: some View {
-        NavigationLink(destination: RideDetailView(ride: ride, year: year)) {
+        NavigationLink(destination: RideDetailView(ride: ride, year: year).environmentObject(smbcData)) {
             HStack () {
                 Text(ride.start)
                     .font(.headline)
@@ -82,10 +82,11 @@ struct RideRow: View {
 // MARK: - TripRow View
 
 struct TripRow: View {
+    @EnvironmentObject var smbcData: SMBCData
     var ride: ScheduledRide
     
     var body: some View {
-        NavigationLink(destination: TripView(ride: ride)) {
+        NavigationLink(destination: TripView(ride: ride).environmentObject(smbcData)) {
             HStack () {
                 Text("\(ride.start)\n\(ride.end!)")
                     .font(.headline)

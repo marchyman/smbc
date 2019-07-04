@@ -45,6 +45,7 @@ extension StaticMember where Base : ButtonStyle {
 
 struct ContentView : View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
+    @EnvironmentObject var smbcData: SMBCData
 
     var body: some View {
         NavigationView {
@@ -65,11 +66,11 @@ struct ContentView : View {
                     .padding(.trailing)
                 HStack {
                     Spacer()
-                    NavigationLink(destination: RestaurantView()) {
+                    NavigationLink(destination: RestaurantView().environmentObject(smbcData)) {
                         Text("Restaurants").font(.title)
                     }.buttonStyle(.smbc)
                     Spacer()
-                    NavigationLink(destination: RideView()) {
+                    NavigationLink(destination: RideView().environmentObject(smbcData)) {
                         Text("Rides").font(.title)
                     }.buttonStyle(.smbc)
                     Spacer()
