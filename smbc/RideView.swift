@@ -35,7 +35,8 @@ struct RideDetailView: View {
     let year: String
     
     var body: some View {
-        RestaurantDetailView(restaurant: restaurant(id: ride.restaurant!))
+        RestaurantDetailView(restaurant: restaurant(id: ride.restaurant!),
+                             eta: true)
             .navigationBarTitle(Text("\(ride.start)/\(year) Ride"))
             .navigationBarItems(trailing: Button(action: nextRide) {
                 Text("Next ride")
@@ -114,7 +115,7 @@ struct RideView : View {
             }
         }.navigationBarTitle(Text(navTitle()))
     }
-    
+
     private
     func thisYear() -> String {
         let yearFormat = DateFormatter()

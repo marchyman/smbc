@@ -34,7 +34,8 @@ struct RestaurantRow: View {
         if restaurant.status != "open" {
             city += " -- \(restaurant.status)"
         }
-        return NavigationLink(destination: RestaurantDetailView(restaurant: restaurant)) {
+        return NavigationLink(destination: RestaurantDetailView(restaurant: restaurant,
+                                                                eta: false)) {
             VStack (alignment: .leading) {
                 Text(restaurant.name).font(.headline)
                 Text(city).font(.subheadline)

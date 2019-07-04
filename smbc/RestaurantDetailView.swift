@@ -34,6 +34,7 @@ import MapKit
 struct RestaurantDetailView : View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     let restaurant: Restaurant
+    let eta: Bool
 
     var body: some View {
         VStack {
@@ -49,7 +50,17 @@ struct RestaurantDetailView : View {
             Text(restaurant.address)
             Text(restaurant.city)
             Text(restaurant.phone)
-            Text(restaurant.route).padding(.top)
+            if eta {
+                HStack {
+                    Text(restaurant.route)
+                    Spacer()
+                    Text("ETA: \(restaurant.eta)")
+                }.padding(.top)
+                 .padding(.leading)
+                 .padding(.trailing)
+            } else {
+                Text(restaurant.route).padding(.top)
+            }
             MapView(center: CLLocationCoordinate2D(latitude: restaurant.lat,
                                                    longitude: restaurant.lon))
             }.frame(minWidth: 0, maxWidth: .infinity,
@@ -70,7 +81,8 @@ struct RestaurantDetailView_Previews : PreviewProvider {
                                                     status: "CLOSED",
                                                     eta: "8:05",
                                                     lat: 37.7244,
-                                                    lon: -122.4381))
+                                                    lon: -122.4381),
+                             eta: false)
     }
 }
 #endif
