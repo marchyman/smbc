@@ -302,7 +302,12 @@ class SMBCData: BindableObject {
                     }
                 } else {
                     DispatchQueue.main.async {
-//                      self.years.sort()
+                        let thisYear = self.year
+                        self.years.sort(by: >)
+                        guard let ix = self.years.firstIndex(of: thisYear) else {
+                            fatalError("Lost current year")
+                        }
+                        self.yearIndex = ix
                         self.didChange.send(())
                     }
                 }
