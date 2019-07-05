@@ -81,16 +81,20 @@ class SMBCData: BindableObject {
     var restaurants = [Restaurant]()
     var rides = [ScheduledRide]()
     var trips = [String:String]()
+    var years = [Int]()
     var year: String
 
     init() {
         let yearFormat = DateFormatter()
         yearFormat.dateFormat = "y"
         year = yearFormat.string(from: Date())
+        years.append(Int(year)!)
             
         getRestaurants()
-        getRides()
+        getRides(year: year)
         getTrips()
+        checkRides(year: year, previous: true)
+        checkRides(year: year, previous: false)
     }
     
     // MARK: - Data look up functions
@@ -218,7 +222,9 @@ class SMBCData: BindableObject {
 
         URLSession.shared.downloadTask(with: restaurantsUrl!) {
             localURL, urlResponse, error in
-            if let localURL = localURL {
+            if let localURL = localURL,
+                let response = urlResponse as? HTTPURLResponse,
+                (200...299).contains(response.statusCode) {
                 do {
                     try self.cacheRestaurants(source: localURL)
                     try self.readRestaurants(from: localURL)
@@ -260,7 +266,7 @@ class SMBCData: BindableObject {
     }
 
     private
-    func getRides() {
+    func getRides(year: String) {
         let fullName = serverName +
                         "schedule/" +
                         scheduleBase +
@@ -272,7 +278,9 @@ class SMBCData: BindableObject {
         let scheduleUrl = URL(string: fullName)
         URLSession.shared.downloadTask(with: scheduleUrl!) {
             localURL, urlResponse, error in
-            if let localURL = localURL {
+            if let localURL = localURL,
+               let response = urlResponse as? HTTPURLResponse,
+               (200...299).contains(response.statusCode) {
                 do {
                     try self.cacheRides(source: localURL)
                     try self.readRides(from: localURL)
@@ -285,6 +293,46 @@ class SMBCData: BindableObject {
                                    reader: self.readRides)
             }
         }.resume()
+    }
+    
+    
+    /// Check if scheduled ride data exists
+    /// - Parameter year: The year before/after the year to check
+    /// - Parameter previous: if true then check the year before the given year, otherwise the year after
+    ///
+    /// Keep recursing until scheduled data is not found, then signal that smbcData has changed.
+    private
+    func checkRides(year: String, previous: Bool) {
+        if var intYear = Int(year) {
+            if previous {
+                intYear -= 1
+            } else {
+                intYear += 1
+            }
+            let fullName = serverName +
+                            "schedule/" +
+                            scheduleBase +
+                            "-" +
+                            String(intYear) +
+                            "." +
+                            scheduleExt
+            let scheduleUrl = URL(string: fullName)
+            URLSession.shared.downloadTask(with: scheduleUrl!) {
+                localURL, urlResponse, error in
+                if let response = urlResponse as? HTTPURLResponse,
+                    (200...299).contains(response.statusCode) {
+                    DispatchQueue.main.async {
+                        self.years.append(intYear)
+                        self.checkRides(year: String(intYear), previous: previous)
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.years.sort()
+                        self.didChange.send(())
+                    }
+                }
+            }.resume()
+        }
     }
     
     // MARK: - Get list of trip descriptions
@@ -319,7 +367,9 @@ class SMBCData: BindableObject {
 
         URLSession.shared.downloadTask(with: tripUrl!) {
             localURL, urlResponse, error in
-            if let localURL = localURL {
+            if let localURL = localURL,
+                let response = urlResponse as? HTTPURLResponse,
+                (200...299).contains(response.statusCode) {
                 do {
                     try self.cacheTrips(source: localURL)
                     try self.readTrips(from: localURL)
