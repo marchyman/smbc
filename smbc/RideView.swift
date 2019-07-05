@@ -120,20 +120,30 @@ struct RideView : View {
 
 // MARK: -- Pick a schedule year
 
+/// I don't want to force a fetch of data from the server every time the picker wheel is modified.
+/// Better if I wait until the few is about to go away and then cause the model to fetch needed
+/// data and signal that the model has changed once the data has been received.
+/// Alas, onDisappear is not called for navigation events.  I don't know if that is part of the design
+/// or a beta bug.
+///
+/// I am triggering the update using the done button.  But... button use is optional... the user
+/// could swipe the view away, instead.  This is a bug that needs to be resolved.
+///
 struct PickYear : View {
     @EnvironmentObject var smbcData: SMBCData
     @Environment(\.isPresented) var isPresented: Binding<Bool>
 
     var body: some View {
         VStack {
+            Text("Show the SMBC Ride Schedule for").lineLimit(2)
             Picker(selection: $smbcData.yearIndex,
                    label: Text("Please select a schedule year")) {
                     ForEach(0 ..< smbcData.years.count) {
                         Text(self.smbcData.years[$0]).tag($0)
                     }
             }
-            Text("Year \(smbcData.year) selected").padding()
-            Button("Dismiss") {
+            Button("Done") {
+                self.smbcData.yearUpdated.toggle()
                 self.isPresented?.value.toggle()
             }.padding(.top)
         }
