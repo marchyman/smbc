@@ -108,24 +108,12 @@ struct RideView : View {
         List (smbcData.rides) {
             ride in
             if ride.restaurant != nil {
-                RideRow(ride: ride, year: self.thisYear())
+                RideRow(ride: ride, year: self.smbcData.year)
             }
             if ride.end != nil {
                 TripRow(ride:ride)
             }
-        }.navigationBarTitle(Text(navTitle()))
-    }
-
-    private
-    func thisYear() -> String {
-        let yearFormat = DateFormatter()
-        yearFormat.dateFormat = "y"
-        return yearFormat.string(from: Date())
-
-    }
-    private
-    func navTitle() -> String {
-        return "SMBC Rides in \(thisYear())"
+        }.navigationBarTitle(Text("SMBC Rides in \(self.smbcData.year)"))
     }
 }
 
