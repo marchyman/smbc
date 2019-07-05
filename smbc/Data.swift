@@ -36,16 +36,15 @@ import SwiftUI
 /// bundle.
 
 
-/// Location and format of Restaurant data
+/// Location and format of Restaurant and Ride data
 
 fileprivate let serverName = "https://smbc.snafu.org/"
 fileprivate let cacheFolderName = "Cache/org.snafu.smbc/"
 fileprivate let restaurantName = "restaurants.json"
-fileprivate let restaurantsUrl = URL(string: serverName + restaurantName)
-fileprivate let scheduleName = "schedule.json"
-fileprivate let scheduleUrl = URL(string: serverName + scheduleName)
+fileprivate let scheduleBase = "schedule"
+fileprivate let scheduleExt = "json"
+fileprivate let scheduleName = scheduleBase + "." + scheduleExt
 fileprivate let tripName = "trips.json"
-fileprivate let tripUrl = URL(string: serverName + "schedule/" + tripName)
 
 
 /// Format of a restaurant record retrieved from server
@@ -82,8 +81,13 @@ class SMBCData: BindableObject {
     var restaurants = [Restaurant]()
     var rides = [ScheduledRide]()
     var trips = [String:String]()
+    var year: String
 
     init() {
+        let yearFormat = DateFormatter()
+        yearFormat.dateFormat = "y"
+        year = yearFormat.string(from: Date())
+            
         getRestaurants()
         getRides()
         getTrips()
@@ -210,6 +214,8 @@ class SMBCData: BindableObject {
     /// the last sucessful download.
     private
     func getRestaurants() {
+        let restaurantsUrl = URL(string: serverName + restaurantName)
+
         URLSession.shared.downloadTask(with: restaurantsUrl!) {
             localURL, urlResponse, error in
             if let localURL = localURL {
@@ -255,6 +261,15 @@ class SMBCData: BindableObject {
 
     private
     func getRides() {
+        let fullName = serverName +
+                        "schedule/" +
+                        scheduleBase +
+                        "-" +
+                        year +
+                        "." +
+                        scheduleExt
+        
+        let scheduleUrl = URL(string: fullName)
         URLSession.shared.downloadTask(with: scheduleUrl!) {
             localURL, urlResponse, error in
             if let localURL = localURL {
@@ -300,6 +315,8 @@ class SMBCData: BindableObject {
 
     private
     func getTrips() {
+        let tripUrl = URL(string: serverName + "schedule/" + tripName)
+
         URLSession.shared.downloadTask(with: tripUrl!) {
             localURL, urlResponse, error in
             if let localURL = localURL {
@@ -315,6 +332,5 @@ class SMBCData: BindableObject {
                                    reader: self.readTrips)
             }
         }.resume()
-        
     }
 }
