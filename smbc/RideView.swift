@@ -38,9 +38,7 @@ struct RideDetailView: View {
         RestaurantDetailView(restaurant: restaurant(id: ride.restaurant!),
                              eta: true)
             .navigationBarTitle(Text("\(ride.start)/\(year) Ride"))
-            .navigationBarItems(trailing: Button(action: nextRide) {
-                Text("Next ride")
-            })
+            .navigationBarItems(trailing: Button("Next ride", action: nextRide))
     }
     
     private
@@ -104,6 +102,7 @@ struct TripRow: View {
 
 struct RideView : View {
     @EnvironmentObject var smbcData: SMBCData
+
     var body: some View {
         List (smbcData.rides) {
             ride in
@@ -114,6 +113,30 @@ struct RideView : View {
                 TripRow(ride:ride)
             }
         }.navigationBarTitle(Text("SMBC Rides in \(self.smbcData.year)"))
+         .navigationBarItems(trailing: PresentationLink("Change Year",
+                                                        destination: PickYear().environmentObject(smbcData)))
+    }
+}
+
+// MARK: -- Pick a schedule year
+
+struct PickYear : View {
+    @EnvironmentObject var smbcData: SMBCData
+    @Environment(\.isPresented) var isPresented: Binding<Bool>
+
+    var body: some View {
+        VStack {
+            Picker(selection: $smbcData.yearIndex,
+                   label: Text("Please select a schedule year")) {
+                    ForEach(0 ..< smbcData.years.count) {
+                        Text(self.smbcData.years[$0]).tag($0)
+                    }
+            }
+            Text("Year \(smbcData.year) selected").padding()
+            Button("Dismiss") {
+                self.isPresented?.value.toggle()
+            }.padding(.top)
+        }
     }
 }
 

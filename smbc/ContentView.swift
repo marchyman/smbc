@@ -95,7 +95,7 @@ struct ContentView : View {
              }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
               .background(backgroundGradient(colorScheme), cornerRadius: 0)
               .navigationBarTitle(Text("SMBC"))
-                .navigationBarItems(trailing: Button(action: { self.showingAlert = true }) {
+              .navigationBarItems(trailing: Button(action: { self.showingAlert = true }) {
                     Image(systemName: "info.circle")
                         .presentation($showingAlert, alert: smbcInfo)
                 })

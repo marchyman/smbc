@@ -81,15 +81,21 @@ class SMBCData: BindableObject {
     var restaurants = [Restaurant]()
     var rides = [ScheduledRide]()
     var trips = [String:String]()
-    var years = [Int]()
-    var year: String
+    var years = [String]()
+    var yearIndex = 0 {
+        didSet {
+            getRides(year: year)
+        }
+    }
+    var year: String {
+        String(years[yearIndex])
+    }
 
     init() {
         let yearFormat = DateFormatter()
         yearFormat.dateFormat = "y"
-        year = yearFormat.string(from: Date())
-        years.append(Int(year)!)
-            
+        years.append(yearFormat.string(from: Date()))
+        
         getRestaurants()
         getRides(year: year)
         getTrips()
@@ -309,11 +315,12 @@ class SMBCData: BindableObject {
             } else {
                 intYear += 1
             }
+            let newYear = String(intYear)
             let fullName = serverName +
                             "schedule/" +
                             scheduleBase +
                             "-" +
-                            String(intYear) +
+                            newYear +
                             "." +
                             scheduleExt
             let scheduleUrl = URL(string: fullName)
@@ -322,12 +329,12 @@ class SMBCData: BindableObject {
                 if let response = urlResponse as? HTTPURLResponse,
                     (200...299).contains(response.statusCode) {
                     DispatchQueue.main.async {
-                        self.years.append(intYear)
-                        self.checkRides(year: String(intYear), previous: previous)
+                        self.years.append(newYear)
+                        self.checkRides(year: newYear, previous: previous)
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self.years.sort()
+//                      self.years.sort()
                         self.didChange.send(())
                     }
                 }
