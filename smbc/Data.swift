@@ -81,14 +81,16 @@ class SMBCData: BindableObject {
     var restaurants = [Restaurant]()
     var rides = [ScheduledRide]()
     var trips = [String:String]()
-    var years = [String]()
-    var yearIndex = 0 {
+    
+    var years = [String]()      // Array of years for which scheduled ride data was found
+    var yearIndex = 0           // index into the above array for the current year
+    var year: String {          // shortcut to return the current year
+        years[yearIndex]
+    }
+    var yearUpdated = false {   // toggled to force load of rides array for appropriate year.
         didSet {
             getRides(year: year)
         }
-    }
-    var year: String {
-        String(years[yearIndex])
     }
 
     init() {
@@ -191,32 +193,36 @@ class SMBCData: BindableObject {
         }
     }
 
+    // MARK: - download data using a URLSession
+    
+    /// Download and process data using a URLSession
+    /// - Parameter name: name of the file to download  used for caching the results
+    /// - Parameter url: URL of the file to download
+    /// - Parameter reader: function to call to process the downloaded data
+    ///
+    ///
+    private
+    func download(name: String,
+                  url: URL,
+                  reader: @escaping (URL) throws -> Void) {
+        URLSession.shared.downloadTask(with: url) {
+            localURL, urlResponse, error in
+            if let localURL = localURL,
+                let response = urlResponse as? HTTPURLResponse,
+                (200...299).contains(response.statusCode) {
+                do {
+                    try self.cacheData(source: localURL, name: name)
+                    try reader(localURL)
+                } catch {
+                    self.dataFromCache(name: name, reader: reader)
+                }
+            } else {
+                self.dataFromCache(name: name, reader: reader)
+            }
+        }.resume()
+    }
+
     // MARK: - Get list of restaurants
-
-    /// Copy restaurant data returned from a network request to a cache
-    ///
-    /// - Parameter source: URL of data to be cached
-    ///
-    private
-    func cacheRestaurants(source: URL) throws {
-        try cacheData(source: source, name: restaurantName)
-    }
-
-    /// read and decode restaurants from a file.
-    ///
-    /// - Parameter url: A file URL within the device of the file to read
-    ///
-    /// url points to a cache or a location within the bundle.
-    private
-    func readRestaurants(from url: URL) throws {
-        let data = try Data(contentsOf: url)
-        let decoder = JSONDecoder()
-        restaurants = try decoder.decode([Restaurant].self,
-                                         from: data)
-        DispatchQueue.main.async {
-            self.didChange.send(())
-        }
-    }
 
     /// Attempt to download the current list of restaurants.
     ///
@@ -225,52 +231,22 @@ class SMBCData: BindableObject {
     private
     func getRestaurants() {
         let restaurantsUrl = URL(string: serverName + restaurantName)
-
-        URLSession.shared.downloadTask(with: restaurantsUrl!) {
-            localURL, urlResponse, error in
-            if let localURL = localURL,
-                let response = urlResponse as? HTTPURLResponse,
-                (200...299).contains(response.statusCode) {
-                do {
-                    try self.cacheRestaurants(source: localURL)
-                    try self.readRestaurants(from: localURL)
-                } catch {
-                    self.dataFromCache(name: restaurantName,
-                                       reader: self.readRestaurants)
-                }
-            } else {
-                self.dataFromCache(name: restaurantName,
-                                   reader: self.readRestaurants)
+        download(name: restaurantName, url: restaurantsUrl!) {
+            url in
+            let data = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            self.restaurants = try decoder.decode([Restaurant].self, from: data)
+            DispatchQueue.main.async {
+                self.didChange.send(())
             }
-        }.resume()
+        }
     }
 
     // MARK: - Get scheduled rides
 
-    /// Copy schedule data returned from a network request to a cache
-    ///
-    /// - Parameter source: URL of data to be cached
-    ///
-    private
-    func cacheRides(source: URL) throws {
-        try cacheData(source: source, name: scheduleName)
-    }
     
-    /// read and decode ride schedule from a file.
-    ///
-    /// - Parameter url: A file URL within the device of the file to read
-    ///
-    /// url points to a cache or a location within the bundle.
-    private
-    func readRides(from url: URL) throws {
-        let data = try Data(contentsOf: url)
-        let decoder = JSONDecoder()
-        rides = try decoder.decode([ScheduledRide].self, from: data)
-        DispatchQueue.main.async {
-            self.didChange.send(())
-        }
-    }
-
+    /// Fetch rides for the give year from server
+    /// - Parameter year: The year of the schedule to fetch
     private
     func getRides(year: String) {
         let fullName = serverName +
@@ -280,27 +256,19 @@ class SMBCData: BindableObject {
                         year +
                         "." +
                         scheduleExt
-        
-        let scheduleUrl = URL(string: fullName)
-        URLSession.shared.downloadTask(with: scheduleUrl!) {
-            localURL, urlResponse, error in
-            if let localURL = localURL,
-               let response = urlResponse as? HTTPURLResponse,
-               (200...299).contains(response.statusCode) {
-                do {
-                    try self.cacheRides(source: localURL)
-                    try self.readRides(from: localURL)
-                } catch {
-                    self.dataFromCache(name: scheduleName,
-                                       reader: self.readRides)
-                }
-            } else {
-                self.dataFromCache(name: scheduleName,
-                                   reader: self.readRides)
+        let scheduleUrl = URL(string: fullName)!
+        download(name: scheduleName, url: scheduleUrl) {
+            url in
+            let data = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            self.rides = try decoder.decode([ScheduledRide].self, from: data)
+            DispatchQueue.main.async {
+                self.didChange.send(())
             }
-        }.resume()
+        }
     }
-    
+
+    // MARK: - Check for existence of schedules for previous or following year
     
     /// Check if scheduled ride data exists
     /// - Parameter year: The year before/after the year to check
@@ -323,8 +291,8 @@ class SMBCData: BindableObject {
                             newYear +
                             "." +
                             scheduleExt
-            let scheduleUrl = URL(string: fullName)
-            URLSession.shared.downloadTask(with: scheduleUrl!) {
+            let scheduleUrl = URL(string: fullName)!
+            URLSession.shared.downloadTask(with: scheduleUrl) {
                 localURL, urlResponse, error in
                 if let response = urlResponse as? HTTPURLResponse,
                     (200...299).contains(response.statusCode) {
@@ -343,51 +311,19 @@ class SMBCData: BindableObject {
     }
     
     // MARK: - Get list of trip descriptions
-
-    /// Copy trip descriptions returned from a network request to a cache
-    ///
-    /// - Parameter source: URL of data to be cached
-    ///
-    private
-    func cacheTrips(source: URL) throws {
-        try cacheData(source: source, name: tripName)
-    }
-
-    /// read and decode trip descriptions from a file.
-    ///
-    /// - Parameter url: A file URL within the device of the file to read
-    ///
-    /// url points to a cache or a location within the bundle.
-    private
-    func readTrips(from url: URL) throws {
-        let data = try Data(contentsOf: url)
-        let decoder = JSONDecoder()
-        trips = try decoder.decode([String : String].self, from: data)
-        DispatchQueue.main.async {
-            self.didChange.send(())
-        }
-    }
-
+    
+    /// Fetch trip descriptions from server
     private
     func getTrips() {
-        let tripUrl = URL(string: serverName + "schedule/" + tripName)
-
-        URLSession.shared.downloadTask(with: tripUrl!) {
-            localURL, urlResponse, error in
-            if let localURL = localURL,
-                let response = urlResponse as? HTTPURLResponse,
-                (200...299).contains(response.statusCode) {
-                do {
-                    try self.cacheTrips(source: localURL)
-                    try self.readTrips(from: localURL)
-                } catch {
-                    self.dataFromCache(name: tripName,
-                                       reader: self.readTrips)
-                }
-            } else {
-                self.dataFromCache(name: tripName,
-                                   reader: self.readTrips)
+        let tripUrl = URL(string: serverName + "schedule/" + tripName)!
+        download(name: tripName, url: tripUrl) {
+            url in
+            let data = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            self.trips = try decoder.decode([String : String].self, from: data)
+            DispatchQueue.main.async {
+                self.didChange.send(())
             }
-        }.resume()
+        }
     }
 }
