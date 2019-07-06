@@ -145,7 +145,12 @@ struct PickYear : View {
             Button("Done") {
                 self.smbcData.yearUpdated.toggle()
                 self.isPresented?.value.toggle()
-            }.padding(.top)
+            }.padding()
+            Text("Known bug: please use the Done button instead of swiping to return to the schedule.   Swiping does not cause data for your selected year to be loaded.")
+                .font(.footnote)
+                .fontWeight(.light)
+                .lineLimit(nil)
+                .padding()
         }
     }
 }
