@@ -84,27 +84,34 @@ class SMBCData: BindableObject {
     
     var years = [String]()      // Array of years for which scheduled ride data was found
     var yearIndex = 0           // index into the above array for the current year
-    var year: String {          // shortcut to return the current year
+    var selectedYear: String {  // shortcut to return the selected year
         years[yearIndex]
     }
-    var yearUpdated = false {   // toggled to force load of rides array for appropriate year.
-        didSet {
-            getRides(year: year)
-        }
-    }
+    var lastSelectedYear: String
 
     init() {
         let yearFormat = DateFormatter()
         yearFormat.dateFormat = "y"
-        years.append(yearFormat.string(from: Date()))
+        lastSelectedYear = yearFormat.string(from: Date())
+        years.append(lastSelectedYear)
+        yearIndex = 0
         
         getRestaurants()
-        getRides(year: year)
+        getRides(year: selectedYear)
         getTrips()
-        checkRides(year: year, previous: true)
-        checkRides(year: year, previous: false)
+        checkRides(year: selectedYear, previous: true)
+        checkRides(year: selectedYear, previous: false)
     }
-    
+
+    // MARK: - Fetch data for currently selected year
+
+    func yearUpdated() {
+        if lastSelectedYear != selectedYear {
+            lastSelectedYear = selectedYear
+            getRides(year: selectedYear)
+        }
+    }
+
     // MARK: - Data look up functions
     
     /// return the restaurant from the restaurants array matching the given id.
@@ -302,9 +309,9 @@ class SMBCData: BindableObject {
                     }
                 } else {
                     DispatchQueue.main.async {
-                        let thisYear = self.year
+                        let selectedYear = self.selectedYear
                         self.years.sort(by: >)
-                        guard let ix = self.years.firstIndex(of: thisYear) else {
+                        guard let ix = self.years.firstIndex(of: selectedYear) else {
                             fatalError("Lost current year")
                         }
                         self.yearIndex = ix

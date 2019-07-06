@@ -107,12 +107,12 @@ struct RideView : View {
         List (smbcData.rides) {
             ride in
             if ride.restaurant != nil {
-                RideRow(ride: ride, year: self.smbcData.year)
+                RideRow(ride: ride, year: self.smbcData.selectedYear)
             }
             if ride.end != nil {
                 TripRow(ride:ride)
             }
-        }.navigationBarTitle(Text("SMBC Rides in \(self.smbcData.year)"))
+        }.navigationBarTitle(Text("SMBC Rides in \(self.smbcData.selectedYear)"))
          .navigationBarItems(trailing: PresentationLink("Change Year",
                                                         destination: PickYear().environmentObject(smbcData)))
     }
@@ -143,7 +143,7 @@ struct PickYear : View {
                     }
             }
             Button("Done") {
-                self.smbcData.yearUpdated.toggle()
+                self.smbcData.yearUpdated()
                 self.isPresented?.value.toggle()
             }.padding()
             Text("Known bug: please use the Done button instead of swiping to return to the schedule.   Swiping does not cause data for your selected year to be loaded.")
