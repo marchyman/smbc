@@ -37,12 +37,12 @@ struct MapView: UIViewRepresentable {
     }
     
     func updateUIView(_ view: MKMapView, context: Context) {
-        view.mapType = mapType
         view.delegate = view
         view.camera = MKMapCamera(lookingAtCenter: center,
                                   fromEyeCoordinate: center,
                                   eyeAltitude: altitude)
         view.showsCompass = true
+        view.mapType = mapType
         let pin = MKPointAnnotation()
         pin.coordinate = center;
         pin.title = "restaurant.name"
@@ -75,6 +75,22 @@ extension MKMapView: MKMapViewDelegate {
             annotationView!.annotation = annotation
         }
         return annotationView
+    }
+}
+
+/// Extension to map an MKMapType to a String
+extension MKMapType {
+    var name: String {
+        switch self {
+        case .standard:
+            return "Map"
+        case .hybrid:
+            return "Hybrid"
+        case .satellite:
+            return "Satellite"
+        default:
+            return "Other"
+        }
     }
 }
 

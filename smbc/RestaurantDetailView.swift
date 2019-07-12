@@ -34,7 +34,6 @@ import MapKit
 struct RestaurantDetailView : View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @State private var selectorIndex = 0
-    let choice = ["Map", "Satellite", "Hybrid"]
     let types = [MKMapType.standard, MKMapType.satellite, MKMapType.hybrid]
     let restaurant: Restaurant
     let eta: Bool
@@ -62,14 +61,16 @@ struct RestaurantDetailView : View {
             } else {
                 Text(restaurant.route).padding(.top)
             }
+            // put a segmented control to pick the desired map type
+            // on top of the map
             ZStack(alignment: .top) {
                 MapView(mapType: types[selectorIndex],
                         center: CLLocationCoordinate2D(latitude: restaurant.lat,
                                                        longitude: restaurant.lon))
                 SegmentedControl(selection: $selectorIndex) {
-                    ForEach(0 ..< choice.count) {
+                    ForEach(0 ..< types.count) {
                         index in
-                        Text(self.choice[index]).tag(index)
+                        Text(self.types[index].name).tag(index).foregroundColor(.red)
                     }
                 }.padding([.leading, .trailing])
             }
