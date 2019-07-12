@@ -28,14 +28,16 @@ import SwiftUI
 import MapKit
 
 struct MapView: UIViewRepresentable {
-    var center: CLLocationCoordinate2D
-    var altitude = 2000.0
+    let mapType: MKMapType
+    let center: CLLocationCoordinate2D
+    let altitude = 2000.0
     
     func makeUIView(context: Context) -> MKMapView {
         MKMapView(frame: .zero)
     }
     
     func updateUIView(_ view: MKMapView, context: Context) {
+        view.mapType = mapType
         view.delegate = view
         view.camera = MKMapCamera(lookingAtCenter: center,
                                   fromEyeCoordinate: center,
@@ -79,7 +81,8 @@ extension MKMapView: MKMapViewDelegate {
 #if DEBUG
 struct MapView_Previews : PreviewProvider {
     static var previews: some View {
-        MapView(center: CLLocationCoordinate2D(latitude: 37.7244,
+        MapView(mapType: .standard,
+                center: CLLocationCoordinate2D(latitude: 37.7244,
                                                longitude: -122.4381))
     }
 }

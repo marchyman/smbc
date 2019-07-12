@@ -33,6 +33,9 @@ import MapKit
 /// ride is selected from the rides list.
 struct RestaurantDetailView : View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
+    @State private var selectorIndex = 0
+    let choice = ["Map", "Satellite", "Hybrid"]
+    let types = [MKMapType.standard, MKMapType.satellite, MKMapType.hybrid]
     let restaurant: Restaurant
     let eta: Bool
 
@@ -55,17 +58,24 @@ struct RestaurantDetailView : View {
                     Text("Route: \(restaurant.route)")
                     Spacer()
                     Text("ETA: \(restaurant.eta)")
-                }.padding(.top)
-                 .padding(.leading)
-                 .padding(.trailing)
+                }.padding([.top, .leading, .trailing])
             } else {
                 Text(restaurant.route).padding(.top)
             }
-            MapView(center: CLLocationCoordinate2D(latitude: restaurant.lat,
-                                                   longitude: restaurant.lon))
-            }.frame(minWidth: 0, maxWidth: .infinity,
-                    minHeight: 0, maxHeight: .infinity)
-             .background(backgroundGradient(colorScheme), cornerRadius: 0)
+            ZStack(alignment: .top) {
+                MapView(mapType: types[selectorIndex],
+                        center: CLLocationCoordinate2D(latitude: restaurant.lat,
+                                                       longitude: restaurant.lon))
+                SegmentedControl(selection: $selectorIndex) {
+                    ForEach(0 ..< choice.count) {
+                        index in
+                        Text(self.choice[index]).tag(index)
+                    }
+                }.padding([.leading, .trailing])
+            }
+        }.frame(minWidth: 0, maxWidth: .infinity,
+                minHeight: 0, maxHeight: .infinity)
+         .background(backgroundGradient(colorScheme), cornerRadius: 0)
     }
 }
 
