@@ -52,7 +52,7 @@ struct RestaurantDetailView : View {
             Text(restaurant.phone)
             if eta {
                 HStack {
-                    Text(restaurant.route)
+                    Text("Route: \(restaurant.route)")
                     Spacer()
                     Text("ETA: \(restaurant.eta)")
                 }.padding(.top)

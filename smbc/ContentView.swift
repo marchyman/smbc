@@ -38,9 +38,14 @@ public struct SmbcButtonStyle: ButtonStyle {
 }
 
 extension StaticMember where Base : ButtonStyle {
-    public static var smbc: SmbcButtonStyle.Member {
-        StaticMember<SmbcButtonStyle>(SmbcButtonStyle())
+//    public static var smbc: SmbcButtonStyle.Member {
+//        StaticMember<SmbcButtonStyle>(SmbcButtonStyle())
+//    }
+// or
+    public static var smbc: StaticMember<SmbcButtonStyle> {
+        return .init(SmbcButtonStyle())
     }
+// I don't know which is preferred
 }
 
 func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
