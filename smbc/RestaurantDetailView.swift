@@ -70,9 +70,10 @@ struct RestaurantDetailView : View {
                 SegmentedControl(selection: $selectorIndex) {
                     ForEach(0 ..< types.count) {
                         index in
-                        Text(self.types[index].name).tag(index).foregroundColor(.red)
+                        Text(self.types[index].name).tag(index)
                     }
-                }.padding([.leading, .trailing])
+                }.background(Color.accentColor, cornerRadius: 10)
+                 .padding([.leading, .trailing])
             }
         }.frame(minWidth: 0, maxWidth: .infinity,
                 minHeight: 0, maxHeight: .infinity)
