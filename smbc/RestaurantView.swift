@@ -51,7 +51,7 @@ struct RestaurantView : View {
         List (smbcData.restaurants) {
             restaurant in
             RestaurantRow(restaurant: restaurant)
-        }.navigationBarTitle(Text("SMBC Restaurants"))
+        }.navigationBarTitle("SMBC Restaurants")
     }
 }
 

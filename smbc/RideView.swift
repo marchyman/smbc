@@ -37,7 +37,7 @@ struct RideDetailView: View {
     var body: some View {
         RestaurantDetailView(restaurant: restaurant(id: ride.restaurant!),
                              eta: true)
-            .navigationBarTitle(Text("\(ride.start)/\(year) Ride"))
+            .navigationBarTitle("\(ride.start)/\(year) Ride")
             .navigationBarItems(trailing: Button("Next ride", action: nextRide))
     }
     
@@ -112,7 +112,7 @@ struct RideView : View {
             if ride.end != nil {
                 TripRow(ride:ride)
             }
-        }.navigationBarTitle(Text("SMBC Rides in \(self.smbcData.selectedYear)"))
+        }.navigationBarTitle("SMBC Rides in \(self.smbcData.selectedYear)")
          .navigationBarItems(trailing: PresentationLink("Change Year",
                                                         destination: PickYear().environmentObject(smbcData)))
     }
