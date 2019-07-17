@@ -1,8 +1,8 @@
 //
-//  TripView.swift
+//  RideDetailView.swift
 //  smbc
 //
-//  Created by Marco S Hyman on 6/27/19.
+//  Created by Marco S Hyman on 7/16/19.
 //  Copyright © 2019 Marco S Hyman. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -24,52 +24,44 @@
 // DEALINGS IN THE SOFTWARE.
 //
 
-import Foundation
 import SwiftUI
 
-struct TripView: View {
+// MARK: - Ride Details
+
+struct RideDetailView: View {
     @EnvironmentObject var smbcData: SMBCData
-    @Environment(\.colorScheme) private var colorScheme: ColorScheme
-    var ride: ScheduledRide
+    @State var ride: ScheduledRide
+    let year: String
     
     var body: some View {
-        VStack {
-            Text(tripText())
-                .lineLimit(nil)
-                .padding()
-            Spacer()
-        }.frame(minWidth: 0, maxWidth: .infinity,
-                minHeight: 0, maxHeight: .infinity)
-         .background(backgroundGradient(colorScheme), cornerRadius: 0)
-         .navigationBarTitle("\(ride.start) - \(ride.end!) Trip")
+        RestaurantDetailView(restaurant: restaurant(id: ride.restaurant!),
+                             eta: true)
+            .navigationBarTitle("\(ride.start)/\(year) Ride")
+            .navigationBarItems(trailing: Button("Next ride", action: nextRide))
     }
     
     private
-    func tripText() -> String {
-        if let spaceIndex = ride.description?.firstIndex(of: " ") {
-            let key = String(ride.description![..<spaceIndex])
-            if let trip = smbcData.trips[key] {
-                return trip
-            }
-
+    func restaurant(id: String) -> Restaurant {
+        return smbcData.idToRestaurant(id: id)
+    }
+    
+    private
+    func nextRide() {
+        if let next = smbcData.ride(following: ride.start) {
+            ride = next
         }
-        return """
-                Sorry!
-
-                I don't have any information about
-                \(ride.description!)
-                """
     }
 }
 
 #if DEBUG
-struct tripView_Previews : PreviewProvider {
+struct RideDetailView_Previews : PreviewProvider {
     static var previews: some View {
-        TripView(ride: ScheduledRide(start: "7/12",
-                                     restaurant: nil,
-                                     end: "7/13",
-                                     description: "Graegle blah",
-                                     comment: "preview"))
+        RideDetailView(ride: ScheduledRide(start: "5/7",
+                                           restaurant: "countryinn",
+                                           end: nil,
+                                           description: nil,
+                                           comment: "Testing"),
+                        year: "2019")
     }
 }
 #endif

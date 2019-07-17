@@ -1,8 +1,8 @@
 //
-//  RestaruantView.swift
+//  TripView.swift
 //  smbc
 //
-//  Created by Marco S Hyman on 6/23/19.
+//  Created by Marco S Hyman on 6/27/19.
 //  Copyright © 2019 Marco S Hyman. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -24,41 +24,52 @@
 // DEALINGS IN THE SOFTWARE.
 //
 
+import Foundation
 import SwiftUI
 
-struct RestaurantView : View {
+struct TripDetailView: View {
     @EnvironmentObject var smbcData: SMBCData
-
-    var body: some View {
-        List (smbcData.restaurants) {
-            restaurant in
-            RestaurantRow(restaurant: restaurant)
-        }.navigationBarTitle("SMBC Restaurants")
-    }
-}
-
-struct RestaurantRow: View {
-    var restaurant: Restaurant
+    @Environment(\.colorScheme) private var colorScheme: ColorScheme
+    var ride: ScheduledRide
     
     var body: some View {
-        var city = restaurant.city
-        if restaurant.status != "open" {
-            city += " -- \(restaurant.status)"
+        VStack {
+            Text(tripText())
+                .lineLimit(nil)
+                .padding()
+            Spacer()
+        }.frame(minWidth: 0, maxWidth: .infinity,
+                minHeight: 0, maxHeight: .infinity)
+         .background(backgroundGradient(colorScheme), cornerRadius: 0)
+         .navigationBarTitle("\(ride.start) - \(ride.end!) Trip")
+    }
+    
+    private
+    func tripText() -> String {
+        if let spaceIndex = ride.description?.firstIndex(of: " ") {
+            let key = String(ride.description![..<spaceIndex])
+            if let trip = smbcData.trips[key] {
+                return trip
+            }
+
         }
-        return NavigationLink(destination: RestaurantDetailView(restaurant: restaurant,
-                                                                eta: false)) {
-                                                                    VStack (alignment: .leading) {
-                                                                        Text(restaurant.name).font(.headline)
-                                                                        Text(city).font(.subheadline)
-                                                                    }
-        }
+        return """
+                Sorry!
+
+                I don't have any information about
+                \(ride.description!)
+                """
     }
 }
 
 #if DEBUG
-struct RestaurantView_Previews : PreviewProvider {
+struct tripView_Previews : PreviewProvider {
     static var previews: some View {
-        RestaurantView()
+        TripDetailView(ride: ScheduledRide(start: "7/12",
+                                     restaurant: nil,
+                                     end: "7/13",
+                                     description: "Graegle blah",
+                                     comment: "preview"))
     }
 }
 #endif

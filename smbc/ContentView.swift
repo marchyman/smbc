@@ -26,6 +26,8 @@
 
 import SwiftUI
 
+// MARK: - Main screen button style
+
 public struct SmbcButtonStyle: ButtonStyle {
     public func body(configuration: Button<Self.Label>, isPressed: Bool) -> some View {
         configuration
@@ -63,6 +65,7 @@ func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
                           endPoint: .bottom)
 }
 
+// MARK: - Initial Content
 
 struct ContentView : View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme

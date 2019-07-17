@@ -27,6 +27,7 @@
 import SwiftUI
 import MapKit
 
+/// MKMapView exposed to SwiftUI
 struct MapView: UIViewRepresentable {
     let mapType: MKMapType
     let center: CLLocationCoordinate2D
@@ -50,6 +51,7 @@ struct MapView: UIViewRepresentable {
     }
 }
 
+/// MKMapView Deligate with functions needed for a map pin AnnotationView
 extension MKMapView: MKMapViewDelegate {
     
     /// return a pinAnnotationView for a red pin
@@ -69,7 +71,7 @@ extension MKMapView: MKMapViewDelegate {
                 av.canShowCallout = false
                 av.isDraggable = false
             } else {
-                // unexpected(error: nil, "Can't create MKPinAnnotationView")
+                fatalError("Can't create MKPinAnnotationView")
             }
         } else {
             annotationView!.annotation = annotation

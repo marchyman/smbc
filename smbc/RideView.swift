@@ -26,31 +26,23 @@
 
 import SwiftUI
 
+// MARK: - RideView -- list of rides for the year
 
-// MARK: - Ride Details
-
-struct RideDetailView: View {
+struct RideView : View {
     @EnvironmentObject var smbcData: SMBCData
-    @State var ride: ScheduledRide
-    let year: String
-    
+
     var body: some View {
-        RestaurantDetailView(restaurant: restaurant(id: ride.restaurant!),
-                             eta: true)
-            .navigationBarTitle("\(ride.start)/\(year) Ride")
-            .navigationBarItems(trailing: Button("Next ride", action: nextRide))
-    }
-    
-    private
-    func restaurant(id: String) -> Restaurant {
-        return smbcData.idToRestaurant(id: id)
-    }
-    
-    private
-    func nextRide() {
-        if let next = smbcData.ride(following: ride.start) {
-            ride = next
-        }
+        List (smbcData.rides) {
+            ride in
+            if ride.restaurant != nil {
+                RideRow(ride: ride, year: self.smbcData.selectedYear)
+            }
+            if ride.end != nil {
+                TripRow(ride:ride)
+            }
+        }.navigationBarTitle("SMBC Rides in \(self.smbcData.selectedYear)")
+         .navigationBarItems(trailing: PresentationLink("Change Year",
+                                                        destination: PickYearView().environmentObject(smbcData)))
     }
 }
 
@@ -60,7 +52,7 @@ struct RideRow: View {
     @EnvironmentObject var smbcData: SMBCData
     var ride: ScheduledRide
     let year: String
-
+    
     var body: some View {
         NavigationLink(destination: RideDetailView(ride: ride, year: year).environmentObject(smbcData)) {
             HStack () {
@@ -78,6 +70,7 @@ struct RideRow: View {
     }
 }
 
+
 // MARK: - TripRow View
 
 struct TripRow: View {
@@ -85,7 +78,7 @@ struct TripRow: View {
     var ride: ScheduledRide
     
     var body: some View {
-        NavigationLink(destination: TripView(ride: ride).environmentObject(smbcData)) {
+        NavigationLink(destination: TripDetailView(ride: ride).environmentObject(smbcData)) {
             HStack () {
                 Text("\(ride.start)\n\(ride.end!)")
                     .font(.headline)
@@ -94,63 +87,6 @@ struct TripRow: View {
                 Text(ride.description!)
                     .color(.orange)
             }
-        }
-    }
-}
-
-// MARK: - RideView -- list of rides for the year
-
-struct RideView : View {
-    @EnvironmentObject var smbcData: SMBCData
-
-    var body: some View {
-        List (smbcData.rides) {
-            ride in
-            if ride.restaurant != nil {
-                RideRow(ride: ride, year: self.smbcData.selectedYear)
-            }
-            if ride.end != nil {
-                TripRow(ride:ride)
-            }
-        }.navigationBarTitle("SMBC Rides in \(self.smbcData.selectedYear)")
-         .navigationBarItems(trailing: PresentationLink("Change Year",
-                                                        destination: PickYear().environmentObject(smbcData)))
-    }
-}
-
-// MARK: -- Pick a schedule year
-
-/// I don't want to force a fetch of data from the server every time the picker wheel is modified.
-/// Better if I wait until the few is about to go away and then cause the model to fetch needed
-/// data and signal that the model has changed once the data has been received.
-/// Alas, onDisappear is not called for navigation events.  I don't know if that is part of the design
-/// or a beta bug.
-///
-/// I am triggering the update using the done button.  But... button use is optional... the user
-/// could swipe the view away, instead.  This is a bug that needs to be resolved.
-///
-struct PickYear : View {
-    @EnvironmentObject var smbcData: SMBCData
-    @Environment(\.isPresented) var isPresented: Binding<Bool>
-
-    var body: some View {
-        VStack {
-            Text("Show the SMBC Ride Schedule for").lineLimit(2)
-            Picker(selection: $smbcData.yearIndex,
-                   label: Text("Please select a schedule year")) {
-                    ForEach(0 ..< smbcData.years.count) {
-                        Text(self.smbcData.years[$0]).tag($0)
-                    }
-            }
-            Button("Done") {
-                self.smbcData.yearUpdated()
-                self.isPresented?.value.toggle()
-            }.padding()
-            Text("Known bug: please use the Done button instead of swiping to return to the schedule.   Swiping does not cause data for your selected year to be loaded.")
-                .font(.footnote)
-                .fontWeight(.light)
-                .lineLimit(nil)
-                .padding()
         }
     }
 }
