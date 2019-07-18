@@ -44,10 +44,23 @@ struct RideView : View {
         }.navigationBarTitle("SMBC Rides in \(self.smbcData.selectedYear)")
          .navigationBarItems(trailing: Button("Change year") { self.yearPickerPresented = true })
          .sheet(isPresented: $yearPickerPresented,
-                onDismiss: self.smbcData.yearUpdated) {
-                    PickYearView()
-                        .environmentObject(self.smbcData)
+                onDismiss: self.smbcData.yearUpdated,
+                content: { self.sheet })
+    }
+
+    var sheet: some View {
+        VStack {
+            Picker(selection: $smbcData.yearIndex,
+                   label: Text("Please select a schedule year")) {
+                ForEach(0 ..< smbcData.years.count) {
+                    Text(self.smbcData.years[$0]).tag($0)
                 }
+            }
+            Button("Done") {
+                self.yearPickerPresented = false
+            }
+            Spacer()
+        }
     }
 }
 

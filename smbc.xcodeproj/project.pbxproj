@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4905C3E822C72CEC00D9B7CE /* trips.json in Resources */ = {isa = PBXBuildFile; fileRef = 4905C3E722C72CEC00D9B7CE /* trips.json */; };
-		491B760D22DEC87500268B60 /* PickYearView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491B760C22DEC87500268B60 /* PickYearView.swift */; };
 		491B760F22DEC9EE00268B60 /* RideDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491B760E22DEC9EE00268B60 /* RideDetailView.swift */; };
 		493BBFDB22C01AE600E2B437 /* RestaurantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDA22C01AE600E2B437 /* RestaurantView.swift */; };
 		493BBFDD22C01B1000E2B437 /* RideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDC22C01B1000E2B437 /* RideView.swift */; };
@@ -47,7 +46,6 @@
 
 /* Begin PBXFileReference section */
 		4905C3E722C72CEC00D9B7CE /* trips.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = trips.json; sourceTree = "<group>"; };
-		491B760C22DEC87500268B60 /* PickYearView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickYearView.swift; sourceTree = "<group>"; };
 		491B760E22DEC9EE00268B60 /* RideDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideDetailView.swift; sourceTree = "<group>"; };
 		493BBFDA22C01AE600E2B437 /* RestaurantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantView.swift; sourceTree = "<group>"; };
 		493BBFDC22C01B1000E2B437 /* RideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideView.swift; sourceTree = "<group>"; };
@@ -131,7 +129,6 @@
 				493BBFDC22C01B1000E2B437 /* RideView.swift */,
 				491B760E22DEC9EE00268B60 /* RideDetailView.swift */,
 				49F2C34022C58B980089CF3C /* TripDetailView.swift */,
-				491B760C22DEC87500268B60 /* PickYearView.swift */,
 				4947F16522C1737A008E6D6A /* MapView.swift */,
 				493BBFDE22C079EE00E2B437 /* Data.swift */,
 				49B196A222BEADE3009F51E5 /* Assets.xcassets */,
@@ -338,7 +335,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				491B760D22DEC87500268B60 /* PickYearView.swift in Sources */,
 				493BBFDD22C01B1000E2B437 /* RideView.swift in Sources */,
 				4947F16622C1737A008E6D6A /* MapView.swift in Sources */,
 				491B760F22DEC9EE00268B60 /* RideDetailView.swift in Sources */,
