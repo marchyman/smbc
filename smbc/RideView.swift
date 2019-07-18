@@ -44,9 +44,11 @@ struct RideView : View {
         }.navigationBarTitle("SMBC Rides in \(self.smbcData.selectedYear)")
          .navigationBarItems(trailing: Button(action: {self.yearPickerPresented = true}) {
                 Text("Change Year")
-//                    .sheet(isPresented: $yearPickerPresented,
-//                           onDismiss: self.smbcData.yearUpdated(),
-//                            content: { PickYearView() })
+                    .sheet(isPresented: $yearPickerPresented,
+                           onDismiss: self.smbcData.yearUpdated) {
+                                PickYearView()
+                                    .environmentObject(self.smbcData)
+                            }
                 })
     }
 }

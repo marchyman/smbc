@@ -39,26 +39,21 @@ import SwiftUI
 ///
 struct PickYearView : View {
     @EnvironmentObject var smbcData: SMBCData
-    @Environment(\.isPresented) var isPresented: Binding<Bool>
     
     var body: some View {
         VStack {
-            Text("Show the SMBC Ride Schedule for").lineLimit(2)
             Picker(selection: $smbcData.yearIndex,
                    label: Text("Please select a schedule year")) {
                     ForEach(0 ..< smbcData.years.count) {
                         Text(self.smbcData.years[$0]).tag($0)
                     }
             }
-            Button("Done") {
-                self.smbcData.yearUpdated()
-                self.isPresented?.value = false
+            Group {
+                Text("Pick the desired year")
+                Text("Swipe down to return to schedule")
             }.padding()
-            Text("Known bug: please use the Done button instead of swiping to return to the schedule.   Swiping does not cause data for your selected year to be loaded.")
-                .font(.footnote)
-                .fontWeight(.light)
-                .lineLimit(nil)
-                .padding()
+             .foregroundColor(.orange)
+            
         }
     }
 }

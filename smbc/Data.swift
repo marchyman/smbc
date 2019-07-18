@@ -107,7 +107,6 @@ class SMBCData: BindableObject {
 
     func yearUpdated() {
         if lastSelectedYear != selectedYear {
-            lastSelectedYear = selectedYear
             getRides(year: selectedYear)
         }
     }
@@ -272,6 +271,7 @@ class SMBCData: BindableObject {
             let rides = try decoder.decode([ScheduledRide].self, from: data)
             DispatchQueue.main.async {
                 self.willChange.send(())
+                self.lastSelectedYear = self.selectedYear
                 self.rides = rides
             }
         }
