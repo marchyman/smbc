@@ -47,10 +47,10 @@ struct RestaurantRow: View {
         }
         return NavigationLink(destination: RestaurantDetailView(restaurant: restaurant,
                                                                 eta: false)) {
-                                                                    VStack (alignment: .leading) {
-                                                                        Text(restaurant.name).font(.headline)
-                                                                        Text(city).font(.subheadline)
-                                                                    }
+            VStack (alignment: .leading) {
+                Text(restaurant.name).font(.headline)
+                Text(city).font(.subheadline)
+            }
         }
     }
 }

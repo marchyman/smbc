@@ -67,7 +67,7 @@ func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
 
 // MARK: - Initial Content
 
-struct ContentView : View {
+struct ContentView: View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @EnvironmentObject var smbcData: SMBCData
     @State private var alertPresented = false
