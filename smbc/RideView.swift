@@ -56,9 +56,8 @@ struct RideView : View {
                     Text(self.smbcData.years[$0]).tag($0)
                 }
             }
-            Button("Done") {
-                self.yearPickerPresented = false
-            }
+            Text("Pick desired year")
+            Text("Swipe down to return to schedule").padding()
             Spacer()
         }
     }
