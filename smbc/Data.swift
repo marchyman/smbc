@@ -77,7 +77,7 @@ struct ScheduledRide: Decodable, Identifiable {
 /// SMBCData holds all data needed for the app.  It is stored in the environment.
 
 class SMBCData: BindableObject {
-    let didChange = PassthroughSubject<Void, Never>()
+    let willChange = PassthroughSubject<Void, Never>()
     var restaurants = [Restaurant]()
     var rides = [ScheduledRide]()
     var trips = [String:String]()
@@ -242,9 +242,10 @@ class SMBCData: BindableObject {
             url in
             let data = try Data(contentsOf: url)
             let decoder = JSONDecoder()
-            self.restaurants = try decoder.decode([Restaurant].self, from: data)
+            let restaurants = try decoder.decode([Restaurant].self, from: data)
             DispatchQueue.main.async {
-                self.didChange.send(())
+                self.willChange.send(())
+                self.restaurants = restaurants
             }
         }
     }
@@ -268,9 +269,10 @@ class SMBCData: BindableObject {
             url in
             let data = try Data(contentsOf: url)
             let decoder = JSONDecoder()
-            self.rides = try decoder.decode([ScheduledRide].self, from: data)
+            let rides = try decoder.decode([ScheduledRide].self, from: data)
             DispatchQueue.main.async {
-                self.didChange.send(())
+                self.willChange.send(())
+                self.rides = rides
             }
         }
     }
@@ -309,13 +311,13 @@ class SMBCData: BindableObject {
                     }
                 } else {
                     DispatchQueue.main.async {
+                        self.willChange.send(())
                         let selectedYear = self.selectedYear
                         self.years.sort(by: >)
                         guard let ix = self.years.firstIndex(of: selectedYear) else {
                             fatalError("Lost current year")
                         }
                         self.yearIndex = ix
-                        self.didChange.send(())
                     }
                 }
             }.resume()
@@ -332,9 +334,10 @@ class SMBCData: BindableObject {
             url in
             let data = try Data(contentsOf: url)
             let decoder = JSONDecoder()
-            self.trips = try decoder.decode([String : String].self, from: data)
+            let trips = try decoder.decode([String : String].self, from: data)
             DispatchQueue.main.async {
-                self.didChange.send(())
+                self.willChange.send(())
+                self.trips = trips
             }
         }
     }
