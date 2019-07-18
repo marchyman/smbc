@@ -70,7 +70,7 @@ func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
 struct ContentView : View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @EnvironmentObject var smbcData: SMBCData
-    @State private var showingAlert = false
+    @State private var alertPresented = false
 
     var body: some View {
         NavigationView {
@@ -103,9 +103,9 @@ struct ContentView : View {
              }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
               .background(backgroundGradient(colorScheme), cornerRadius: 0)
               .navigationBarTitle("SMBC")
-              .navigationBarItems(trailing: Button(action: { self.showingAlert = true }) {
+              .navigationBarItems(trailing: Button(action: { self.alertPresented = true }) {
                     Image(systemName: "info.circle")
-                        .presentation($showingAlert, alert: smbcInfo)
+                        .alert(isPresented: $alertPresented, content: smbcInfo)
                 })
         }
     }
