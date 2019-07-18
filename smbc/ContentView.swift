@@ -87,15 +87,14 @@ struct ContentView : View {
                     .aspectRatio(1.0, contentMode: .fit)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.black, lineWidth: 2))
-                    .padding(.leading)
-                    .padding(.trailing)
+                    .padding([.leading, .trailing])
                 HStack {
                     Spacer()
-                    NavigationLink(destination: RestaurantView().environmentObject(smbcData)) {
+                    NavigationLink(destination: RestaurantView()) {
                         Text("Restaurants").font(.title)
                     }.buttonStyle(.smbc)
                     Spacer()
-                    NavigationLink(destination: RideView().environmentObject(smbcData)) {
+                    NavigationLink(destination: RideView()) {
                         Text("Rides").font(.title)
                     }.buttonStyle(.smbc)
                     Spacer()

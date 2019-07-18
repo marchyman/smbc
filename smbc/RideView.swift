@@ -30,6 +30,7 @@ import SwiftUI
 
 struct RideView : View {
     @EnvironmentObject var smbcData: SMBCData
+    @State private var yearPickerPresented = false
 
     var body: some View {
         List (smbcData.rides) {
@@ -41,8 +42,12 @@ struct RideView : View {
                 TripRow(ride:ride)
             }
         }.navigationBarTitle("SMBC Rides in \(self.smbcData.selectedYear)")
-         .navigationBarItems(trailing: PresentationLink("Change Year",
-                                                        destination: PickYearView().environmentObject(smbcData)))
+         .navigationBarItems(trailing: Button(action: {self.yearPickerPresented = true}) {
+                Text("Change Year")
+//                    .sheet(isPresented: $yearPickerPresented,
+//                           onDismiss: self.smbcData.yearUpdated(),
+//                            content: { PickYearView() })
+                })
     }
 }
 
@@ -54,7 +59,7 @@ struct RideRow: View {
     let year: String
     
     var body: some View {
-        NavigationLink(destination: RideDetailView(ride: ride, year: year).environmentObject(smbcData)) {
+        NavigationLink(destination: RideDetailView(ride: ride, year: year)) {
             HStack () {
                 Text(ride.start)
                     .font(.headline)
@@ -78,7 +83,7 @@ struct TripRow: View {
     var ride: ScheduledRide
     
     var body: some View {
-        NavigationLink(destination: TripDetailView(ride: ride).environmentObject(smbcData)) {
+        NavigationLink(destination: TripDetailView(ride: ride)) {
             HStack () {
                 Text("\(ride.start)\n\(ride.end!)")
                     .font(.headline)
