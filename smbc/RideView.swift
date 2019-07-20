@@ -32,22 +32,6 @@ struct RideView : View {
     @EnvironmentObject var smbcData: SMBCData
     @State private var yearPickerPresented = false
 
-    var body: some View {
-        List (smbcData.rides) {
-            ride in
-            if ride.restaurant != nil {
-                RideRow(ride: ride, year: self.smbcData.selectedYear)
-            }
-            if ride.end != nil {
-                TripRow(ride:ride)
-            }
-        }.navigationBarTitle("SMBC Rides in \(self.smbcData.selectedYear)")
-         .navigationBarItems(trailing: Button("Change year") { self.yearPickerPresented = true })
-         .sheet(isPresented: $yearPickerPresented,
-                onDismiss: self.smbcData.yearUpdated,
-                content: { self.sheet })
-    }
-
     var sheet: some View {
         VStack {
             Picker(selection: $smbcData.yearIndex,
@@ -60,6 +44,21 @@ struct RideView : View {
             Text("Swipe down to return to schedule").padding()
             Spacer()
         }
+    }
+
+    var body: some View {
+        List (smbcData.rides) {
+            ride in
+            if ride.restaurant != nil {
+                RideRow(ride: ride, year: self.smbcData.selectedYear)
+            }
+            if ride.end != nil {
+                TripRow(ride:ride)
+            }
+        }.navigationBarTitle("SMBC Rides in \(self.smbcData.selectedYear)")
+         .navigationBarItems(trailing: Button("Change year") { self.yearPickerPresented = true })
+         .sheet(isPresented: $yearPickerPresented,
+                onDismiss: self.smbcData.yearUpdated) { self.sheet }
     }
 }
 
