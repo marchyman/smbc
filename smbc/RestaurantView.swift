@@ -28,12 +28,24 @@ import SwiftUI
 
 struct RestaurantView : View {
     @EnvironmentObject var smbcData: SMBCData
-
+    @State private var filter = true
+    
     var body: some View {
-        List (smbcData.restaurants) {
+        let buttonTitle: String
+        let restaurants: [Restaurant]
+        if filter {
+            restaurants = smbcData.restaurants.filter { $0.status == "open" }
+            buttonTitle = "Show all"
+        } else {
+            restaurants = smbcData.restaurants
+            buttonTitle = "Show active"
+        }
+        return List (restaurants) {
             restaurant in
             RestaurantRow(restaurant: restaurant)
         }.navigationBarTitle("SMBC Restaurants")
+         .navigationBarItems(trailing:
+            Button(buttonTitle) { self.filter.toggle() })
     }
 }
 
