@@ -29,21 +29,26 @@ import SwiftUI
 struct RestaurantView : View {
     @EnvironmentObject var smbcData: SMBCData
     @State private var filter = true
+    let active = "Active"
+    let all = "All"
     
     var body: some View {
         let buttonTitle: String
+        let barTitle: String
         let restaurants: [Restaurant]
         if filter {
             restaurants = smbcData.restaurants.filter { $0.status == "open" }
-            buttonTitle = "Show all"
+            barTitle = active
+            buttonTitle = all
         } else {
             restaurants = smbcData.restaurants
-            buttonTitle = "Show active"
+            barTitle = all
+            buttonTitle = active
         }
         return List (restaurants) {
             restaurant in
             RestaurantRow(restaurant: restaurant)
-        }.navigationBarTitle("SMBC Restaurants")
+        }.navigationBarTitle("\(barTitle) Restaurants")
          .navigationBarItems(trailing:
             Button(buttonTitle) { self.filter.toggle() })
     }
