@@ -26,20 +26,38 @@
 
 import Foundation
 
+
+struct ScheduleYear: Codable {
+    var year: String
+}
+
 /// A class to hold program state
 
 class ProgramState: Codable {
-    var scheduleYear: String        // data cached for this year
-    var scheduleYears: [String]     // data available for these years
-    var refreshTime: Date           // when to refresh the cache
+    var cacheYear: String {                   // data cached for this year
+        didSet {
+            ProgramState.store(self)
+        }
+    }
+    var scheduleYears: [ScheduleYear] {       // data available for these years
+        didSet {
+            ProgramState.store(self)
+        }
+    }
+    var refreshTime: Date {                  // when to refresh the cache
+        didSet {
+            ProgramState.store(self)
+        }
+    }
 
     /// Create an instance of ProgramState based upon the current time
+    ///
     init() {
-        let yearFormat = DateFormatter()
-        yearFormat.dateFormat = "y"
+        // default data stored in the app bundle is for this year
+        let bundledDataYear = "2019"
+        cacheYear = bundledDataYear
+        scheduleYears = [ScheduleYear(year: bundledDataYear)]
         refreshTime = Date()
-        scheduleYear = yearFormat.string(from: refreshTime)
-        scheduleYears = [scheduleYear]
     }
 
     /// load state data from local storage if it exists

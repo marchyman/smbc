@@ -32,33 +32,33 @@ struct RideView : View {
     @EnvironmentObject var smbcData: SMBCData
     @State private var yearPickerPresented = false
 
-    var sheet: some View {
-        VStack {
-            Picker(selection: $smbcData.yearIndex,
-                   label: Text("Please select a schedule year")) {
-                ForEach(0 ..< smbcData.years.count) {
-                    Text(self.smbcData.years[$0]).tag($0)
-                }
-            }
-            Text("Pick desired year")
-            Text("Swipe down to return to schedule").padding()
-            Spacer()
-        }
-    }
+//    var sheet: some View {
+//        VStack {
+//            Picker(selection: $smbcData.yearIndex,
+//                   label: Text("Please select a schedule year")) {
+//                ForEach(0 ..< smbcData.years.count) {
+//                    Text(self.smbcData.years[$0]).tag($0)
+//                }
+//            }
+//            Text("Pick desired year")
+//            Text("Swipe down to return to schedule").padding()
+//            Spacer()
+//        }
+//    }
 
     var body: some View {
         List (smbcData.rides) {
             ride in
             if ride.restaurant != nil {
-                RideRow(ride: ride, year: self.smbcData.selectedYear)
+                RideRow(ride: ride, year: self.smbcData.lastSelectedYear)
             }
             if ride.end != nil {
                 TripRow(ride:ride)
             }
-        }.navigationBarTitle("SMBC Rides in \(self.smbcData.selectedYear)")
-         .navigationBarItems(trailing: Button("Change year") { self.yearPickerPresented = true })
-         .sheet(isPresented: $yearPickerPresented,
-                onDismiss: self.smbcData.yearUpdated) { self.sheet }
+        }.navigationBarTitle("SMBC Rides in \(self.smbcData.lastSelectedYear)")
+//         .navigationBarItems(trailing: Button("Change year") { self.yearPickerPresented = true })
+//         .sheet(isPresented: $yearPickerPresented,
+//                onDismiss: self.smbcData.yearUpdated) { self.sheet }
     }
 }
 

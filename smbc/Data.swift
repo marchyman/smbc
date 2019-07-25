@@ -76,38 +76,39 @@ struct ScheduledRide: Decodable, Identifiable {
 /// SMBCData holds all data needed for the app.  It is stored in the environment.
 
 class SMBCData: BindableObject {
-    let willChange = PassthroughSubject<Void, Never>()
     var programState: ProgramState
+    var lastSelectedYear: String
+
+    let willChange = PassthroughSubject<Void, Never>()
     var restaurants = [Restaurant]()
     var rides = [ScheduledRide]()
     var trips = [String:String]()
     
-    var years = [String]()      // Array of years for which scheduled ride data was found
-    var yearIndex = 0           // index into the above array for the current year
-    var selectedYear: String {  // shortcut to return the selected year
-        years[yearIndex]
-    }
-    var lastSelectedYear: String
-
     init() {
         programState = ProgramState.load()
-        lastSelectedYear = programState.scheduleYear
-        years.append(lastSelectedYear)
-        yearIndex = 0
-        
-        getRestaurants()
-        getRides(year: selectedYear)
-        getTrips()
-        checkRides(year: selectedYear, previous: true)
-        checkRides(year: selectedYear, previous: false)
-    }
+        lastSelectedYear = programState.cacheYear
+
+        if programState.refreshTime < Date() {
+            downloadRideYears()
+            downloadRestaurants()
+            downloadRides()
+            downloadTrips()
+            // 7 days * 24 hours/day * 60 minues.hour * 60 seconds/minute
+            // is one week in seconds
+            programState.refreshTime += TimeInterval(7 * 24 * 60 * 60)
+        } else {
+            restaurantsFromCache()
+            ridesFromCache()
+            tripsFromCache()
+        }
+   }
 
     // MARK: - Fetch data for currently selected year
 
     func yearUpdated() {
-        if lastSelectedYear != selectedYear {
-            getRides(year: selectedYear)
-        }
+//        if lastSelectedYear != selectedYear {
+//            downloadRides(year: selectedYear)
+//        }
     }
 
     // MARK: - Data look up functions
@@ -138,11 +139,12 @@ class SMBCData: BindableObject {
     /// Copy data returned from a network request to a cache
     ///
     /// - Parameter source: URL of data to be cached
-    /// - Parameter name: Name of file inside of cache folder
+    /// - Parameter name: Name of file inside of cache folder.  If nil the file is not cached
     ///
     /// A cache folder inside the users Library will be created if necessary
     private
-    func cacheData(source: URL, name: String) throws {
+    func cacheData(source: URL, name: String?) throws {
+        guard let name = name else { return }
         let fileManager = FileManager.default
         let cachesDir = try fileManager.url(for: .cachesDirectory,
                                              in: .userDomainMask,
@@ -161,8 +163,12 @@ class SMBCData: BindableObject {
 
     }
     
+    /// Read data from the local cache
+    /// - Parameter name: Name of file in local cache.  The function is a no-op when name is nil
+    /// - Parameter reader: closure called to process  data
     private
-    func dataFromCache(name: String, reader: @escaping (URL) throws -> ()) {
+    func dataFromCache(name: String?, reader: @escaping (URL) throws -> ()) {
+        guard let name = name else { return }
         let fileManager = FileManager.default
         do {
             let libraryDir = try fileManager.url(for: .libraryDirectory,
@@ -203,13 +209,14 @@ class SMBCData: BindableObject {
     // MARK: - download data using a URLSession
     
     /// Download and process data using a URLSession
-    /// - Parameter name: name of the file to download  used for caching the results
+    /// - Parameter name: name of the file to download  used for caching the results.  The file is
+    ///                     not cached if this name is nil.
     /// - Parameter url: URL of the file to download
     /// - Parameter reader: function to call to process the downloaded data
     ///
     ///
     private
-    func download(name: String,
+    func download(name: String?,
                   url: URL,
                   reader: @escaping (URL) throws -> Void) {
         URLSession.shared.downloadTask(with: url) {
@@ -229,117 +236,132 @@ class SMBCData: BindableObject {
         }.resume()
     }
 
-    // MARK: - Get list of restaurants
+    // MARK: - Download array of years for which we have a ride schedule
 
     /// Attempt to download the current list of restaurants.
     ///
     /// Any failure will result in an attempt to read the restaurants from data cached during
     /// the last sucessful download.
     private
-    func getRestaurants() {
-        let restaurantsUrl = URL(string: serverName + restaurantName)
-        download(name: restaurantName, url: restaurantsUrl!) {
+    func downloadRideYears() {
+        let rideYearsName = "schedule/schedule-years.json"
+        let rideYearsUrl = URL(string: serverName + rideYearsName)
+        download(name: nil, url: rideYearsUrl!) {
             url in
             let data = try Data(contentsOf: url)
             let decoder = JSONDecoder()
-            let restaurants = try decoder.decode([Restaurant].self, from: data)
+            let years = try decoder.decode([ScheduleYear].self, from: data)
             DispatchQueue.main.async {
-                self.willChange.send(())
-                self.restaurants = restaurants
+                self.programState.scheduleYears = years
             }
         }
     }
 
-    // MARK: - Get scheduled rides
-
+    // MARK: - Fetch restaurants
     
-    /// Fetch rides for the give year from server
-    /// - Parameter year: The year of the schedule to fetch
+    /// decode and update the list of restaurants
+    /// - Parameter url: location of the file containing the coded data
     private
-    func getRides(year: String) {
+    func decodeRestaurants( url: URL) throws {
+        let data = try Data(contentsOf: url)
+        let decoder = JSONDecoder()
+        let restaurants = try decoder.decode([Restaurant].self, from: data)
+        DispatchQueue.main.async {
+            self.willChange.send(())
+            self.restaurants = restaurants
+        }
+    }
+    /// Attempt to download the current list of restaurants.
+    ///
+    /// Any failure will result in an attempt to read the restaurants from data cached during
+    /// the last sucessful download.
+    private
+    func downloadRestaurants() {
+        let restaurantsUrl = URL(string: serverName + restaurantName)
+        download(name: restaurantName, url: restaurantsUrl!) {
+            url in
+            try self.decodeRestaurants(url: url)
+        }
+    }
+    
+    /// Fetch list of restaurants from our cache
+    private
+    func restaurantsFromCache() {
+        dataFromCache(name: restaurantName) {
+            url in
+            try self.decodeRestaurants(url: url)
+        }
+    }
+
+    // MARK: - Fetch scheduled rides
+    
+    /// Decode and update the list of rides
+    /// - Parameter url: location of the local file containing coded ride info
+    private
+    func decodeRides(url: URL) throws {
+        let data = try Data(contentsOf: url)
+        let decoder = JSONDecoder()
+        let rides = try decoder.decode([ScheduledRide].self, from: data)
+        DispatchQueue.main.async {
+            self.willChange.send(())
+            self.rides = rides
+        }
+
+    }
+    /// Fetch scheduled rides  from server
+    private
+    func downloadRides() {
         let fullName = serverName +
                         "schedule/" +
                         scheduleBase +
                         "-" +
-                        year +
+                        programState.cacheYear +
                         "." +
                         scheduleExt
         let scheduleUrl = URL(string: fullName)!
         download(name: scheduleName, url: scheduleUrl) {
             url in
-            let data = try Data(contentsOf: url)
-            let decoder = JSONDecoder()
-            let rides = try decoder.decode([ScheduledRide].self, from: data)
-            DispatchQueue.main.async {
-                self.willChange.send(())
-                self.lastSelectedYear = self.selectedYear
-                self.rides = rides
-            }
+            try self.decodeRides(url: url)
+        }
+    }
+    
+    /// Fetch scheduled rides from our cache
+    private
+    func ridesFromCache() {
+        dataFromCache(name: scheduleName) {
+            url in
+            try self.decodeRides(url: url)
         }
     }
 
-    // MARK: - Check for existence of schedules for previous or following year
-    
-    /// Check if scheduled ride data exists
-    /// - Parameter year: The year before/after the year to check
-    /// - Parameter previous: if true then check the year before the given year, otherwise the year after
-    ///
-    /// Keep recursing until scheduled data is not found, then signal that smbcData has changed.
+    // MARK: - Fetch trip descriptions
+
     private
-    func checkRides(year: String, previous: Bool) {
-        if var intYear = Int(year) {
-            if previous {
-                intYear -= 1
-            } else {
-                intYear += 1
-            }
-            let newYear = String(intYear)
-            let fullName = serverName +
-                            "schedule/" +
-                            scheduleBase +
-                            "-" +
-                            newYear +
-                            "." +
-                            scheduleExt
-            let scheduleUrl = URL(string: fullName)!
-            URLSession.shared.downloadTask(with: scheduleUrl) {
-                localURL, urlResponse, error in
-                if let response = urlResponse as? HTTPURLResponse,
-                    (200...299).contains(response.statusCode) {
-                    DispatchQueue.main.async {
-                        self.years.append(newYear)
-                        self.checkRides(year: newYear, previous: previous)
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        self.willChange.send(())
-                        let selectedYear = self.selectedYear
-                        self.years.sort(by: >)
-                        guard let ix = self.years.firstIndex(of: selectedYear) else {
-                            fatalError("Lost current year")
-                        }
-                        self.yearIndex = ix
-                    }
-                }
-            }.resume()
+    func decodeTrips(url: URL) throws {
+        let data = try Data(contentsOf: url)
+        let decoder = JSONDecoder()
+        let trips = try decoder.decode([String : String].self, from: data)
+        DispatchQueue.main.async {
+            self.willChange.send(())
+            self.trips = trips
         }
     }
-    
-    // MARK: - Get list of trip descriptions
-    
+
     /// Fetch trip descriptions from server
     private
-    func getTrips() {
+    func downloadTrips() {
         let tripUrl = URL(string: serverName + "schedule/" + tripName)!
         download(name: tripName, url: tripUrl) {
             url in
-            let data = try Data(contentsOf: url)
-            let decoder = JSONDecoder()
-            let trips = try decoder.decode([String : String].self, from: data)
-            DispatchQueue.main.async {
-                self.willChange.send(())
-                self.trips = trips
-            }
+            try self.decodeTrips(url: url)
+        }
+    }
+
+    private
+    func tripsFromCache() {
+        dataFromCache(name: tripName) {
+            url in
+            try self.decodeTrips(url: url)
         }
     }
 }
