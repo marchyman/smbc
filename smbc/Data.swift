@@ -39,7 +39,6 @@ import SwiftUI
 /// Location and format of Restaurant and Ride data
 
 fileprivate let serverName = "https://smbc.snafu.org/"
-fileprivate let cacheFolderName = "Cache/org.snafu.smbc/"
 fileprivate let restaurantName = "restaurants.json"
 fileprivate let scheduleBase = "schedule"
 fileprivate let scheduleExt = "json"
@@ -78,6 +77,7 @@ struct ScheduledRide: Decodable, Identifiable {
 
 class SMBCData: BindableObject {
     let willChange = PassthroughSubject<Void, Never>()
+    var programState: ProgramState
     var restaurants = [Restaurant]()
     var rides = [ScheduledRide]()
     var trips = [String:String]()
@@ -90,9 +90,8 @@ class SMBCData: BindableObject {
     var lastSelectedYear: String
 
     init() {
-        let yearFormat = DateFormatter()
-        yearFormat.dateFormat = "y"
-        lastSelectedYear = yearFormat.string(from: Date())
+        programState = ProgramState.load()
+        lastSelectedYear = programState.scheduleYear
         years.append(lastSelectedYear)
         yearIndex = 0
         
@@ -145,11 +144,12 @@ class SMBCData: BindableObject {
     private
     func cacheData(source: URL, name: String) throws {
         let fileManager = FileManager.default
-        let libraryDir = try fileManager.url(for: .libraryDirectory,
+        let cachesDir = try fileManager.url(for: .cachesDirectory,
                                              in: .userDomainMask,
                                              appropriateFor: nil,
                                              create: true)
-        let cacheFolder = libraryDir.appendingPathComponent(cacheFolderName)
+        let cacheFolderName = "\(Bundle.main.bundleIdentifier!)/"
+        let cacheFolder = cachesDir.appendingPathComponent(cacheFolderName)
         try fileManager.createDirectory(at: cacheFolder,
                                         withIntermediateDirectories: true,
                                         attributes: nil)
@@ -169,6 +169,7 @@ class SMBCData: BindableObject {
                                                  in: .userDomainMask,
                                                  appropriateFor: nil,
                                                  create: false)
+            let cacheFolderName = "\(Bundle.main.bundleIdentifier!)/"
             let cacheFolder = libraryDir.appendingPathComponent(cacheFolderName)
             let cachedFile = cacheFolder.appendingPathComponent(name)
             try reader(cachedFile)
