@@ -77,7 +77,6 @@ struct ScheduledRide: Decodable, Identifiable {
 
 class SMBCData: BindableObject {
     var programState: ProgramState
-    var lastSelectedYear: String
 
     let willChange = PassthroughSubject<Void, Never>()
     var restaurants = [Restaurant]()
@@ -86,7 +85,6 @@ class SMBCData: BindableObject {
     
     init() {
         programState = ProgramState.load()
-        lastSelectedYear = programState.cacheYear
 
         if programState.refreshTime < Date() {
             downloadRideYears()
@@ -96,6 +94,7 @@ class SMBCData: BindableObject {
             // 7 days * 24 hours/day * 60 minues.hour * 60 seconds/minute
             // is one week in seconds
             programState.refreshTime += TimeInterval(7 * 24 * 60 * 60)
+            ProgramState.store(programState)
         } else {
             restaurantsFromCache()
             ridesFromCache()
@@ -106,9 +105,9 @@ class SMBCData: BindableObject {
     // MARK: - Fetch data for currently selected year
 
     func yearUpdated() {
-//        if lastSelectedYear != selectedYear {
-//            downloadRides(year: selectedYear)
-//        }
+        if programState.cachedIndex != programState.selectedIndex {
+            downloadRides()
+        }
     }
 
     // MARK: - Data look up functions
@@ -141,15 +140,15 @@ class SMBCData: BindableObject {
     /// - Parameter source: URL of data to be cached
     /// - Parameter name: Name of file inside of cache folder.  If nil the file is not cached
     ///
-    /// A cache folder inside the users Library will be created if necessary
+    /// A  folder inside the users cachedDirectory will be created if necessary
     private
     func cacheData(source: URL, name: String?) throws {
         guard let name = name else { return }
         let fileManager = FileManager.default
         let cachesDir = try fileManager.url(for: .cachesDirectory,
-                                             in: .userDomainMask,
-                                             appropriateFor: nil,
-                                             create: true)
+                                            in: .userDomainMask,
+                                            appropriateFor: nil,
+                                            create: true)
         let cacheFolderName = "\(Bundle.main.bundleIdentifier!)/"
         let cacheFolder = cachesDir.appendingPathComponent(cacheFolderName)
         try fileManager.createDirectory(at: cacheFolder,
@@ -171,12 +170,12 @@ class SMBCData: BindableObject {
         guard let name = name else { return }
         let fileManager = FileManager.default
         do {
-            let libraryDir = try fileManager.url(for: .libraryDirectory,
-                                                 in: .userDomainMask,
-                                                 appropriateFor: nil,
-                                                 create: false)
+            let cachesDir = try fileManager.url(for: .cachesDirectory,
+                                                in: .userDomainMask,
+                                                appropriateFor: nil,
+                                                create: false)
             let cacheFolderName = "\(Bundle.main.bundleIdentifier!)/"
-            let cacheFolder = libraryDir.appendingPathComponent(cacheFolderName)
+            let cacheFolder = cachesDir.appendingPathComponent(cacheFolderName)
             let cachedFile = cacheFolder.appendingPathComponent(name)
             try reader(cachedFile)
         } catch {
@@ -202,7 +201,7 @@ class SMBCData: BindableObject {
         do {
             try reader(url!)
         } catch {
-            fatalError("Cannot find list of restaurants")
+            fatalError("Cannot find resource in bundle")
         }
     }
 
@@ -228,9 +227,11 @@ class SMBCData: BindableObject {
                     try self.cacheData(source: localURL, name: name)
                     try reader(localURL)
                 } catch {
+                    // don't want to do this if trying to switch years
                     self.dataFromCache(name: name, reader: reader)
                 }
             } else {
+                // don't want to do this if trying to switch years
                 self.dataFromCache(name: name, reader: reader)
             }
         }.resume()
@@ -305,17 +306,20 @@ class SMBCData: BindableObject {
         DispatchQueue.main.async {
             self.willChange.send(())
             self.rides = rides
+            self.programState.cachedIndex = self.programState.selectedIndex
+            ProgramState.store(self.programState)
         }
 
     }
     /// Fetch scheduled rides  from server
     private
     func downloadRides() {
+        let year = programState.scheduleYears[programState.selectedIndex].year
         let fullName = serverName +
                         "schedule/" +
                         scheduleBase +
                         "-" +
-                        programState.cacheYear +
+                        year +
                         "." +
                         scheduleExt
         let scheduleUrl = URL(string: fullName)!

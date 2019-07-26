@@ -27,43 +27,26 @@
 import Foundation
 
 
-struct ScheduleYear: Codable {
+struct ScheduleYear: Codable, Equatable {
     var year: String
 }
 
 /// A class to hold program state
 
 class ProgramState: Codable {
-    var cacheYear: String {                   // data cached for this year
-        didSet {
-            ProgramState.store(self)
-        }
+    var scheduleYears: [ScheduleYear]   // data available for these years
+    var cachedIndex: Int                  // index into scheduleYears for cached year
+    var refreshTime: Date               // when to refresh the cache
+    var cachedYear: String {             // data cached for this year
+        scheduleYears[cachedIndex].year
     }
-    var scheduleYears: [ScheduleYear] {       // data available for these years
-        didSet {
-            ProgramState.store(self)
-        }
-    }
-    var refreshTime: Date {                  // when to refresh the cache
-        didSet {
-            ProgramState.store(self)
-        }
-    }
-
-    /// Create an instance of ProgramState based upon the current time
-    ///
-    init() {
-        // default data stored in the app bundle is for this year
-        let bundledDataYear = "2019"
-        cacheYear = bundledDataYear
-        scheduleYears = [ScheduleYear(year: bundledDataYear)]
-        refreshTime = Date()
-    }
+    var selectedIndex: Int              // year selection index
 
     /// load state data from local storage if it exists
     /// - Returns: program state
     ///
-    /// If state data does not exist create and save a new instance
+    /// If state data does not exist or could not be decoded create and save a new instance
+    ///
     static func load() -> ProgramState {
         let state: ProgramState
         do {
@@ -80,6 +63,8 @@ class ProgramState: Codable {
     }
 
     /// Store the given ProgramState in the users documents folder
+    /// - Parameter state: data to store in local storage
+    ///
     static func store(_ state: ProgramState) {
         let encoder = JSONEncoder()
         guard let encoded = try? encoder.encode(state) else {
@@ -95,6 +80,7 @@ class ProgramState: Codable {
     /// Return the URL for the local program state file
     /// The state file lives in the application support folder for this app.  The folder will be created if
     /// if it doesn't exist.
+    ///
     static func stateFileUrl() throws -> URL {
         let programStateFolderName = "\(Bundle.main.bundleIdentifier!)/"
         let programStateFileName = "SMBCState.json"
@@ -110,5 +96,29 @@ class ProgramState: Codable {
                                         attributes: nil)
         let stateFile = stateFolder.appendingPathComponent(programStateFileName)
         return stateFile
+    }
+
+    /// Create an instance of ProgramState based upon the current time
+    ///
+    init() {
+        // default data stored in the app bundle is for this year
+        let bundledDataYear = "2019"
+        scheduleYears = [ScheduleYear(year: bundledDataYear)]
+        cachedIndex = 0
+        refreshTime = Date()
+        selectedIndex = 0
+    }
+    
+    /// Find the index into scheduleYears for the entry that matches the given year
+    /// - Parameter year: The year to find
+    /// - Returns: The index matching the given year
+    ///
+    /// The year is assumed to exist in the array.  If not the program aborts.
+    ///
+    func findYearIndex(year: String) -> Int {
+        guard let ix = scheduleYears.firstIndex(of: ScheduleYear(year: year)) else {
+            fatalError("Cannot find index for requested year")
+        }
+        return ix
     }
 }
