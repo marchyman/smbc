@@ -32,6 +32,16 @@ struct RideView : View {
     @EnvironmentObject var smbcData: SMBCData
     @State private var yearPickerPresented = false
 
+    var alert: Alert {
+        Alert(title: Text("Schedule access error"),
+              message: Text("""
+                Schedule data for the desired year is not availalbe at this time.  There may be a network or server issue.
+
+                Please try again, later.
+                """),
+              dismissButton: .default(Text("OK")))
+    }
+
     var sheet: some View {
         VStack {
             Picker(selection: $smbcData.programState.selectedIndex,
@@ -59,6 +69,7 @@ struct RideView : View {
          .navigationBarItems(trailing: Button("Change year") { self.yearPickerPresented = true })
          .sheet(isPresented: $yearPickerPresented,
                 onDismiss: smbcData.yearUpdated) { self.sheet }
+         .alert(isPresented: $smbcData.fileUnavailable) { alert }
     }
 }
 

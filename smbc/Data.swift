@@ -82,6 +82,7 @@ class SMBCData: BindableObject {
     var restaurants = [Restaurant]()
     var rides = [ScheduledRide]()
     var trips = [String:String]()
+    var fileUnavailable = false
     
     init() {
         programState = ProgramState.load()
@@ -89,7 +90,7 @@ class SMBCData: BindableObject {
         if programState.refreshTime < Date() {
             downloadRideYears()
             downloadRestaurants()
-            downloadRides()
+            downloadRides(readCache: true)
             downloadTrips()
             // 7 days * 24 hours/day * 60 minues.hour * 60 seconds/minute
             // is one week in seconds
@@ -106,7 +107,7 @@ class SMBCData: BindableObject {
 
     func yearUpdated() {
         if programState.cachedIndex != programState.selectedIndex {
-            downloadRides()
+            downloadRides(readCache: false)
         }
     }
 
@@ -208,8 +209,8 @@ class SMBCData: BindableObject {
     // MARK: - download data using a URLSession
     
     /// Download and process data using a URLSession
-    /// - Parameter name: name of the file to download  used for caching the results.  The file is
-    ///                     not cached if this name is nil.
+    /// - Parameter name: name used to cache the download file.  The file is
+    ///     not cached if this name is nil.
     /// - Parameter url: URL of the file to download
     /// - Parameter reader: function to call to process the downloaded data
     ///
@@ -217,22 +218,29 @@ class SMBCData: BindableObject {
     private
     func download(name: String?,
                   url: URL,
+                  readFromCache: Bool = true,
                   reader: @escaping (URL) throws -> Void) {
         URLSession.shared.downloadTask(with: url) {
             localURL, urlResponse, error in
             if let localURL = localURL,
-                let response = urlResponse as? HTTPURLResponse,
-                (200...299).contains(response.statusCode) {
+               let response = urlResponse as? HTTPURLResponse,
+               (200...299).contains(response.statusCode) {
                 do {
                     try self.cacheData(source: localURL, name: name)
                     try reader(localURL)
                 } catch {
-                    // don't want to do this if trying to switch years
-                    self.dataFromCache(name: name, reader: reader)
+                    fatalError("Error processing \(localURL)")
                 }
             } else {
-                // don't want to do this if trying to switch years
-                self.dataFromCache(name: name, reader: reader)
+                if readFromCache {
+                    self.dataFromCache(name: name, reader: reader)
+                } else {
+                    // Let the user know the file is unavailable.
+                    DispatchQueue.main.async {
+                        self.willChange.send(())
+                        self.fileUnavailable = true
+                    }
+                }
             }
         }.resume()
     }
@@ -312,8 +320,10 @@ class SMBCData: BindableObject {
 
     }
     /// Fetch scheduled rides  from server
+    /// - Parameter cached: read from cache if server unavailable when set to true
+    ///
     private
-    func downloadRides() {
+    func downloadRides(readCache: Bool) {
         let year = programState.scheduleYears[programState.selectedIndex].year
         let fullName = serverName +
                         "schedule/" +
@@ -323,7 +333,7 @@ class SMBCData: BindableObject {
                         "." +
                         scheduleExt
         let scheduleUrl = URL(string: fullName)!
-        download(name: scheduleName, url: scheduleUrl) {
+        download(name: scheduleName, url: scheduleUrl, readFromCache: readCache) {
             url in
             try self.decodeRides(url: url)
         }
