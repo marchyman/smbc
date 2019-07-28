@@ -1,5 +1,5 @@
 //
-//  State.swift
+//  ProgramState.swift
 //  smbc
 //
 //  Created by Marco S Hyman on 7/24/19.
@@ -95,7 +95,7 @@ class ProgramState: Codable {
         return stateFile
     }
 
-    /// Create an instance of ProgramState based upon the current time
+    /// Create an instance of ProgramState based upon compiled in data
     ///
     init() {
         // default data stored in the app bundle is for this year
