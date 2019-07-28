@@ -77,6 +77,9 @@ struct ScheduledRide: Decodable, Identifiable {
 
 class SMBCData: BindableObject {
     var programState: ProgramState
+    var cachedYear: String {
+        programState.scheduleYears[programState.cachedIndex].year
+    }
 
     let willChange = PassthroughSubject<Void, Never>()
     var restaurants = [Restaurant]()
@@ -92,7 +95,7 @@ class SMBCData: BindableObject {
             downloadRestaurants()
             downloadRides(readCache: true)
             downloadTrips()
-            // 7 days * 24 hours/day * 60 minues.hour * 60 seconds/minute
+            // 7 days * 24 hours/day * 60 minutes.hour * 60 seconds/minute
             // is one week in seconds
             programState.refreshTime += TimeInterval(7 * 24 * 60 * 60)
             ProgramState.store(programState)

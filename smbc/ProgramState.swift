@@ -35,12 +35,9 @@ struct ScheduleYear: Codable, Equatable {
 
 class ProgramState: Codable {
     var scheduleYears: [ScheduleYear]   // data available for these years
-    var cachedIndex: Int                  // index into scheduleYears for cached year
-    var refreshTime: Date               // when to refresh the cache
-    var cachedYear: String {             // data cached for this year
-        scheduleYears[cachedIndex].year
-    }
+    var cachedIndex: Int                // index into scheduleYears for cached year
     var selectedIndex: Int              // year selection index
+    var refreshTime: Date               // when to refresh the cache
 
     /// load state data from local storage if it exists
     /// - Returns: program state

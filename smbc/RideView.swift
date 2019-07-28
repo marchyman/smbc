@@ -60,12 +60,12 @@ struct RideView : View {
         List (smbcData.rides) {
             ride in
             if ride.restaurant != nil {
-                RideRow(ride: ride, year: self.smbcData.programState.cachedYear)
+                RideRow(ride: ride, year: self.smbcData.cachedYear)
             }
             if ride.end != nil {
                 TripRow(ride:ride)
             }
-        }.navigationBarTitle("SMBC Rides in \(self.smbcData.programState.cachedYear)")
+        }.navigationBarTitle("SMBC Rides in \(self.smbcData.cachedYear)")
          .navigationBarItems(trailing: Button("Change year") { self.yearPickerPresented = true })
          .sheet(isPresented: $yearPickerPresented,
                 onDismiss: smbcData.yearUpdated) { self.sheet }
