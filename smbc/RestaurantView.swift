@@ -37,7 +37,9 @@ struct RestaurantView : View {
         let barTitle: String
         let restaurants: [Restaurant]
         if filter {
-            restaurants = restaurantModel.restaurants.filter { $0.status == "open" }
+            restaurants = restaurantModel.restaurants.filter {
+                $0.status == "open" || $0.status.hasPrefix("was ")
+            }
             barTitle = active
             buttonTitle = all
         } else {
