@@ -43,7 +43,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let model = Model(savedState: programState)
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController =
-                UIHostingController(rootView: ContentView().environmentObject(model))
+                UIHostingController(rootView: ContentView()
+                                                .environmentObject(model.restaurantModel)
+                                                .environmentObject(model.rideModel)
+                                                .environmentObject(model.tripModel))
             self.window = window
             window.makeKeyAndVisible()
         }

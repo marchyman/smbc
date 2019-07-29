@@ -45,7 +45,7 @@ struct ScheduledRide: Decodable, Identifiable {
 }
 
 class RideModel: BindableObject {
-    let willChange: PassthroughSubject<Void, Never>
+    let willChange = PassthroughSubject<Void, Never>()
 
     var rides = [ScheduledRide]() {
         willSet {
@@ -53,11 +53,12 @@ class RideModel: BindableObject {
         }
     }
 
+    var programState: ProgramState
     var rideYear: String
 
-    init(_ willChange: PassthroughSubject<Void, Never>, year: String) {
-        self.willChange = willChange
-        rideYear = year
+    init(programState: ProgramState, refresh: Bool) {
+        self.programState = programState
+        rideYear = programState.scheduleYears[programState.cachedIndex].year
         let scheduleBase = "schedule"
         let scheduleExt = "json"
         let name = scheduleBase + "." + scheduleExt
@@ -65,19 +66,24 @@ class RideModel: BindableObject {
                         "schedule/" +
                         scheduleBase +
                         "-" +
-                        year +
+                        rideYear +
                         "." +
                         scheduleExt
-        let url = URL(string: fullName)!
+        
         let cache = Cache(name: name, type: [ScheduledRide].self)
-        let cacheUrl = try? cache.fileUrl()
-        let downloader = Downloader(url: url, type: [ScheduledRide].self, cache: cacheUrl)
-        downloader.publisher
-            .catch {
-                _ in
-                return Just(cache.cachedData())
+        if refresh {
+            let url = URL(string: fullName)!
+            let cacheUrl = try? cache.fileUrl()
+            let downloader = Downloader(url: url, type: [ScheduledRide].self, cache: cacheUrl)
+            downloader.publisher
+                .catch {
+                    _ in
+                    return Just(cache.cachedData())
             }
             .assign(to: \.rides, on: self)
+        } else {
+            rides = cache.cachedData()
+        }
     }
     
     /// return the ride from the rides array following the ride with the given start data

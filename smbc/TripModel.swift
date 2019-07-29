@@ -29,7 +29,7 @@ import Combine
 import SwiftUI
 
 class TripModel: BindableObject {
-    let willChange: PassthroughSubject<Void, Never>
+    let willChange = PassthroughSubject<Void, Never>()
 
     var trips = [String : String]() {
         willSet {
@@ -37,20 +37,23 @@ class TripModel: BindableObject {
         }
     }
 
-    init(_ willChange: PassthroughSubject<Void, Never>) {
-        self.willChange = willChange
+    init(refresh: Bool) {
         let name = "trips.json"
-        let url = URL(string: serverName + "schedule/" + name)!
         let cache = Cache(name: name, type: [String : String].self)
-        let cacheUrl = try? cache.fileUrl()
-        let downloader = Downloader(url: url, type: [String : String].self, cache: cacheUrl)
-        downloader.publisher
-            .catch {
-                error -> Just<[String : String]> in
-                print("Error: \(error)")
-                return Just(cache.cachedData())
-            }
-            .assign(to: \.trips, on: self)
+        if refresh {
+            let url = URL(string: serverName + "schedule/" + name)!
+            let cacheUrl = try? cache.fileUrl()
+            let downloader = Downloader(url: url, type: [String : String].self, cache: cacheUrl)
+            downloader.publisher
+                .catch {
+                    error -> Just<[String : String]> in
+                    print("Error: \(error)")
+                    return Just(cache.cachedData())
+                }
+                .assign(to: \.trips, on: self)
+        } else {
+            trips = cache.cachedData()
+        }
     }
 }
 

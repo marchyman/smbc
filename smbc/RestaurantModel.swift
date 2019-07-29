@@ -44,7 +44,7 @@ struct Restaurant: Decodable, Identifiable {
 }
 
 class RestaurantModel: BindableObject {
-    let willChange: PassthroughSubject<Void, Never>
+    let willChange = PassthroughSubject<Void, Never>()
 
     var restaurants = [Restaurant]() {
         willSet {
@@ -52,19 +52,22 @@ class RestaurantModel: BindableObject {
         }
     }
 
-    init(_ willChange: PassthroughSubject<Void, Never>) {
-        self.willChange = willChange
+    init(refresh: Bool) {
         let name = "restaurants.json"
-        let url = URL(string: serverName + name)!
         let cache = Cache(name: name, type: [Restaurant].self)
-        let cacheUrl = try? cache.fileUrl()
-        let downloader = Downloader(url: url, type: [Restaurant].self, cache: cacheUrl)
-        downloader.publisher
-            .catch {
-                _ in
-                return Just(cache.cachedData())
-            }
-            .assign(to: \.restaurants, on: self)
+        if refresh {
+            let url = URL(string: serverName + name)!
+            let cacheUrl = try? cache.fileUrl()
+            let downloader = Downloader(url: url, type: [Restaurant].self, cache: cacheUrl)
+            downloader.publisher
+                .catch {
+                    _ in
+                    return Just(cache.cachedData())
+                }
+                .assign(to: \.restaurants, on: self)
+        } else {
+            restaurants = cache.cachedData()
+        }
     }
 
     /// return the restaurant from the restaurants array matching the given id.

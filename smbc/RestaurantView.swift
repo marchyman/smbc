@@ -27,7 +27,7 @@
 import SwiftUI
 
 struct RestaurantView : View {
-    @EnvironmentObject var model: Model
+    @EnvironmentObject var restaurantModel: RestaurantModel
     @State private var filter = true
     let active = "Active"
     let all = "All"
@@ -37,11 +37,11 @@ struct RestaurantView : View {
         let barTitle: String
         let restaurants: [Restaurant]
         if filter {
-            restaurants = model.restaurantModel.restaurants.filter { $0.status == "open" }
+            restaurants = restaurantModel.restaurants.filter { $0.status == "open" }
             barTitle = active
             buttonTitle = all
         } else {
-            restaurants = model.restaurantModel.restaurants
+            restaurants = restaurantModel.restaurants
             barTitle = all
             buttonTitle = active
         }

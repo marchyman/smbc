@@ -37,9 +37,7 @@ import SwiftUI
 /// * RideModel -- scheduled rides fetched from the server and cached locally
 /// * TripModel -- details about trips
 ///
-class Model: BindableObject {
-    let willChange = PassthroughSubject<Void, Never>()
-
+class Model {
     var programState: ProgramState
     var restaurantModel: RestaurantModel
     var rideModel: RideModel
@@ -47,12 +45,17 @@ class Model: BindableObject {
 
     /// Initialize the data model
     /// - Parameter savedState: program state from the last time the program ran.  A default
-    ///     state is used the first time the program is run
+    ///     state is passed in the first time the program is run
     init(savedState: ProgramState) {
         programState = savedState
-        restaurantModel = RestaurantModel(willChange)
-        rideModel = RideModel(willChange,
-                              year: savedState.scheduleYears[savedState.cachedIndex].year)
-        tripModel = TripModel(willChange)
+        let needRefresh = programState.refreshTime < Date()
+        restaurantModel = RestaurantModel(refresh: needRefresh)
+        rideModel = RideModel(programState: programState,
+                              refresh: needRefresh)
+        tripModel = TripModel(refresh: needRefresh)
+        if needRefresh {
+            programState.refreshTime = Date() + TimeInterval(7 * 24 * 60 * 60)
+            programState.updateScheduleYears()
+        }
     }
 }

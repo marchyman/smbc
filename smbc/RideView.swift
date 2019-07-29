@@ -29,7 +29,7 @@ import SwiftUI
 // MARK: - RideView -- list of rides for the year
 
 struct RideView : View {
-    @EnvironmentObject var model: Model
+    @EnvironmentObject var rideModel: RideModel
     @State private var yearPickerPresented = false
 
     var alert: Alert {
@@ -44,10 +44,10 @@ struct RideView : View {
 
     var sheet: some View {
         VStack {
-            Picker(selection: $model.programState.selectedIndex,
-                   label: Text("Please select a schedule year")) {
-                ForEach(0 ..< model.programState.scheduleYears.count) {
-                    Text(self.model.programState.scheduleYears[$0].year).tag($0)
+            Picker("Please select a schedule year",
+                   selection: $rideModel.programState.selectedIndex) {
+                ForEach(0 ..< rideModel.programState.scheduleYears.count) {
+                    Text(self.rideModel.programState.scheduleYears[$0].year).tag($0)
                 }
             }
             Text("Pick desired year")
@@ -57,15 +57,15 @@ struct RideView : View {
     }
 
     var body: some View {
-        List (model.rideModel.rides) {
+        List (rideModel.rides) {
             ride in
             if ride.restaurant != nil {
-                RideRow(ride: ride, year: self.model.rideModel.rideYear)
+                RideRow(ride: ride, year: self.rideModel.rideYear)
             }
             if ride.end != nil {
                 TripRow(ride:ride)
             }
-        }.navigationBarTitle("SMBC Rides in \(self.model.rideModel.rideYear)")
+        }.navigationBarTitle("SMBC Rides in \(self.rideModel.rideYear)")
          .navigationBarItems(trailing: Button("Change year") { self.yearPickerPresented = true })
          .sheet(isPresented: $yearPickerPresented,
                 onDismiss: { /* smbcData.yearUpdated */ }) { self.sheet }
@@ -76,7 +76,7 @@ struct RideView : View {
 // MARK: - RideRow View
 
 struct RideRow: View {
-    @EnvironmentObject var model: Model
+    @EnvironmentObject var restaurantModel: RestaurantModel
     var ride: ScheduledRide
     let year: String
     
@@ -93,7 +93,7 @@ struct RideRow: View {
     
     private
     func restaurantName(id: String?) -> String {
-        return model.restaurantModel.idToRestaurant(id: id).name
+        return restaurantModel.idToRestaurant(id: id).name
     }
 }
 

@@ -25,6 +25,7 @@
 //
 
 import Foundation
+import Combine
 
 
 struct ScheduleYear: Codable, Equatable {
@@ -117,5 +118,22 @@ class ProgramState: Codable {
             fatalError("Cannot find index for requested year")
         }
         return ix
+    }
+    
+    func updateScheduleYears() {
+        let name = "schedule/schedule-years.json"
+        let url = URL(string: serverName + name)!
+        let downloader = Downloader(url: url, type: [ScheduleYear].self, cache: nil)
+        downloader.publisher
+            .sink(receiveCompletion: {
+                error in
+                if case .failure = error {
+                    // what do I do here
+                }
+            }, receiveValue: {
+                output in
+                self.scheduleYears = output
+                ProgramState.store(self)
+            })
     }
 }
