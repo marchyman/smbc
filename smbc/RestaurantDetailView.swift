@@ -33,10 +33,39 @@ import MapKit
 /// ride is selected from the rides list.
 struct RestaurantDetailView : View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
+    @EnvironmentObject var rideModel: RideModel
     @State private var selectorIndex = 0
+    @State private var showVisits = false
     let types = [MKMapType.standard, MKMapType.satellite, MKMapType.hybrid]
     let restaurant: Restaurant
     let eta: Bool
+
+    var sheet: some View {
+        let filteredRides = rideModel.rides.filter { $0.restaurant == restaurant.id }
+        return VStack {
+            if filteredRides.count == 1 {
+                Text("There is 1 rides to")
+                    .padding(.top, 40)
+            } else {
+                Text("There are \(filteredRides.count) rides to")
+                    .padding(.top, 40)
+            }
+            Text(restaurant.name)
+                .font(.title)
+                .padding()
+            Text("scheduled in \(rideModel.rideYear)")
+ 
+            if filteredRides.isEmpty {
+                Spacer()
+            } else {
+                List (filteredRides) {
+                    ride in
+                    Text(ride.start)
+                        .font(.headline)
+                }.padding()
+            }
+        }
+    }
 
     var body: some View {
         VStack {
@@ -78,6 +107,9 @@ struct RestaurantDetailView : View {
         }.frame(minWidth: 0, maxWidth: .infinity,
                 minHeight: 0, maxHeight: .infinity)
          .background(backgroundGradient(colorScheme), cornerRadius: 0)
+         .navigationBarItems(trailing: Button("Show visits") { self.showVisits = true})
+         .sheet(isPresented: $showVisits, onDismiss: { }) { self.sheet }
+        
     }
 }
 
