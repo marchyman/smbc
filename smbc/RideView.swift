@@ -68,8 +68,8 @@ struct RideView : View {
         }.navigationBarTitle("SMBC Rides in \(self.rideModel.rideYear)")
          .navigationBarItems(trailing: Button("Change year") { self.yearPickerPresented = true })
          .sheet(isPresented: $yearPickerPresented,
-                onDismiss: { /* smbcData.yearUpdated */ }) { self.sheet }
-//         .alert(isPresented: $smbcData.fileUnavailable) { alert }
+                onDismiss: rideModel.fetchRideData) { self.sheet }
+         .alert(isPresented: $rideModel.fileUnavailable) { alert }
     }
 }
 

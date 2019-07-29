@@ -45,6 +45,8 @@ struct ScheduledRide: Decodable, Identifiable {
 }
 
 class RideModel: BindableObject {
+    let scheduleBase = "schedule"
+    let scheduleExt = "json"
     let willChange = PassthroughSubject<Void, Never>()
 
     var rides = [ScheduledRide]() {
@@ -53,14 +55,14 @@ class RideModel: BindableObject {
         }
     }
 
+    var fileUnavailable = false
+
     var programState: ProgramState
     var rideYear: String
 
     init(programState: ProgramState, refresh: Bool) {
         self.programState = programState
         rideYear = programState.scheduleYears[programState.cachedIndex].year
-        let scheduleBase = "schedule"
-        let scheduleExt = "json"
         let name = scheduleBase + "." + scheduleExt
         let fullName = serverName +
                         "schedule/" +
@@ -74,18 +76,63 @@ class RideModel: BindableObject {
         if refresh {
             let url = URL(string: fullName)!
             let cacheUrl = try? cache.fileUrl()
-            let downloader = Downloader(url: url, type: [ScheduledRide].self, cache: cacheUrl)
-            downloader.publisher
+            let downloader = Downloader(url: url,
+                                        type: [ScheduledRide].self,
+                                        cache: cacheUrl)
+            downloader
+                .publisher
                 .catch {
                     _ in
                     return Just(cache.cachedData())
-            }
-            .assign(to: \.rides, on: self)
+                }
+                .assign(to: \.rides, on: self)
         } else {
             rides = cache.cachedData()
         }
     }
-    
+
+    /// Fetch ride data when a different year is sellected
+    ///
+    /// Unlike the initial data download this function does not use cached data upon failure.
+    ///
+    func fetchRideData() {
+        if programState.cachedIndex != programState.selectedIndex {
+            let name = scheduleBase + "." + scheduleExt
+            let cache = Cache(name: name, type: [ScheduledRide].self)
+            let cacheUrl = try? cache.fileUrl()
+            let year = programState.scheduleYears[programState.selectedIndex].year
+            let fullName = serverName +
+                "schedule/" +
+                scheduleBase +
+                "-" +
+                year +
+                "." +
+                scheduleExt
+            let fileUrl = URL(string: fullName)!
+            let downloader = Downloader(url: fileUrl,
+                                        type: [ScheduledRide].self,
+                                        cache: cacheUrl)
+            downloader
+                .publisher
+                .sink(receiveCompletion: {
+                        error in
+                        print("\(#function) error: \(error)")
+                        if case .failure = error {
+                            self.willChange.send()
+                            self.fileUnavailable = true
+                        }
+                      },
+                      receiveValue: {
+                        output in
+                        self.rides = output
+                        self.rideYear = year
+                        self.programState.cachedIndex = self.programState.selectedIndex
+                        ProgramState.store(self.programState)
+                      })
+
+        }
+    }
+
     /// return the ride from the rides array following the ride with the given start data
     /// Only Sunday rides to breakfast are returned.  The function skips over trips.
     ///
