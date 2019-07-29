@@ -28,7 +28,7 @@ import Foundation
 import SwiftUI
 
 struct TripDetailView: View {
-    @EnvironmentObject var smbcData: SMBCData
+    @EnvironmentObject var model: Model
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     var ride: ScheduledRide
     
@@ -48,7 +48,7 @@ struct TripDetailView: View {
     func tripText() -> String {
         if let spaceIndex = ride.description?.firstIndex(of: " ") {
             let key = String(ride.description![..<spaceIndex])
-            if let trip = smbcData.trips[key] {
+            if let trip = model.tripModel.trips[key] {
                 return trip
             }
 

@@ -29,7 +29,7 @@ import SwiftUI
 // MARK: - RideView -- list of rides for the year
 
 struct RideView : View {
-    @EnvironmentObject var smbcData: SMBCData
+    @EnvironmentObject var model: Model
     @State private var yearPickerPresented = false
 
     var alert: Alert {
@@ -44,10 +44,10 @@ struct RideView : View {
 
     var sheet: some View {
         VStack {
-            Picker(selection: $smbcData.programState.selectedIndex,
+            Picker(selection: $model.programState.selectedIndex,
                    label: Text("Please select a schedule year")) {
-                ForEach(0 ..< smbcData.programState.scheduleYears.count) {
-                    Text(self.smbcData.programState.scheduleYears[$0].year).tag($0)
+                ForEach(0 ..< model.programState.scheduleYears.count) {
+                    Text(self.model.programState.scheduleYears[$0].year).tag($0)
                 }
             }
             Text("Pick desired year")
@@ -57,26 +57,26 @@ struct RideView : View {
     }
 
     var body: some View {
-        List (smbcData.rides) {
+        List (model.rideModel.rides) {
             ride in
             if ride.restaurant != nil {
-                RideRow(ride: ride, year: self.smbcData.cachedYear)
+                RideRow(ride: ride, year: self.model.rideModel.rideYear)
             }
             if ride.end != nil {
                 TripRow(ride:ride)
             }
-        }.navigationBarTitle("SMBC Rides in \(self.smbcData.cachedYear)")
+        }.navigationBarTitle("SMBC Rides in \(self.model.rideModel.rideYear)")
          .navigationBarItems(trailing: Button("Change year") { self.yearPickerPresented = true })
          .sheet(isPresented: $yearPickerPresented,
-                onDismiss: smbcData.yearUpdated) { self.sheet }
-         .alert(isPresented: $smbcData.fileUnavailable) { alert }
+                onDismiss: { /* smbcData.yearUpdated */ }) { self.sheet }
+//         .alert(isPresented: $smbcData.fileUnavailable) { alert }
     }
 }
 
 // MARK: - RideRow View
 
 struct RideRow: View {
-    @EnvironmentObject var smbcData: SMBCData
+    @EnvironmentObject var model: Model
     var ride: ScheduledRide
     let year: String
     
@@ -93,7 +93,7 @@ struct RideRow: View {
     
     private
     func restaurantName(id: String?) -> String {
-        return smbcData.idToRestaurant(id: id).name
+        return model.restaurantModel.idToRestaurant(id: id).name
     }
 }
 
@@ -101,7 +101,6 @@ struct RideRow: View {
 // MARK: - TripRow View
 
 struct TripRow: View {
-    @EnvironmentObject var smbcData: SMBCData
     var ride: ScheduledRide
     
     var body: some View {

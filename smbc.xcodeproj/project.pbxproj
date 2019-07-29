@@ -12,7 +12,6 @@
 		491B760F22DEC9EE00268B60 /* RideDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491B760E22DEC9EE00268B60 /* RideDetailView.swift */; };
 		493BBFDB22C01AE600E2B437 /* RestaurantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDA22C01AE600E2B437 /* RestaurantView.swift */; };
 		493BBFDD22C01B1000E2B437 /* RideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDC22C01B1000E2B437 /* RideView.swift */; };
-		493BBFDF22C079EE00E2B437 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDE22C079EE00E2B437 /* Data.swift */; };
 		4947F16422C16515008E6D6A /* RestaurantDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4947F16322C16515008E6D6A /* RestaurantDetailView.swift */; };
 		4947F16622C1737A008E6D6A /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4947F16522C1737A008E6D6A /* MapView.swift */; };
 		498A078522C421500026FB5D /* schedule.json in Resources */ = {isa = PBXBuildFile; fileRef = 498A078422C421500026FB5D /* schedule.json */; };
@@ -24,6 +23,12 @@
 		49B196A922BEADE3009F51E5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49B196A722BEADE3009F51E5 /* LaunchScreen.storyboard */; };
 		49B196B422BEADE3009F51E5 /* smbcTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B196B322BEADE3009F51E5 /* smbcTests.swift */; };
 		49B196BF22BEADE3009F51E5 /* smbcUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B196BE22BEADE3009F51E5 /* smbcUITests.swift */; };
+		49D3A82E22EE6E4F00C6682C /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D3A82B22EE6E4F00C6682C /* Model.swift */; };
+		49D3A82F22EE6E4F00C6682C /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D3A82C22EE6E4F00C6682C /* Downloader.swift */; };
+		49D3A83022EE6E4F00C6682C /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D3A82D22EE6E4F00C6682C /* Cache.swift */; };
+		49D3A83322EE6E5F00C6682C /* TripModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D3A83122EE6E5F00C6682C /* TripModel.swift */; };
+		49D3A83422EE6E5F00C6682C /* RestaurantModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D3A83222EE6E5F00C6682C /* RestaurantModel.swift */; };
+		49D3A83622EE6E9F00C6682C /* RideModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D3A83522EE6E9F00C6682C /* RideModel.swift */; };
 		49ED466722C1E44A003AAEE4 /* restaurants.json in Resources */ = {isa = PBXBuildFile; fileRef = 49ED466622C1E44A003AAEE4 /* restaurants.json */; };
 		49F2C34122C58B980089CF3C /* TripDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F2C34022C58B980089CF3C /* TripDetailView.swift */; };
 /* End PBXBuildFile section */
@@ -51,7 +56,6 @@
 		491B760E22DEC9EE00268B60 /* RideDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideDetailView.swift; sourceTree = "<group>"; };
 		493BBFDA22C01AE600E2B437 /* RestaurantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantView.swift; sourceTree = "<group>"; };
 		493BBFDC22C01B1000E2B437 /* RideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideView.swift; sourceTree = "<group>"; };
-		493BBFDE22C079EE00E2B437 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		493BBFE022C0966700E2B437 /* smbc.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = smbc.entitlements; sourceTree = "<group>"; };
 		4947F16322C16515008E6D6A /* RestaurantDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailView.swift; sourceTree = "<group>"; };
 		4947F16522C1737A008E6D6A /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
@@ -70,6 +74,12 @@
 		49B196BA22BEADE3009F51E5 /* smbcUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = smbcUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		49B196BE22BEADE3009F51E5 /* smbcUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smbcUITests.swift; sourceTree = "<group>"; };
 		49B196C022BEADE3009F51E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		49D3A82B22EE6E4F00C6682C /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		49D3A82C22EE6E4F00C6682C /* Downloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
+		49D3A82D22EE6E4F00C6682C /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
+		49D3A83122EE6E5F00C6682C /* TripModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TripModel.swift; sourceTree = "<group>"; };
+		49D3A83222EE6E5F00C6682C /* RestaurantModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantModel.swift; sourceTree = "<group>"; };
+		49D3A83522EE6E9F00C6682C /* RideModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideModel.swift; sourceTree = "<group>"; };
 		49ED466622C1E44A003AAEE4 /* restaurants.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = restaurants.json; sourceTree = "<group>"; };
 		49F2C34022C58B980089CF3C /* TripDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -132,8 +142,13 @@
 				491B760E22DEC9EE00268B60 /* RideDetailView.swift */,
 				49F2C34022C58B980089CF3C /* TripDetailView.swift */,
 				4947F16522C1737A008E6D6A /* MapView.swift */,
-				493BBFDE22C079EE00E2B437 /* Data.swift */,
+				49D3A82D22EE6E4F00C6682C /* Cache.swift */,
+				49D3A82C22EE6E4F00C6682C /* Downloader.swift */,
+				49D3A82B22EE6E4F00C6682C /* Model.swift */,
 				49158D8222E970C80067D893 /* ProgramState.swift */,
+				49D3A83222EE6E5F00C6682C /* RestaurantModel.swift */,
+				49D3A83522EE6E9F00C6682C /* RideModel.swift */,
+				49D3A83122EE6E5F00C6682C /* TripModel.swift */,
 				49B196A222BEADE3009F51E5 /* Assets.xcassets */,
 				49B196A722BEADE3009F51E5 /* LaunchScreen.storyboard */,
 				49B196AA22BEADE3009F51E5 /* Info.plist */,
@@ -338,13 +353,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49D3A83022EE6E4F00C6682C /* Cache.swift in Sources */,
 				493BBFDD22C01B1000E2B437 /* RideView.swift in Sources */,
 				4947F16622C1737A008E6D6A /* MapView.swift in Sources */,
 				491B760F22DEC9EE00268B60 /* RideDetailView.swift in Sources */,
+				49D3A82E22EE6E4F00C6682C /* Model.swift in Sources */,
 				49158D8322E970C80067D893 /* ProgramState.swift in Sources */,
 				4947F16422C16515008E6D6A /* RestaurantDetailView.swift in Sources */,
 				49F2C34122C58B980089CF3C /* TripDetailView.swift in Sources */,
-				493BBFDF22C079EE00E2B437 /* Data.swift in Sources */,
+				49D3A83322EE6E5F00C6682C /* TripModel.swift in Sources */,
+				49D3A83622EE6E9F00C6682C /* RideModel.swift in Sources */,
+				49D3A83422EE6E5F00C6682C /* RestaurantModel.swift in Sources */,
+				49D3A82F22EE6E4F00C6682C /* Downloader.swift in Sources */,
 				49B1969D22BEADE2009F51E5 /* AppDelegate.swift in Sources */,
 				49B1969F22BEADE2009F51E5 /* SceneDelegate.swift in Sources */,
 				49B196A122BEADE2009F51E5 /* ContentView.swift in Sources */,

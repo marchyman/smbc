@@ -29,7 +29,7 @@ import SwiftUI
 // MARK: - Ride Details
 
 struct RideDetailView: View {
-    @EnvironmentObject var smbcData: SMBCData
+    @EnvironmentObject var model: Model
     @State var ride: ScheduledRide
     let year: String
     
@@ -42,12 +42,12 @@ struct RideDetailView: View {
     
     private
     func restaurant(id: String) -> Restaurant {
-        return smbcData.idToRestaurant(id: id)
+        return model.restaurantModel.idToRestaurant(id: id)
     }
     
     private
     func nextRide() {
-        if let next = smbcData.ride(following: ride.start) {
+        if let next = model.rideModel.ride(following: ride.start) {
             ride = next
         }
     }
