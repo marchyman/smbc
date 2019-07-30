@@ -40,14 +40,9 @@ public struct SmbcButtonStyle: ButtonStyle {
 }
 
 extension StaticMember where Base : ButtonStyle {
-//    public static var smbc: SmbcButtonStyle.Member {
-//        StaticMember<SmbcButtonStyle>(SmbcButtonStyle())
-//    }
-// or
     public static var smbc: StaticMember<SmbcButtonStyle> {
         return .init(SmbcButtonStyle())
     }
-// I don't know which is preferred
 }
 
 func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
@@ -115,7 +110,7 @@ struct ContentView: View {
                     Spacer()
                 }.padding()
              }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-              .background(backgroundGradient(colorScheme), cornerRadius: 0)
+              .background(backgroundGradient(colorScheme))
               .navigationBarTitle("SMBC")
               .navigationBarItems(trailing:
                     Button(action: { self.alertPresented = true }) {

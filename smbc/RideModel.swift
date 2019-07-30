@@ -29,7 +29,6 @@
 
 import Foundation
 import Combine
-import SwiftUI
 
 /// Format of a scheduled ride record retrieved from server
 /// All rides have an ID and a start date.
@@ -44,18 +43,12 @@ struct ScheduledRide: Decodable, Identifiable {
     let comment: String?
 }
 
-class RideModel: BindableObject {
+class RideModel: ObservableObject {
     let scheduleBase = "schedule"
     let scheduleExt = "json"
-    let willChange = PassthroughSubject<Void, Never>()
 
-    var rides = [ScheduledRide]() {
-        willSet {
-            willChange.send()
-        }
-    }
-
-    var fileUnavailable = false
+    @Published var rides = [ScheduledRide]()
+    @Published var fileUnavailable = false
 
     var programState: ProgramState
     var rideYear: String
@@ -118,7 +111,6 @@ class RideModel: BindableObject {
                         error in
                         print("\(#function) error: \(error)")
                         if case .failure = error {
-                            self.willChange.send()
                             self.fileUnavailable = true
                         }
                       },

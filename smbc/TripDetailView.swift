@@ -40,7 +40,7 @@ struct TripDetailView: View {
             Spacer()
         }.frame(minWidth: 0, maxWidth: .infinity,
                 minHeight: 0, maxHeight: .infinity)
-         .background(backgroundGradient(colorScheme), cornerRadius: 0)
+         .background(backgroundGradient(colorScheme))
          .navigationBarTitle("\(ride.start) - \(ride.end!) Trip")
     }
     

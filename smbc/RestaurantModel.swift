@@ -26,7 +26,6 @@
 
 import Foundation
 import Combine
-import SwiftUI
 
 /// Format of  restaurant records retrieved from server
 ///
@@ -43,14 +42,8 @@ struct Restaurant: Decodable, Identifiable {
     let lon: Double
 }
 
-class RestaurantModel: BindableObject {
-    let willChange = PassthroughSubject<Void, Never>()
-
-    var restaurants = [Restaurant]() {
-        willSet {
-            willChange.send()
-        }
-    }
+class RestaurantModel: ObservableObject {
+    @Published var restaurants = [Restaurant]()
 
     init(refresh: Bool) {
         let name = "restaurants.json"

@@ -96,17 +96,19 @@ struct RestaurantDetailView : View {
                 MapView(mapType: types[selectorIndex],
                         center: CLLocationCoordinate2D(latitude: restaurant.lat,
                                                        longitude: restaurant.lon))
-                SegmentedControl(selection: $selectorIndex) {
+                Picker("", selection: $selectorIndex) {
                     ForEach(0 ..< types.count) {
                         index in
                         Text(self.types[index].name).tag(index)
                     }
-                }.background(Color.accentColor, cornerRadius: 10)
+                }.pickerStyle(.segmented)
+                 .background(Color.accentColor)
+                 .clipShape(RoundedRectangle(cornerRadius: 10))
                  .padding([.leading, .trailing])
             }
         }.frame(minWidth: 0, maxWidth: .infinity,
                 minHeight: 0, maxHeight: .infinity)
-         .background(backgroundGradient(colorScheme), cornerRadius: 0)
+         .background(backgroundGradient(colorScheme))
          .navigationBarItems(trailing: Button("Show visits") { self.showVisits = true})
          .sheet(isPresented: $showVisits, onDismiss: { }) { self.sheet }
         

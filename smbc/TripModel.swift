@@ -26,16 +26,9 @@
 
 import Foundation
 import Combine
-import SwiftUI
 
-class TripModel: BindableObject {
-    let willChange = PassthroughSubject<Void, Never>()
-
-    var trips = [String : String]() {
-        willSet {
-            willChange.send()
-        }
-    }
+class TripModel: ObservableObject {
+    @Published var trips = [String : String]()
 
     init(refresh: Bool) {
         let name = "trips.json"

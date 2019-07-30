@@ -28,8 +28,6 @@
 //
 
 import Foundation
-import Combine
-import SwiftUI
 
 /// The model consists of 4 separate data types
 /// * ProgramState -- locally stored holding state between runs

@@ -27,7 +27,6 @@
 import Foundation
 import Combine
 
-
 struct ScheduleYear: Codable, Equatable {
     var year: String
 }
