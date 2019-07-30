@@ -57,17 +57,9 @@ class RideModel: ObservableObject {
         self.programState = programState
         rideYear = programState.scheduleYears[programState.cachedIndex].year
         let name = scheduleBase + "." + scheduleExt
-        let fullName = serverName +
-                        "schedule/" +
-                        scheduleBase +
-                        "-" +
-                        rideYear +
-                        "." +
-                        scheduleExt
-        
         let cache = Cache(name: name, type: [ScheduledRide].self)
         if refresh {
-            let url = URL(string: fullName)!
+            let url = ridesUrl(for: rideYear)
             let cacheUrl = try? cache.fileUrl()
             let downloader = Downloader(url: url,
                                         type: [ScheduledRide].self,
@@ -94,14 +86,7 @@ class RideModel: ObservableObject {
             let cache = Cache(name: name, type: [ScheduledRide].self)
             let cacheUrl = try? cache.fileUrl()
             let year = programState.scheduleYears[programState.selectedIndex].year
-            let fullName = serverName +
-                "schedule/" +
-                scheduleBase +
-                "-" +
-                year +
-                "." +
-                scheduleExt
-            let fileUrl = URL(string: fullName)!
+            let fileUrl = ridesUrl(for: year)
             let downloader = Downloader(url: fileUrl,
                                         type: [ScheduledRide].self,
                                         cache: cacheUrl)
@@ -123,6 +108,20 @@ class RideModel: ObservableObject {
                       })
 
         }
+    }
+
+    /// Build the full name of the Scheduled Rides file on the server
+    ///
+    private
+    func ridesUrl(for year: String) -> URL {
+        let fullName = serverName +
+            "schedule/" +
+            scheduleBase +
+            "-" +
+            year +
+            "." +
+            scheduleExt
+        return URL(string: fullName)!
     }
 
     /// return the ride from the rides array following the ride with the given start data
