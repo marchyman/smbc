@@ -123,7 +123,8 @@ class ProgramState: Codable {
         let name = "schedule/schedule-years.json"
         let url = URL(string: serverName + name)!
         let downloader = Downloader(url: url, type: [ScheduleYear].self, cache: nil)
-        downloader.publisher
+        _ = downloader
+            .publisher
             .sink(receiveCompletion: {
                 error in
                 if case .failure = error {

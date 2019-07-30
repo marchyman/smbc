@@ -52,7 +52,8 @@ class RestaurantModel: ObservableObject {
             let url = URL(string: serverName + name)!
             let cacheUrl = try? cache.fileUrl()
             let downloader = Downloader(url: url, type: [Restaurant].self, cache: cacheUrl)
-            downloader.publisher
+            _ = downloader
+                .publisher
                 .catch {
                     _ in
                     return Just(cache.cachedData())

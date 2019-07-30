@@ -64,7 +64,7 @@ class RideModel: ObservableObject {
             let downloader = Downloader(url: url,
                                         type: [ScheduledRide].self,
                                         cache: cacheUrl)
-            downloader
+            _ = downloader
                 .publisher
                 .catch {
                     _ in
@@ -90,7 +90,7 @@ class RideModel: ObservableObject {
             let downloader = Downloader(url: fileUrl,
                                         type: [ScheduledRide].self,
                                         cache: cacheUrl)
-            downloader
+            _ = downloader
                 .publisher
                 .sink(receiveCompletion: {
                         error in

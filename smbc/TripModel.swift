@@ -37,7 +37,8 @@ class TripModel: ObservableObject {
             let url = URL(string: serverName + "schedule/" + name)!
             let cacheUrl = try? cache.fileUrl()
             let downloader = Downloader(url: url, type: [String : String].self, cache: cacheUrl)
-            downloader.publisher
+            _ = downloader
+                .publisher
                 .catch {
                     error -> Just<[String : String]> in
                     print("Error: \(error)")
