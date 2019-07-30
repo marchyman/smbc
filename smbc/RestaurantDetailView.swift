@@ -44,10 +44,10 @@ struct RestaurantDetailView : View {
         let filteredRides = rideModel.rides.filter { $0.restaurant == restaurant.id }
         return VStack {
             if filteredRides.count == 1 {
-                Text("There is 1 rides to")
+                Text("There is one ride to")
                     .padding(.top, 40)
             } else {
-                Text("There are \(filteredRides.count) rides to")
+                Text("There are \(spellOut(filteredRides.count)) rides to")
                     .padding(.top, 40)
             }
             Text(restaurant.name)
@@ -112,6 +112,13 @@ struct RestaurantDetailView : View {
          .navigationBarItems(trailing: Button("Show visits") { self.showVisits = true})
          .sheet(isPresented: $showVisits, onDismiss: { }) { self.sheet }
         
+    }
+    
+    private
+    func spellOut(_ n: Int) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .spellOut
+        return formatter.string(for: n) ?? ""
     }
 }
 
