@@ -101,7 +101,7 @@ struct RestaurantDetailView : View {
                         index in
                         Text(self.types[index].name).tag(index)
                     }
-                }.pickerStyle(.segmented)
+                }.pickerStyle(SegmentedPickerStyle())
                  .background(Color.accentColor)
                  .clipShape(RoundedRectangle(cornerRadius: 10))
                  .padding([.leading, .trailing])

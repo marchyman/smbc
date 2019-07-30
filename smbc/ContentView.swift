@@ -39,12 +39,6 @@ public struct SmbcButtonStyle: ButtonStyle {
     }
 }
 
-extension StaticMember where Base : ButtonStyle {
-    public static var smbc: StaticMember<SmbcButtonStyle> {
-        return .init(SmbcButtonStyle())
-    }
-}
-
 func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
     let color: Color
     switch colorScheme {
@@ -102,11 +96,11 @@ struct ContentView: View {
                     Spacer()
                     NavigationLink("Restaurants", destination: RestaurantView())
                         .font(.title)
-                        .buttonStyle(.smbc)
+                        .buttonStyle(SmbcButtonStyle())
                     Spacer()
                     NavigationLink("Rides", destination: RideView())
                         .font(.title)
-                        .buttonStyle(.smbc)
+                        .buttonStyle(SmbcButtonStyle())
                     Spacer()
                 }.padding()
              }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
