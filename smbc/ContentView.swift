@@ -29,8 +29,8 @@ import SwiftUI
 // MARK: - Main screen button style
 
 public struct SmbcButtonStyle: ButtonStyle {
-    public func body(configuration: Button<Self.Label>, isPressed: Bool) -> some View {
-        configuration
+    public func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
             .accentColor(.black)
             .padding()
             .background(Color.gray)
@@ -91,7 +91,7 @@ struct ContentView: View {
                     .aspectRatio(1.0, contentMode: .fit)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.black, lineWidth: 2))
-                    .padding([.leading, .trailing])
+                    .padding(.horizontal)
                 HStack {
                     Spacer()
                     NavigationLink("Restaurants", destination: RestaurantView())

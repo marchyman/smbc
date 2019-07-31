@@ -104,7 +104,7 @@ struct RestaurantDetailView : View {
                 }.pickerStyle(SegmentedPickerStyle())
                  .background(Color.accentColor)
                  .clipShape(RoundedRectangle(cornerRadius: 10))
-                 .padding([.leading, .trailing])
+                    .padding(.horizontal)
             }
         }.frame(minWidth: 0, maxWidth: .infinity,
                 minHeight: 0, maxHeight: .infinity)
