@@ -57,7 +57,7 @@ struct Downloader<T: Decodable> {
                 return data
             }
             .decode(type: type, decoder: JSONDecoder())
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
 }
