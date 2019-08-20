@@ -45,9 +45,9 @@ struct RestaurantDetailView : View {
             g in
             VStack {
                 self.restaurantInfo
-                    .frame(minHeight: 0, maxHeight: g.size.height * 0.40)
+                    .frame(minHeight: 0, maxHeight: g.size.height * 0.35)
                 self.mapInfo
-                    .frame(minHeight: 0, maxHeight: g.size.height * 0.60)
+                    .frame(minHeight: 0, maxHeight: g.size.height * 0.65)
             }.background(backgroundGradient(self.colorScheme))
              .navigationBarItems(trailing: Button("Show visits") { self.showVisits = true})
              .sheet(isPresented: self.$showVisits, onDismiss: { }) {
