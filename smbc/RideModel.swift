@@ -136,6 +136,4 @@ class RideModel: ObservableObject {
         } while index < rides.endIndex && rides[index].restaurant == nil
         return index < rides.endIndex ? rides[index] : nil
     }
-
-
 }

@@ -64,12 +64,15 @@ struct TripDetailView: View {
 
 #if DEBUG
 struct tripView_Previews : PreviewProvider {
+    static var model = Model(savedState: ProgramState.load())
+
     static var previews: some View {
         TripDetailView(ride: ScheduledRide(start: "7/12",
                                      restaurant: nil,
                                      end: "7/13",
                                      description: "Graegle blah",
                                      comment: "preview"))
+            .environmentObject(model.tripModel)
     }
 }
 #endif

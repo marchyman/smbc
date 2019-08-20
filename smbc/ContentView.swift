@@ -31,8 +31,8 @@ import SwiftUI
 public struct SmbcButtonStyle: ButtonStyle {
     public func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
-            .accentColor(.black)
             .padding()
+            .accentColor(.black)
             .background(Color.gray)
             .opacity(0.60)
             .cornerRadius(20)

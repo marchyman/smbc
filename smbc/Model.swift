@@ -33,7 +33,7 @@ import Foundation
 /// * ProgramState -- locally stored holding state between runs
 /// * RestaurantModel -- restaurant data fetched from the server and cached locally
 /// * RideModel -- scheduled rides fetched from the server and cached locally
-/// * TripModel -- details about trips
+/// * TripModel -- details about trips, also fetch from the server and cached locally
 ///
 class Model {
     var programState: ProgramState
@@ -52,6 +52,7 @@ class Model {
                               refresh: needRefresh)
         tripModel = TripModel(refresh: needRefresh)
         if needRefresh {
+            // once a week seems like a reasonable refresh rate
             programState.refreshTime = Date() + TimeInterval(7 * 24 * 60 * 60)
             programState.updateScheduleYears()
         }

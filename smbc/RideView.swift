@@ -119,8 +119,12 @@ struct TripRow: View {
 
 #if DEBUG
 struct RideView_Previews : PreviewProvider {
+    static var model = Model(savedState: ProgramState.load())
+
     static var previews: some View {
         RideView()
+            .environmentObject(model.rideModel)
+            .environmentObject(model.restaurantModel)
     }
 }
 #endif

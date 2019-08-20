@@ -56,6 +56,8 @@ struct RideDetailView: View {
 
 #if DEBUG
 struct RideDetailView_Previews : PreviewProvider {
+    static var model = Model(savedState: ProgramState.load())
+
     static var previews: some View {
         RideDetailView(ride: ScheduledRide(start: "5/7",
                                            restaurant: "countryinn",
@@ -63,6 +65,8 @@ struct RideDetailView_Previews : PreviewProvider {
                                            description: nil,
                                            comment: "Testing"),
                         year: "2019")
+            .environmentObject(model.restaurantModel)
+            .environmentObject(model.rideModel)
     }
 }
 #endif

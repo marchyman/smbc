@@ -76,8 +76,11 @@ struct RestaurantRow: View {
 
 #if DEBUG
 struct RestaurantView_Previews : PreviewProvider {
+    static var model = Model(savedState: ProgramState.load())
+
     static var previews: some View {
         RestaurantView()
+            .environmentObject(model.restaurantModel)
     }
 }
 #endif

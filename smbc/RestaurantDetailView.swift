@@ -96,14 +96,14 @@ struct RestaurantDetailView : View {
                 MapView(mapType: types[selectorIndex],
                         center: CLLocationCoordinate2D(latitude: restaurant.lat,
                                                        longitude: restaurant.lon))
-                Picker("", selection: $selectorIndex) {
-                    ForEach(0 ..< types.count) {
-                        index in
-                        Text(self.types[index].name).tag(index)
-                    }
-                }.pickerStyle(SegmentedPickerStyle())
-                 .background(RoundedRectangle(cornerRadius: 10).fill(Color(white: 0.5)))
-                 .padding(.horizontal)
+//                Picker("", selection: $selectorIndex) {
+//                    ForEach(0 ..< types.count) {
+//                        index in
+//                        Text(self.types[index].name).tag(index)
+//                    }
+//                }.pickerStyle(SegmentedPickerStyle())
+//                 .background(RoundedRectangle(cornerRadius: 10).fill(Color(white: 0.5)))
+//                 .padding(.horizontal)
             }
         }.frame(minWidth: 0, maxWidth: .infinity,
                 minHeight: 0, maxHeight: .infinity)
@@ -123,6 +123,8 @@ struct RestaurantDetailView : View {
 
 #if DEBUG
 struct RestaurantDetailView_Previews : PreviewProvider {
+    static var model = Model(savedState: ProgramState.load())
+
     static var previews: some View {
         RestaurantDetailView(restaurant: Restaurant(id: "test",
                                                     name: "Test Restaurant",
@@ -135,6 +137,7 @@ struct RestaurantDetailView_Previews : PreviewProvider {
                                                     lat: 37.7244,
                                                     lon: -122.4381),
                              eta: false)
+            .environmentObject(model.rideModel)
     }
 }
 #endif
