@@ -40,34 +40,23 @@ struct RestaurantDetailView : View {
     let restaurant: Restaurant
     let eta: Bool
 
-    var sheet: some View {
-        let filteredRides = rideModel.rides.filter { $0.restaurant == restaurant.id }
-        return VStack {
-            if filteredRides.count == 1 {
-                Text("There is one ride to")
-                    .padding(.top, 40)
-            } else {
-                Text("There are \(spellOut(filteredRides.count)) rides to")
-                    .padding(.top, 40)
-            }
-            Text(restaurant.name)
-                .font(.title)
-                .padding()
-            Text("scheduled in \(rideModel.rideYear)")
- 
-            if filteredRides.isEmpty {
-                Spacer()
-            } else {
-                List (filteredRides) {
-                    ride in
-                    Text(ride.start)
-                        .font(.headline)
-                }.padding()
-            }
+    var body: some View {
+        GeometryReader {
+            g in
+            VStack {
+                self.restaurantInfo
+                    .frame(minHeight: 0, maxHeight: g.size.height * 0.40)
+                self.mapInfo
+                    .frame(minHeight: 0, maxHeight: g.size.height * 0.60)
+            }.background(backgroundGradient(self.colorScheme))
+             .navigationBarItems(trailing: Button("Show visits") { self.showVisits = true})
+             .sheet(isPresented: self.$showVisits, onDismiss: { }) {
+                self.sheet
+              }
         }
     }
 
-    var body: some View {
+    var restaurantInfo: some View {
         VStack {
             Text(restaurant.name)
                 .font(.title)
@@ -81,6 +70,7 @@ struct RestaurantDetailView : View {
             Text(restaurant.address)
             Text(restaurant.city)
             Text(restaurant.phone)
+            Spacer()
             if eta {
                 HStack {
                     Text("Route: \(restaurant.route)")
@@ -90,29 +80,62 @@ struct RestaurantDetailView : View {
             } else {
                 Text(restaurant.route).padding(.top)
             }
-            // put a segmented control to pick the desired map type
-            // on top of the map
-            ZStack(alignment: .top) {
-                MapView(mapType: types[selectorIndex],
-                        center: CLLocationCoordinate2D(latitude: restaurant.lat,
-                                                       longitude: restaurant.lon))
-//                Picker("", selection: $selectorIndex) {
-//                    ForEach(0 ..< types.count) {
-//                        index in
-//                        Text(self.types[index].name).tag(index)
-//                    }
-//                }.pickerStyle(SegmentedPickerStyle())
-//                 .background(RoundedRectangle(cornerRadius: 10).fill(Color(white: 0.5)))
-//                 .padding(.horizontal)
-            }
         }.frame(minWidth: 0, maxWidth: .infinity,
-                minHeight: 0, maxHeight: .infinity)
-         .background(backgroundGradient(colorScheme))
-         .navigationBarItems(trailing: Button("Show visits") { self.showVisits = true})
-         .sheet(isPresented: $showVisits, onDismiss: { }) { self.sheet }
-        
+        minHeight: 0, maxHeight: .infinity)
     }
     
+    var mapInfo: some View {
+        // put a segmented control to pick the desired map type
+        // on top of the map
+        ZStack(alignment: .top) {
+            MapView(mapType: types[selectorIndex],
+                    center: CLLocationCoordinate2D(latitude: restaurant.lat,
+                                                   longitude: restaurant.lon))
+            Picker("", selection: $selectorIndex) {
+                ForEach(0 ..< types.count) {
+                    index in
+                    Text(self.types[index].name).tag(index)
+                }
+            }.pickerStyle(SegmentedPickerStyle())
+             .background(RoundedRectangle(cornerRadius: 10)
+                            .fill(Color(white: 0.5)))
+             .padding(.horizontal)
+        }
+    }
+
+    var sheet: some View {
+        let filteredRides = rideModel.rides.filter {
+            $0.restaurant == restaurant.id
+        }
+        return VStack {
+            Text(rideCountLabel(filteredRides.count))
+                .padding(.top, 40)
+                .padding(.bottom)
+            Text(restaurant.name)
+                .font(.title)
+            Text("scheduled in \(rideModel.rideYear)")
+                .padding()
+
+            if filteredRides.isEmpty {
+                Spacer()
+            } else {
+                List (filteredRides) {
+                    ride in
+                    Text(ride.start)
+                        .font(.headline)
+                }.padding()
+            }
+        }
+    }
+
+    private
+    func rideCountLabel(_ count: Int) -> String {
+        if count == 1 {
+            return "There is one ride to"
+        }
+        return "There are \(spellOut(count)) rides to"
+    }
+
     private
     func spellOut(_ n: Int) -> String {
         let formatter = NumberFormatter()
