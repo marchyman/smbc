@@ -112,8 +112,8 @@ class ProgramState: Codable {
     ///
     /// The year is assumed to exist in the array.  If not the program aborts.
     ///
-    func findYearIndex(year: String) -> Int {
-        guard let ix = scheduleYears.firstIndex(of: ScheduleYear(year: year)) else {
+    func findYearIndex(year: ScheduleYear) -> Int {
+        guard let ix = scheduleYears.firstIndex(of: year) else {
             fatalError("Cannot find index for requested year")
         }
         return ix
@@ -132,7 +132,13 @@ class ProgramState: Codable {
                 }
             }, receiveValue: {
                 output in
+                let currentYear = self.scheduleYears[self.cachedIndex]
                 self.scheduleYears = output
+                // the data downloaded is not guaranteed to be in the
+                // same order as whatever data it replaced.  Be sure to update
+                // the indexes so they point to the current year.
+                self.cachedIndex = self.findYearIndex(year: currentYear)
+                self.selectedIndex = self.cachedIndex
                 ProgramState.store(self)
             })
     }
