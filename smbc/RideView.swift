@@ -44,12 +44,14 @@ struct RideView : View {
 
     var sheet: some View {
         VStack {
-            Picker("Please select a schedule year",
-                   selection: $rideModel.programState.selectedIndex) {
+            Picker(selection: $rideModel.programState.selectedIndex,
+                   label: Text("").hidden()) {
                 ForEach(0 ..< rideModel.programState.scheduleYears.count) {
                     Text(self.rideModel.programState.scheduleYears[$0].year).tag($0)
                 }
-            }
+            }.pickerStyle(WheelPickerStyle())
+                .frame(width: 100, alignment: .center)
+//                .offset(x: -40, y: 0)
             Text("Pick desired year")
             Text("Swipe down to return to schedule").padding()
             Spacer()

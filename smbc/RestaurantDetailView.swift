@@ -108,14 +108,14 @@ struct RestaurantDetailView : View {
             $0.restaurant == restaurant.id
         }
         return VStack {
-            Text(rideCountLabel(filteredRides.count))
-                .padding(.top, 40)
-                .padding(.bottom)
             Text(restaurant.name)
                 .font(.title)
-            Text("scheduled in \(rideModel.rideYear)")
+                .padding(.top, 40)
+            Text("""
+                 \(rideCountLabel(filteredRides.count))
+                 scheduled in \(rideModel.rideYear)
+                 """)
                 .padding()
-
             if filteredRides.isEmpty {
                 Spacer()
             } else {
@@ -131,9 +131,9 @@ struct RestaurantDetailView : View {
     private
     func rideCountLabel(_ count: Int) -> String {
         if count == 1 {
-            return "There is one ride to"
+            return "There is one ride"
         }
-        return "There are \(spellOut(count)) rides to"
+        return "There are \(spellOut(count)) rides"
     }
 
     private
