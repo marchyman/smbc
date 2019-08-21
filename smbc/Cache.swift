@@ -91,7 +91,7 @@ struct Cache<T: Decodable> {
                                             withExtension: ext)!
             try FileManager.default.copyItem(at: bundleUrl, to: cacheUrl)
         } catch {
-            fatalError("Cannot update cache: \(name)")
+            fatalError("Cannot prime cache: \(name)")
         }
     }
 }
