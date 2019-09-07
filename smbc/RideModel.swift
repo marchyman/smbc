@@ -94,7 +94,6 @@ class RideModel: ObservableObject {
                 .publisher
                 .sink(receiveCompletion: {
                         error in
-                        print("\(#function) error: \(error)")
                         if case .failure = error {
                             self.fileUnavailable = true
                         }
