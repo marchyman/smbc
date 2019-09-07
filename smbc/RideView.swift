@@ -50,8 +50,7 @@ struct RideView : View {
                     Text(self.rideModel.programState.scheduleYears[$0].year).tag($0)
                 }
             }.pickerStyle(WheelPickerStyle())
-                .frame(width: 100, alignment: .center)
-//                .offset(x: -40, y: 0)
+             .frame(width: 100, alignment: .center)
             Text("Pick desired year")
             Text("Swipe down to return to schedule").padding()
             Spacer()
