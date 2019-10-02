@@ -73,7 +73,9 @@ struct RestaurantDetailView : View {
             Spacer()
             if eta {
                 HStack {
-                    Text("Route: \(restaurant.route)")
+                    Button( action: mapLink ) {
+                        Text("Route: \(restaurant.route)")
+                    }
                     Spacer()
                     Text("ETA: \(restaurant.eta)")
                 }.padding([.top, .leading, .trailing])
@@ -141,6 +143,19 @@ struct RestaurantDetailView : View {
         let formatter = NumberFormatter()
         formatter.numberStyle = .spellOut
         return formatter.string(for: n) ?? ""
+    }
+
+    private
+    func mapLink() {
+        let mapPath = "https://maps.apple.com/?daddr="
+            + restaurant.address.map { $0 == " " ? "+" : $0 }
+            + ","
+            + restaurant.city.map { $0 == " " ? "+" : $0 }
+            + ",CA"
+        guard let string = NSString(string: mapPath)
+            .addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed),
+              let url = URL(string: string) else { return }
+        UIApplication.shared.open(url)
     }
 }
 
