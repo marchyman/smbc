@@ -83,12 +83,12 @@ struct ContentView: View {
                      Sunday Morning Breakfast Club
                      Breakfast and beyond since 1949
                      """)
-                    .font(.body)
+                    .font(.headline)
                     .lineLimit(2)
                     .padding()
                 Image("smbc")
                     .resizable()
-                    .aspectRatio(1.0, contentMode: .fit)
+                    .aspectRatio(contentMode: .fit)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.black, lineWidth: 2))
                     .padding(.horizontal)
@@ -103,7 +103,7 @@ struct ContentView: View {
                         .buttonStyle(SmbcButtonStyle())
                     Spacer()
                 }.padding()
-             }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+             }.frame(maxWidth: .infinity, maxHeight: .infinity)
               .background(backgroundGradient(colorScheme))
               .navigationBarTitle("SMBC")
               .navigationBarItems(trailing:
