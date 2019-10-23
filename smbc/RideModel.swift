@@ -41,6 +41,13 @@ struct ScheduledRide: Decodable, Identifiable {
     let end: String?
     let description: String?
     let comment: String?
+    
+    var month: Int {
+        Int(String(start.split(separator: "/")[0])) ?? 0
+    }
+    var day: Int {
+        Int(String(start.split(separator: "/")[1])) ?? 0
+    }
 }
 
 class RideModel: ObservableObject {
@@ -127,12 +134,14 @@ class RideModel: ObservableObject {
     /// Only Sunday rides to breakfast are returned.  The function skips over trips.
     ///
     func ride(following start: String) -> ScheduledRide? {
-        guard var index = rides.firstIndex(where: { $0.start == start && $0.restaurant != nil}) else {
-            fatalError("Unknown start")
-        }
-        repeat {
-            index = rides.index(after: index)
-        } while index < rides.endIndex && rides[index].restaurant == nil
+        let date = start.split(separator: "/")
+        let month = Int(String(date[0])) ?? 0
+        let day = Int(String(date[1])) ?? 0
+        guard let index = rides.firstIndex(where: {
+            ($0.month > month ||
+            ($0.month == month && $0.day > day)) &&
+            $0.restaurant != nil
+        }) else { return nil }
         return index < rides.endIndex ? rides[index] : nil
     }
 }
