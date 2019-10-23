@@ -76,7 +76,7 @@ struct RideView : View {
                 }
             }
             NavigationLink("Show next ride",
-                           destination: RideRow(ride: nextRide!, year: self.rideModel.rideYear)).disabled(nextRide == nil)
+                           destination: RideDetailView(ride: nextRide!, year: self.rideModel.rideYear)).disabled(nextRide == nil)
                 .font(.title)
         }.navigationBarTitle("SMBC Rides in \(self.rideModel.rideYear)")
          .navigationBarItems(trailing: Button("Change year") { self.yearPickerPresented = true })
