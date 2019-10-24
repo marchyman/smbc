@@ -60,6 +60,14 @@ class RideModel: ObservableObject {
     var programState: ProgramState
     var rideYear: String
 
+    /// The breakfast ride following the current date
+    var nextRide: ScheduledRide? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd"
+        let today = formatter.string(from: Date())
+        return ride(following: today)
+    }
+
     init(programState: ProgramState, refresh: Bool) {
         self.programState = programState
         rideYear = programState.scheduleYears[programState.cachedIndex].year

@@ -32,13 +32,6 @@ struct RideView : View {
     @EnvironmentObject var rideModel: RideModel
     @State private var yearPickerPresented = false
 
-    var nextRide: ScheduledRide? {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/dd"
-        let today = formatter.string(from: Date())
-        return rideModel.ride(following: today)
-    }
-
     var alert: Alert {
         Alert(title: Text("Schedule access error"),
               message: Text("""
@@ -76,8 +69,11 @@ struct RideView : View {
                 }
             }
             NavigationLink("Show next ride",
-                           destination: RideDetailView(ride: nextRide!, year: self.rideModel.rideYear)).disabled(nextRide == nil)
+                           destination: RideDetailView(ride: rideModel.nextRide!,
+                                                       year: self.rideModel.rideYear))
+                .disabled(rideModel.nextRide == nil)
                 .font(.title)
+                .padding(.bottom)
         }.navigationBarTitle("SMBC Rides in \(self.rideModel.rideYear)")
          .navigationBarItems(trailing: Button("Change year") { self.yearPickerPresented = true })
          .sheet(isPresented: $yearPickerPresented,
