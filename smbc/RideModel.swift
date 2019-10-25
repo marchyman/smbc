@@ -65,10 +65,10 @@ class RideModel: ObservableObject {
         let today = Date()
         let year = Calendar.current.component(.year, from: today)
         guard year == Int(rideYear) else { return nil }
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/dd"
-        let mmdd = formatter.string(from: today)
-        return ride(following: mmdd)
+        let month = Calendar.current.component(.month, from: today)
+        let day = Calendar.current.component(.day, from: today)
+        let md = "\(month)/\(day)"
+        return ride(following: md)
     }
 
     init(programState: ProgramState, refresh: Bool) {
