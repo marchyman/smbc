@@ -68,12 +68,13 @@ struct RideView : View {
                     TripRow(ride:ride)
                 }
             }
-            NavigationLink("Show next ride",
-                           destination: RideDetailView(ride: rideModel.nextRide!,
-                                                       year: self.rideModel.rideYear))
-                .disabled(rideModel.nextRide == nil)
-                .font(.title)
-                .padding(.bottom)
+            if rideModel.nextRide != nil {
+                NavigationLink("Show next ride",
+                               destination: RideDetailView(ride: rideModel.nextRide!,
+                                                           year: self.rideModel.rideYear))
+                    .font(.title)
+                    .padding(.bottom)
+            }
         }.navigationBarTitle("SMBC Rides in \(self.rideModel.rideYear)")
          .navigationBarItems(trailing: Button("Change year") { self.yearPickerPresented = true })
          .sheet(isPresented: $yearPickerPresented,
