@@ -62,10 +62,13 @@ class RideModel: ObservableObject {
 
     /// The breakfast ride following the current date
     var nextRide: ScheduledRide? {
+        let today = Date()
+        let year = Calendar.current.component(.year, from: today)
+        guard year == Int(rideYear) else { return nil }
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/dd"
-        let today = formatter.string(from: Date())
-        return ride(following: today)
+        let mmdd = formatter.string(from: today)
+        return ride(following: mmdd)
     }
 
     init(programState: ProgramState, refresh: Bool) {
