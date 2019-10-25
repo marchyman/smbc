@@ -58,6 +58,9 @@ func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
 
 struct ContentView: View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
+    @EnvironmentObject var rideModel: RideModel
+
+    @State var selection: Int? = nil
     @State private var alertPresented = false
 
     var alert: Alert {
@@ -73,7 +76,6 @@ struct ContentView: View {
                 We make it easy to join the club: show up for breakfast and you are a member. Stop showing up to quit. You can ride every weekend, a few times a year, or only on multi-day rides.
                 """),
               dismissButton: .default(Text("Got It!")))
-
     }
 
     var body: some View {
@@ -86,12 +88,19 @@ struct ContentView: View {
                     .font(.headline)
                     .lineLimit(2)
                     .padding()
-                Image("smbc")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.black, lineWidth: 2))
-                    .padding(.horizontal)
+                ZStack {
+                    if rideModel.nextRide != nil {
+                        NavigationLink(destination: RideDetailView(ride: rideModel.nextRide!,
+                                                                   year: self.rideModel.rideYear),
+                                       tag: 1, selection: $selection) { EmptyView() }
+                    }
+                    SmbcImage()
+                        .onTapGesture {
+                            if self.rideModel.nextRide != nil {
+                                self.selection = 1
+                            }
+                        }
+                }
                 HStack {
                     Spacer()
                     NavigationLink("Restaurants", destination: RestaurantView())
@@ -112,6 +121,17 @@ struct ContentView: View {
                     })
               .alert(isPresented: $alertPresented) { alert }
         }
+    }
+}
+
+struct SmbcImage: View {
+    var body: some View {
+        Image("smbc")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .clipShape(Circle())
+            .overlay(Circle().stroke(Color.black, lineWidth: 2))
+            .padding(.horizontal)
     }
 }
 
