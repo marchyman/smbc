@@ -59,6 +59,8 @@ class RideModel: ObservableObject {
 
     var programState: ProgramState
     var rideYear: String
+    
+    private var cancellable: AnyCancellable?
 
     /// The breakfast ride following the current date
     var nextRide: ScheduledRide? {
@@ -82,7 +84,7 @@ class RideModel: ObservableObject {
             let downloader = Downloader(url: url,
                                         type: [ScheduledRide].self,
                                         cache: cacheUrl)
-            _ = downloader
+            cancellable = downloader
                 .publisher
                 .catch {
                     _ in
@@ -108,7 +110,7 @@ class RideModel: ObservableObject {
             let downloader = Downloader(url: fileUrl,
                                         type: [ScheduledRide].self,
                                         cache: cacheUrl)
-            _ = downloader
+            cancellable = downloader
                 .publisher
                 .sink(receiveCompletion: {
                         error in

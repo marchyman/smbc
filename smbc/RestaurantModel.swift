@@ -45,6 +45,8 @@ struct Restaurant: Decodable, Identifiable {
 class RestaurantModel: ObservableObject {
     @Published var restaurants = [Restaurant]()
 
+    private var cancellable: AnyCancellable?
+
     init(refresh: Bool) {
         let name = "restaurants.json"
         let cache = Cache(name: name, type: [Restaurant].self)
@@ -52,7 +54,7 @@ class RestaurantModel: ObservableObject {
             let url = URL(string: serverName + name)!
             let cacheUrl = try? cache.fileUrl()
             let downloader = Downloader(url: url, type: [Restaurant].self, cache: cacheUrl)
-            _ = downloader
+            cancellable = downloader
                 .publisher
                 .catch {
                     _ in

@@ -30,6 +30,8 @@ import Combine
 class TripModel: ObservableObject {
     @Published var trips = [String : String]()
 
+    private var cancellable: AnyCancellable?
+
     init(refresh: Bool) {
         let name = "trips.json"
         let cache = Cache(name: name, type: [String : String].self)
@@ -37,7 +39,7 @@ class TripModel: ObservableObject {
             let url = URL(string: serverName + "schedule/" + name)!
             let cacheUrl = try? cache.fileUrl()
             let downloader = Downloader(url: url, type: [String : String].self, cache: cacheUrl)
-            _ = downloader
+            cancellable = downloader
                 .publisher
                 .catch {
                     error -> Just<[String : String]> in
