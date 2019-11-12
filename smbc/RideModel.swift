@@ -62,13 +62,15 @@ class RideModel: ObservableObject {
     
     private var cancellable: AnyCancellable?
 
-    /// The breakfast ride following the current date
+    /// The  next breakfast ride on a date >=  todays  date
     var nextRide: ScheduledRide? {
-        let today = Date()
-        let year = Calendar.current.component(.year, from: today)
+        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else {
+            return nil
+        }
+        let year = Calendar.current.component(.year, from: yesterday)
         guard year == Int(rideYear) else { return nil }
-        let month = Calendar.current.component(.month, from: today)
-        let day = Calendar.current.component(.day, from: today)
+        let month = Calendar.current.component(.month, from: yesterday)
+        let day = Calendar.current.component(.day, from: yesterday)
         let md = "\(month)/\(day)"
         return ride(following: md)
     }
