@@ -93,8 +93,8 @@ struct ContentView: View {
                 ZStack {
                     if rideModel.nextRide != nil {
                         NavigationLink(destination: RideDetailView(ride: rideModel.nextRide!,
-                                                                   year: self.rideModel.rideYear),
-                                       tag: 1, selection: $selection) { EmptyView() }
+                                                                 year: rideModel.rideYear),
+                                      tag: 1, selection: $selection) { EmptyView() }
                     }
                     SmbcImage()
                         .onTapGesture {
