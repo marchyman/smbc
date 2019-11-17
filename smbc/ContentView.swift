@@ -81,13 +81,15 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Text("""
-                     Sunday Morning Breakfast Club
-                     Breakfast and beyond since 1949
-                     """)
+                Button(action: homePage) {
+                    Text("""
+                           Sunday Morning Breakfast Club
+                           Breakfast and beyond since 1949
+                           """)
                     .font(.headline)
                     .lineLimit(2)
                     .padding()
+                }
                 ZStack {
                     if rideModel.nextRide != nil {
                         NavigationLink(destination: RideDetailView(ride: rideModel.nextRide!,
@@ -121,6 +123,12 @@ struct ContentView: View {
                     })
               .alert(isPresented: $alertPresented) { alert }
         }
+    }
+    
+    private
+    func homePage() {
+        let url = URL(string: "https://smbc.snafu.org/")!
+        UIApplication.shared.open(url)
     }
 }
 
