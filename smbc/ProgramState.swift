@@ -99,7 +99,7 @@ class ProgramState: Codable {
     ///
     init() {
         // default data stored in the app bundle is for this year
-        let bundledDataYear = "2019"
+        let bundledDataYear = "2020"
         scheduleYears = [ScheduleYear(year: bundledDataYear)]
         cachedIndex = 0
         refreshTime = Date()

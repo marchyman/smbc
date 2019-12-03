@@ -32,51 +32,60 @@ struct MapView: UIViewRepresentable {
     let mapType: MKMapType
     let center: CLLocationCoordinate2D
     let altitude = 2000.0
-    
-    func makeUIView(context: Context) -> MKMapView {
-        MKMapView(frame: .zero)
+
+    /// Coordinator class conforming to MKMapViewDelegate
+    class Coordinator: NSObject, MKMapViewDelegate {
+        var parent: MapView
+        
+        init(_ parent: MapView) {
+            self.parent = parent
+        }
+
+        /// return a pinAnnotationView for a red pin
+        func mapView(_ mapView: MKMapView,
+                     viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+            let identifier = "pinAnnotation"
+            var annotationView =
+                mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView
+            if (annotationView == nil) {
+                annotationView = MKPinAnnotationView(annotation: annotation,
+                                                     reuseIdentifier: identifier)
+                if let av = annotationView {
+                    av.isEnabled = true
+                    av.pinTintColor = .red
+                    av.animatesDrop = false
+                    av.canShowCallout = false
+                    av.isDraggable = false
+                } else {
+                    fatalError("Can't create MKPinAnnotationView")
+                }
+            } else {
+                annotationView!.annotation = annotation
+            }
+            return annotationView
+        }
     }
     
-    func updateUIView(_ view: MKMapView, context: Context) {
-        view.delegate = view
+    func makeCoordinator() -> MapView.Coordinator {
+        Coordinator(self)
+    }
+    
+    func makeUIView(context: Context) -> MKMapView {
+        let view = MKMapView(frame: .zero)
+        view.delegate = context.coordinator
         view.camera = MKMapCamera(lookingAtCenter: center,
-                                  fromEyeCoordinate: center,
-                                  eyeAltitude: altitude)
+                                 fromEyeCoordinate: center,
+                                 eyeAltitude: altitude)
         view.showsCompass = true
         view.mapType = mapType
         let pin = MKPointAnnotation()
         pin.coordinate = center;
         pin.title = "restaurant.name"
         view.addAnnotation(pin)
+        return view
     }
-}
-
-/// MKMapView Deligate with functions needed for a map pin AnnotationView
-extension MKMapView: MKMapViewDelegate {
     
-    /// return a pinAnnotationView for a red pin
-    public
-    func mapView(_ mapView: MKMapView,
-                 viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        let identifier = "pinAnnotation"
-        var annotationView =
-            mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView
-        if (annotationView == nil) {
-            annotationView = MKPinAnnotationView(annotation: annotation,
-                                                 reuseIdentifier: identifier)
-            if let av = annotationView {
-                av.isEnabled = true
-                av.pinTintColor = .red
-                av.animatesDrop = false
-                av.canShowCallout = false
-                av.isDraggable = false
-            } else {
-                fatalError("Can't create MKPinAnnotationView")
-            }
-        } else {
-            annotationView!.annotation = annotation
-        }
-        return annotationView
+    func updateUIView(_ view: MKMapView, context: Context) {
     }
 }
 
