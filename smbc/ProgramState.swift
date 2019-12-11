@@ -31,6 +31,8 @@ struct ScheduleYear: Codable, Equatable {
     var year: String
 }
 
+fileprivate var cancellable: AnyCancellable?
+
 /// A class to hold program state
 
 class ProgramState: Codable {
@@ -38,6 +40,7 @@ class ProgramState: Codable {
     var cachedIndex: Int                // index into scheduleYears for cached year
     var selectedIndex: Int              // year selection index
     var refreshTime: Date               // when to refresh the cache
+    
 
     /// load state data from local storage if it exists
     /// - Returns: program state
@@ -123,7 +126,7 @@ class ProgramState: Codable {
         let name = "schedule/schedule-years.json"
         let url = URL(string: serverName + name)!
         let downloader = Downloader(url: url, type: [ScheduleYear].self, cache: nil)
-        _ = downloader
+        cancellable = downloader
             .publisher
             .sink(receiveCompletion: {
                 error in

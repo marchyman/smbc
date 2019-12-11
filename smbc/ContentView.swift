@@ -61,22 +61,7 @@ struct ContentView: View {
     @EnvironmentObject var rideModel: RideModel
 
     @State var selection: Int? = nil
-    @State private var alertPresented = false
-
-    var alert: Alert {
-        Alert(title: Text("SMBC Information"),
-              message: Text(
-                """
-                The Sunday Morning Breakfast Club is a loose affiliation of motorcycle riders who meet every Sunday for breakfast. We also plan 4 to 6 multi-day trips each year.
-                        
-                Traditionally, riders meet at the corner of Laguna and Broadway in Burlingame with a full tank of gas in time to depart for breakfast at exactly 7:05.  Some still do.  Others meet at the destination restaurant.
-
-                After breakfast some go home while others ride bay area back roads. Ride routes are decided in the gab fest that follows breakfast.
-
-                We make it easy to join the club: show up for breakfast and you are a member. Stop showing up to quit. You can ride every weekend, a few times a year, or only on multi-day rides.
-                """),
-              dismissButton: .default(Text("Got It!")))
-    }
+    @State private var infoPresented = false
 
     var body: some View {
         NavigationView {
@@ -118,13 +103,28 @@ struct ContentView: View {
               .background(backgroundGradient(colorScheme))
               .navigationBarTitle("SMBC")
               .navigationBarItems(trailing:
-                    Button(action: { self.alertPresented = true }) {
+                    Button(action: { self.infoPresented = true }) {
                         Image(systemName: "info.circle")
                     })
-              .alert(isPresented: $alertPresented) { alert }
+              .alert(isPresented: $infoPresented) { smbcInfo }
         }
     }
-    
+
+    var smbcInfo: Alert {
+        Alert(title: Text("SMBC Information"),
+              message: Text(
+                """
+                The Sunday Morning Breakfast Club is a loose affiliation of motorcycle riders who meet every Sunday for breakfast. We also plan 4 to 6 multi-day trips each year.
+                        
+                Traditionally, riders meet at the corner of Laguna and Broadway in Burlingame with a full tank of gas in time to depart for breakfast at exactly 7:05.  Some still do.  Others meet at the destination restaurant.
+
+                After breakfast some go home while others ride bay area back roads. Ride routes are decided in the gab fest that follows breakfast.
+
+                We make it easy to join the club: show up for breakfast and you are a member. Stop showing up to quit. You can ride every weekend, a few times a year, or only on multi-day rides.
+                """),
+              dismissButton: .default(Text("Got It!")))
+    }
+
     private
     func homePage() {
         let url = URL(string: "https://smbc.snafu.org/")!
