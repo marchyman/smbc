@@ -76,16 +76,23 @@ struct ContentView: View {
                     .padding()
                 }
                 ZStack {
-                    if rideModel.nextRide != nil {
+                    if rideModel.nextRide == nil {
+                        NavigationLink(destination: RideView(),
+                                      tag: 2,
+                                      selection: $selection) {
+                            EmptyView()
+                        }
+                    } else {
                         NavigationLink(destination: RideDetailView(ride: rideModel.nextRide!,
                                                                  year: rideModel.rideYear),
-                                      tag: 1, selection: $selection) { EmptyView() }
+                                      tag: 1,
+                                      selection: $selection) {
+                            EmptyView()
+                        }
                     }
                     SmbcImage()
                         .onTapGesture {
-                            if self.rideModel.nextRide != nil {
-                                self.selection = 1
-                            }
+                            self.selection = self.rideModel.nextRide == nil ? 2 : 1
                         }
                 }
                 HStack {
