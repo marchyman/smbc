@@ -115,13 +115,15 @@ class RideModel: ObservableObject {
             cancellable = downloader
                 .publisher
                 .sink(receiveCompletion: {
-                        error in
+                        [weak self] error in
+                        guard let self = self else {return }
                         if case .failure = error {
                             self.fileUnavailable = true
                         }
                       },
                       receiveValue: {
-                        output in
+                        [weak self] output in
+                        guard let self = self else { return }
                         self.rides = output
                         self.rideYear = year
                         self.programState.cachedIndex = self.programState.selectedIndex
