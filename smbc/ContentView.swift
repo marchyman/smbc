@@ -26,7 +26,14 @@
 
 import SwiftUI
 
-// MARK: - Main screen button style
+// MARK: - Main screen button styles
+
+struct ImageButtonStyle: ButtonStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .contentShape(Circle())
+    }
+}
 
 public struct SmbcButtonStyle: ButtonStyle {
     public func makeBody(configuration: Self.Configuration) -> some View {
@@ -77,24 +84,27 @@ struct ContentView: View {
                     .padding()
                 }
                 ZStack {
-                    if rideModel.nextRide == nil {
-                        NavigationLink(destination: RideView(),
-                                      tag: 2,
-                                      selection: $selection) {
-                            EmptyView()
-                        }
-                    } else {
-                        NavigationLink(destination: RideDetailView(ride: rideModel.nextRide!,
-                                                                 year: rideModel.rideYear),
-                                      tag: 1,
-                                      selection: $selection) {
-                            EmptyView()
-                        }
+                    NavigationLink(destination: RideView(),
+                                   tag: 2,
+                                   selection: $selection) {
+                        EmptyView()
                     }
-                    SmbcImage()
-                        .onTapGesture {
-                            self.selection = self.rideModel.nextRide == nil ? 2 : 1
+                    NavigationLink(destination: RideDetailView(ride: rideModel.nextRide!,
+                                                               year: rideModel.rideYear),
+                                   tag: 1,
+                                   selection: $selection) {
+                        EmptyView()
+                    }
+                    Button(action: {
+                        if self.rideModel.nextRide == nil {
+                            self.selection = 2
+                        } else {
+                            self.selection = 1
                         }
+                    }) {
+                        SmbcImage()
+                    }
+                    .buttonStyle(ImageButtonStyle())
                 }
                 HStack {
                     Spacer()
