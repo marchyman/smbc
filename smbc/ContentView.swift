@@ -31,6 +31,7 @@ import SwiftUI
 public struct SmbcButtonStyle: ButtonStyle {
     public func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
+            .font(.title)
             .padding()
             .accentColor(.black)
             .background(Color.gray)
@@ -98,11 +99,9 @@ struct ContentView: View {
                 HStack {
                     Spacer()
                     NavigationLink("Restaurants", destination: RestaurantView())
-                        .font(.title)
                         .buttonStyle(SmbcButtonStyle())
                     Spacer()
                     NavigationLink("Rides", destination: RideView())
-                        .font(.title)
                         .buttonStyle(SmbcButtonStyle())
                     Spacer()
                 }.padding()
