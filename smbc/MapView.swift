@@ -86,6 +86,7 @@ struct MapView: UIViewRepresentable {
     }
     
     func updateUIView(_ view: MKMapView, context: Context) {
+        view.mapType = mapType
     }
 }
 
