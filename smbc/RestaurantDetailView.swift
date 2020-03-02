@@ -34,7 +34,7 @@ import MapKit
 struct RestaurantDetailView : View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @EnvironmentObject var rideModel: RideModel
-    @State private var selectorIndex = 0
+//    @State private var selectorIndex = 0
     @State private var showVisits = false
     let types = [MKMapType.standard, MKMapType.satellite, MKMapType.hybrid]
     let restaurant: Restaurant
@@ -90,10 +90,10 @@ struct RestaurantDetailView : View {
         // put a segmented control to pick the desired map type
         // on top of the map
         ZStack(alignment: .top) {
-            MapView(mapType: types[selectorIndex],
+            MapView(mapType: types[rideModel.mapTypeIndex],
                     center: CLLocationCoordinate2D(latitude: restaurant.lat,
                                                    longitude: restaurant.lon))
-            Picker("", selection: $selectorIndex) {
+            Picker("", selection: $rideModel.mapTypeIndex) {
                 ForEach(0 ..< types.count) {
                     index in
                     Text(self.types[index].name).tag(index)

@@ -56,7 +56,8 @@ class RideModel: ObservableObject {
 
     @Published var rides = [ScheduledRide]()
     @Published var fileUnavailable = false
-
+    @Published var mapTypeIndex = 0
+    
     var programState: ProgramState
     var rideYear: String
     

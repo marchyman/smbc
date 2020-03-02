@@ -84,27 +84,23 @@ struct ContentView: View {
                     .padding()
                 }
                 ZStack {
-                    NavigationLink(destination: RideView(),
-                                   tag: 2,
-                                   selection: $selection) {
-                        EmptyView()
-                    }
-                    NavigationLink(destination: RideDetailView(ride: rideModel.nextRide!,
-                                                               year: rideModel.rideYear),
-                                   tag: 1,
-                                   selection: $selection) {
-                        EmptyView()
-                    }
-                    Button(action: {
-                        if self.rideModel.nextRide == nil {
-                            self.selection = 2
-                        } else {
-                            self.selection = 1
+                    if rideModel.nextRide == nil {
+                        NavigationLink(destination: RideView(),
+                                       tag: 2,
+                                       selection: $selection) {
+                            EmptyView()
                         }
-                    }) {
-                        SmbcImage()
+                    } else {
+                        NavigationLink(destination: RideDetailView(ride: rideModel.nextRide!,
+                                                                   year: rideModel.rideYear),
+                                       tag: 1,
+                                       selection: $selection) {
+                            EmptyView()
+                        }
                     }
-                    .buttonStyle(ImageButtonStyle())
+                    Button(action: { self.selection = self.rideModel.nextRide == nil ? 2 : 1 }) {
+                        SmbcImage()
+                    }.buttonStyle(ImageButtonStyle())
                 }
                 HStack {
                     Spacer()

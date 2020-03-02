@@ -87,6 +87,13 @@ struct MapView: UIViewRepresentable {
     
     func updateUIView(_ view: MKMapView, context: Context) {
         view.mapType = mapType
+        view.camera = MKMapCamera(lookingAtCenter: center,
+                                 fromEyeCoordinate: center,
+                                 eyeAltitude: altitude)
+        let pin = MKPointAnnotation()
+        pin.coordinate = center;
+        pin.title = "restaurant.name"
+        view.addAnnotation(pin)
     }
 }
 
