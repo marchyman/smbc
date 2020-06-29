@@ -29,44 +29,42 @@ import SwiftUI
 struct RestaurantView : View {
     @EnvironmentObject var restaurantModel: RestaurantModel
     @State private var filter = true
-    let show = "Show "
-    let active = "Active"
-    let all = "All"
-    
+    var title: String {
+        (filter ? "Active" : "All") + " Restaurants"
+    }
+    var filterTitle: String {
+        "Show " + (filter ? "All" : "Active")
+    }
+
     var body: some View {
-        let buttonTitle: String
-        let barTitle: String
-        let restaurants: [Restaurant]
-        if filter {
-            restaurants = restaurantModel.restaurants.filter {
-                $0.status == "open" || $0.status.hasPrefix("was ")
-            }
-            barTitle = active
-            buttonTitle = show + all
-        } else {
-            restaurants = restaurantModel.restaurants
-            barTitle = all
-            buttonTitle = show + active
-        }
-        return List (restaurants) {
-            restaurant in
+        List (filteredRestaurants(filter)) { restaurant in
             RestaurantRow(restaurant: restaurant)
-        }.navigationBarTitle("\(barTitle) Restaurants")
-         .navigationBarItems(trailing:
-            Button(buttonTitle) { self.filter.toggle() })
+        }
+        .navigationBarTitle(title)
+        .navigationBarItems(
+            trailing: Button(filterTitle) { self.filter.toggle() }
+        )
+    }
+
+    private
+    func filteredRestaurants(_ filter: Bool) -> [Restaurant] {
+        restaurantModel.restaurants.filter {
+            !filter || $0.status == "open" || $0.status.hasPrefix("was ")
+        }
     }
 }
 
 struct RestaurantRow: View {
     var restaurant: Restaurant
-    
-    var body: some View {
-        var city = restaurant.city
+    var city: String {
         if restaurant.status != "open" {
-            city += " -- \(restaurant.status)"
+            return restaurant.city + " -- \(restaurant.status)"
         }
-        return NavigationLink(destination: RestaurantDetailView(restaurant: restaurant,
-                                                                eta: false)) {
+        return restaurant.city
+    }
+    var body: some View {
+        NavigationLink(destination: RestaurantDetailView(restaurant: restaurant,
+                                                         eta: false)) {
             VStack (alignment: .leading) {
                 Text(restaurant.name).font(.headline)
                 Text(city).font(.subheadline)
@@ -80,8 +78,10 @@ struct RestaurantView_Previews : PreviewProvider {
     static var model = Model(savedState: ProgramState.load())
 
     static var previews: some View {
-        RestaurantView()
-            .environmentObject(model.restaurantModel)
+        NavigationView {
+            RestaurantView()
+                .environmentObject(model.restaurantModel)
+        }
     }
 }
 #endif
