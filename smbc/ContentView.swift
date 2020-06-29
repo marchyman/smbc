@@ -87,16 +87,12 @@ struct ContentView: View {
                     if rideModel.nextRide == nil {
                         NavigationLink(destination: RideView(),
                                        tag: 2,
-                                       selection: $selection) {
-                            EmptyView()
-                        }
+                                       selection: $selection) { EmptyView() }
                     } else {
                         NavigationLink(destination: RideDetailView(ride: rideModel.nextRide!,
                                                                    year: rideModel.rideYear),
                                        tag: 1,
-                                       selection: $selection) {
-                            EmptyView()
-                        }
+                                       selection: $selection) { EmptyView()}
                     }
                     Button(action: { self.selection = self.rideModel.nextRide == nil ? 2 : 1 }) {
                         SmbcImage()
@@ -114,12 +110,15 @@ struct ContentView: View {
              }.frame(maxWidth: .infinity, maxHeight: .infinity)
               .background(backgroundGradient(colorScheme))
               .navigationBarTitle("SMBC")
-              .navigationBarItems(trailing:
-                    Button(action: { self.infoPresented = true }) {
-                        Image(systemName: "info.circle")
-                    })
-              .alert(isPresented: $infoPresented) { smbcInfo }
+              .navigationBarItems(trailing: info)
         }
+    }
+    
+    var info: some View {
+        Button(action: { self.infoPresented = true }) {
+            Image(systemName: "info.circle")
+        }
+        .alert(isPresented: $infoPresented) { smbcInfo }
     }
 
     var smbcInfo: Alert {
