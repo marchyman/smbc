@@ -48,11 +48,19 @@ struct RestaurantDetailView : View {
                     .frame(minHeight: 0, maxHeight: g.size.height * 0.35)
                 self.mapInfo
                     .frame(minHeight: 0, maxHeight: g.size.height * 0.65)
-            }.background(backgroundGradient(self.colorScheme))
-             .navigationBarItems(trailing: Button("Show visits") { self.showVisits = true})
-             .sheet(isPresented: self.$showVisits, onDismiss: { }) {
-                self.sheet
-              }
+            }
+            .background(backgroundGradient(self.colorScheme))
+            .navigationBarItems(trailing: self.showVisitButton)
+        }
+    }
+    
+    var showVisitButton: some View {
+        Button("Show Visits") {
+            self.showVisits = true
+        }
+        .sheet(isPresented: self.$showVisits) {
+            RideVisitView(isActive: self.$showVisits, restaurant: self.restaurant)
+                .environmentObject(self.rideModel)
         }
     }
 
@@ -105,11 +113,36 @@ struct RestaurantDetailView : View {
         }
     }
 
-    var sheet: some View {
+    private
+    func mapLink() {
+        let mapPath = "https://maps.apple.com/?daddr="
+            + restaurant.address.map { $0 == " " ? "+" : $0 }
+            + ","
+            + restaurant.city.map { $0 == " " ? "+" : $0 }
+            + ",CA"
+        guard let string = NSString(string: mapPath)
+            .addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed),
+              let url = URL(string: string) else { return }
+        UIApplication.shared.open(url)
+    }
+}
+
+struct RideVisitView: View {
+    @EnvironmentObject var rideModel: RideModel
+    @Binding var isActive: Bool
+    let restaurant: Restaurant
+
+    var body: some View {
         let filteredRides = rideModel.rides.filter {
             $0.restaurant == restaurant.id
         }
         return VStack {
+            HStack {
+                Spacer()
+                Button("Done") {
+                    self.isActive = false
+                }.padding()
+            }
             Text(restaurant.name)
                 .font(.title)
                 .padding(.top, 40)
@@ -145,20 +178,8 @@ struct RestaurantDetailView : View {
         return formatter.string(for: n) ?? ""
     }
 
-    private
-    func mapLink() {
-        let mapPath = "https://maps.apple.com/?daddr="
-            + restaurant.address.map { $0 == " " ? "+" : $0 }
-            + ","
-            + restaurant.city.map { $0 == " " ? "+" : $0 }
-            + ",CA"
-        guard let string = NSString(string: mapPath)
-            .addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed),
-              let url = URL(string: string) else { return }
-        UIApplication.shared.open(url)
-    }
-}
 
+}
 #if DEBUG
 struct RestaurantDetailView_Previews : PreviewProvider {
     static var model = Model(savedState: ProgramState.load())
