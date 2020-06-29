@@ -35,12 +35,6 @@ struct MapView: UIViewRepresentable {
 
     /// Coordinator class conforming to MKMapViewDelegate
     class Coordinator: NSObject, MKMapViewDelegate {
-        var parent: MapView
-        
-        init(_ parent: MapView) {
-            self.parent = parent
-        }
-
         /// return a pinAnnotationView for a red pin
         func mapView(_ mapView: MKMapView,
                      viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -67,7 +61,7 @@ struct MapView: UIViewRepresentable {
     }
     
     func makeCoordinator() -> MapView.Coordinator {
-        Coordinator(self)
+        Coordinator()
     }
     
     func makeUIView(context: Context) -> MKMapView {
