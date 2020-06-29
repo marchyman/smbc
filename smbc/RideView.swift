@@ -44,6 +44,12 @@ struct RideView : View {
 
     var sheet: some View {
         VStack {
+            HStack {
+                Spacer()
+                Button("Done") {
+                    self.yearPickerPresented = false
+                }.padding()
+            }
             Picker("Pick desired year",
                    selection: $rideModel.programState.selectedIndex) {
                 ForEach(0 ..< rideModel.programState.scheduleYears.count) {
@@ -52,7 +58,6 @@ struct RideView : View {
             }.pickerStyle(WheelPickerStyle())
              .labelsHidden()
             Text("Pick desired year")
-            Text("Swipe down to return to schedule").padding()
             Spacer()
         }
     }
