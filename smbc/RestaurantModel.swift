@@ -51,6 +51,7 @@ class RestaurantModel: ObservableObject {
         let name = "restaurants.json"
         let cache = Cache(name: name, type: [Restaurant].self)
         if refresh {
+            cancellable?.cancel()
             let url = URL(string: serverName + name)!
             let cacheUrl = try? cache.fileUrl()
             let downloader = Downloader(url: url, type: [Restaurant].self, cache: cacheUrl)

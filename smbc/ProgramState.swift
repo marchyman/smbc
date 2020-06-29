@@ -123,6 +123,7 @@ class ProgramState: Codable {
     }
     
     func updateScheduleYears() {
+        cancellable?.cancel()
         let name = "schedule/schedule-years.json"
         let url = URL(string: serverName + name)!
         let downloader = Downloader(url: url, type: [ScheduleYear].self, cache: nil)

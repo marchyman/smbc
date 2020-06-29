@@ -82,6 +82,7 @@ class RideModel: ObservableObject {
         let name = scheduleBase + "." + scheduleExt
         let cache = Cache(name: name, type: [ScheduledRide].self)
         if refresh {
+            cancellable?.cancel()
             let url = ridesUrl(for: rideYear)
             let cacheUrl = try? cache.fileUrl()
             let downloader = Downloader(url: url,
@@ -105,6 +106,7 @@ class RideModel: ObservableObject {
     ///
     func fetchRideData() {
         if programState.cachedIndex != programState.selectedIndex {
+            cancellable?.cancel()
             let name = scheduleBase + "." + scheduleExt
             let cache = Cache(name: name, type: [ScheduledRide].self)
             let cacheUrl = try? cache.fileUrl()

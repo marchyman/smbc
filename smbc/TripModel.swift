@@ -36,6 +36,7 @@ class TripModel: ObservableObject {
         let name = "trips.json"
         let cache = Cache(name: name, type: [String : String].self)
         if refresh {
+            cancellable?.cancel()
             let url = URL(string: serverName + "schedule/" + name)!
             let cacheUrl = try? cache.fileUrl()
             let downloader = Downloader(url: url, type: [String : String].self, cache: cacheUrl)
