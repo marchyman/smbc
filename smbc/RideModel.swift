@@ -48,6 +48,15 @@ struct ScheduledRide: Decodable, Identifiable {
     var day: Int {
         Int(String(start.split(separator: "/")[1])) ?? 0
     }
+
+    // We never decode the ID.
+    private enum CodingKeys: String, CodingKey {
+        case start
+        case restaurant
+        case end
+        case description
+        case comment
+      }
 }
 
 class RideModel: ObservableObject {
