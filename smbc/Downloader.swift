@@ -43,7 +43,7 @@ struct Downloader<T: Decodable> {
     ///     cached at the given location.
     ///
     init(url: URL, type: T.Type, cache: URL?) {
-        print("Download \(url)")
+//      print("Download \(url) to \(String(describing: cache))")
         publisher = URLSession.shared.dataTaskPublisher(for: url)
             .tryMap {
                 (data: Data, response: URLResponse) -> Data in

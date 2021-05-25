@@ -28,13 +28,6 @@ import SwiftUI
 
 // MARK: - Main screen button styles
 
-struct ImageButtonStyle: ButtonStyle {
-    func makeBody(configuration: Self.Configuration) -> some View {
-        configuration.label
-            .contentShape(Circle())
-    }
-}
-
 public struct SmbcButtonStyle: ButtonStyle {
     public func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
@@ -66,11 +59,12 @@ func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
 
 struct ContentView: View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
-    @EnvironmentObject var rideModel: RideModel
 
     @State var selection: Int? = nil
     @State private var infoPresented = false
+    @State private var refreshPresented = false
 
+    var model: Model
     var body: some View {
         NavigationView {
             VStack {
@@ -84,19 +78,23 @@ struct ContentView: View {
                     .padding()
                 }
                 ZStack {
-                    if rideModel.nextRide == nil {
+                    if model.rideModel.nextRide == nil {
                         NavigationLink(destination: RideView(),
                                        tag: 2,
                                        selection: $selection) { EmptyView() }
                     } else {
-                        NavigationLink(destination: RideDetailView(ride: rideModel.nextRide!,
-                                                                   year: rideModel.rideYear),
+                        NavigationLink(destination: RideDetailView(ride: model.rideModel.nextRide!,
+                                                                   year: model.rideModel.rideYear),
                                        tag: 1,
                                        selection: $selection) { EmptyView()}
                     }
-                    Button(action: { self.selection = self.rideModel.nextRide == nil ? 2 : 1 }) {
-                        SmbcImage()
-                    }.buttonStyle(ImageButtonStyle())
+                    SmbcImage()
+                        .onTapGesture{ selection = model.rideModel.nextRide == nil ? 2 : 1 }
+                        .onLongPressGesture {
+                            refresh(model: model)
+                            refreshPresented = true
+                        }.alert(isPresented: $refreshPresented) { refreshAlert }
+
                 }
                 HStack {
                     Spacer()
@@ -111,7 +109,9 @@ struct ContentView: View {
               .background(backgroundGradient(colorScheme))
               .navigationBarTitle("SMBC")
               .navigationBarItems(trailing: info)
-        }
+        }.environmentObject(model.rideModel)
+         .environmentObject(model.restaurantModel)
+         .environmentObject(model.tripModel)
     }
     
     var info: some View {
@@ -136,10 +136,25 @@ struct ContentView: View {
               dismissButton: .default(Text("Got It!")))
     }
 
+    var refreshAlert: Alert {
+        Alert(title: Text("Data refresh"),
+              message: Text("Current Trip, Restaurant, and Schedule data is being retrieved from smbc.snafu.org"),
+              dismissButton: .default(Text("OK")))
+    }
+
     private
     func homePage() {
         let url = URL(string: "https://smbc.snafu.org/")!
         UIApplication.shared.open(url)
+    }
+
+    // refresh model data from server
+    private
+    func refresh(model: Model) {
+        model.tripModel = TripModel(refresh: true)
+        model.restaurantModel = RestaurantModel(refresh: true)
+        model.rideModel = RideModel(programState: model.rideModel.programState,
+                                    refresh: true)
     }
 }
 
@@ -156,8 +171,10 @@ struct SmbcImage: View {
 
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {
+    static var model = Model(savedState: ProgramState.load())
+
     static var previews: some View {
-        ContentView()
+        ContentView(model: model)
     }
 }
 #endif
