@@ -49,6 +49,7 @@ struct Downloader<T: Decodable> {
         let cache = Cache(name: name, type: type)
         let cacheUrl = cache.fileUrl()
         try data.write(to: cacheUrl)
+//        print("\(name) downloaded and written to the cache")
         return decodedData
     }
 }

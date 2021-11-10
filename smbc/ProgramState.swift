@@ -137,16 +137,21 @@ class ProgramState: ObservableObject {
         rideModel.nextRide(for: year)
     }
 
+    /// index into the yearModel array of years that matches the schedule year
+    ///
+    var yearIndex: Int
     /// True if it is time to refresh data from the server
     ///
     var needRefresh: Bool
 
     init() {
-        #if DEBUG
-            needRefresh = true
-        #else
-            needRefresh = savedState.refreshTime < Date()
-        #endif
+        yearIndex = 0   // shut compiler up
+#if DEBUG
+        needRefresh = true
+#else
+        needRefresh = savedState.refreshTime < Date()
+#endif
+        yearIndex = yearModel.findYearIndex(for: yearString)
     }
 
     // store the current state for the next program run

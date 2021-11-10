@@ -90,11 +90,8 @@ struct ContentView: View {
                     SmbcImage()
                         .onTapGesture{ selection = state.nextRide == nil ? 2 : 1 }
                         .onLongPressGesture {
-                            Task {
-                                await refresh()
-                                state.savedState.refreshTime = Date()
-                                state.needRefresh = false
-                            }
+                            state.needRefresh = true
+                            refresh()
                             refreshPresented = true
                         }.alert(isPresented: $refreshPresented) { refreshAlert }
                 }
@@ -114,7 +111,9 @@ struct ContentView: View {
               .alert(isPresented: $refreshFailed) {
                   RefreshFailure(alertType: .all).alertType.alertView
               }
-
+              .onAppear {
+                  refresh()
+              }
         }
     }
 
@@ -135,16 +134,23 @@ struct ContentView: View {
         UIApplication.shared.open(url)
     }
 
-    // refresh model data from server
+    /// refresh model data from server
     private
-    func refresh() async {
-        do {
-            try await state.yearModel.fetch()
-            try await state.restaurantModel.fetch()
-            try await state.rideModel.fetch(year: state.year)
-            try await state.tripModel.fetch()
-        } catch {
-            refreshFailed = true
+    func refresh()  {
+        if state.needRefresh {
+            Task {
+                do {
+                    try await state.yearModel.fetch()
+                    state.yearIndex = state.yearModel.findYearIndex(for: state.yearString)
+                    try await state.restaurantModel.fetch()
+                    try await state.rideModel.fetch(year: state.year)
+                    try await state.tripModel.fetch()
+                    state.savedState.refreshTime = Date()
+                    state.needRefresh = false
+                } catch {
+                    refreshFailed = true
+                }
+            }
         }
     }
 }
