@@ -27,93 +27,11 @@
 import Foundation
 import Combine
 
-/// The schedule for a year is stored in the app bundle to initialize needed state before updated
-/// data is downloaded from the SMBC server.  This is the year of the stored schedule
-///
-fileprivate let bundleScheduleYear = 2021
-
-/// Data to create the url for local saved state
-///
-fileprivate let programStateFolderName = "\(Bundle.main.bundleIdentifier!)/"
-fileprivate let programStateFileName = "SMBCState.json"
-
 /// The server URL as a string and the name of the folder used to hold most of the schedule data
 ///
 let serverName = "https://smbc.snafu.org/"
 let serverDir = "schedule/"
 
-/// Saved application state
-///
-struct SavedState: Codable {
-    var year: Int                   // current schedule year
-    var refreshTime: Date           // when to refresh the cache
-    var mapTypeIndex: Int           // desired map display type
-
-    init() {
-        year = bundleScheduleYear
-        refreshTime = Date()
-        mapTypeIndex = 0
-    }
-
-    /// load state data from local storage if it exists
-    /// - Returns: saved application state
-    ///
-    /// If state data does not exist or could not be decoded create and save a new instance
-    ///
-    static func load() -> SavedState {
-        let state: SavedState
-        do {
-            // read and decode state from the documents file if it exists
-            let data = try Data(contentsOf: SavedState.stateFileUrl())
-            let decoder = JSONDecoder()
-            state = try decoder.decode(SavedState.self, from: data)
-        } catch {
-            // Create and store a newly initialized State
-            state = SavedState()
-            SavedState.store(state)
-        }
-        return state
-    }
-
-    /// Store the given ProgramState in the users documents folder
-    /// - Parameter state: data to store in local storage
-    ///
-    static func store(_ state: SavedState) {
-        let encoder = JSONEncoder()
-        guard let encoded = try? encoder.encode(state) else {
-            fatalError("Cannot encode state file")
-        }
-        do {
-            try encoded.write(to: SavedState.stateFileUrl())
-        } catch {
-            fatalError("Cannot write state file")
-        }
-
-    }
-
-    /// Return the URL for the local program state file
-    /// The state file lives in the application support folder for this app.  The folder will be created if
-    /// if it doesn't exist.
-    ///
-    static func stateFileUrl() throws -> URL {
-        let fileManager = FileManager.default
-        let supportFolderUrl = try fileManager
-            .url(for: .applicationSupportDirectory,
-                 in: .userDomainMask,
-                 appropriateFor: nil,
-                 create: false)
-        let stateFolderUrl = supportFolderUrl
-            .appendingPathComponent(programStateFolderName)
-        try fileManager
-            .createDirectory(at: stateFolderUrl,
-                             withIntermediateDirectories: true,
-                             attributes: nil)
-        let stateFileUrl = stateFolderUrl
-            .appendingPathComponent(programStateFileName)
-        return stateFileUrl
-    }
-
-}
 
 
 /// A class to hold program state
