@@ -1,9 +1,9 @@
 //
-//  TripModel.swift
+//  TripRowView.swift
 //  smbc
 //
-//  Created by Marco S Hyman on 7/27/19.
-//  Copyright © 2019, 2021 Marco S Hyman. All rights reserved.
+//  Created by Marco S Hyman on 11/9/21.
+//  Copyright © 2021 Marco S Hyman. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -23,32 +23,37 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 //
+import SwiftUI
 
-import Foundation
+struct TripRowView: View {
+    var ride: ScheduledRide
 
-fileprivate let tripFileName = "trips.json"
-
-@MainActor
-class TripModel: ObservableObject {
-    @Published var trips = [String : String]()
-
-    /// Initialize list of restaurants from the cache
-    ///
-    init() {
-        let cache = Cache(name: tripFileName, type: [String : String].self)
-        trips = cache.cachedData()
+    var body: some View {
+        NavigationLink(destination: TripDetailView(ride: ride)) {
+            HStack () {
+                Text("\(ride.start)\n\(ride.end!)")
+                    .font(.headline)
+                    .lineLimit(2)
+                    .frame(minWidth: 50, alignment: .leading)
+                Text(ride.description!)
+                    .foregroundColor(.orange)
+            }
+        }
     }
-
-    /// fetch current data from the server  and update the model.
-    ///
-    func fetch() async throws {
-        let url = URL(string: serverName + serverDir + tripFileName)!
-        trips = try await Downloader.fetch(
-            name: tripFileName,
-            url: url,
-            type: [String : String].self
-        )
-    }
-
 }
+
+#if DEBUG
+struct TripRowView_Previews: PreviewProvider {
+    static var state = ProgramState()
+
+    static var previews: some View {
+        TripRowView(ride: ScheduledRide(start: "5/7",
+                                        restaurant: nil,
+                                        end: "5/9",
+                                        description: "A ride to somewhere",
+                                        comment: "Testing"))
+            .environmentObject(state)
+    }
+}
+#endif
 

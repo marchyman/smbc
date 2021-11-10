@@ -3,7 +3,7 @@
 //  smbc
 //
 //  Created by Marco S Hyman on 7/24/19.
-//  Copyright © 2019 Marco S Hyman. All rights reserved.
+//  Copyright © 2019, 2021 Marco S Hyman. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -25,39 +25,51 @@
 //
 
 import Foundation
-import Combine
 
-struct ScheduleYear: Codable, Equatable {
-    var year: String
-}
+/// The schedule for a year is stored in the app bundle to initialize needed state before updated
+/// data is downloaded from the SMBC server.  This is the year of the stored schedule
+///
+fileprivate let bundleScheduleYear = 2021
 
-fileprivate var cancellable: AnyCancellable?
+/// Data to create the url for local saved state
+///
+fileprivate let programStateFolderName = "\(Bundle.main.bundleIdentifier!)/"
+fileprivate let programStateFileName = "SMBCState.json"
 
-/// A class to hold program state
+/// The server URL as a string and the name of the folder used to hold most of the schedule data
+///
+let serverName = "https://smbc.snafu.org/"
+let serverDir = "schedule/"
 
-class ProgramState: Codable {
-    var scheduleYears: [ScheduleYear]   // data available for these years
-    var cachedIndex: Int                // index into scheduleYears for cached year
-    var selectedIndex: Int              // year selection index
-    var refreshTime: Date               // when to refresh the cache
-    
+/// Saved application state
+///
+struct SavedState: Codable {
+    var year: Int                   // current schedule year
+    var refreshTime: Date           // when to refresh the cache
+    var mapTypeIndex: Int
+
+    init() {
+        year = bundleScheduleYear
+        refreshTime = Date()
+        mapTypeIndex = 0
+    }
 
     /// load state data from local storage if it exists
-    /// - Returns: program state
+    /// - Returns: saved application state
     ///
     /// If state data does not exist or could not be decoded create and save a new instance
     ///
-    static func load() -> ProgramState {
-        let state: ProgramState
+    static func load() -> SavedState {
+        let state: SavedState
         do {
             // read and decode state from the documents file if it exists
-            let data = try Data(contentsOf: ProgramState.stateFileUrl())
+            let data = try Data(contentsOf: SavedState.stateFileUrl())
             let decoder = JSONDecoder()
-            state = try decoder.decode(ProgramState.self, from: data)
+            state = try decoder.decode(SavedState.self, from: data)
         } catch {
             // Create and store a newly initialized State
-            state = ProgramState()
-            ProgramState.store(state)
+            state = SavedState()
+            SavedState.store(state)
         }
         return state
     }
@@ -65,85 +77,69 @@ class ProgramState: Codable {
     /// Store the given ProgramState in the users documents folder
     /// - Parameter state: data to store in local storage
     ///
-    static func store(_ state: ProgramState) {
+    static func store(_ state: SavedState) {
         let encoder = JSONEncoder()
         guard let encoded = try? encoder.encode(state) else {
             fatalError("Cannot encode state file")
         }
         do {
-            try encoded.write(to: ProgramState.stateFileUrl())
+            try encoded.write(to: SavedState.stateFileUrl())
         } catch {
             fatalError("Cannot write state file")
         }
+
     }
-    
+
     /// Return the URL for the local program state file
     /// The state file lives in the application support folder for this app.  The folder will be created if
     /// if it doesn't exist.
     ///
     static func stateFileUrl() throws -> URL {
-        let programStateFolderName = "\(Bundle.main.bundleIdentifier!)/"
-        let programStateFileName = "SMBCState.json"
-
         let fileManager = FileManager.default
-        let supportFolder = try fileManager.url(for: .applicationSupportDirectory,
-                                                in: .userDomainMask,
-                                                appropriateFor: nil,
-                                                create: false)
-        let stateFolder = supportFolder.appendingPathComponent(programStateFolderName)
-        try fileManager.createDirectory(at: stateFolder,
-                                        withIntermediateDirectories: true,
-                                        attributes: nil)
-        let stateFile = stateFolder.appendingPathComponent(programStateFileName)
-        return stateFile
+        let supportFolderUrl = try fileManager
+            .url(for: .applicationSupportDirectory,
+                 in: .userDomainMask,
+                 appropriateFor: nil,
+                 create: false)
+        let stateFolderUrl = supportFolderUrl
+            .appendingPathComponent(programStateFolderName)
+        try fileManager
+            .createDirectory(at: stateFolderUrl,
+                             withIntermediateDirectories: true,
+                             attributes: nil)
+        let stateFileUrl = stateFolderUrl
+            .appendingPathComponent(programStateFileName)
+        return stateFileUrl
     }
 
-    /// Create an instance of ProgramState based upon compiled in data
+}
+
+
+/// A class to hold program state
+///
+@MainActor
+class ProgramState: ObservableObject {
+    /// The various models that make up the total state of the system
     ///
+    var savedState = SavedState.load()
+    var yearModel = YearModel()
+    var restaurantModel = RestaurantModel()
+    var rideModel = RideModel()
+    var tripModel = TripModel()
+
+    // convenience variables
+    //
+    var year: Int { savedState.year }
+    var yearString: String { "\(year)" }
+    var nextRide: ScheduledRide? {
+        rideModel.nextRide(for: year)
+    }
+
+    /// True if it is time to refresh data from the server
+    ///
+    var needRefresh: Bool
+
     init() {
-        // default data stored in the app bundle is for this year
-        let bundledDataYear = "2021"
-        scheduleYears = [ScheduleYear(year: bundledDataYear)]
-        cachedIndex = 0
-        refreshTime = Date()
-        selectedIndex = 0
-    }
-    
-    /// Find the index into scheduleYears for the entry that matches the given year
-    /// - Parameter year: The year to find
-    /// - Returns: The index matching the given year
-    ///
-    /// The year is assumed to exist in the array.  If not the program aborts.
-    ///
-    func findYearIndex(year: ScheduleYear) -> Int {
-        guard let ix = scheduleYears.firstIndex(of: year) else {
-            fatalError("Cannot find index for requested year")
-        }
-        return ix
-    }
-    
-    func updateScheduleYears() {
-        cancellable?.cancel()
-        let name = "schedule/schedule-years.json"
-        let url = URL(string: serverName + name)!
-        let downloader = Downloader(url: url, type: [ScheduleYear].self, cache: nil)
-        cancellable = downloader
-            .publisher
-            .sink(receiveCompletion: {
-                error in
-                if case .failure = error {
-                    // what do I do here
-                }
-            }, receiveValue: {
-                output in
-                let currentYear = self.scheduleYears[self.cachedIndex]
-                self.scheduleYears = output
-                // the data downloaded is not guaranteed to be in the
-                // same order as whatever data it replaced.  Be sure to update
-                // the indexes so they point to the current year.
-                self.cachedIndex = self.findYearIndex(year: currentYear)
-                self.selectedIndex = self.cachedIndex
-                ProgramState.store(self)
-            })
+        needRefresh = savedState.refreshTime < Date()
     }
 }

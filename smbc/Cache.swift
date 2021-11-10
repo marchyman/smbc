@@ -3,7 +3,7 @@
 //  smbc
 //
 //  Created by Marco S Hyman on 7/27/19.
-//  Copyright © 2019 Marco S Hyman. All rights reserved.
+//  Copyright © 2019, 2021 Marco S Hyman. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -36,38 +36,52 @@ struct Cache<T: Decodable> {
     /// applicatoin bundle ID.  The folder will be created if it does not exist.  If the cached file
     /// does not exist primeCache() is called to prime the cache with data stored in the bundle.
     ///
-    func fileUrl() throws -> URL {
+    func fileUrl() -> URL {
         let fileManager = FileManager.default
-        let cachesDir = try fileManager.url(for: .cachesDirectory,
-                                            in: .userDomainMask,
-                                            appropriateFor: nil,
-                                            create: true)
-        let cacheFolderName = "\(Bundle.main.bundleIdentifier!)/"
-        let cacheFolder = cachesDir.appendingPathComponent(cacheFolderName)
-        try fileManager.createDirectory(at: cacheFolder,
-                                        withIntermediateDirectories: true,
-                                        attributes: nil)
-        let cacheUrl = cacheFolder.appendingPathComponent(name)
-        if !fileManager.fileExists(atPath: cacheUrl.path) {
-            primeCache(at: cacheUrl)
+        do {
+            let cachesDir = try fileManager.url(for: .cachesDirectory,
+                                                in: .userDomainMask,
+                                                appropriateFor: nil,
+                                                create: true)
+            let cacheFolderName = "\(Bundle.main.bundleIdentifier!)/"
+            let cacheFolder = cachesDir.appendingPathComponent(cacheFolderName)
+            try fileManager.createDirectory(at: cacheFolder,
+                                            withIntermediateDirectories: true,
+                                            attributes: nil)
+            let cacheUrl = cacheFolder.appendingPathComponent(name)
+            if !fileManager.fileExists(atPath: cacheUrl.path) {
+                primeCache(at: cacheUrl)
+            }
+            return cacheUrl
+        } catch {
+            fatalError("Cannot create cache folder for: \(name)")
         }
-        return cacheUrl
     }
     
     /// Return cached data for this name/type
     ///
     func cachedData<T: Decodable>() -> T {
-        guard let url = try? fileUrl() else {
-            fatalError("Cannot convert \(name) to a URL")
-        }
+        let url = fileUrl()
         if let cachedData = try? Data(contentsOf: url) {
             do {
                 let decoder = JSONDecoder()
                 let decoded = try decoder.decode(type, from: cachedData)
                 return decoded as! T
+            } catch let DecodingError.dataCorrupted(context) {
+                print(context)
+            } catch let DecodingError.keyNotFound(key, context) {
+                print("Key '\(key)' not found:", context.debugDescription)
+                print("codingPath:", context.codingPath)
+            } catch let DecodingError.valueNotFound(value, context) {
+                print("Value '\(value)' not found:", context.debugDescription)
+                print("codingPath:", context.codingPath)
+            } catch let DecodingError.typeMismatch(type, context)  {
+                print("Type '\(type)' mismatch:", context.debugDescription)
+                print("codingPath:", context.codingPath)
             } catch {
-                fatalError("Cannot decode \(name)")
+                print("error: ", error)
             }
+            fatalError("JSON Decoding Error for \(name)")
         } else {
             fatalError("Cannot read cached data for \(name)")
         }

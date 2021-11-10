@@ -3,7 +3,7 @@
 //  smbc
 //
 //  Created by Marco S Hyman on 6/22/19.
-//  Copyright © 2019 Marco S Hyman. All rights reserved.
+//  Copyright © 2019, 2021 Marco S Hyman. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -64,7 +64,8 @@ struct ContentView: View {
     @State private var infoPresented = false
     @State private var refreshPresented = false
 
-    var model: Model
+    var state: ProgramState
+
     var body: some View {
         NavigationView {
             VStack {
@@ -78,20 +79,21 @@ struct ContentView: View {
                     .padding()
                 }
                 ZStack {
-                    if model.rideModel.nextRide == nil {
+                    if state.nextRide == nil {
                         NavigationLink(destination: RideView(),
                                        tag: 2,
                                        selection: $selection) { EmptyView() }
                     } else {
-                        NavigationLink(destination: RideDetailView(ride: model.rideModel.nextRide!,
-                                                                   year: model.rideModel.rideYear),
+                        NavigationLink(destination: RideDetailView(ride: state.nextRide!),
                                        tag: 1,
                                        selection: $selection) { EmptyView()}
                     }
                     SmbcImage()
-                        .onTapGesture{ selection = model.rideModel.nextRide == nil ? 2 : 1 }
+                        .onTapGesture{ selection = state.nextRide == nil ? 2 : 1 }
                         .onLongPressGesture {
-                            refresh(model: model)
+                            Task {
+                                await refresh()
+                            }
                             refreshPresented = true
                         }.alert(isPresented: $refreshPresented) { refreshAlert }
 
@@ -109,9 +111,8 @@ struct ContentView: View {
               .background(backgroundGradient(colorScheme))
               .navigationBarTitle("SMBC")
               .navigationBarItems(trailing: info)
-        }.environmentObject(model.rideModel)
-         .environmentObject(model.restaurantModel)
-         .environmentObject(model.tripModel)
+        }
+        .environmentObject(state)
     }
     
     var info: some View {
@@ -150,11 +151,15 @@ struct ContentView: View {
 
     // refresh model data from server
     private
-    func refresh(model: Model) {
-        model.tripModel = TripModel(refresh: true)
-        model.restaurantModel = RestaurantModel(refresh: true)
-        model.rideModel = RideModel(programState: model.rideModel.programState,
-                                    refresh: true)
+    func refresh() async {
+        do {
+            try await state.yearModel.fetch()
+            try await state.restaurantModel.fetch()
+            try await state.rideModel.fetch(year: state.year)
+            try await state.tripModel.fetch()
+        } catch {
+            /// ;;;
+        }
     }
 }
 
@@ -171,10 +176,10 @@ struct SmbcImage: View {
 
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {
-    static var model = Model(savedState: ProgramState.load())
+    static var state = ProgramState()
 
     static var previews: some View {
-        ContentView(model: model)
+        ContentView(state: state)
     }
 }
 #endif

@@ -3,7 +3,7 @@
 //  smbc
 //
 //  Created by Marco S Hyman on 6/23/19.
-//  Copyright © 2019 Marco S Hyman. All rights reserved.
+//  Copyright © 2019, 2021 Marco S Hyman. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -29,7 +29,7 @@ import SwiftUI
 // MARK: - RideView -- list of rides for the year
 
 struct RideView : View {
-    @EnvironmentObject var rideModel: RideModel
+    @EnvironmentObject var state: ProgramState
     @State private var yearPickerPresented = false
 
     var alert: Alert {
@@ -50,13 +50,14 @@ struct RideView : View {
                     self.yearPickerPresented = false
                 }.padding()
             }
-            Picker("Pick desired year",
-                   selection: $rideModel.programState.selectedIndex) {
-                ForEach(0 ..< rideModel.programState.scheduleYears.count) {
-                    Text(self.rideModel.programState.scheduleYears[$0].year).tag($0)
-                }
-            }.pickerStyle(WheelPickerStyle())
-             .labelsHidden()
+            Text("Fix Later")
+//            Picker("Pick desired year",
+//                   selection: $rideModel.programState.selectedIndex) {
+//                ForEach(0 ..< rideModel.programState.scheduleYears.count) {
+//                    Text(self.rideModel.programState.scheduleYears[$0].year).tag($0)
+//                }
+//            }.pickerStyle(WheelPickerStyle())
+//             .labelsHidden()
             Text("Pick desired year")
             Spacer()
         }
@@ -64,69 +65,33 @@ struct RideView : View {
 
     var body: some View {
         VStack {
-            List (rideModel.rides) {
-                ride in
+            List (state.rideModel.rides) { ride in
                 if ride.restaurant != nil {
-                    RideRow(ride: ride, year: self.rideModel.rideYear)
+                    RideRowView(ride: ride)
                 }
                 if ride.end != nil {
-                    TripRow(ride:ride)
+                    TripRowView(ride:ride)
                 }
             }
-            if rideModel.nextRide != nil {
+            if state.nextRide != nil {
                 NavigationLink("Show next ride",
-                               destination: RideDetailView(ride: rideModel.nextRide!,
-                                                           year: self.rideModel.rideYear))
+                               destination: RideDetailView(ride: state.nextRide!))
                     .font(.title)
                     .padding(.bottom)
             }
-        }.navigationBarTitle("SMBC Rides in \(self.rideModel.rideYear)")
+        }.navigationBarTitle("SMBC Rides in \(state.year)")
          .navigationBarItems(trailing: Button("Change year") { self.yearPickerPresented = true })
          .sheet(isPresented: $yearPickerPresented,
-                onDismiss: rideModel.fetchRideData) { self.sheet }
-         .alert(isPresented: $rideModel.fileUnavailable) { alert }
+                onDismiss: fetchRideData) { self.sheet }
+//;;;         .alert(isPresented: $state.rideModel.fileUnavailable) { alert }
     }
-}
 
-// MARK: - RideRow View
-
-struct RideRow: View {
-    @EnvironmentObject var restaurantModel: RestaurantModel
-    var ride: ScheduledRide
-    let year: String
-    
-    var body: some View {
-        NavigationLink(destination: RideDetailView(ride: ride, year: year)) {
-            HStack () {
-                Text(ride.start)
-                    .font(.headline)
-                    .frame(minWidth: 50, alignment: .leading)
-                Text(restaurantName(id: ride.restaurant))
-            }
-        }
-    }
-    
-    private
-    func restaurantName(id: String?) -> String {
-        return restaurantModel.idToRestaurant(id: id).name
-    }
-}
-
-
-// MARK: - TripRow View
-
-struct TripRow: View {
-    var ride: ScheduledRide
-    
-    var body: some View {
-        NavigationLink(destination: TripDetailView(ride: ride)) {
-            HStack () {
-                Text("\(ride.start)\n\(ride.end!)")
-                    .font(.headline)
-                    .lineLimit(2)
-                    .frame(minWidth: 50, alignment: .leading)
-                Text(ride.description!)
-                    .foregroundColor(.orange)
+    func fetchRideData() {
+        Task {
+            do {
+                try await state.rideModel.fetch(year: state.year)
+            } catch {
+                //;;;
             }
         }
     }
@@ -134,12 +99,11 @@ struct TripRow: View {
 
 #if DEBUG
 struct RideView_Previews : PreviewProvider {
-    static var model = Model(savedState: ProgramState.load())
+    static var state = ProgramState()
 
     static var previews: some View {
         RideView()
-            .environmentObject(model.rideModel)
-            .environmentObject(model.restaurantModel)
+            .environmentObject(state)
     }
 }
 #endif

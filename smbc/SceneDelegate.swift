@@ -3,7 +3,7 @@
 //  smbc
 //
 //  Created by Marco S Hyman on 6/22/19.
-//  Copyright © 2019 Marco S Hyman. All rights reserved.
+//  Copyright © 2019, 2021 Marco S Hyman. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -39,11 +39,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Use a UIHostingController as window root view controller
         if let windowScene = scene as? UIWindowScene {
-            let programState = ProgramState.load()
-            let model = Model(savedState: programState)
+            let programState = ProgramState()
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController =
-                UIHostingController(rootView: ContentView(model: model))
+                UIHostingController(rootView: ContentView(state: programState))
             self.window = window
             window.makeKeyAndVisible()
         }

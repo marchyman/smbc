@@ -3,7 +3,7 @@
 //  smbc
 //
 //  Created by Marco S Hyman on 7/27/19.
-//  Copyright © 2019 Marco S Hyman. All rights reserved.
+//  Copyright © 2019, 2021 Marco S Hyman. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -25,7 +25,9 @@
 //
 
 import Foundation
-import Combine
+
+fileprivate let restaurantFileName = "restaurants.json"
+
 
 /// Format of  restaurant records retrieved from server
 ///
@@ -42,29 +44,26 @@ struct Restaurant: Decodable, Identifiable {
     let lon: Double
 }
 
+@MainActor
 class RestaurantModel: ObservableObject {
     @Published var restaurants = [Restaurant]()
 
-    private var cancellable: AnyCancellable?
+    /// Initialize list of restaurants from the cache
+    ///
+    init() {
+        let cache = Cache(name: restaurantFileName, type: [Restaurant].self)
+        restaurants = cache.cachedData()
+    }
 
-    init(refresh: Bool) {
-        let name = "restaurants.json"
-        let cache = Cache(name: name, type: [Restaurant].self)
-        if refresh {
-            cancellable?.cancel()
-            let url = URL(string: serverName + name)!
-            let cacheUrl = try? cache.fileUrl()
-            let downloader = Downloader(url: url, type: [Restaurant].self, cache: cacheUrl)
-            cancellable = downloader
-                .publisher
-                .catch {
-                    _ in
-                    return Just(cache.cachedData())
-                }
-                .assign(to: \.restaurants, on: self)
-        } else {
-            restaurants = cache.cachedData()
-        }
+    /// fetch current data from the server  and update the model.
+    ///
+    func fetch() async throws {
+        let url = URL(string: serverName + restaurantFileName)!
+        restaurants = try await Downloader.fetch(
+            name: restaurantFileName,
+            url: url,
+            type: [Restaurant].self
+        )
     }
 
     /// return the restaurant from the restaurants array matching the given id.

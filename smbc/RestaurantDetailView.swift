@@ -3,7 +3,7 @@
 //  smbc
 //
 //  Created by Marco S Hyman on 6/24/19.
-//  Copyright © 2019 Marco S Hyman. All rights reserved.
+//  Copyright © 2019, 2021 Marco S Hyman. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -33,9 +33,10 @@ import MapKit
 /// ride is selected from the rides list.
 struct RestaurantDetailView : View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
-    @EnvironmentObject var rideModel: RideModel
+    @EnvironmentObject var state: ProgramState
 //    @State private var selectorIndex = 0
     @State private var showVisits = false
+
     let types = [MKMapType.standard, MKMapType.satellite, MKMapType.hybrid]
     let restaurant: Restaurant
     let eta: Bool
@@ -60,7 +61,7 @@ struct RestaurantDetailView : View {
         }
         .sheet(isPresented: self.$showVisits) {
             RideVisitView(isActive: self.$showVisits, restaurant: self.restaurant)
-                .environmentObject(self.rideModel)
+                .environmentObject(state)
         }
     }
 
@@ -91,17 +92,17 @@ struct RestaurantDetailView : View {
                 Text(restaurant.route).padding(.top)
             }
         }.frame(minWidth: 0, maxWidth: .infinity,
-        minHeight: 0, maxHeight: .infinity)
+                minHeight: 0, maxHeight: .infinity)
     }
     
     var mapInfo: some View {
         // put a segmented control to pick the desired map type
         // on top of the map
         ZStack(alignment: .top) {
-            MapView(mapType: types[rideModel.mapTypeIndex],
+            MapView(mapType: types[state.savedState.mapTypeIndex],
                     center: CLLocationCoordinate2D(latitude: restaurant.lat,
                                                    longitude: restaurant.lon))
-            Picker("", selection: $rideModel.mapTypeIndex) {
+            Picker("", selection: $state.savedState.mapTypeIndex) {
                 ForEach(0 ..< types.count) {
                     index in
                     Text(self.types[index].name).tag(index)
@@ -128,12 +129,12 @@ struct RestaurantDetailView : View {
 }
 
 struct RideVisitView: View {
-    @EnvironmentObject var rideModel: RideModel
+    @EnvironmentObject var state: ProgramState
     @Binding var isActive: Bool
     let restaurant: Restaurant
 
     var body: some View {
-        let filteredRides = rideModel.rides.filter {
+        let filteredRides = state.rideModel.rides.filter {
             $0.restaurant == restaurant.id
         }
         return VStack {
@@ -148,7 +149,7 @@ struct RideVisitView: View {
                 .padding(.top, 40)
             Text("""
                  \(rideCountLabel(filteredRides.count))
-                 scheduled in \(rideModel.rideYear)
+                 scheduled in \(state.year)
                  """)
                 .padding()
             if filteredRides.isEmpty {
@@ -182,7 +183,7 @@ struct RideVisitView: View {
 }
 #if DEBUG
 struct RestaurantDetailView_Previews : PreviewProvider {
-    static var model = Model(savedState: ProgramState.load())
+    static var state = ProgramState()
 
     static var previews: some View {
         RestaurantDetailView(restaurant: Restaurant(id: "test",
@@ -196,7 +197,7 @@ struct RestaurantDetailView_Previews : PreviewProvider {
                                                     lat: 37.7244,
                                                     lon: -122.4381),
                              eta: false)
-            .environmentObject(model.rideModel)
+            .environmentObject(state)
     }
 }
 #endif

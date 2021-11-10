@@ -3,7 +3,7 @@
 //  smbc
 //
 //  Created by Marco S Hyman on 7/16/19.
-//  Copyright © 2019 Marco S Hyman. All rights reserved.
+//  Copyright © 2019, 2021 Marco S Hyman. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -29,28 +29,27 @@ import SwiftUI
 // MARK: - Ride Details
 
 struct RideDetailView: View {
-    @EnvironmentObject var restaurantModel: RestaurantModel
-    @EnvironmentObject var rideModel: RideModel
+    @EnvironmentObject var state: ProgramState
     @State var ride: ScheduledRide
-    let year: String
-    
+
     var body: some View {
         RestaurantDetailView(restaurant: restaurant(id: ride.restaurant!),
                              eta: true)
-            .navigationBarTitle("\(ride.start)/\(year) Ride")
-            .navigationBarItems(trailing: Button("Next ride",
-                                                 action: nextRide)
-                                            .disabled(rideModel.ride(following: ride.start) == nil))
+            .navigationBarTitle("\(ride.start)/\(state.year) Ride")
+            .navigationBarItems(
+                trailing: Button("Next ride",
+                                 action: nextRide)
+                            .disabled(state.rideModel.ride(following: ride.start) == nil))
     }
     
     private
     func restaurant(id: String) -> Restaurant {
-        return restaurantModel.idToRestaurant(id: id)
+        return state.restaurantModel.idToRestaurant(id: id)
     }
     
     private
     func nextRide() {
-        if let next = rideModel.ride(following: ride.start) {
+        if let next = state.rideModel.ride(following: ride.start) {
             ride = next
         }
     }
@@ -58,17 +57,15 @@ struct RideDetailView: View {
 
 #if DEBUG
 struct RideDetailView_Previews : PreviewProvider {
-    static var model = Model(savedState: ProgramState.load())
+    static var state = ProgramState()
 
     static var previews: some View {
         RideDetailView(ride: ScheduledRide(start: "5/7",
                                            restaurant: "countryinn",
                                            end: nil,
                                            description: nil,
-                                           comment: "Testing"),
-                        year: "2019")
-            .environmentObject(model.restaurantModel)
-            .environmentObject(model.rideModel)
+                                           comment: "Testing"))
+            .environmentObject(state)
     }
 }
 #endif
