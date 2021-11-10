@@ -25,6 +25,7 @@
 //
 
 import Foundation
+import Combine
 
 /// The schedule for a year is stored in the app bundle to initialize needed state before updated
 /// data is downloaded from the SMBC server.  This is the year of the stored schedule
@@ -121,11 +122,21 @@ struct SavedState: Codable {
 class ProgramState: ObservableObject {
     /// The various models that make up the total state of the system
     ///
-    var savedState = SavedState.load()
+    var savedState = SavedState.load() {
+        didSet {
+            SavedState.store(savedState)
+        }
+    }
     var yearModel = YearModel()
     var restaurantModel = RestaurantModel()
     var rideModel = RideModel()
     var tripModel = TripModel()
+
+    // Handle propagating changes from the sub-models
+    var yearCancellable: AnyCancellable? = nil
+    var restaurantCancellable: AnyCancellable? = nil
+    var rideCancellable: AnyCancellable? = nil
+    var tripCancellable: AnyCancellable? = nil
 
     // convenience variables
     //
@@ -146,16 +157,25 @@ class ProgramState: ObservableObject {
 
     init() {
         yearIndex = 0   // shut compiler up
-#if DEBUG
-        needRefresh = true
-#else
         needRefresh = savedState.refreshTime < Date()
-#endif
         yearIndex = yearModel.findYearIndex(for: yearString)
-    }
 
-    // store the current state for the next program run
-    deinit {
-        SavedState.store(savedState)
+        // propagate object will change notifications from the sub-models
+        yearCancellable =
+            yearModel.objectWillChange.sink { (_) in
+                self.objectWillChange.send()
+            }
+        restaurantCancellable =
+            restaurantModel.objectWillChange.sink { (_) in
+                self.objectWillChange.send()
+            }
+        rideCancellable =
+            rideModel.objectWillChange.sink { (_) in
+                self.objectWillChange.send()
+            }
+        tripCancellable =
+            tripModel.objectWillChange.sink { (_) in
+                self.objectWillChange.send()
+            }
     }
 }

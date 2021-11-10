@@ -31,6 +31,8 @@ import SwiftUI
 struct RideListView : View {
     @EnvironmentObject var state: ProgramState
     @State private var yearPickerPresented = false
+    @State private var fetchFailed = false
+
 
     var body: some View {
         VStack {
@@ -50,22 +52,32 @@ struct RideListView : View {
             }
         }.navigationBarTitle("SMBC Rides in \(state.yearString)")
          .navigationBarItems(trailing: Button("Change year") { yearPickerPresented = true })
+         .alert(isPresented: $fetchFailed) {
+             RefreshFailure(alertType: .ride).alertType.alertView
+          }
          .sheet(isPresented: $yearPickerPresented,
                 onDismiss: fetchRideData) {
                     YearPickerView(presented: $yearPickerPresented,
-                                   selectedIndex: state.yearModel.findYearIndex(for: state.yearString))
-
+                                   selectedIndex: $state.yearIndex)
          }
     }
 
+    /// If the user selected a different year fetch the schedule for that year
     func fetchRideData() {
-        Task {
-            do {
-                // ;;; year has not yet been updated and should not be updated
-                // ;;; until the updated data has been loaded
-                try await state.rideModel.fetch(year: state.year)
-            } catch {
-                //;;; display alert failure here.
+        guard let year = Int(state.yearModel.scheduleYears[state.yearIndex].year)
+        else {
+            fetchFailed = true
+            return
+        }
+        if year != state.year {
+            Task {
+                do {
+                    print("Fetching rides for year \(year)")
+                    try await state.rideModel.fetch(year: year)
+                    state.savedState.year = year
+                } catch {
+                    fetchFailed = true
+                }
             }
         }
     }

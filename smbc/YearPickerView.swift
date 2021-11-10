@@ -29,7 +29,7 @@ import SwiftUI
 struct YearPickerView: View {
     @EnvironmentObject var state: ProgramState
     @Binding var presented: Bool
-    @State var selectedIndex: Int
+    @Binding var selectedIndex: Int
 
     var body: some View {
         VStack {
