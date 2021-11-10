@@ -58,13 +58,12 @@ func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
 // MARK: - Initial Content
 
 struct ContentView: View {
+    @EnvironmentObject var state: ProgramState
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
 
     @State var selection: Int? = nil
     @State private var refreshPresented = false
     @State private var refreshFailed = false
-
-    var state: ProgramState
 
     var body: some View {
         NavigationView {
@@ -117,7 +116,6 @@ struct ContentView: View {
               }
 
         }
-        .environmentObject(state)
     }
 
     var refreshAlert: Alert {
@@ -133,7 +131,7 @@ struct ContentView: View {
 
     private
     func homePage() {
-        let url = URL(string: "https://smbc.snafu.org/")!
+        let url = URL(string: serverName)!
         UIApplication.shared.open(url)
     }
 
@@ -167,7 +165,7 @@ struct ContentView_Previews : PreviewProvider {
     static var state = ProgramState()
 
     static var previews: some View {
-        ContentView(state: state)
+        ContentView().environmentObject(state)
     }
 }
 #endif

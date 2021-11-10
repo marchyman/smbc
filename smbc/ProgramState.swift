@@ -142,6 +142,15 @@ class ProgramState: ObservableObject {
     var needRefresh: Bool
 
     init() {
-        needRefresh = savedState.refreshTime < Date()
+        #if DEBUG
+            needRefresh = true
+        #else
+            needRefresh = savedState.refreshTime < Date()
+        #endif
+    }
+
+    // store the current state for the next program run
+    deinit {
+        SavedState.store(savedState)
     }
 }
