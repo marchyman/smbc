@@ -61,7 +61,6 @@ struct ContentView: View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
 
     @State var selection: Int? = nil
-    @State private var infoPresented = false
     @State private var refreshPresented = false
 
     var state: ProgramState
@@ -80,7 +79,7 @@ struct ContentView: View {
                 }
                 ZStack {
                     if state.nextRide == nil {
-                        NavigationLink(destination: RideView(),
+                        NavigationLink(destination: RideListView(),
                                        tag: 2,
                                        selection: $selection) { EmptyView() }
                     } else {
@@ -103,38 +102,16 @@ struct ContentView: View {
                     NavigationLink("Restaurants", destination: RestaurantView())
                         .buttonStyle(SmbcButtonStyle())
                     Spacer()
-                    NavigationLink("Rides", destination: RideView())
+                    NavigationLink("Rides", destination: RideListView())
                         .buttonStyle(SmbcButtonStyle())
                     Spacer()
                 }.padding()
              }.frame(maxWidth: .infinity, maxHeight: .infinity)
               .background(backgroundGradient(colorScheme))
               .navigationBarTitle("SMBC")
-              .navigationBarItems(trailing: info)
+              .navigationBarItems(trailing: SmbcInfo())
         }
         .environmentObject(state)
-    }
-    
-    var info: some View {
-        Button(action: { self.infoPresented = true }) {
-            Image(systemName: "info.circle")
-        }
-        .alert(isPresented: $infoPresented) { smbcInfo }
-    }
-
-    var smbcInfo: Alert {
-        Alert(title: Text("SMBC Information"),
-              message: Text(
-                """
-                The Sunday Morning Breakfast Club is a loose affiliation of motorcycle riders who meet every Sunday for breakfast. We also plan 4 to 6 multi-day trips each year.
-                        
-                Traditionally, riders meet at the corner of Laguna and Broadway in Burlingame with a full tank of gas in time to depart for breakfast at exactly 7:05.  Some still do.  Others meet at the destination restaurant.
-
-                After breakfast some go home while others ride bay area back roads. Ride routes are decided in the gab fest that follows breakfast.
-
-                We make it easy to join the club: show up for breakfast and you are a member. Stop showing up to quit. You can ride every weekend, a few times a year, or only on multi-day rides.
-                """),
-              dismissButton: .default(Text("Got It!")))
     }
 
     var refreshAlert: Alert {

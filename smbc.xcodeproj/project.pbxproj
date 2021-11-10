@@ -11,12 +11,13 @@
 		49158D8322E970C80067D893 /* ProgramState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49158D8222E970C80067D893 /* ProgramState.swift */; };
 		491B760F22DEC9EE00268B60 /* RideDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491B760E22DEC9EE00268B60 /* RideDetailView.swift */; };
 		493BBFDB22C01AE600E2B437 /* RestaurantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDA22C01AE600E2B437 /* RestaurantView.swift */; };
-		493BBFDD22C01B1000E2B437 /* RideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDC22C01B1000E2B437 /* RideView.swift */; };
+		493BBFDD22C01B1000E2B437 /* RideListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDC22C01B1000E2B437 /* RideListView.swift */; };
 		4947F16422C16515008E6D6A /* RestaurantDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4947F16322C16515008E6D6A /* RestaurantDetailView.swift */; };
 		4947F16622C1737A008E6D6A /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4947F16522C1737A008E6D6A /* MapView.swift */; };
 		498A078522C421500026FB5D /* schedule.json in Resources */ = {isa = PBXBuildFile; fileRef = 498A078422C421500026FB5D /* schedule.json */; };
 		49AFCBB1273B4F920082046F /* RideRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB0273B4F920082046F /* RideRowView.swift */; };
 		49AFCBB3273B50EB0082046F /* TripRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB2273B50EB0082046F /* TripRowView.swift */; };
+		49AFCBB5273B5C760082046F /* SmbcInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB4273B5C760082046F /* SmbcInfo.swift */; };
 		49B1969D22BEADE2009F51E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B1969C22BEADE2009F51E5 /* AppDelegate.swift */; };
 		49B1969F22BEADE2009F51E5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B1969E22BEADE2009F51E5 /* SceneDelegate.swift */; };
 		49B196A122BEADE2009F51E5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B196A022BEADE2009F51E5 /* ContentView.swift */; };
@@ -59,13 +60,14 @@
 		49158D8222E970C80067D893 /* ProgramState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramState.swift; sourceTree = "<group>"; };
 		491B760E22DEC9EE00268B60 /* RideDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideDetailView.swift; sourceTree = "<group>"; };
 		493BBFDA22C01AE600E2B437 /* RestaurantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantView.swift; sourceTree = "<group>"; };
-		493BBFDC22C01B1000E2B437 /* RideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideView.swift; sourceTree = "<group>"; };
+		493BBFDC22C01B1000E2B437 /* RideListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideListView.swift; sourceTree = "<group>"; };
 		493BBFE022C0966700E2B437 /* smbc.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = smbc.entitlements; sourceTree = "<group>"; };
 		4947F16322C16515008E6D6A /* RestaurantDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailView.swift; sourceTree = "<group>"; };
 		4947F16522C1737A008E6D6A /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		498A078422C421500026FB5D /* schedule.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schedule.json; sourceTree = "<group>"; };
 		49AFCBB0273B4F920082046F /* RideRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideRowView.swift; sourceTree = "<group>"; };
 		49AFCBB2273B50EB0082046F /* TripRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRowView.swift; sourceTree = "<group>"; };
+		49AFCBB4273B5C760082046F /* SmbcInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmbcInfo.swift; sourceTree = "<group>"; };
 		49B1969922BEADE2009F51E5 /* smbc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = smbc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49B1969C22BEADE2009F51E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49B1969E22BEADE2009F51E5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -144,9 +146,10 @@
 				49B1969E22BEADE2009F51E5 /* SceneDelegate.swift */,
 				493BBFE022C0966700E2B437 /* smbc.entitlements */,
 				49B196A022BEADE2009F51E5 /* ContentView.swift */,
+				49AFCBB4273B5C760082046F /* SmbcInfo.swift */,
 				493BBFDA22C01AE600E2B437 /* RestaurantView.swift */,
 				4947F16322C16515008E6D6A /* RestaurantDetailView.swift */,
-				493BBFDC22C01B1000E2B437 /* RideView.swift */,
+				493BBFDC22C01B1000E2B437 /* RideListView.swift */,
 				49AFCBB0273B4F920082046F /* RideRowView.swift */,
 				49AFCBB2273B50EB0082046F /* TripRowView.swift */,
 				491B760E22DEC9EE00268B60 /* RideDetailView.swift */,
@@ -367,8 +370,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				49D3A83022EE6E4F00C6682C /* Cache.swift in Sources */,
-				493BBFDD22C01B1000E2B437 /* RideView.swift in Sources */,
+				493BBFDD22C01B1000E2B437 /* RideListView.swift in Sources */,
 				49AFCBB1273B4F920082046F /* RideRowView.swift in Sources */,
+				49AFCBB5273B5C760082046F /* SmbcInfo.swift in Sources */,
 				4947F16622C1737A008E6D6A /* MapView.swift in Sources */,
 				491B760F22DEC9EE00268B60 /* RideDetailView.swift in Sources */,
 				49158D8322E970C80067D893 /* ProgramState.swift in Sources */,

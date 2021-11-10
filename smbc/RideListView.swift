@@ -28,7 +28,7 @@ import SwiftUI
 
 // MARK: - RideView -- list of rides for the year
 
-struct RideView : View {
+struct RideListView : View {
     @EnvironmentObject var state: ProgramState
     @State private var yearPickerPresented = false
 
@@ -102,7 +102,7 @@ struct RideView_Previews : PreviewProvider {
     static var state = ProgramState()
 
     static var previews: some View {
-        RideView()
+        RideListView()
             .environmentObject(state)
     }
 }
