@@ -35,7 +35,7 @@ struct RideDetailView: View {
     var body: some View {
         RestaurantDetailView(restaurant: restaurant(id: ride.restaurant!),
                              eta: true)
-            .navigationBarTitle("\(ride.start)/\(state.year) Ride")
+            .navigationBarTitle("\(ride.start)/\(state.yearString) Ride")
             .navigationBarItems(
                 trailing: Button("Next ride",
                                  action: nextRide)

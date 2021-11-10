@@ -46,7 +46,7 @@ let serverDir = "schedule/"
 struct SavedState: Codable {
     var year: Int                   // current schedule year
     var refreshTime: Date           // when to refresh the cache
-    var mapTypeIndex: Int
+    var mapTypeIndex: Int           // desired map display type
 
     init() {
         year = bundleScheduleYear
@@ -130,7 +130,9 @@ class ProgramState: ObservableObject {
     // convenience variables
     //
     var year: Int { savedState.year }
-    var yearString: String { "\(year)" }
+    var yearString: String {
+        String(format: "%4d", year)
+    }
     var nextRide: ScheduledRide? {
         rideModel.nextRide(for: year)
     }

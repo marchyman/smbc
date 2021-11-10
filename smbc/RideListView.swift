@@ -32,37 +32,6 @@ struct RideListView : View {
     @EnvironmentObject var state: ProgramState
     @State private var yearPickerPresented = false
 
-    var alert: Alert {
-        Alert(title: Text("Schedule access error"),
-              message: Text("""
-                Schedule data for the desired year is not availalbe at this time.  There may be a network or server issue.
-
-                Please try again, later.
-                """),
-              dismissButton: .default(Text("OK")))
-    }
-
-    var sheet: some View {
-        VStack {
-            HStack {
-                Spacer()
-                Button("Done") {
-                    self.yearPickerPresented = false
-                }.padding()
-            }
-            Text("Fix Later")
-//            Picker("Pick desired year",
-//                   selection: $rideModel.programState.selectedIndex) {
-//                ForEach(0 ..< rideModel.programState.scheduleYears.count) {
-//                    Text(self.rideModel.programState.scheduleYears[$0].year).tag($0)
-//                }
-//            }.pickerStyle(WheelPickerStyle())
-//             .labelsHidden()
-            Text("Pick desired year")
-            Spacer()
-        }
-    }
-
     var body: some View {
         VStack {
             List (state.rideModel.rides) { ride in
@@ -79,19 +48,24 @@ struct RideListView : View {
                     .font(.title)
                     .padding(.bottom)
             }
-        }.navigationBarTitle("SMBC Rides in \(state.year)")
-         .navigationBarItems(trailing: Button("Change year") { self.yearPickerPresented = true })
+        }.navigationBarTitle("SMBC Rides in \(state.yearString)")
+         .navigationBarItems(trailing: Button("Change year") { yearPickerPresented = true })
          .sheet(isPresented: $yearPickerPresented,
-                onDismiss: fetchRideData) { self.sheet }
-//;;;         .alert(isPresented: $state.rideModel.fileUnavailable) { alert }
+                onDismiss: fetchRideData) {
+                    YearPickerView(presented: $yearPickerPresented,
+                                   selectedIndex: state.yearModel.findYearIndex(for: state.yearString))
+
+         }
     }
 
     func fetchRideData() {
         Task {
             do {
+                // ;;; year has not yet been updated and should not be updated
+                // ;;; until the updated data has been loaded
                 try await state.rideModel.fetch(year: state.year)
             } catch {
-                //;;;
+                //;;; display alert failure here.
             }
         }
     }

@@ -62,6 +62,7 @@ struct ContentView: View {
 
     @State var selection: Int? = nil
     @State private var refreshPresented = false
+    @State private var refreshFailed = false
 
     var state: ProgramState
 
@@ -92,10 +93,11 @@ struct ContentView: View {
                         .onLongPressGesture {
                             Task {
                                 await refresh()
+                                state.savedState.refreshTime = Date()
+                                state.needRefresh = false
                             }
                             refreshPresented = true
                         }.alert(isPresented: $refreshPresented) { refreshAlert }
-
                 }
                 HStack {
                     Spacer()
@@ -110,13 +112,22 @@ struct ContentView: View {
               .background(backgroundGradient(colorScheme))
               .navigationBarTitle("SMBC")
               .navigationBarItems(trailing: SmbcInfo())
+              .alert(isPresented: $refreshFailed) {
+                  RefreshFailure(alertType: .all).alertType.alertView
+              }
+
         }
         .environmentObject(state)
     }
 
     var refreshAlert: Alert {
         Alert(title: Text("Data refresh"),
-              message: Text("Current Trip, Restaurant, and Schedule data is being retrieved from smbc.snafu.org"),
+              message: Text(
+                """
+                Current Trip, Restaurant, and Schedule data is being retrieved from smbc.snafu.org
+
+                It may take a few seconds for updated data to be received and processed.
+                """),
               dismissButton: .default(Text("OK")))
     }
 
@@ -135,7 +146,7 @@ struct ContentView: View {
             try await state.rideModel.fetch(year: state.year)
             try await state.tripModel.fetch()
         } catch {
-            /// ;;;
+            refreshFailed = true
         }
     }
 }
