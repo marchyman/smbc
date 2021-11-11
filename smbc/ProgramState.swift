@@ -40,7 +40,7 @@ let serverDir = "schedule/"
 class ProgramState: ObservableObject {
     /// The various models that make up the total state of the system
     ///
-    @Published var savedState = SavedState.load() {
+    var savedState = SavedState.load() {
         didSet {
             SavedState.store(savedState)
         }
@@ -69,9 +69,19 @@ class ProgramState: ObservableObject {
     /// index into the yearModel array of years that matches the schedule year
     ///
     var yearIndex: Int
+
     /// True if it is time to refresh data from the server
     ///
     var needRefresh: Bool
+
+    /// attempt to fix bug where map type updates do not work correctly
+    /// No change.  Will wait for next beta before doing more.
+    ///
+    @Published var mapTypeIndex: Int = 0 {
+        didSet {
+            savedState.mapTypeIndex = mapTypeIndex
+        }
+    }
 
     init() {
         // shut compiler up
@@ -81,6 +91,7 @@ class ProgramState: ObservableObject {
         // Now do proper initialization
         yearIndex = yearModel.findYearIndex(for: yearString)
         needRefresh = savedState.refreshTime < Date()
+        mapTypeIndex = savedState.mapTypeIndex
 
         // propagate object will change notifications from the sub-models
         yearCancellable =

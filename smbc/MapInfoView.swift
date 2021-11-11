@@ -20,10 +20,10 @@ struct MapInfoView: View {
         // put a segmented control to pick the desired map type
         // on top of the map
         ZStack(alignment: .top) {
-            MapView(mapType: types[state.savedState.mapTypeIndex],
+            MapView(mapType: types[state.mapTypeIndex],
                     center: CLLocationCoordinate2D(latitude: restaurant.lat,
                                                    longitude: restaurant.lon))
-            Picker("", selection: $state.savedState.mapTypeIndex) {
+            Picker("", selection: $state.mapTypeIndex) {
                 ForEach(0 ..< types.count) {
                     index in
                     Text(types[index].name).tag(index)
