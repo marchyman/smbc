@@ -40,7 +40,7 @@ let serverDir = "schedule/"
 class ProgramState: ObservableObject {
     /// The various models that make up the total state of the system
     ///
-    var savedState = SavedState.load() {
+    @Published var savedState = SavedState.load() {
         didSet {
             SavedState.store(savedState)
         }
@@ -74,9 +74,13 @@ class ProgramState: ObservableObject {
     var needRefresh: Bool
 
     init() {
-        yearIndex = 0   // shut compiler up
-        needRefresh = savedState.refreshTime < Date()
+        // shut compiler up
+        yearIndex = 0
+        needRefresh = false
+
+        // Now do proper initialization
         yearIndex = yearModel.findYearIndex(for: yearString)
+        needRefresh = savedState.refreshTime < Date()
 
         // propagate object will change notifications from the sub-models
         yearCancellable =

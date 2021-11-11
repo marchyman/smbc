@@ -26,8 +26,6 @@
 
 import SwiftUI
 
-// MARK: - Ride Details
-
 struct RideDetailView: View {
     @EnvironmentObject var state: ProgramState
     @State var ride: ScheduledRide

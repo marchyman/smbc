@@ -26,8 +26,6 @@
 
 import SwiftUI
 
-// MARK: - RideView -- list of rides for the year
-
 struct RideListView : View {
     @EnvironmentObject var state: ProgramState
     @State private var yearPickerPresented = false

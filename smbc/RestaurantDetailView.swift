@@ -25,7 +25,6 @@
 //
 
 import SwiftUI
-import MapKit
 
 /// Restaurant detail view.
 ///
@@ -37,7 +36,7 @@ struct RestaurantDetailView : View {
 //    @State private var selectorIndex = 0
     @State private var showVisits = false
 
-    let types = [MKMapType.standard, MKMapType.satellite, MKMapType.hybrid]
+
     let restaurant: Restaurant
     let eta: Bool
 
@@ -45,9 +44,9 @@ struct RestaurantDetailView : View {
         GeometryReader {
             g in
             VStack {
-                self.restaurantInfo
+                restaurantInfo
                     .frame(minHeight: 0, maxHeight: g.size.height * 0.35)
-                self.mapInfo
+                MapInfoView(restaurant: restaurant)
                     .frame(minHeight: 0, maxHeight: g.size.height * 0.65)
             }
             .background(backgroundGradient(self.colorScheme))
@@ -93,25 +92,6 @@ struct RestaurantDetailView : View {
             }
         }.frame(minWidth: 0, maxWidth: .infinity,
                 minHeight: 0, maxHeight: .infinity)
-    }
-    
-    var mapInfo: some View {
-        // put a segmented control to pick the desired map type
-        // on top of the map
-        ZStack(alignment: .top) {
-            MapView(mapType: types[state.savedState.mapTypeIndex],
-                    center: CLLocationCoordinate2D(latitude: restaurant.lat,
-                                                   longitude: restaurant.lon))
-            Picker("", selection: $state.savedState.mapTypeIndex) {
-                ForEach(0 ..< types.count) {
-                    index in
-                    Text(self.types[index].name).tag(index)
-                }
-            }.pickerStyle(SegmentedPickerStyle())
-             .background(RoundedRectangle(cornerRadius: 10)
-                            .fill(Color(white: 0.5)))
-             .padding(.horizontal)
-        }
     }
 
     private
