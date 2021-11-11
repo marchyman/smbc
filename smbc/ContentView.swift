@@ -133,7 +133,7 @@ struct ContentView: View {
                     try await state.restaurantModel.fetch()
                     try await state.rideModel.fetch(year: state.year)
                     try await state.tripModel.fetch()
-                    state.savedState.refreshTime = Date()
+                    state.refreshTime = Date()
                     state.needRefresh = false
                 } catch {
                     alertView = RefreshAlerts(type: .all).type.view

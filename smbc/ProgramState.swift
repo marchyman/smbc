@@ -32,19 +32,35 @@ import Combine
 let serverName = "https://smbc.snafu.org/"
 let serverDir = "schedule/"
 
-
+/// The schedule for a year is stored in the app bundle to initialize needed state before updated
+/// data is downloaded from the SMBC server.  This is the year of the stored schedule
+///
+fileprivate let bundleScheduleYear = 2021
 
 /// A class to hold program state
 ///
 @MainActor
 class ProgramState: ObservableObject {
-    /// The various models that make up the total state of the system
+    /// user defaults
     ///
-    var savedState = SavedState.load() {
+    @Published var year: Int {
         didSet {
-            SavedState.store(savedState)
+            UserDefaults.standard.set(year, forKey: "year")
         }
     }
+    @Published var refreshTime: Date {
+        didSet {
+            UserDefaults.standard.set(refreshTime, forKey: "refreshTime")
+        }
+    }
+    @Published var mapTypeIndex: Int {
+        didSet {
+            UserDefaults.standard.set(mapTypeIndex, forKey: "mapTypeIndex")
+        }
+    }
+
+    /// The various models that make up the total state of the system
+    ///
     var yearModel = YearModel()
     var restaurantModel = RestaurantModel()
     var rideModel = RideModel()
@@ -58,7 +74,6 @@ class ProgramState: ObservableObject {
 
     // convenience variables
     //
-    var year: Int { savedState.year }
     var yearString: String {
         String(format: "%4d", year)
     }
@@ -74,24 +89,21 @@ class ProgramState: ObservableObject {
     ///
     var needRefresh: Bool
 
-    /// attempt to fix bug where map type updates do not work correctly
-    /// No change.  Will wait for next beta before doing more.
-    ///
-    @Published var mapTypeIndex: Int = 0 {
-        didSet {
-            savedState.mapTypeIndex = mapTypeIndex
-        }
-    }
-
     init() {
+        year = UserDefaults.standard.object(forKey: "year")
+            as? Int ?? bundleScheduleYear
+        refreshTime = UserDefaults.standard.object(forKey: "refreshTime")
+            as? Date ?? Date()
+        mapTypeIndex = UserDefaults.standard.object(forKey: "mapTypeIndex")
+            as? Int ?? 0
+
         // shut compiler up
         yearIndex = 0
         needRefresh = false
 
         // Now do proper initialization
         yearIndex = yearModel.findYearIndex(for: yearString)
-        needRefresh = savedState.refreshTime < Date()
-        mapTypeIndex = savedState.mapTypeIndex
+        needRefresh = refreshTime < Date()
 
         // propagate object will change notifications from the sub-models
         yearCancellable =

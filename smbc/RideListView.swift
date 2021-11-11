@@ -72,7 +72,7 @@ struct RideListView : View {
                 do {
                     print("Fetching rides for year \(year)")
                     try await state.rideModel.fetch(year: year)
-                    state.savedState.year = year
+                    state.year = year
                 } catch {
                     fetchFailed = true
                 }
