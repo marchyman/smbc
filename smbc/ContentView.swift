@@ -63,37 +63,38 @@ struct ContentView: View {
 
     @State var selection: Int? = nil
     @State private var refreshPresented = false
-    @State private var refreshFailed = false
+    @State private var alertView = RefreshAlerts(type: .refreshing).type.view
 
     var body: some View {
         NavigationView {
             VStack {
                 Button(action: homePage) {
                     Text("""
-                           Sunday Morning Breakfast Club
-                           Breakfast and beyond since 1949
-                           """)
-                    .font(.headline)
-                    .lineLimit(2)
-                    .padding()
+                         Sunday Morning Breakfast Club
+                         Breakfast and beyond since 1949
+                         """)
+                        .font(.headline)
+                        .lineLimit(2)
+                        .padding()
                 }
                 ZStack {
                     if state.nextRide == nil {
                         NavigationLink(destination: RideListView(),
                                        tag: 2,
-                                       selection: $selection) { EmptyView() }
+                                       selection: $selection) { }
                     } else {
                         NavigationLink(destination: RideDetailView(ride: state.nextRide!),
                                        tag: 1,
-                                       selection: $selection) { EmptyView()}
+                                       selection: $selection) { }
                     }
                     SmbcImage()
                         .onTapGesture{ selection = state.nextRide == nil ? 2 : 1 }
                         .onLongPressGesture {
                             state.needRefresh = true
                             refresh()
+                            alertView = RefreshAlerts(type: .refreshing).type.view
                             refreshPresented = true
-                        }.alert(isPresented: $refreshPresented) { refreshAlert }
+                        }
                 }
                 HStack {
                     Spacer()
@@ -108,24 +109,11 @@ struct ContentView: View {
               .background(backgroundGradient(colorScheme))
               .navigationBarTitle("SMBC")
               .navigationBarItems(trailing: SmbcInfo())
-              .alert(isPresented: $refreshFailed) {
-                  RefreshFailure(alertType: .all).alertType.alertView
-              }
+              .alert(isPresented: $refreshPresented) { alertView }
               .onAppear {
                   refresh()
               }
         }
-    }
-
-    var refreshAlert: Alert {
-        Alert(title: Text("Data refresh"),
-              message: Text(
-                """
-                Current Trip, Restaurant, and Schedule data is being retrieved from smbc.snafu.org
-
-                It may take a few seconds for updated data to be received and processed.
-                """),
-              dismissButton: .default(Text("OK")))
     }
 
     private
@@ -148,7 +136,8 @@ struct ContentView: View {
                     state.savedState.refreshTime = Date()
                     state.needRefresh = false
                 } catch {
-                    refreshFailed = true
+                    alertView = RefreshAlerts(type: .all).type.view
+                    refreshPresented = true
                 }
             }
         }

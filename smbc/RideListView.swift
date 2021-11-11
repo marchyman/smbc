@@ -53,7 +53,7 @@ struct RideListView : View {
         }.navigationBarTitle("SMBC Rides in \(state.yearString)")
          .navigationBarItems(trailing: Button("Change year") { yearPickerPresented = true })
          .alert(isPresented: $fetchFailed) {
-             RefreshFailure(alertType: .ride).alertType.alertView
+             RefreshAlerts(type: .ride).type.view
           }
          .sheet(isPresented: $yearPickerPresented,
                 onDismiss: fetchRideData) {

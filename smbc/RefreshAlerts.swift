@@ -1,5 +1,5 @@
 //
-//  RefreshFailure.swift
+//  RefreshAlerts.swift
 //  smbc
 //
 //  Created by Marco S Hyman on 11/9/21.
@@ -26,26 +26,36 @@
 
 import SwiftUI
 
-struct RefreshFailure {
+struct RefreshAlerts {
     enum RefreshType: String {
+        case refreshing
         case all
         case year
         case restaurant
         case ride
         case trip
 
-        var alertView: Alert {
-            Alert(title: Text("Refresh Error"),
-                  message: Text(
-                  """
-                  An attempt to refresh \(self.rawValue) data failed. There may be internet and/or server issues. As a result the ride schedule data on this device may be out of date.
+        var view: Alert {
+            switch self {
+            case .refreshing:
+                return Alert(
+                    title: Text("Data refresh"),
+                    message: Text("""
+                                  Up to date Trip, Restaurant, and Schedule data is being retrieved from smbc.snafu.org
 
-                  Please try to refresh the data again once the issue has been resolved.  You can always find the current schedule on the SMBC home page.
-                  """),
-                  dismissButton: .default(Text("OK")))
+                                  It may take a few seconds for the updated data to be received and processed.
+                                  """))
+            default:
+                return Alert(
+                    title: Text("Refresh Error"),
+                    message: Text("""
+                                  An attempt to refresh \(self.rawValue) data failed. There may be internet and/or server issues. As a result the ride schedule data on this device may be out of date.
+
+                                  Please try to refresh the data again once the issue has been resolved.  You can always find the current schedule on the SMBC home page.
+                                  """))
+            }
         }
-
     }
 
-    var alertType: RefreshType
+    var type: RefreshType
 }

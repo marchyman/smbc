@@ -19,7 +19,7 @@
 		49AFCBB1273B4F920082046F /* RideRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB0273B4F920082046F /* RideRowView.swift */; };
 		49AFCBB3273B50EB0082046F /* TripRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB2273B50EB0082046F /* TripRowView.swift */; };
 		49AFCBB5273B5C760082046F /* SmbcInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB4273B5C760082046F /* SmbcInfo.swift */; };
-		49AFCBB7273B6DC70082046F /* RefreshFailure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB6273B6DC70082046F /* RefreshFailure.swift */; };
+		49AFCBB7273B6DC70082046F /* RefreshAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB6273B6DC70082046F /* RefreshAlerts.swift */; };
 		49AFCBB9273B815D0082046F /* YearPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB8273B815D0082046F /* YearPickerView.swift */; };
 		49B1969D22BEADE2009F51E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B1969C22BEADE2009F51E5 /* AppDelegate.swift */; };
 		49B1969F22BEADE2009F51E5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B1969E22BEADE2009F51E5 /* SceneDelegate.swift */; };
@@ -72,7 +72,7 @@
 		49AFCBB0273B4F920082046F /* RideRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideRowView.swift; sourceTree = "<group>"; };
 		49AFCBB2273B50EB0082046F /* TripRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRowView.swift; sourceTree = "<group>"; };
 		49AFCBB4273B5C760082046F /* SmbcInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmbcInfo.swift; sourceTree = "<group>"; };
-		49AFCBB6273B6DC70082046F /* RefreshFailure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshFailure.swift; sourceTree = "<group>"; };
+		49AFCBB6273B6DC70082046F /* RefreshAlerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshAlerts.swift; sourceTree = "<group>"; };
 		49AFCBB8273B815D0082046F /* YearPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearPickerView.swift; sourceTree = "<group>"; };
 		49B1969922BEADE2009F51E5 /* smbc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = smbc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49B1969C22BEADE2009F51E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -153,7 +153,7 @@
 				493BBFE022C0966700E2B437 /* smbc.entitlements */,
 				49B196A022BEADE2009F51E5 /* ContentView.swift */,
 				49AFCBB4273B5C760082046F /* SmbcInfo.swift */,
-				49AFCBB6273B6DC70082046F /* RefreshFailure.swift */,
+				49AFCBB6273B6DC70082046F /* RefreshAlerts.swift */,
 				493BBFDA22C01AE600E2B437 /* RestaurantView.swift */,
 				4947F16322C16515008E6D6A /* RestaurantDetailView.swift */,
 				493BBFDC22C01B1000E2B437 /* RideListView.swift */,
@@ -400,7 +400,7 @@
 				49B196A122BEADE2009F51E5 /* ContentView.swift in Sources */,
 				49C6B8AE2739FD83005EE12F /* UrlSession-extension.swift in Sources */,
 				493BBFDB22C01AE600E2B437 /* RestaurantView.swift in Sources */,
-				49AFCBB7273B6DC70082046F /* RefreshFailure.swift in Sources */,
+				49AFCBB7273B6DC70082046F /* RefreshAlerts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
