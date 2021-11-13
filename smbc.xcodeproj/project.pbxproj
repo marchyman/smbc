@@ -10,6 +10,8 @@
 		4905C3E822C72CEC00D9B7CE /* trips.json in Resources */ = {isa = PBXBuildFile; fileRef = 4905C3E722C72CEC00D9B7CE /* trips.json */; };
 		49158D8322E970C80067D893 /* ProgramState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49158D8222E970C80067D893 /* ProgramState.swift */; };
 		491B760F22DEC9EE00268B60 /* RideDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491B760E22DEC9EE00268B60 /* RideDetailView.swift */; };
+		492151D4273F342A00B51E94 /* RestaurantDetailViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492151D3273F342A00B51E94 /* RestaurantDetailViewTests.swift */; };
+		492151D6273F3AAF00B51E94 /* RideVisitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492151D5273F3AAF00B51E94 /* RideVisitsView.swift */; };
 		493BBFDB22C01AE600E2B437 /* RestaurantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDA22C01AE600E2B437 /* RestaurantView.swift */; };
 		493BBFDD22C01B1000E2B437 /* RideListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDC22C01B1000E2B437 /* RideListView.swift */; };
 		4947F16422C16515008E6D6A /* RestaurantDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4947F16322C16515008E6D6A /* RestaurantDetailView.swift */; };
@@ -62,6 +64,8 @@
 		4905C3E722C72CEC00D9B7CE /* trips.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = trips.json; sourceTree = "<group>"; };
 		49158D8222E970C80067D893 /* ProgramState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramState.swift; sourceTree = "<group>"; };
 		491B760E22DEC9EE00268B60 /* RideDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideDetailView.swift; sourceTree = "<group>"; };
+		492151D3273F342A00B51E94 /* RestaurantDetailViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailViewTests.swift; sourceTree = "<group>"; };
+		492151D5273F3AAF00B51E94 /* RideVisitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideVisitsView.swift; sourceTree = "<group>"; };
 		493BBFDA22C01AE600E2B437 /* RestaurantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantView.swift; sourceTree = "<group>"; };
 		493BBFDC22C01B1000E2B437 /* RideListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideListView.swift; sourceTree = "<group>"; };
 		493BBFE022C0966700E2B437 /* smbc.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = smbc.entitlements; sourceTree = "<group>"; };
@@ -156,6 +160,7 @@
 				49AFCBB6273B6DC70082046F /* RefreshAlerts.swift */,
 				493BBFDA22C01AE600E2B437 /* RestaurantView.swift */,
 				4947F16322C16515008E6D6A /* RestaurantDetailView.swift */,
+				492151D5273F3AAF00B51E94 /* RideVisitsView.swift */,
 				493BBFDC22C01B1000E2B437 /* RideListView.swift */,
 				49AFCBB8273B815D0082046F /* YearPickerView.swift */,
 				49AFCBB0273B4F920082046F /* RideRowView.swift */,
@@ -201,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				49B196BE22BEADE3009F51E5 /* ContentViewTests.swift */,
+				492151D3273F342A00B51E94 /* RestaurantDetailViewTests.swift */,
 				49B196C022BEADE3009F51E5 /* Info.plist */,
 			);
 			path = smbcUITests;
@@ -386,6 +392,7 @@
 				4947F16622C1737A008E6D6A /* MapView.swift in Sources */,
 				491B760F22DEC9EE00268B60 /* RideDetailView.swift in Sources */,
 				49158D8322E970C80067D893 /* ProgramState.swift in Sources */,
+				492151D6273F3AAF00B51E94 /* RideVisitsView.swift in Sources */,
 				4947F16422C16515008E6D6A /* RestaurantDetailView.swift in Sources */,
 				4950F41D273CD06500A92862 /* MapInfoView.swift in Sources */,
 				49F2C34122C58B980089CF3C /* TripDetailView.swift in Sources */,
@@ -416,6 +423,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				492151D4273F342A00B51E94 /* RestaurantDetailViewTests.swift in Sources */,
 				49B196BF22BEADE3009F51E5 /* ContentViewTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

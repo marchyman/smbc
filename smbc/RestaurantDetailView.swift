@@ -59,7 +59,7 @@ struct RestaurantDetailView : View {
             self.showVisits = true
         }
         .sheet(isPresented: self.$showVisits) {
-            RideVisitView(isActive: self.$showVisits, restaurant: self.restaurant)
+            RideVisitsView(isActive: self.$showVisits, restaurant: self.restaurant)
                 .environmentObject(state)
         }
     }
@@ -108,59 +108,6 @@ struct RestaurantDetailView : View {
     }
 }
 
-struct RideVisitView: View {
-    @EnvironmentObject var state: ProgramState
-    @Binding var isActive: Bool
-    let restaurant: Restaurant
-
-    var body: some View {
-        let filteredRides = state.rideModel.rides.filter {
-            $0.restaurant == restaurant.id
-        }
-        return VStack {
-            HStack {
-                Spacer()
-                Button("Done") {
-                    self.isActive = false
-                }.padding()
-            }
-            Text(restaurant.name)
-                .font(.title)
-                .padding(.top, 40)
-            Text("""
-                 \(rideCountLabel(filteredRides.count))
-                 scheduled in \(state.year)
-                 """)
-                .padding()
-            if filteredRides.isEmpty {
-                Spacer()
-            } else {
-                List (filteredRides) {
-                    ride in
-                    Text(ride.start)
-                        .font(.headline)
-                }.padding()
-            }
-        }
-    }
-
-    private
-    func rideCountLabel(_ count: Int) -> String {
-        if count == 1 {
-            return "There is one ride"
-        }
-        return "There are \(spellOut(count)) rides"
-    }
-
-    private
-    func spellOut(_ n: Int) -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .spellOut
-        return formatter.string(for: n) ?? ""
-    }
-
-
-}
 #if DEBUG
 struct RestaurantDetailView_Previews : PreviewProvider {
     static var state = ProgramState()
