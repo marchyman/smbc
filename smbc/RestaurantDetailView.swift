@@ -94,6 +94,7 @@ struct RestaurantDetailView : View {
                 minHeight: 0, maxHeight: .infinity)
     }
 
+    @available(iOS, deprecated: 14.0, message: "Use Link(_, destination:) instead")
     private
     func mapLink() {
         let mapPath = "https://maps.apple.com/?daddr="
