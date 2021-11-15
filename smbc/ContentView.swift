@@ -125,20 +125,12 @@ struct ContentView: View {
     /// refresh model data from server
     private
     func refresh()  {
-        if state.needRefresh {
-            Task {
-                do {
-                    try await state.yearModel.fetch()
-                    state.yearIndex = state.yearModel.findYearIndex(for: state.yearString)
-                    try await state.restaurantModel.fetch()
-                    try await state.rideModel.fetch(year: state.year)
-                    try await state.tripModel.fetch()
-                    state.refreshTime = Date()
-                    state.needRefresh = false
-                } catch {
-                    alertView = RefreshAlerts(type: .all).type.view
-                    refreshPresented = true
-                }
+        Task {
+            do {
+                try await state.refresh()
+            } catch {
+                alertView = RefreshAlerts(type: .all).type.view
+                refreshPresented = true
             }
         }
     }

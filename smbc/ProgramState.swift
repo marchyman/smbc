@@ -123,4 +123,18 @@ class ProgramState: ObservableObject {
                 self.objectWillChange.send()
             }
     }
+
+    /// refresh schedule model data from the server
+    ///
+    func refresh() async throws {
+        if needRefresh {
+            try await yearModel.fetch()
+            yearIndex = yearModel.findYearIndex(for: yearString)
+            try await restaurantModel.fetch()
+            try await rideModel.fetch(year: year)
+            try await tripModel.fetch()
+            refreshTime = Date()
+            needRefresh = false
+        }
+    }
 }
