@@ -70,7 +70,7 @@ struct RideListView : View {
         if year != state.year {
             Task {
                 do {
-                    print("Fetching rides for year \(year)")
+//                   print("Fetching rides for year \(year)")
                     try await state.rideModel.fetch(year: year)
                     state.year = year
                 } catch {
