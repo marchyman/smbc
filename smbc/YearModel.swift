@@ -61,7 +61,7 @@ class YearModel: ObservableObject {
     /// - Parameter year:   the year to check
     /// - Returns:          true if a schedule exists for year
     ///
-    func scheduledYear(for year: Int) -> Bool {
+    func scheduleExists(for year: Int) -> Bool {
         let yearString = String(format: "%4d", year)
         let scheduleYear = ScheduleYear(year: yearString)
         return scheduleYears.contains(scheduleYear)

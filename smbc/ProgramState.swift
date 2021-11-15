@@ -129,10 +129,10 @@ class ProgramState: ObservableObject {
     func refresh() async throws {
         if needRefresh {
             try await yearModel.fetch()
-            yearIndex = yearModel.findYearIndex(for: yearString)
             try await restaurantModel.fetch()
             try await rideModel.fetch(year: year)
             try await tripModel.fetch()
+            yearIndex = yearModel.findYearIndex(for: yearString)
             refreshTime = Date()
             needRefresh = false
         }

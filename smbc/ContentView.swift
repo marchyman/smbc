@@ -123,8 +123,26 @@ struct ContentView: View {
     }
 
     /// refresh model data from server
+    ///
     private
     func refresh()  {
+        var updateSched = false
+
+        // If the current year is > the year of the loaded schedule or
+        // if nextRide is nil and state.year matches the current year and
+        // a schedule exists for the year change state.year so
+        // the new schedule will be loaded.
+        var year = Calendar.current.component(.year, from: Date())
+        if year > state.year {
+            updateSched = true
+        } else if state.nextRide == nil && year == state.year {
+            year += 1
+            updateSched = true
+        }
+        if updateSched && state.yearModel.scheduleExists(for: year) {
+            state.year = year
+            state.needRefresh = true
+        }
         Task {
             do {
                 try await state.refresh()
