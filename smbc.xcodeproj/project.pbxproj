@@ -18,6 +18,7 @@
 		4947F16622C1737A008E6D6A /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4947F16522C1737A008E6D6A /* MapView.swift */; };
 		4950F41D273CD06500A92862 /* MapInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4950F41C273CD06500A92862 /* MapInfoView.swift */; };
 		498A078522C421500026FB5D /* schedule.json in Resources */ = {isa = PBXBuildFile; fileRef = 498A078422C421500026FB5D /* schedule.json */; };
+		49AA7CF52742F8ED00FC71E6 /* SmbcHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA7CF42742F8ED00FC71E6 /* SmbcHelp.swift */; };
 		49AFCBB1273B4F920082046F /* RideRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB0273B4F920082046F /* RideRowView.swift */; };
 		49AFCBB3273B50EB0082046F /* TripRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB2273B50EB0082046F /* TripRowView.swift */; };
 		49AFCBB5273B5C760082046F /* SmbcInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB4273B5C760082046F /* SmbcInfo.swift */; };
@@ -73,6 +74,7 @@
 		4947F16522C1737A008E6D6A /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		4950F41C273CD06500A92862 /* MapInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapInfoView.swift; sourceTree = "<group>"; };
 		498A078422C421500026FB5D /* schedule.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schedule.json; sourceTree = "<group>"; };
+		49AA7CF42742F8ED00FC71E6 /* SmbcHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmbcHelp.swift; sourceTree = "<group>"; };
 		49AFCBB0273B4F920082046F /* RideRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideRowView.swift; sourceTree = "<group>"; };
 		49AFCBB2273B50EB0082046F /* TripRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRowView.swift; sourceTree = "<group>"; };
 		49AFCBB4273B5C760082046F /* SmbcInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmbcInfo.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				493BBFE022C0966700E2B437 /* smbc.entitlements */,
 				49B196A022BEADE2009F51E5 /* ContentView.swift */,
 				49AFCBB4273B5C760082046F /* SmbcInfo.swift */,
+				49AA7CF42742F8ED00FC71E6 /* SmbcHelp.swift */,
 				49AFCBB6273B6DC70082046F /* RefreshAlerts.swift */,
 				493BBFDA22C01AE600E2B437 /* RestaurantView.swift */,
 				4947F16322C16515008E6D6A /* RestaurantDetailView.swift */,
@@ -394,6 +397,7 @@
 				49158D8322E970C80067D893 /* ProgramState.swift in Sources */,
 				492151D6273F3AAF00B51E94 /* RideVisitsView.swift in Sources */,
 				4947F16422C16515008E6D6A /* RestaurantDetailView.swift in Sources */,
+				49AA7CF52742F8ED00FC71E6 /* SmbcHelp.swift in Sources */,
 				4950F41D273CD06500A92862 /* MapInfoView.swift in Sources */,
 				49F2C34122C58B980089CF3C /* TripDetailView.swift in Sources */,
 				49CECB31273A165200BE6A2A /* YearModel.swift in Sources */,

@@ -108,7 +108,7 @@ struct ContentView: View {
              }.frame(maxWidth: .infinity, maxHeight: .infinity)
               .background(backgroundGradient(colorScheme))
               .navigationBarTitle("SMBC")
-              .navigationBarItems(trailing: SmbcInfo())
+              .navigationBarItems(trailing: HStack { SmbcHelp(); SmbcInfo() })
               .alert(isPresented: $refreshPresented) { alertView }
               .onAppear {
                   refresh()

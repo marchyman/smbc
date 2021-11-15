@@ -28,6 +28,9 @@ class ContentViewTests: XCTestCase {
             app.buttons["Sunday Morning Breakfast Club\nBreakfast and beyond since 1949"]
         XCTAssert(homePageButton.exists)
 
+        let helpButton = app.navigationBars["SMBC"].buttons["questionmark.circle"]
+        XCTAssert(helpButton.exists)
+
         let infoButton = app.navigationBars["SMBC"].buttons["Info"]
         XCTAssert(infoButton.exists)
 
@@ -39,6 +42,15 @@ class ContentViewTests: XCTestCase {
 
         let smbcImage = app.images["smbc"]
         XCTAssert(smbcImage.exists)
+    }
+
+    func testHelpButton() {
+        let helpButton = app.navigationBars["SMBC"].buttons["questionmark.circle"]
+        helpButton.tap()
+        XCTAssert(app.staticTexts["Application Help"].exists)
+        let ok = app.buttons["OK"]
+        XCTAssert(ok.exists)
+        ok.tap()
     }
 
     func testInfoButton() {
