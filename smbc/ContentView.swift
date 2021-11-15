@@ -128,12 +128,12 @@ struct ContentView: View {
     func refresh()  {
         var updateSched = false
 
-        // If the current year is > the year of the loaded schedule or
-        // if nextRide is nil and state.year matches the current year and
-        // a schedule exists for the year change state.year so
+        // Note if the current year is not the year of the loaded schedule or
+        // if nextRide is nil and state.year matches the current year.
+        // If a schedule exists for the adjusted year change state.year so
         // the new schedule will be loaded.
         var year = Calendar.current.component(.year, from: Date())
-        if year > state.year {
+        if year != state.year {
             updateSched = true
         } else if state.nextRide == nil && year == state.year {
             year += 1
