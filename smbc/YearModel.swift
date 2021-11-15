@@ -57,6 +57,16 @@ class YearModel: ObservableObject {
         )
     }
 
+    /// Check if a schedule exists for a given year
+    /// - Parameter year:   the year to check
+    /// - Returns:          true if a schedule exists for year
+    ///
+    func scheduledYear(for year: Int) -> Bool {
+        let yearString = String(format: "%4d", year)
+        let scheduleYear = ScheduleYear(year: yearString)
+        return scheduleYears.contains(scheduleYear)
+    }
+
     /// Find the index into scheduleYears for the entry that matches the given year
     /// - Parameter year: The year to find
     /// - Returns: The index matching the given year
