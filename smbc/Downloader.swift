@@ -46,10 +46,12 @@ struct Downloader<T: Decodable> {
         let decoder = JSONDecoder()
         let (data, _) = try await session.data(from: url)
         let decodedData = try decoder.decode(type, from: data)
-        let cache = Cache(name: name, type: type)
-        let cacheUrl = cache.fileUrl()
-        try data.write(to: cacheUrl)
-//        print("\(name) downloaded and written to the cache")
+        // update the cache in the background
+        Task.detached(priority: .background) {
+            let cache = Cache(name: name, type: type)
+            let cacheUrl = cache.fileUrl()
+            try data.write(to: cacheUrl)
+        }
         return decodedData
     }
 }
