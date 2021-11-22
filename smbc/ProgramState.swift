@@ -35,7 +35,7 @@ let serverDir = "schedule/"
 /// The schedule for a year is stored in the app bundle to initialize needed state before updated
 /// data is downloaded from the SMBC server.  This is the year of the stored schedule
 ///
-fileprivate let bundleScheduleYear = 2021
+fileprivate let bundleScheduleYear = 2022
 
 /// A class to hold program state
 ///
