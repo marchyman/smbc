@@ -28,6 +28,8 @@ import SwiftUI
 import MapKit
 
 /// MKMapView exposed to SwiftUI
+///
+@available(iOS, deprecated: 14.0, message: "Use the built-in Map API instead")
 struct MapView: UIViewRepresentable {
     let mapType: MKMapType
     let center: CLLocationCoordinate2D

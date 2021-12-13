@@ -1,9 +1,9 @@
 //
-//  TripView.swift
+//  RideRowView.swift
 //  smbc
 //
-//  Created by Marco S Hyman on 6/27/19.
-//  Copyright © 2019, 2021 Marco S Hyman. All rights reserved.
+//  Created by Marco S Hyman on 11/9/21.
+//  Copyright © 2021 Marco S Hyman. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -24,54 +24,39 @@
 // DEALINGS IN THE SOFTWARE.
 //
 
-import Foundation
 import SwiftUI
 
-struct TripDetailView: View {
+struct RideRowView: View {
     @EnvironmentObject var state: ProgramState
-    @Environment(\.colorScheme) private var colorScheme: ColorScheme
     var ride: ScheduledRide
-    
+
     var body: some View {
-        VStack {
-            Text(tripText())
-                .lineLimit(nil)
-                .padding()
-            Spacer()
-        }.frame(minWidth: 0, maxWidth: .infinity,
-                minHeight: 0, maxHeight: .infinity)
-         .background(backgroundGradient(colorScheme))
-         .navigationBarTitle("\(ride.start) - \(ride.end!) Trip")
-    }
-    
-    private
-    func tripText() -> String {
-        if let spaceIndex = ride.description?.firstIndex(of: " ") {
-            let key = String(ride.description![..<spaceIndex])
-            if let trip = state.tripModel.trips[key] {
-                return trip
+        NavigationLink(destination: RideDetailView(ride: ride)) {
+            HStack () {
+                Text(ride.start)
+                    .font(.headline)
+                    .frame(minWidth: 50, alignment: .leading)
+                Text(restaurantName(id: ride.restaurant))
             }
-
         }
-        return """
-                Sorry!
+    }
 
-                I don't have any information about
-                \(ride.description!)
-                """
+    private
+    func restaurantName(id: String?) -> String {
+        return state.restaurantModel.idToRestaurant(id: id).name
     }
 }
 
 #if DEBUG
-struct tripView_Previews : PreviewProvider {
+struct RideRowView_Previews: PreviewProvider {
     static var state = ProgramState()
 
     static var previews: some View {
-        TripDetailView(ride: ScheduledRide(start: "7/12",
-                                     restaurant: nil,
-                                     end: "7/13",
-                                     description: "Graegle blah",
-                                     comment: "preview"))
+        RideRowView(ride: ScheduledRide(start: "5/7",
+                                        restaurant: "countryinn",
+                                        end: nil,
+                                        description: nil,
+                                        comment: "Testing"))
             .environmentObject(state)
     }
 }

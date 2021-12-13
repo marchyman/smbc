@@ -3,7 +3,7 @@
 //  smbc
 //
 //  Created by Marco S Hyman on 6/22/19.
-//  Copyright © 2019 Marco S Hyman. All rights reserved.
+//  Copyright © 2019, 2021 Marco S Hyman. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -58,103 +58,99 @@ func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
 // MARK: - Initial Content
 
 struct ContentView: View {
+    @EnvironmentObject var state: ProgramState
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
 
     @State var selection: Int? = nil
-    @State private var infoPresented = false
     @State private var refreshPresented = false
+    @State private var alertView = RefreshAlerts(type: .refreshing).type.view
 
-    var model: Model
     var body: some View {
         NavigationView {
             VStack {
                 Button(action: homePage) {
                     Text("""
-                           Sunday Morning Breakfast Club
-                           Breakfast and beyond since 1949
-                           """)
-                    .font(.headline)
-                    .lineLimit(2)
-                    .padding()
+                         Sunday Morning Breakfast Club
+                         Breakfast and beyond since 1949
+                         """)
+                        .font(.headline)
+                        .lineLimit(2)
+                        .padding()
                 }
                 ZStack {
-                    if model.rideModel.nextRide == nil {
-                        NavigationLink(destination: RideView(),
+                    if state.nextRide == nil {
+                        NavigationLink(destination: RideListView(),
                                        tag: 2,
-                                       selection: $selection) { EmptyView() }
+                                       selection: $selection) { }
                     } else {
-                        NavigationLink(destination: RideDetailView(ride: model.rideModel.nextRide!,
-                                                                   year: model.rideModel.rideYear),
+                        NavigationLink(destination: RideDetailView(ride: state.nextRide!),
                                        tag: 1,
-                                       selection: $selection) { EmptyView()}
+                                       selection: $selection) { }
                     }
                     SmbcImage()
-                        .onTapGesture{ selection = model.rideModel.nextRide == nil ? 2 : 1 }
+                        .onTapGesture{ selection = state.nextRide == nil ? 2 : 1 }
                         .onLongPressGesture {
-                            refresh(model: model)
+                            state.needRefresh = true
+                            refresh()
+                            alertView = RefreshAlerts(type: .refreshing).type.view
                             refreshPresented = true
-                        }.alert(isPresented: $refreshPresented) { refreshAlert }
-
+                        }
                 }
                 HStack {
                     Spacer()
                     NavigationLink("Restaurants", destination: RestaurantView())
                         .buttonStyle(SmbcButtonStyle())
                     Spacer()
-                    NavigationLink("Rides", destination: RideView())
+                    NavigationLink("Rides", destination: RideListView())
                         .buttonStyle(SmbcButtonStyle())
                     Spacer()
                 }.padding()
              }.frame(maxWidth: .infinity, maxHeight: .infinity)
               .background(backgroundGradient(colorScheme))
               .navigationBarTitle("SMBC")
-              .navigationBarItems(trailing: info)
-        }.environmentObject(model.rideModel)
-         .environmentObject(model.restaurantModel)
-         .environmentObject(model.tripModel)
-    }
-    
-    var info: some View {
-        Button(action: { self.infoPresented = true }) {
-            Image(systemName: "info.circle")
+              .navigationBarItems(trailing: HStack { SmbcHelp(); SmbcInfo() })
+              .alert(isPresented: $refreshPresented) { alertView }
+              .onAppear {
+                  refresh()
+              }
         }
-        .alert(isPresented: $infoPresented) { smbcInfo }
-    }
-
-    var smbcInfo: Alert {
-        Alert(title: Text("SMBC Information"),
-              message: Text(
-                """
-                The Sunday Morning Breakfast Club is a loose affiliation of motorcycle riders who meet every Sunday for breakfast. We also plan 4 to 6 multi-day trips each year.
-                        
-                Traditionally, riders meet at the corner of Laguna and Broadway in Burlingame with a full tank of gas in time to depart for breakfast at exactly 7:05.  Some still do.  Others meet at the destination restaurant.
-
-                After breakfast some go home while others ride bay area back roads. Ride routes are decided in the gab fest that follows breakfast.
-
-                We make it easy to join the club: show up for breakfast and you are a member. Stop showing up to quit. You can ride every weekend, a few times a year, or only on multi-day rides.
-                """),
-              dismissButton: .default(Text("Got It!")))
-    }
-
-    var refreshAlert: Alert {
-        Alert(title: Text("Data refresh"),
-              message: Text("Current Trip, Restaurant, and Schedule data is being retrieved from smbc.snafu.org"),
-              dismissButton: .default(Text("OK")))
     }
 
     private
     func homePage() {
-        let url = URL(string: "https://smbc.snafu.org/")!
+        let url = URL(string: serverName)!
         UIApplication.shared.open(url)
     }
 
-    // refresh model data from server
+    /// refresh model data from server
+    ///
     private
-    func refresh(model: Model) {
-        model.tripModel = TripModel(refresh: true)
-        model.restaurantModel = RestaurantModel(refresh: true)
-        model.rideModel = RideModel(programState: model.rideModel.programState,
-                                    refresh: true)
+    func refresh()  {
+        var updateSched = false
+
+        // Note if the current year is not the year of the loaded schedule or
+        // if nextRide is nil and state.year matches the current year.
+        // If a schedule exists for the adjusted year change state.year so
+        // the new schedule will be loaded.
+        var year = Calendar.current.component(.year, from: Date())
+        if year != state.year {
+            updateSched = true
+        } else if state.nextRide == nil && year == state.year {
+            year += 1
+            updateSched = true
+        }
+        if updateSched && state.yearModel.scheduleExists(for: year) {
+            state.year = year
+            state.needRefresh = true
+        }
+        Task {
+            do {
+                try await state.refresh()
+            } catch {
+                alertView = RefreshAlerts(type: .all).type.view
+                refreshPresented = true
+            }
+        }
     }
 }
 
@@ -171,10 +167,10 @@ struct SmbcImage: View {
 
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {
-    static var model = Model(savedState: ProgramState.load())
+    static var state = ProgramState()
 
     static var previews: some View {
-        ContentView(model: model)
+        ContentView().environmentObject(state)
     }
 }
 #endif

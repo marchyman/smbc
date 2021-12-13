@@ -2,7 +2,7 @@
 	"Spring" : "Spring ride to Death Valley. First group leaves at 5:00 AM. 2nd group leaves at 6:00AM. Route, groups, and every other detail subject to change.",
 	"Northern" : "Northern California River Ride.  Three nights moteling in Weaverville. Ride California's famed highways 36 and 299.",
 	"Nor" : "Three nights camping at Hidden Springs near Myers Flat.   Two days riding California's famed highways 3, 36 and 299.",
-    "GS" : "GS style campout. A camping trip for those who want to see how well they and their bike can handle dirt roads. Destinations vary from year to year.",
+	"GS" : "GS style campout. A camping trip for those who want to see how well they and their bike can handle dirt roads. Destinations vary from year to year.",
 	"Gardnerville" : "Annual trek to the Carson City, Minden, Gardnerville region. Join us for dinner in Gardnerville, NV and the awarding of the boot.",
 	"Camping" : "Camping trip to Sequoia/Kings Canyon park. Spend one, two, or  three nights in Kings Canyon or the Sequoia National Park depending upon campsite availability.  Breakfast in Hollister at 8:15 Thursday morning.",
 	"Sequoia" : "Camping trip to Sequoia/Kings Canyon park. Spend one, two, or  three nights in Kings Canyon or the Sequoia National Park depending upon campsite availability.  Breakfast in Hollister at 8:15 Thursday morning.",
@@ -13,5 +13,10 @@
 	"Paso2" : "Spring ride to Paso Robles for Sunday dinner at a restaurant to be determined. Ride home on Monday.  Or extend the trip to suit your free time.",
 	"Patrick" : "Patrick's Point Campout.  Sometimes it rains.  Sometimes it doesn't.  Best to be prepared.",
 	"Sacramento" : "AFT Sacramento Mile. Ride up the delta roads Saturday to race fairgrounds. Stay the night at Fairfield Inn Cal Expo. Return Sunday.",
-	"Graeagle" : "Spend the night at the River Pines Resort cabins in Graeagle. Dinner at Coyote Bar & Grill next door."
+	"Graeagle" : "Spend the night at the River Pines Resort cabins in Graeagle. Dinner at Coyote Bar & Grill next door.",
+	"Hendy" : "Hendy Woods Campout.  Continue up the coast after Sunday breakfast at the Two Bird Cafe for two nights of Camping in Hendy Woods State Park west of Boonville.",
+	"Boot" : "Group dinner and the awarding of the SMBC Boot to a deserving member.  Venue to be determined.",
+	"Nevada" : "Ride to the Carson City, Minden, Gardnerville region of Nevada for Dinner. Return the next day.",
+	"Dinner" : "Spring ride to Paso Robles for Sunday dinner at a restaurant to be determined. Ride home on Monday.  Or extend the trip to suit your free time.",
+	"Virginia" : "Spend two nights at the Virginia Creek Settlement 5 miles south of Bridgeport on 395.  Motel, cabins, and tent cabins available."
 }

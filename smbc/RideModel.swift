@@ -3,10 +3,7 @@
 //  smbc
 //
 //  Created by Marco S Hyman on 7/28/19.
-//  Copyright © 2019 Marco S Hyman. All rights reserved.
-//
-//  Created by Marco S Hyman on 7/27/19.
-//  Copyright © 2019 Marco S Hyman. All rights reserved.
+//  Copyright © 2019, 2021 Marco S Hyman. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -30,10 +27,14 @@
 import Foundation
 import Combine
 
+fileprivate let scheduleBase = "schedule"
+fileprivate let scheduleExt = "json"
+
 /// Format of a scheduled ride record retrieved from server
 /// All rides have an ID and a start date.
 /// Breakfast rides have restaurant and possibly a comment
 /// Trips have an end date , a description, and possibly a comment
+///
 struct ScheduledRide: Decodable, Identifiable {
     let id = UUID()
     let start: String
@@ -59,101 +60,58 @@ struct ScheduledRide: Decodable, Identifiable {
       }
 }
 
+@MainActor
 class RideModel: ObservableObject {
-    let scheduleBase = "schedule"
-    let scheduleExt = "json"
-
     @Published var rides = [ScheduledRide]()
-    @Published var fileUnavailable = false
-    @Published var mapTypeIndex = 0
-    
-    var programState: ProgramState
-    var rideYear: String
-    
-    private var cancellable: AnyCancellable?
+
+    /// The name of the cached schedule file
+    ///
+    var scheduleFileName = scheduleBase + "." + scheduleExt
+
+    /// Initialize the list of scheduled rides from the cache
+    ///
+    init() {
+        let cache = Cache(name: scheduleFileName, type: [ScheduledRide].self)
+        rides = cache.cachedData()
+    }
+
+    /// fetch current data from the server  and update the model.
+    ///
+    func fetch(year: Int) async throws {
+        rides = try await Downloader.fetch(
+            name: scheduleFileName,
+            url: ridesUrl(for: year),
+            type: [ScheduledRide].self
+        )
+    }
 
     /// The  next breakfast ride on a date >=  todays  date
-    var nextRide: ScheduledRide? {
-        guard let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else {
+    ///
+    func nextRide(for schedYear: Int) -> ScheduledRide? {
+        guard let yesterday = Calendar
+            .current.date(byAdding: .day,
+                          value: -1,
+                          to: Date())
+        else {
             return nil
         }
         let year = Calendar.current.component(.year, from: yesterday)
-        guard year == Int(rideYear) else { return nil }
+        guard year == schedYear else { return nil }
         let month = Calendar.current.component(.month, from: yesterday)
         let day = Calendar.current.component(.day, from: yesterday)
         let md = "\(month)/\(day)"
         return ride(following: md)
     }
 
-    init(programState: ProgramState, refresh: Bool) {
-        self.programState = programState
-        rideYear = programState.scheduleYears[programState.cachedIndex].year
-        let name = scheduleBase + "." + scheduleExt
-        let cache = Cache(name: name, type: [ScheduledRide].self)
-        if refresh {
-            cancellable?.cancel()
-            let url = ridesUrl(for: rideYear)
-            let cacheUrl = try? cache.fileUrl()
-            let downloader = Downloader(url: url,
-                                        type: [ScheduledRide].self,
-                                        cache: cacheUrl)
-            cancellable = downloader
-                .publisher
-                .catch {
-                    _ in
-                    return Just(cache.cachedData())
-                }
-                .assign(to: \.rides, on: self)
-        } else {
-            rides = cache.cachedData()
-        }
-    }
-
-    /// Fetch ride data when a different year is sellected
-    ///
-    /// Unlike the initial data download this function does not use cached data upon failure.
-    ///
-    func fetchRideData() {
-        if programState.cachedIndex != programState.selectedIndex {
-            cancellable?.cancel()
-            let name = scheduleBase + "." + scheduleExt
-            let cache = Cache(name: name, type: [ScheduledRide].self)
-            let cacheUrl = try? cache.fileUrl()
-            let year = programState.scheduleYears[programState.selectedIndex].year
-            let fileUrl = ridesUrl(for: year)
-            let downloader = Downloader(url: fileUrl,
-                                        type: [ScheduledRide].self,
-                                        cache: cacheUrl)
-            cancellable = downloader
-                .publisher
-                .sink(receiveCompletion: {
-                        [weak self] error in
-                        guard let self = self else {return }
-                        if case .failure = error {
-                            self.fileUnavailable = true
-                        }
-                      },
-                      receiveValue: {
-                        [weak self] output in
-                        guard let self = self else { return }
-                        self.rides = output
-                        self.rideYear = year
-                        self.programState.cachedIndex = self.programState.selectedIndex
-                        ProgramState.store(self.programState)
-                      })
-
-        }
-    }
-
     /// Build the full name of the Scheduled Rides file on the server
     ///
     private
-    func ridesUrl(for year: String) -> URL {
+    func ridesUrl(for year: Int) -> URL {
         let fullName = serverName +
-            "schedule/" +
+            serverDir +
             scheduleBase +
             "-" +
-            year +
+            String(year) +
             "." +
             scheduleExt
         return URL(string: fullName)!

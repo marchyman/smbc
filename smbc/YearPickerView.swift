@@ -1,9 +1,9 @@
 //
-//  TripModel.swift
+//  YearPickerView.swift
 //  smbc
 //
-//  Created by Marco S Hyman on 7/27/19.
-//  Copyright © 2019, 2021 Marco S Hyman. All rights reserved.
+//  Created by Marco S Hyman on 11/9/21.
+//  Copyright © 2021 Marco S Hyman. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -24,31 +24,30 @@
 // DEALINGS IN THE SOFTWARE.
 //
 
-import Foundation
+import SwiftUI
 
-fileprivate let tripFileName = "trips.json"
+struct YearPickerView: View {
+    @EnvironmentObject var state: ProgramState
+    @Binding var presented: Bool
+    @Binding var selectedIndex: Int
 
-@MainActor
-class TripModel: ObservableObject {
-    @Published var trips = [String : String]()
-
-    /// Initialize list of restaurants from the cache
-    ///
-    init() {
-        let cache = Cache(name: tripFileName, type: [String : String].self)
-        trips = cache.cachedData()
+    var body: some View {
+        VStack {
+            HStack {
+                Spacer()
+                Button("Done") {
+                    presented = false
+                }.padding()
+            }
+            Picker("Pick desired year",
+                   selection: $selectedIndex) {
+                ForEach(0 ..< state.yearModel.scheduleYears.count) {
+                    Text(state.yearModel.scheduleYears[$0].year).tag($0)
+                }
+            }.pickerStyle(WheelPickerStyle())
+             .labelsHidden()
+            Text("Pick desired year")
+            Spacer()
+        }
     }
-
-    /// fetch current data from the server  and update the model.
-    ///
-    func fetch() async throws {
-        let url = URL(string: serverName + serverDir + tripFileName)!
-        trips = try await Downloader.fetch(
-            name: tripFileName,
-            url: url,
-            type: [String : String].self
-        )
-    }
-
 }
-

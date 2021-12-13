@@ -3,7 +3,7 @@
 //  smbc
 //
 //  Created by Marco S Hyman on 6/23/19.
-//  Copyright © 2019 Marco S Hyman. All rights reserved.
+//  Copyright © 2019, 2021 Marco S Hyman. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -27,7 +27,7 @@
 import SwiftUI
 
 struct RestaurantView : View {
-    @EnvironmentObject var restaurantModel: RestaurantModel
+    @EnvironmentObject var state: ProgramState
     @State private var filter = true
     var title: String {
         (filter ? "Active" : "All") + " Restaurants"
@@ -48,7 +48,7 @@ struct RestaurantView : View {
 
     private
     func filteredRestaurants(_ filter: Bool) -> [Restaurant] {
-        restaurantModel.restaurants.filter {
+        state.restaurantModel.restaurants.filter {
             !filter || $0.status == "open" || $0.status.hasPrefix("was ")
         }
     }
@@ -75,12 +75,12 @@ struct RestaurantRow: View {
 
 #if DEBUG
 struct RestaurantView_Previews : PreviewProvider {
-    static var model = Model(savedState: ProgramState.load())
+    static var state = ProgramState()
 
     static var previews: some View {
         NavigationView {
             RestaurantView()
-                .environmentObject(model.restaurantModel)
+                .environmentObject(state)
         }
     }
 }
