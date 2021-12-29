@@ -91,9 +91,9 @@ struct ContentView: View {
                         .onTapGesture{ selection = state.nextRide == nil ? 2 : 1 }
                         .onLongPressGesture {
                             state.needRefresh = true
-                            refresh()
                             alertView = RefreshAlerts(type: .refreshing).type.view
                             refreshPresented = true
+                            refresh()
                         }
                 }
                 HStack {

@@ -88,6 +88,7 @@ class RideModel: ObservableObject {
     /// The  next breakfast ride on a date >=  todays  date
     ///
     func nextRide(for schedYear: Int) -> ScheduledRide? {
+        let md: String
         guard let yesterday = Calendar
             .current.date(byAdding: .day,
                           value: -1,
@@ -96,10 +97,14 @@ class RideModel: ObservableObject {
             return nil
         }
         let year = Calendar.current.component(.year, from: yesterday)
-        guard year == schedYear else { return nil }
-        let month = Calendar.current.component(.month, from: yesterday)
-        let day = Calendar.current.component(.day, from: yesterday)
-        let md = "\(month)/\(day)"
+        guard year <= schedYear else { return nil }
+        if year == schedYear {
+            let month = Calendar.current.component(.month, from: yesterday)
+            let day = Calendar.current.component(.day, from: yesterday)
+            md = "\(month)/\(day)"
+        } else {
+            md = "0/0" // give me the first ride of the year
+        }
         return ride(following: md)
     }
 
