@@ -41,7 +41,7 @@ struct YearPickerView: View {
             }
             Picker("Pick desired year",
                    selection: $selectedIndex) {
-                ForEach(0 ..< state.yearModel.scheduleYears.count) {
+                ForEach(0 ..< state.yearModel.scheduleYears.count, id: \.self) {
                     Text(state.yearModel.scheduleYears[$0].year).tag($0)
                 }
             }.pickerStyle(WheelPickerStyle())

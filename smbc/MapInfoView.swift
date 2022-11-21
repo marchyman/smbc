@@ -42,7 +42,7 @@ struct MapInfoView: View {
                     center: CLLocationCoordinate2D(latitude: restaurant.lat,
                                                    longitude: restaurant.lon))
             Picker("", selection: $state.mapTypeIndex) {
-                ForEach(0 ..< types.count) {
+                ForEach(0 ..< types.count, id: \.self) {
                     index in
                     Text(types[index].name).tag(index)
                 }
