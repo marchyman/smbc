@@ -128,13 +128,45 @@ class ProgramState: ObservableObject {
     ///
     func refresh() async throws {
         if needRefresh {
-            try await yearModel.fetch()
-            try await restaurantModel.fetch()
-            try await rideModel.fetch(year: year)
-            try await tripModel.fetch()
+            do { try await yearModel.fetch() } catch {
+                throw FetchError.yearModelError
+            }
             yearIndex = yearModel.findYearIndex(for: yearString)
+            do { try await restaurantModel.fetch() } catch {
+                throw FetchError.restaurantModelError
+            }
+            do { try await rideModel.fetch(year: year) } catch {
+                throw FetchError.rideModelError
+            }
+            do { try await tripModel.fetch() } catch {
+                throw FetchError.tripModelError
+            }
             refreshTime = Date()
             needRefresh = false
+        }
+    }
+}
+
+/// Date fetching error types
+///
+enum FetchError: Error {
+    case yearModelError
+    case restaurantModelError
+    case rideModelError
+    case tripModelError
+}
+
+extension FetchError: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .yearModelError:
+            return "Year Model Fetch Failure"
+        case .restaurantModelError:
+            return "Restaurant Model Fetch Failure"
+        case .rideModelError:
+            return "Ride Model Fetch Error"
+        case .tripModelError:
+            return "Trip Model Fetch Error"
         }
     }
 }

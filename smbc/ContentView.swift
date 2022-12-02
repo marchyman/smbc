@@ -146,10 +146,18 @@ struct ContentView: View {
         Task {
             do {
                 try await state.refresh()
+            } catch FetchError.yearModelError {
+                alertView = RefreshAlerts(type: .year).type.view
+            } catch FetchError.restaurantModelError {
+                alertView = RefreshAlerts(type: .restaurant).type.view
+            } catch FetchError.rideModelError {
+                alertView = RefreshAlerts(type: .ride).type.view
+            } catch FetchError.tripModelError {
+                alertView = RefreshAlerts(type: .trip).type.view
             } catch {
                 alertView = RefreshAlerts(type: .all).type.view
-                refreshPresented = true
             }
+            refreshPresented = true
         }
     }
 }
