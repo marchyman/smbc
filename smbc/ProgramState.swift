@@ -81,13 +81,9 @@ class ProgramState: ObservableObject {
         rideModel.nextRide(for: year)
     }
 
-    /// index into the yearModel array of years that matches the schedule year
-    ///
-    var yearIndex: Int
-
     /// True if it is time to refresh data from the server
     ///
-    var needRefresh: Bool
+    var needRefresh: Bool = false
 
     init() {
         year = UserDefaults.standard.object(forKey: "year")
@@ -97,12 +93,7 @@ class ProgramState: ObservableObject {
         mapTypeIndex = UserDefaults.standard.object(forKey: "mapTypeIndex")
             as? Int ?? 0
 
-        // shut compiler up
-        yearIndex = 0
-        needRefresh = false
-
-        // Now do proper initialization
-        yearIndex = yearModel.findYearIndex(for: yearString)
+        // Maybe we need to refresh model data
         needRefresh = refreshTime < Date()
 
         // propagate object will change notifications from the sub-models
@@ -131,7 +122,6 @@ class ProgramState: ObservableObject {
             do { try await yearModel.fetch() } catch {
                 throw FetchError.yearModelError
             }
-            yearIndex = yearModel.findYearIndex(for: yearString)
             do { try await restaurantModel.fetch() } catch {
                 throw FetchError.restaurantModelError
             }

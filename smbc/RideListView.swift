@@ -30,7 +30,7 @@ struct RideListView : View {
     @EnvironmentObject var state: ProgramState
     @State private var yearPickerPresented = false
     @State private var fetchFailed = false
-
+    @State private var yearIndex = 0
 
     var body: some View {
         VStack {
@@ -48,21 +48,25 @@ struct RideListView : View {
                     .font(.title)
                     .padding(.bottom)
             }
-        }.navigationBarTitle("SMBC Rides in \(state.yearString)")
-         .navigationBarItems(trailing: Button("Change year") { yearPickerPresented = true })
-         .alert(isPresented: $fetchFailed) {
+        }
+        .navigationBarTitle("SMBC Rides in \(state.yearString)")
+        .navigationBarItems(trailing: Button("Change year") { yearPickerPresented = true })
+        .alert(isPresented: $fetchFailed) {
              RefreshAlerts(type: .ride).type.view
-          }
-         .sheet(isPresented: $yearPickerPresented,
-                onDismiss: fetchRideData) {
-                    YearPickerView(presented: $yearPickerPresented,
-                                   selectedIndex: $state.yearIndex)
-         }
+        }
+        .sheet(isPresented: $yearPickerPresented,
+               onDismiss: fetchRideData) {
+                YearPickerView(presented: $yearPickerPresented,
+                               selectedIndex: $yearIndex)
+        }
+        .onAppear {
+            yearIndex = state.yearModel.findYearIndex(for: state.year)
+        }
     }
 
     /// If the user selected a different year fetch the schedule for that year
     func fetchRideData() {
-        guard let year = Int(state.yearModel.scheduleYears[state.yearIndex].year)
+        guard let year = Int(state.yearModel.scheduleYears[yearIndex].year)
         else {
             fetchFailed = true
             return
@@ -70,7 +74,7 @@ struct RideListView : View {
         if year != state.year {
             Task {
                 do {
-//                   print("Fetching rides for year \(year)")
+                    print("Fetching rides for year \(year)")
                     try await state.rideModel.fetch(year: year)
                     state.year = year
                 } catch {

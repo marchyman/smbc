@@ -126,6 +126,7 @@ struct ContentView: View {
     ///
     private
     func refresh()  {
+        print("year: \(state.yearString)")
         var updateSched = false
 
         // Note if the current year is not the year of the loaded schedule or
@@ -148,16 +149,20 @@ struct ContentView: View {
                 try await state.refresh()
             } catch FetchError.yearModelError {
                 alertView = RefreshAlerts(type: .year).type.view
+                refreshPresented = true
             } catch FetchError.restaurantModelError {
                 alertView = RefreshAlerts(type: .restaurant).type.view
+                refreshPresented = true
             } catch FetchError.rideModelError {
                 alertView = RefreshAlerts(type: .ride).type.view
+                refreshPresented = true
             } catch FetchError.tripModelError {
                 alertView = RefreshAlerts(type: .trip).type.view
+                refreshPresented = true
             } catch {
                 alertView = RefreshAlerts(type: .all).type.view
+                refreshPresented = true
             }
-            refreshPresented = true
         }
     }
 }

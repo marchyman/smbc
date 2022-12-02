@@ -73,8 +73,8 @@ class YearModel: ObservableObject {
     ///
     /// The year is assumed to exist in the array.  If not the program aborts.
     ///
-    func findYearIndex(for year: String) -> Int {
-        let scheduleYear = ScheduleYear(year: year)
+    func findYearIndex(for year: Int) -> Int {
+        let scheduleYear = ScheduleYear(year: String(year))
         guard let ix = scheduleYears.firstIndex(of: scheduleYear) else {
             fatalError("Cannot find index for requested year")
         }
