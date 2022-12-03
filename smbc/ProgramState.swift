@@ -117,7 +117,7 @@ class ProgramState: ObservableObject {
 
     /// refresh schedule model data from the server
     ///
-    func refresh() async throws {
+    func refresh(_ year: Int) async throws {
         if needRefresh {
             do { try await yearModel.fetch() } catch {
                 throw FetchError.yearModelError
@@ -125,7 +125,10 @@ class ProgramState: ObservableObject {
             do { try await restaurantModel.fetch() } catch {
                 throw FetchError.restaurantModelError
             }
-            do { try await rideModel.fetch(year: year) } catch {
+            do {
+                try await rideModel.fetch(year: year)
+                self.year = year
+            } catch {
                 throw FetchError.rideModelError
             }
             do { try await tripModel.fetch() } catch {
@@ -150,13 +153,13 @@ extension FetchError: CustomStringConvertible {
     public var description: String {
         switch self {
         case .yearModelError:
-            return "Year Model Fetch Failure"
+            return "Failed to fetch list of available schedules"
         case .restaurantModelError:
-            return "Restaurant Model Fetch Failure"
+            return "Failed to fetch Restaurant information"
         case .rideModelError:
-            return "Ride Model Fetch Error"
+            return "Failed to fetch Ride information"
         case .tripModelError:
-            return "Trip Model Fetch Error"
+            return "Failed to fetch Trip information"
         }
     }
 }

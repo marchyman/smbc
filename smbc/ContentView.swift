@@ -122,31 +122,26 @@ struct ContentView: View {
         UIApplication.shared.open(url)
     }
 
-    /// refresh model data from server
+    /// refresh model data from server when necessary
     ///
     private
     func refresh()  {
-        print("year: \(state.yearString)")
-        var updateSched = false
-
-        // Note if the current year is not the year of the loaded schedule or
-        // if nextRide is nil and state.year matches the current year.
-        // If a schedule exists for the adjusted year change state.year so
-        // the new schedule will be loaded.
         var year = Calendar.current.component(.year, from: Date())
-        if year != state.year {
-            updateSched = true
-        } else if state.nextRide == nil && year == state.year {
-            year += 1
-            updateSched = true
+
+        // If the loaded schedule isn't current load the appropriate schedule.
+        // If the schedule is current but there are no more rides load the
+        // schedule for the following year if it exists.
+        if state.nextRide == nil {
+            if year == state.year {
+                year += 1
+            }
+            state.needRefresh = state.yearModel.scheduleExists(for: year)
         }
-        if updateSched && state.yearModel.scheduleExists(for: year) {
-            state.year = year
-            state.needRefresh = true
-        }
+        // alway try a refresh here as state.needRefresh may have been
+        // set elsewhere.
         Task {
             do {
-                try await state.refresh()
+                try await state.refresh(year)
             } catch FetchError.yearModelError {
                 alertView = RefreshAlerts(type: .year).type.view
                 refreshPresented = true

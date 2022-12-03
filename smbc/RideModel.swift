@@ -103,7 +103,7 @@ class RideModel: ObservableObject {
             let day = Calendar.current.component(.day, from: yesterday)
             md = "\(month)/\(day)"
         } else {
-            md = "0/0" // give me the first ride of the year
+            md = "0/0" // give me the first ride of schedYear
         }
         return ride(following: md)
     }
