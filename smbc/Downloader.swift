@@ -42,7 +42,10 @@ struct Downloader<T: Decodable> {
         url: URL,
         type: T.Type
     ) async throws -> T {
-        let session = URLSession.shared
+        let configuration = URLSessionConfiguration.default
+        configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
+        let session = URLSession(configuration: configuration,
+                                 delegate: nil, delegateQueue: nil)
         let decoder = JSONDecoder()
         let (data, _) = try await session.data(from: url)
         let decodedData = try decoder.decode(type, from: data)
