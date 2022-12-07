@@ -126,12 +126,15 @@ struct ContentView: View {
     ///
     private
     func refresh()  {
-        var year = Calendar.current.component(.year, from: Date())
+        let today = Date()
+        var year = Calendar.current.component(.year, from: today)
+        let weekOfYear = Calendar.current.component(.weekOfYear, from: today)
 
         // If the loaded schedule isn't current load the appropriate schedule.
         // If the schedule is current but there are no more rides load the
         // schedule for the following year if it exists.
-        if state.nextRide == nil {
+        if (weekOfYear <= 52 && year != state.year) ||
+            state.nextRide == nil {
             if year == state.year {
                 year += 1
             }
