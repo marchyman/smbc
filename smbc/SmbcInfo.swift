@@ -31,6 +31,7 @@ import SwiftUI
 /// 
 struct SmbcInfo: View {
     @State private var infoPresented = false
+    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
 
     var body: some View {
         Button(action: { self.infoPresented = true }) {
@@ -50,6 +51,8 @@ struct SmbcInfo: View {
                  After breakfast some go home while others ride bay area back roads. Ride routes are decided in the gab fest that follows breakfast.
 
                  We make it easy to join the club: show up for breakfast and you are a member. Stop showing up to quit. You can ride every weekend, a few times a year, or only on multi-day rides.
+
+                 SMBC App Version \(appVersion != nil ? appVersion! : "Unknown")
                  """),
               dismissButton: .default(Text("Got It!")))
     }
