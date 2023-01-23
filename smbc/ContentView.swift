@@ -50,11 +50,11 @@ struct ContentView: View {
                 Spacer()
                 SmbcImage()
                     .onTapGesture{
-//                        if let nextRide = state.nextRide {
-//                            path.append(nextRide)
-//                        } else {
+                        if let nextRide = state.nextRide {
+                            path.append(nextRide)
+                        } else {
                             noMoreRides.toggle()
-//                        }
+                        }
                     }
                     .onLongPressGesture {
                         state.needRefresh = true
