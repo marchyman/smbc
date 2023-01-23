@@ -49,8 +49,12 @@ struct RideListView : View {
                     .padding(.bottom)
             }
         }
-        .navigationBarTitle("SMBC Rides in \(state.yearString)")
-        .navigationBarItems(trailing: Button("Change year") { yearPickerPresented = true })
+        .navigationTitle("SMBC Rides in \(state.yearString)")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarItems(trailing: Button(action: { yearPickerPresented = true } ) {
+            Text("Change year")
+                .font(.callout)
+        })
         .alert(isPresented: $fetchFailed) {
              RefreshAlerts(type: .ride).type.view
         }
@@ -89,8 +93,10 @@ struct RideView_Previews : PreviewProvider {
     static var state = ProgramState()
 
     static var previews: some View {
-        RideListView()
-            .environmentObject(state)
+        NavigationStack {
+            RideListView()
+                .environmentObject(state)
+        }
     }
 }
 #endif

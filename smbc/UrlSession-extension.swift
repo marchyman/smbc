@@ -26,23 +26,23 @@
 
 import Foundation
 
-@available(iOS, deprecated: 15.0, message: "Use the built-in API instead")
-extension URLSession {
-    func data(from url: URL) async throws -> (Data, URLResponse) {
-        try await withCheckedThrowingContinuation { continuation in
-            let task = self.dataTask(with: url) { data, response, error in
-                guard let data = data,
-                      let httpResponse = response as? HTTPURLResponse,
-                      httpResponse.statusCode == 200
-                else {
-                    let error = error ?? URLError(.badServerResponse)
-                    return continuation.resume(throwing: error)
-                }
-
-                continuation.resume(returning: (data, response!))
-            }
-
-            task.resume()
-        }
-    }
-}
+//@available(iOS, deprecated: 15.0, message: "Use the built-in API instead")
+//extension URLSession {
+//    func data(from url: URL) async throws -> (Data, URLResponse) {
+//        try await withCheckedThrowingContinuation { continuation in
+//            let task = self.dataTask(with: url) { data, response, error in
+//                guard let data = data,
+//                      let httpResponse = response as? HTTPURLResponse,
+//                      httpResponse.statusCode == 200
+//                else {
+//                    let error = error ?? URLError(.badServerResponse)
+//                    return continuation.resume(throwing: error)
+//                }
+//
+//                continuation.resume(returning: (data, response!))
+//            }
+//
+//            task.resume()
+//        }
+//    }
+//}

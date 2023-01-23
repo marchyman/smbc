@@ -40,9 +40,13 @@ struct RestaurantView : View {
         List (filteredRestaurants(filter)) { restaurant in
             RestaurantRow(restaurant: restaurant)
         }
-        .navigationBarTitle(title)
+        .navigationTitle(title)
+        .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems(
-            trailing: Button(filterTitle) { self.filter.toggle() }
+            trailing: Button(action: { filter.toggle() } ) {
+                Text(filterTitle)
+                    .font(.callout)
+            }
         )
     }
 
@@ -78,7 +82,7 @@ struct RestaurantView_Previews : PreviewProvider {
     static var state = ProgramState()
 
     static var previews: some View {
-        NavigationView {
+        NavigationStack {
             RestaurantView()
                 .environmentObject(state)
         }

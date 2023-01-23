@@ -35,7 +35,7 @@ fileprivate let scheduleExt = "json"
 /// Breakfast rides have restaurant and possibly a comment
 /// Trips have an end date , a description, and possibly a comment
 ///
-struct ScheduledRide: Decodable, Identifiable {
+struct ScheduledRide: Codable, Identifiable, Hashable {
     let id = UUID()
     let start: String
     let restaurant: String?
@@ -57,7 +57,7 @@ struct ScheduledRide: Decodable, Identifiable {
         case end
         case description
         case comment
-      }
+    }
 }
 
 @MainActor

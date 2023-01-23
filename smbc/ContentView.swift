@@ -26,19 +26,6 @@
 
 import SwiftUI
 
-// MARK: - Main screen button styles
-
-public struct SmbcButtonStyle: ButtonStyle {
-    public func makeBody(configuration: Self.Configuration) -> some View {
-        configuration.label
-            .font(.title)
-            .padding()
-            .accentColor(.black)
-            .background(Color.gray)
-            .opacity(0.60)
-            .cornerRadius(20)
-    }
-}
 
 func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
     let color: Color
@@ -61,12 +48,13 @@ struct ContentView: View {
     @EnvironmentObject var state: ProgramState
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
 
-    @State var selection: Int? = nil
+    @State var path = NavigationPath()
+
     @State private var refreshPresented = false
     @State private var alertView = RefreshAlerts(type: .refreshing).type.view
 
     var body: some View {
-        NavigationView {
+        NavigationStack(path: $path) {
             VStack {
                 Button(action: homePage) {
                     Text("""
@@ -75,44 +63,42 @@ struct ContentView: View {
                          """)
                         .font(.headline)
                         .lineLimit(2)
-                        .padding()
+                        .padding([.horizontal, .bottom])
                 }
-                ZStack {
-                    if state.nextRide == nil {
-                        NavigationLink(destination: RideListView(),
-                                       tag: 2,
-                                       selection: $selection) { }
-                    } else {
-                        NavigationLink(destination: RideDetailView(ride: state.nextRide!),
-                                       tag: 1,
-                                       selection: $selection) { }
-                    }
-                    SmbcImage()
-                        .onTapGesture{ selection = state.nextRide == nil ? 2 : 1 }
-                        .onLongPressGesture {
-                            state.needRefresh = true
-                            alertView = RefreshAlerts(type: .refreshing).type.view
-                            refreshPresented = true
-                            refresh()
+                SmbcImage()
+                    .onTapGesture{
+                        if let nextRide = state.nextRide {
+                            path.append(nextRide)
+                        } else {
+                            // what here?
                         }
-                }
-                HStack {
-                    Spacer()
+                    }
+                    .onLongPressGesture {
+                        state.needRefresh = true
+                        alertView = RefreshAlerts(type: .refreshing).type.view
+                        refreshPresented = true
+                        refresh()
+                    }
+            HStack {
                     NavigationLink("Restaurants", destination: RestaurantView())
                         .buttonStyle(SmbcButtonStyle())
                     Spacer()
                     NavigationLink("Rides", destination: RideListView())
                         .buttonStyle(SmbcButtonStyle())
-                    Spacer()
                 }.padding()
-             }.frame(maxWidth: .infinity, maxHeight: .infinity)
-              .background(backgroundGradient(colorScheme))
-              .navigationBarTitle("SMBC")
-              .navigationBarItems(trailing: HStack { SmbcHelp(); SmbcInfo() })
-              .alert(isPresented: $refreshPresented) { alertView }
-              .onAppear {
-                  refresh()
-              }
+             }
+            .navigationDestination(for: ScheduledRide.self) { ride in
+                RideDetailView(ride: ride)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(backgroundGradient(colorScheme))
+            .navigationTitle("SMBC")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarItems(trailing: HStack { SmbcHelp(); SmbcInfo() })
+            .alert(isPresented: $refreshPresented) { alertView }
+            .onAppear {
+                refresh()
+            }
         }
     }
 
@@ -173,6 +159,20 @@ struct SmbcImage: View {
             .clipShape(Circle())
             .overlay(Circle().stroke(Color.black, lineWidth: 2))
             .padding(.horizontal)
+    }
+}
+
+// MARK: - Main screen button styles
+
+public struct SmbcButtonStyle: ButtonStyle {
+    public func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .font(.title2)
+            .padding()
+            .accentColor(.black)
+            .background(Color.gray)
+            .opacity(0.60)
+            .cornerRadius(20)
     }
 }
 

@@ -33,7 +33,6 @@ import SwiftUI
 struct RestaurantDetailView : View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @EnvironmentObject var state: ProgramState
-//    @State private var selectorIndex = 0
     @State private var showVisits = false
 
 
@@ -49,17 +48,17 @@ struct RestaurantDetailView : View {
                 MapInfoView(restaurant: restaurant)
                     .frame(minHeight: 0, maxHeight: g.size.height * 0.65)
             }
-            .background(backgroundGradient(self.colorScheme))
-            .navigationBarItems(trailing: self.showVisitButton)
+            .background(backgroundGradient(colorScheme))
+            .navigationBarItems(trailing: showVisitButton)
         }
     }
     
     var showVisitButton: some View {
         Button("Show Visits") {
-            self.showVisits = true
+            showVisits = true
         }
         .sheet(isPresented: self.$showVisits) {
-            RideVisitsView(isActive: self.$showVisits, restaurant: self.restaurant)
+            RideVisitsView(isActive: $showVisits, restaurant: restaurant)
                 .environmentObject(state)
         }
     }
@@ -81,8 +80,10 @@ struct RestaurantDetailView : View {
             Spacer()
             if eta {
                 HStack {
-                    Button( action: mapLink ) {
-                        Text("Route: \(restaurant.route)")
+                    if let url = mapLink() {
+                        Link(destination: url) {
+                            Text("Route: \(restaurant.route)")
+                        }
                     }
                     Spacer()
                     Text("ETA: \(restaurant.eta)")
@@ -94,9 +95,8 @@ struct RestaurantDetailView : View {
                 minHeight: 0, maxHeight: .infinity)
     }
 
-    @available(iOS, deprecated: 14.0, message: "Use Link(_, destination:) instead")
     private
-    func mapLink() {
+    func mapLink() -> URL? {
         let mapPath = "https://maps.apple.com/?daddr="
             + restaurant.address.map { $0 == " " ? "+" : $0 }
             + ","
@@ -104,8 +104,9 @@ struct RestaurantDetailView : View {
             + ",CA"
         guard let string = NSString(string: mapPath)
             .addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed),
-              let url = URL(string: string) else { return }
-        UIApplication.shared.open(url)
+              let url = URL(string: string) else { return nil }
+        print("url: \(url)")
+        return url
     }
 }
 
@@ -114,18 +115,20 @@ struct RestaurantDetailView_Previews : PreviewProvider {
     static var state = ProgramState()
 
     static var previews: some View {
-        RestaurantDetailView(restaurant: Restaurant(id: "test",
-                                                    name: "Test Restaurant",
-                                                    address: "123 Main Street",
-                                                    route: "(101/202/303)",
-                                                    city: "Some City",
-                                                    phone: "(123) 456-7890",
-                                                    status: "CLOSED",
-                                                    eta: "8:05",
-                                                    lat: 37.7244,
-                                                    lon: -122.4381),
-                             eta: false)
+        NavigationStack {
+            RestaurantDetailView(restaurant: Restaurant(id: "test",
+                                                        name: "Test Restaurant",
+                                                        address: "123 Main Street",
+                                                        route: "(101/202/303)",
+                                                        city: "Some City",
+                                                        phone: "(123) 456-7890",
+                                                        status: "CLOSED",
+                                                        eta: "8:05",
+                                                        lat: 37.7244,
+                                                        lon: -122.4381),
+                                 eta: false)
             .environmentObject(state)
+        }
     }
 }
 #endif

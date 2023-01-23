@@ -41,7 +41,8 @@ struct TripDetailView: View {
         }.frame(minWidth: 0, maxWidth: .infinity,
                 minHeight: 0, maxHeight: .infinity)
          .background(backgroundGradient(colorScheme))
-         .navigationBarTitle("\(ride.start) - \(ride.end!) Trip")
+         .navigationTitle("\(ride.start) - \(ride.end!) Trip")
+         .navigationBarTitleDisplayMode(.inline)
     }
     
     private
@@ -67,12 +68,14 @@ struct tripView_Previews : PreviewProvider {
     static var state = ProgramState()
 
     static var previews: some View {
-        TripDetailView(ride: ScheduledRide(start: "7/12",
-                                     restaurant: nil,
-                                     end: "7/13",
-                                     description: "Graegle blah",
-                                     comment: "preview"))
+        NavigationStack {
+            TripDetailView(ride: ScheduledRide(start: "7/12",
+                                               restaurant: nil,
+                                               end: "7/13",
+                                               description: "Camping blah",
+                                               comment: "preview"))
             .environmentObject(state)
+        }
     }
 }
 #endif

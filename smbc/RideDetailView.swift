@@ -33,10 +33,15 @@ struct RideDetailView: View {
     var body: some View {
         RestaurantDetailView(restaurant: restaurant(id: ride.restaurant!),
                              eta: true)
-            .navigationBarTitle("\(ride.start)/\(state.yearString) Ride")
+            .navigationTitle("\(ride.start)/\(state.yearString) Ride")
+            .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(
-                trailing: Button("Next ride",
-                                 action: nextRide)
+                trailing: Button(action: nextRide) {
+                    Text("Next ride")
+                        .font(.callout)
+                }
+
+
                             .disabled(state.rideModel.ride(following: ride.start) == nil))
     }
     
