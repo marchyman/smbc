@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 /// Restaurant detail view.
 ///
@@ -26,8 +27,8 @@ struct RestaurantDetailView : View {
             VStack {
                 restaurantInfo
                     .frame(minHeight: 0, maxHeight: g.size.height * 0.35)
-                MapInfoView(restaurant: restaurant)
-                    .frame(minHeight: 0, maxHeight: g.size.height * 0.65)
+                RestaurantMap(location: CLLocationCoordinate2D(latitude: restaurant.lat,
+                                                               longitude: restaurant.lon))
             }
             .background(backgroundGradient(colorScheme))
             .navigationBarItems(trailing: showVisitButton)
