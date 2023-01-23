@@ -31,6 +31,7 @@ struct ContentView: View {
 
     @State var path = NavigationPath()
 
+    @State private var noMoreRides = false
     @State private var refreshPresented = false
     @State private var alertView = RefreshAlerts(type: .refreshing).type.view
 
@@ -44,16 +45,16 @@ struct ContentView: View {
                          """)
                     .font(.headline)
                     .lineLimit(2)
-                    .padding([.horizontal, .bottom])
+                    .padding()
                 }
                 Spacer()
                 SmbcImage()
                     .onTapGesture{
-                        if let nextRide = state.nextRide {
-                            path.append(nextRide)
-                        } else {
-                            // what here?
-                        }
+//                        if let nextRide = state.nextRide {
+//                            path.append(nextRide)
+//                        } else {
+                            noMoreRides.toggle()
+//                        }
                     }
                     .onLongPressGesture {
                         state.needRefresh = true
@@ -77,6 +78,10 @@ struct ContentView: View {
             .background(backgroundGradient(colorScheme))
             .navigationTitle("SMBC")
             .navigationBarItems(trailing: HStack { SmbcHelp(); SmbcInfo() })
+            .sheet(isPresented: $noMoreRides) {
+                NoMoreRideView()
+                    .presentationDetents([.medium])
+            }
             .alert(isPresented: $refreshPresented) { alertView }
             .onAppear {
                 refresh()
