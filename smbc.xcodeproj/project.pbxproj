@@ -30,7 +30,6 @@
 		49B196A622BEADE3009F51E5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49B196A522BEADE3009F51E5 /* Preview Assets.xcassets */; };
 		49B196B422BEADE3009F51E5 /* smbcTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B196B322BEADE3009F51E5 /* smbcTests.swift */; };
 		49B196BF22BEADE3009F51E5 /* ContentViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B196BE22BEADE3009F51E5 /* ContentViewTests.swift */; };
-		49C6B8AE2739FD83005EE12F /* UrlSession-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C6B8AD2739FD83005EE12F /* UrlSession-extension.swift */; };
 		49CECB31273A165200BE6A2A /* YearModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CECB30273A165200BE6A2A /* YearModel.swift */; };
 		49CECB33273A1F2300BE6A2A /* schedule-years.json in Resources */ = {isa = PBXBuildFile; fileRef = 49CECB32273A1F2300BE6A2A /* schedule-years.json */; };
 		49D3A82F22EE6E4F00C6682C /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D3A82C22EE6E4F00C6682C /* Downloader.swift */; };
@@ -73,6 +72,8 @@
 		4950F41C273CD06500A92862 /* MapInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapInfoView.swift; sourceTree = "<group>"; };
 		497ED9ED297E03DB008AB290 /* smbc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smbc.swift; sourceTree = "<group>"; };
 		497ED9EF297E17D0008AB290 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		497ED9F1297E294E008AB290 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		497ED9F2297E4BAA008AB290 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		498A078422C421500026FB5D /* schedule.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schedule.json; sourceTree = "<group>"; };
 		49AA7CF42742F8ED00FC71E6 /* SmbcHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmbcHelp.swift; sourceTree = "<group>"; };
 		49AFCBB0273B4F920082046F /* RideRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideRowView.swift; sourceTree = "<group>"; };
@@ -90,7 +91,6 @@
 		49B196BA22BEADE3009F51E5 /* smbcUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = smbcUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		49B196BE22BEADE3009F51E5 /* ContentViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewTests.swift; sourceTree = "<group>"; };
 		49B196C022BEADE3009F51E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		49C6B8AD2739FD83005EE12F /* UrlSession-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UrlSession-extension.swift"; sourceTree = "<group>"; };
 		49CECB30273A165200BE6A2A /* YearModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearModel.swift; sourceTree = "<group>"; };
 		49CECB32273A1F2300BE6A2A /* schedule-years.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "schedule-years.json"; sourceTree = "<group>"; };
 		49D3A82C22EE6E4F00C6682C /* Downloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
@@ -130,6 +130,8 @@
 		49B1969022BEADE2009F51E5 = {
 			isa = PBXGroup;
 			children = (
+				497ED9F1297E294E008AB290 /* README */,
+				497ED9F2297E4BAA008AB290 /* LICENSE */,
 				49B1969B22BEADE2009F51E5 /* smbc */,
 				49B196B222BEADE3009F51E5 /* smbcTests */,
 				49B196BD22BEADE3009F51E5 /* smbcUITests */,
@@ -174,7 +176,6 @@
 				49D3A83222EE6E5F00C6682C /* RestaurantModel.swift */,
 				49D3A83522EE6E9F00C6682C /* RideModel.swift */,
 				49D3A83122EE6E5F00C6682C /* TripModel.swift */,
-				49C6B8AD2739FD83005EE12F /* UrlSession-extension.swift */,
 				49B196A222BEADE3009F51E5 /* Assets.xcassets */,
 				497ED9EF297E17D0008AB290 /* Info.plist */,
 				49ED466822C1E46D003AAEE4 /* Resources */,
@@ -402,7 +403,6 @@
 				49D3A83422EE6E5F00C6682C /* RestaurantModel.swift in Sources */,
 				49D3A82F22EE6E4F00C6682C /* Downloader.swift in Sources */,
 				49B196A122BEADE2009F51E5 /* ContentView.swift in Sources */,
-				49C6B8AE2739FD83005EE12F /* UrlSession-extension.swift in Sources */,
 				493BBFDB22C01AE600E2B437 /* RestaurantView.swift in Sources */,
 				49AFCBB7273B6DC70082046F /* RefreshAlerts.swift in Sources */,
 			);
