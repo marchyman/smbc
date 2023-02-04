@@ -31,7 +31,11 @@ struct RestaurantDetailView : View {
                                                                longitude: restaurant.lon))
             }
             .background(backgroundGradient(colorScheme))
-            .navigationBarItems(trailing: showVisitButton)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    showVisitButton
+                }
+            }
         }
     }
     

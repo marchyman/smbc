@@ -77,7 +77,11 @@ struct ContentView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(backgroundGradient(colorScheme))
             .navigationTitle("SMBC")
-            .navigationBarItems(trailing: HStack { SmbcHelp(); SmbcInfo() })
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    HStack { SmbcHelp(); SmbcInfo() }
+                }
+            }
             .sheet(isPresented: $noMoreRides) {
                 NoMoreRideView()
                     .presentationDetents([.medium])

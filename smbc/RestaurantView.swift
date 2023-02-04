@@ -23,12 +23,14 @@ struct RestaurantView : View {
         }
         .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarItems(
-            trailing: Button(action: { filter.toggle() } ) {
-                Text(filterTitle)
-                    .font(.callout)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: { filter.toggle() } ) {
+                    Text(filterTitle)
+                        .font(.callout)
+                }
             }
-        )
+        }
     }
 
     private

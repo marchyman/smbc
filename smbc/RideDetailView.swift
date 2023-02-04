@@ -15,12 +15,15 @@ struct RideDetailView: View {
         RestaurantDetailView(restaurant: restaurant(id: ride.restaurant!),
                              eta: true)
             .navigationTitle("\(ride.start)/\(state.yearString) Ride")
-            .navigationBarItems(
-                trailing: Button(action: nextRide) {
-                    Text("Next ride")
-                        .font(.callout)
-                }
-                .disabled(state.rideModel.ride(following: ride.start) == nil))
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: nextRide ) {
+                        Text("Next ride")
+                            .font(.callout)
+                    }
+                    .disabled(state.rideModel.ride(following: ride.start) == nil)
+            }
+        }
     }
     
     private

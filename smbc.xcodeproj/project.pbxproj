@@ -153,7 +153,6 @@
 			isa = PBXGroup;
 			children = (
 				497ED9ED297E03DB008AB290 /* smbc.swift */,
-				493BBFE022C0966700E2B437 /* smbc.entitlements */,
 				49B196A022BEADE2009F51E5 /* ContentView.swift */,
 				49AFCBB4273B5C760082046F /* SmbcInfo.swift */,
 				49AA7CF42742F8ED00FC71E6 /* SmbcHelp.swift */,
@@ -178,6 +177,7 @@
 				49D3A83122EE6E5F00C6682C /* TripModel.swift */,
 				49B196A222BEADE3009F51E5 /* Assets.xcassets */,
 				497ED9EF297E17D0008AB290 /* Info.plist */,
+				493BBFE022C0966700E2B437 /* smbc.entitlements */,
 				49ED466822C1E46D003AAEE4 /* Resources */,
 			);
 			path = smbc;

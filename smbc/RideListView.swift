@@ -31,10 +31,14 @@ struct RideListView : View {
             }
         }
         .navigationTitle("SMBC Rides in \(state.yearString)")
-        .navigationBarItems(trailing: Button(action: { yearPickerPresented = true } ) {
-            Text("Change year")
-                .font(.callout)
-        })
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: { yearPickerPresented = true } ) {
+                    Text("Change year")
+                        .font(.callout)
+                }
+            }
+        }
         .alert(isPresented: $fetchFailed) {
              RefreshAlerts(type: .ride).type.view
         }
