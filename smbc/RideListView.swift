@@ -15,12 +15,21 @@ struct RideListView : View {
 
     var body: some View {
         VStack {
-            List (state.rideModel.rides) { ride in
-                if ride.restaurant != nil {
-                    RideRowView(ride: ride)
+            ScrollViewReader { proxy in
+                List (state.rideModel.rides) { ride in
+                    if ride.restaurant != nil {
+                        RideRowView(ride: ride).id(ride.id)
+                    }
+                    if ride.end != nil {
+                        TripRowView(ride: ride).id(ride.id)
+                    }
                 }
-                if ride.end != nil {
-                    TripRowView(ride:ride)
+                .onAppear {
+                    if let nextRideId = state.nextRide?.id {
+                        withAnimation {
+                            proxy.scrollTo(nextRideId, anchor: .top)
+                        }
+                    }
                 }
             }
             if state.nextRide != nil {
