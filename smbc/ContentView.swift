@@ -35,6 +35,10 @@ struct ContentView: View {
     @State private var refreshPresented = false
     @State private var alertView = RefreshAlerts(type: .refreshing).type.view
 
+    // Button text and Navigation Link values
+    let ridesKey = "Rides"
+    let restaurantsKey = "Restaurants"
+
     var body: some View {
         NavigationStack(path: $path) {
             VStack {
@@ -51,7 +55,7 @@ struct ContentView: View {
                 SmbcImage()
                     .onTapGesture{
                         if let nextRide = state.nextRide {
-                            path.append("Rides")
+                            path.append(ridesKey)
                             path.append(nextRide)
                         } else {
                             noMoreRides.toggle()
@@ -65,15 +69,21 @@ struct ContentView: View {
                     }
                 Spacer()
                 HStack {
-                    NavigationLink("Restaurants", destination: RestaurantView())
+                    NavigationLink(restaurantsKey, value: restaurantsKey)
                         .buttonStyle(SmbcButtonStyle())
                     Spacer()
-                    NavigationLink("Rides", destination: RideListView())
+                    NavigationLink(ridesKey, value: ridesKey)
                         .buttonStyle(SmbcButtonStyle())
                 }.padding()
             }
-            .navigationDestination(for: String.self) { _ in
-                RideListView()
+            .navigationDestination(for: String.self) { key in
+                // key can only be ridesKey or restaurantsKey.  To simplify the
+                // code assume anything not equal to ridesKey is restaurantsKey
+                if key == ridesKey {
+                    RideListView()
+                } else {
+                    RestaurantView()
+                }
             }
             .navigationDestination(for: ScheduledRide.self) { ride in
                 RideDetailView(ride: ride)
