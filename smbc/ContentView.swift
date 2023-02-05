@@ -70,11 +70,11 @@ struct ContentView: View {
                 Spacer()
                 HStack {
                     NavigationLink(restaurantsKey, value: restaurantsKey)
-                        .buttonStyle(SmbcButtonStyle())
                     Spacer()
                     NavigationLink(ridesKey, value: ridesKey)
-                        .buttonStyle(SmbcButtonStyle())
-                }.padding()
+                }
+                .buttonStyle(SmbcButtonStyle())
+                .padding()
             }
             .navigationDestination(for: String.self) { key in
                 // key can only be ridesKey or restaurantsKey.  To simplify the
@@ -173,10 +173,10 @@ public struct SmbcButtonStyle: ButtonStyle {
     public func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
             .font(.title2)
+            .foregroundColor(.blue)
             .padding()
             .accentColor(.black)
-            .background(Color.gray)
-            .opacity(0.60)
+            .background(Color.gray.opacity(0.25))
             .cornerRadius(20)
     }
 }
