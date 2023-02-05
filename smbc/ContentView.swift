@@ -51,6 +51,7 @@ struct ContentView: View {
                 SmbcImage()
                     .onTapGesture{
                         if let nextRide = state.nextRide {
+                            path.append("Rides")
                             path.append(nextRide)
                         } else {
                             noMoreRides.toggle()
@@ -70,6 +71,9 @@ struct ContentView: View {
                     NavigationLink("Rides", destination: RideListView())
                         .buttonStyle(SmbcButtonStyle())
                 }.padding()
+            }
+            .navigationDestination(for: String.self) { _ in
+                RideListView()
             }
             .navigationDestination(for: ScheduledRide.self) { ride in
                 RideDetailView(ride: ride)
