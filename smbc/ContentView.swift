@@ -42,15 +42,10 @@ struct ContentView: View {
     var body: some View {
         NavigationStack(path: $path) {
             VStack {
-                Button(action: homePage) {
-                    Text("""
-                         Sunday Morning Breakfast Club
-                         Breakfast and beyond since 1949
-                         """)
+                    Text("[Sunday Morning Breakfast Club\nBreakfast and beyond since 1949](https://smbc.snafu.org/)")
                     .font(.headline)
                     .lineLimit(2)
                     .padding()
-                }
                 Spacer()
                 SmbcImage()
                     .onTapGesture{
@@ -74,7 +69,7 @@ struct ContentView: View {
                     NavigationLink(ridesKey, value: ridesKey)
                 }
                 .buttonStyle(SmbcButtonStyle())
-                .padding()
+                .padding(30)
             }
             .navigationDestination(for: String.self) { key in
                 // key can only be ridesKey or restaurantsKey.  To simplify the
@@ -105,12 +100,6 @@ struct ContentView: View {
                 refresh()
             }
         }
-    }
-
-    private
-    func homePage() {
-        let url = URL(string: serverName)!
-        UIApplication.shared.open(url)
     }
 
     /// refresh model data from server when necessary
@@ -172,6 +161,7 @@ struct SmbcImage: View {
 public struct SmbcButtonStyle: ButtonStyle {
     public func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
+            .frame(width: 120)
             .font(.title2)
             .foregroundColor(.blue)
             .padding()
