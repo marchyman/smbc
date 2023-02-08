@@ -3,42 +3,10 @@
 //  smbc
 //
 //  Created by Marco S Hyman on 6/22/19.
-//  Copyright © 2019, 2021 Marco S Hyman. All rights reserved.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the
-// Software is furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-// DEALINGS IN THE SOFTWARE.
 //
 
 import SwiftUI
 
-// MARK: - Main screen button styles
-
-public struct SmbcButtonStyle: ButtonStyle {
-    public func makeBody(configuration: Self.Configuration) -> some View {
-        configuration.label
-            .font(.title)
-            .padding()
-            .accentColor(.black)
-            .background(Color.gray)
-            .opacity(0.60)
-            .cornerRadius(20)
-    }
-}
 
 func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
     let color: Color
@@ -61,65 +29,77 @@ struct ContentView: View {
     @EnvironmentObject var state: ProgramState
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
 
-    @State var selection: Int? = nil
+    @State var path = NavigationPath()
+
+    @State private var noMoreRides = false
     @State private var refreshPresented = false
     @State private var alertView = RefreshAlerts(type: .refreshing).type.view
 
-    var body: some View {
-        NavigationView {
-            VStack {
-                Button(action: homePage) {
-                    Text("""
-                         Sunday Morning Breakfast Club
-                         Breakfast and beyond since 1949
-                         """)
-                        .font(.headline)
-                        .lineLimit(2)
-                        .padding()
-                }
-                ZStack {
-                    if state.nextRide == nil {
-                        NavigationLink(destination: RideListView(),
-                                       tag: 2,
-                                       selection: $selection) { }
-                    } else {
-                        NavigationLink(destination: RideDetailView(ride: state.nextRide!),
-                                       tag: 1,
-                                       selection: $selection) { }
-                    }
-                    SmbcImage()
-                        .onTapGesture{ selection = state.nextRide == nil ? 2 : 1 }
-                        .onLongPressGesture {
-                            state.needRefresh = true
-                            alertView = RefreshAlerts(type: .refreshing).type.view
-                            refreshPresented = true
-                            refresh()
-                        }
-                }
-                HStack {
-                    Spacer()
-                    NavigationLink("Restaurants", destination: RestaurantView())
-                        .buttonStyle(SmbcButtonStyle())
-                    Spacer()
-                    NavigationLink("Rides", destination: RideListView())
-                        .buttonStyle(SmbcButtonStyle())
-                    Spacer()
-                }.padding()
-             }.frame(maxWidth: .infinity, maxHeight: .infinity)
-              .background(backgroundGradient(colorScheme))
-              .navigationBarTitle("SMBC")
-              .navigationBarItems(trailing: HStack { SmbcHelp(); SmbcInfo() })
-              .alert(isPresented: $refreshPresented) { alertView }
-              .onAppear {
-                  refresh()
-              }
-        }
-    }
+    // Button text and Navigation Link values
+    let ridesKey = "Rides"
+    let restaurantsKey = "Restaurants"
 
-    private
-    func homePage() {
-        let url = URL(string: serverName)!
-        UIApplication.shared.open(url)
+    var body: some View {
+        NavigationStack(path: $path) {
+            VStack {
+                    Text("[Sunday Morning Breakfast Club\nBreakfast and beyond since 1949](https://smbc.snafu.org/)")
+                    .font(.headline)
+                    .lineLimit(2)
+                    .padding()
+                Spacer()
+                SmbcImage()
+                    .onTapGesture{
+                        if let nextRide = state.nextRide {
+                            path.append(ridesKey)
+                            path.append(nextRide)
+                        } else {
+                            noMoreRides.toggle()
+                        }
+                    }
+                    .onLongPressGesture {
+                        state.needRefresh = true
+                        alertView = RefreshAlerts(type: .refreshing).type.view
+                        refreshPresented = true
+                        refresh()
+                    }
+                Spacer()
+                HStack {
+                    NavigationLink(restaurantsKey, value: restaurantsKey)
+                    Spacer()
+                    NavigationLink(ridesKey, value: ridesKey)
+                }
+                .buttonStyle(SmbcButtonStyle())
+                .padding(30)
+            }
+            .navigationDestination(for: String.self) { key in
+                // key can only be ridesKey or restaurantsKey.  To simplify the
+                // code assume anything not equal to ridesKey is restaurantsKey
+                if key == ridesKey {
+                    RideListView()
+                } else {
+                    RestaurantView()
+                }
+            }
+            .navigationDestination(for: ScheduledRide.self) { ride in
+                RideDetailView(ride: ride)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(backgroundGradient(colorScheme))
+            .navigationTitle("SMBC")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    HStack { SmbcHelp(); SmbcInfo() }
+                }
+            }
+            .sheet(isPresented: $noMoreRides) {
+                NoMoreRideView()
+                    .presentationDetents([.medium])
+            }
+            .alert(isPresented: $refreshPresented) { alertView }
+            .onAppear {
+                refresh()
+            }
+        }
     }
 
     /// refresh model data from server when necessary
@@ -173,6 +153,21 @@ struct SmbcImage: View {
             .clipShape(Circle())
             .overlay(Circle().stroke(Color.black, lineWidth: 2))
             .padding(.horizontal)
+    }
+}
+
+// MARK: - Main screen button styles
+
+public struct SmbcButtonStyle: ButtonStyle {
+    public func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .frame(width: 120)
+            .font(.title2)
+            .foregroundColor(.blue)
+            .padding()
+            .accentColor(.black)
+            .background(Color.gray.opacity(0.25))
+            .cornerRadius(20)
     }
 }
 

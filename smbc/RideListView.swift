@@ -3,25 +3,6 @@
 //  smbc
 //
 //  Created by Marco S Hyman on 6/23/19.
-//  Copyright © 2019, 2021 Marco S Hyman. All rights reserved.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the
-// Software is furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-// DEALINGS IN THE SOFTWARE.
 //
 
 import SwiftUI
@@ -34,12 +15,21 @@ struct RideListView : View {
 
     var body: some View {
         VStack {
-            List (state.rideModel.rides) { ride in
-                if ride.restaurant != nil {
-                    RideRowView(ride: ride)
+            ScrollViewReader { proxy in
+                List (state.rideModel.rides) { ride in
+                    if ride.restaurant != nil {
+                        RideRowView(ride: ride).id(ride.id)
+                    }
+                    if ride.end != nil {
+                        TripRowView(ride: ride).id(ride.id)
+                    }
                 }
-                if ride.end != nil {
-                    TripRowView(ride:ride)
+                .onAppear {
+                    if let nextRideId = state.nextRide?.id {
+                        withAnimation {
+                            proxy.scrollTo(nextRideId, anchor: .top)
+                        }
+                    }
                 }
             }
             if state.nextRide != nil {
@@ -49,15 +39,21 @@ struct RideListView : View {
                     .padding(.bottom)
             }
         }
-        .navigationBarTitle("SMBC Rides in \(state.yearString)")
-        .navigationBarItems(trailing: Button("Change year") { yearPickerPresented = true })
+        .navigationTitle("SMBC Rides in \(state.yearString)")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: { yearPickerPresented = true } ) {
+                    Text("Change year")
+                        .font(.callout)
+                }
+            }
+        }
         .alert(isPresented: $fetchFailed) {
              RefreshAlerts(type: .ride).type.view
         }
         .sheet(isPresented: $yearPickerPresented,
                onDismiss: fetchRideData) {
-                YearPickerView(presented: $yearPickerPresented,
-                               selectedIndex: $yearIndex)
+                YearPickerView(selectedIndex: $yearIndex)
         }
         .onAppear {
             yearIndex = state.yearModel.findYearIndex(for: state.year)
@@ -89,8 +85,10 @@ struct RideView_Previews : PreviewProvider {
     static var state = ProgramState()
 
     static var previews: some View {
-        RideListView()
-            .environmentObject(state)
+        NavigationStack {
+            RideListView()
+                .environmentObject(state)
+        }
     }
 }
 #endif
