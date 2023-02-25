@@ -12,7 +12,7 @@ struct TripDetailView: View {
     @EnvironmentObject var state: ProgramState
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     var ride: ScheduledRide
-    
+
     var body: some View {
         VStack {
             Text(tripText())
@@ -25,7 +25,7 @@ struct TripDetailView: View {
          .navigationTitle("\(ride.start) - \(ride.end!) Trip")
          .navigationBarTitleDisplayMode(.inline)
     }
-    
+
     private
     func tripText() -> String {
         if let spaceIndex = ride.description?.firstIndex(of: " ") {
@@ -45,7 +45,7 @@ struct TripDetailView: View {
 }
 
 #if DEBUG
-struct tripView_Previews : PreviewProvider {
+struct tripView_Previews: PreviewProvider {
     static var state = ProgramState()
 
     static var previews: some View {

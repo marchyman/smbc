@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RestaurantView : View {
+struct RestaurantView: View {
     @EnvironmentObject var state: ProgramState
     @State private var filter = true
     var title: String {
@@ -18,14 +18,14 @@ struct RestaurantView : View {
     }
 
     var body: some View {
-        List (filteredRestaurants(filter)) { restaurant in
+        List(filteredRestaurants(filter)) { restaurant in
             RestaurantRow(restaurant: restaurant)
         }
         .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: { filter.toggle() } ) {
+                Button(action: { filter.toggle() }) {
                     Text(filterTitle)
                         .font(.callout)
                 }
@@ -52,7 +52,7 @@ struct RestaurantRow: View {
     var body: some View {
         NavigationLink(destination: RestaurantDetailView(restaurant: restaurant,
                                                          eta: false)) {
-            VStack (alignment: .leading) {
+            VStack(alignment: .leading) {
                 Text(restaurant.name).font(.headline)
                 Text(city).font(.subheadline)
             }
@@ -61,7 +61,7 @@ struct RestaurantRow: View {
 }
 
 #if DEBUG
-struct RestaurantView_Previews : PreviewProvider {
+struct RestaurantView_Previews: PreviewProvider {
     static var state = ProgramState()
 
     static var previews: some View {

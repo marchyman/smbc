@@ -25,12 +25,12 @@ struct RideDetailView: View {
             }
         }
     }
-    
+
     private
     func restaurant(id: String) -> Restaurant {
         return state.restaurantModel.idToRestaurant(id: id)
     }
-    
+
     private
     func nextRide() {
         if let next = state.rideModel.ride(following: ride.start) {
@@ -40,7 +40,7 @@ struct RideDetailView: View {
 }
 
 #if DEBUG
-struct RideDetailView_Previews : PreviewProvider {
+struct RideDetailView_Previews: PreviewProvider {
     static var state = ProgramState()
 
     static var previews: some View {

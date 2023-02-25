@@ -13,7 +13,7 @@ struct RideRowView: View {
 
     var body: some View {
         NavigationLink(destination: RideDetailView(ride: ride)) {
-            HStack () {
+            HStack {
                 Text(ride.start)
                     .font(.headline)
                     .frame(minWidth: 50, alignment: .leading)

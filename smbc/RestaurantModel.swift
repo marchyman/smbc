@@ -7,8 +7,7 @@
 
 import Foundation
 
-fileprivate let restaurantFileName = "restaurants.json"
-
+private let restaurantFileName = "restaurants.json"
 
 /// Format of  restaurant records retrieved from server
 ///

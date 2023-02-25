@@ -8,8 +8,8 @@
 import Foundation
 import Combine
 
-fileprivate let scheduleBase = "schedule"
-fileprivate let scheduleExt = "json"
+private let scheduleBase = "schedule"
+private let scheduleExt = "json"
 
 /// Format of a scheduled ride record retrieved from server
 /// All rides have an ID and a start date.
@@ -23,7 +23,7 @@ struct ScheduledRide: Codable, Identifiable, Hashable {
     let end: String?
     let description: String?
     let comment: String?
-    
+
     var month: Int {
         Int(String(start.split(separator: "/")[0])) ?? 0
     }

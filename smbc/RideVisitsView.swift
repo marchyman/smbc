@@ -35,7 +35,7 @@ struct RideVisitsView: View {
             if filteredRides.isEmpty {
                 Spacer()
             } else {
-                List (filteredRides) {
+                List(filteredRides) {
                     ride in
                     Text(ride.start)
                         .font(.headline)

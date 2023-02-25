@@ -11,7 +11,7 @@ struct TripRowView: View {
 
     var body: some View {
         NavigationLink(destination: TripDetailView(ride: ride)) {
-            HStack () {
+            HStack {
                 Text("\(ride.start)\n\(ride.end!)")
                     .font(.headline)
                     .lineLimit(2)
@@ -37,4 +37,3 @@ struct TripRowView_Previews: PreviewProvider {
     }
 }
 #endif
-

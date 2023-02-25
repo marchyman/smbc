@@ -10,7 +10,7 @@ import Foundation
 struct Cache<T: Decodable> {
     var name: String
     var type: T.Type
-    
+
     /// Return a URL for the named cache file
     ///
     /// Cached files live in folder in the users .cachesDirectory.  The folder name is the
@@ -38,7 +38,7 @@ struct Cache<T: Decodable> {
             fatalError("Cannot create cache folder for: \(name)")
         }
     }
-    
+
     /// Return cached data for this name/type
     ///
     func cachedData<T: Decodable>() -> T {
@@ -56,7 +56,7 @@ struct Cache<T: Decodable> {
             } catch let DecodingError.valueNotFound(value, context) {
                 print("Value '\(value)' not found:", context.debugDescription)
                 print("codingPath:", context.codingPath)
-            } catch let DecodingError.typeMismatch(type, context)  {
+            } catch let DecodingError.typeMismatch(type, context) {
                 print("Type '\(type)' mismatch:", context.debugDescription)
                 print("codingPath:", context.codingPath)
             } catch {
@@ -67,7 +67,7 @@ struct Cache<T: Decodable> {
             fatalError("Cannot read cached data for \(name)")
         }
     }
-    
+
     /// Prime the cache from data stored in the bundle
     /// - Parameter cacheUrl: URL of named file in cache folder
     ///
@@ -77,7 +77,7 @@ struct Cache<T: Decodable> {
             guard let dotIndex = name.lastIndex(of: ".") else {
                 fatalError("malformed resource name: \(name)")
             }
-            let resource = String(name.prefix(upTo:dotIndex))
+            let resource = String(name.prefix(upTo: dotIndex))
             let extRange = name.index(after: dotIndex)..<name.endIndex
             let ext = String(name[extRange])
 

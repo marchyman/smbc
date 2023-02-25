@@ -5,7 +5,6 @@
 //  Created by Marco S Hyman on 11/9/21.
 //
 
-
 import SwiftUI
 
 /// View containing a buttom that when pressed displays some generic information about the SMBC

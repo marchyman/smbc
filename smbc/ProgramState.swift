@@ -16,7 +16,7 @@ let serverDir = "schedule/"
 /// The schedule for a year is stored in the app bundle to initialize needed state before updated
 /// data is downloaded from the SMBC server.  This is the year of the stored schedule
 ///
-fileprivate let bundleScheduleYear = 2023
+private let bundleScheduleYear = 2023
 
 /// A class to hold program state
 ///
@@ -48,10 +48,10 @@ class ProgramState: ObservableObject {
     var tripModel = TripModel()
 
     // Handle propagating changes from the sub-models
-    var yearCancellable: AnyCancellable? = nil
-    var restaurantCancellable: AnyCancellable? = nil
-    var rideCancellable: AnyCancellable? = nil
-    var tripCancellable: AnyCancellable? = nil
+    var yearCancellable: AnyCancellable?
+    var restaurantCancellable: AnyCancellable?
+    var rideCancellable: AnyCancellable?
+    var tripCancellable: AnyCancellable?
 
     // convenience variables
     //
