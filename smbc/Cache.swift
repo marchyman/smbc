@@ -7,6 +7,8 @@
 
 import Foundation
 
+// swiftlint:disable force_cast
+
 struct Cache<T: Decodable> {
     var name: String
     var type: T.Type

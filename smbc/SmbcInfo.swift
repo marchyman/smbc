@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// swiftlint:disable line_length
+
 /// View containing a buttom that when pressed displays some generic information about the SMBC
 /// 
 struct SmbcInfo: View {
@@ -14,7 +16,9 @@ struct SmbcInfo: View {
     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
 
     var body: some View {
-        Button(action: { self.infoPresented = true }) {
+        Button {
+            infoPresented = true
+        } label: {
             Image(systemName: "info.circle")
         }
         .alert(isPresented: $infoPresented) { smbcInfo }
@@ -23,7 +27,7 @@ struct SmbcInfo: View {
     var smbcInfo: Alert {
         Alert(title: Text("SMBC Information"),
               message: Text(
-                """
+                 """
                  The Sunday Morning Breakfast Club is a loose affiliation of motorcycle riders who meet every Sunday for breakfast. We also plan several multi-day trips each year.
 
                  Traditionally, riders met at the corner of Laguna and Broadway in Burlingame with a full tank of gas in time to depart for breakfast at exactly 7:05.  A few still do.  Most meet at the destination restaurant.

@@ -69,7 +69,7 @@ class RideModel: ObservableObject {
     /// The  next breakfast ride on a date >=  todays  date
     ///
     func nextRide(for schedYear: Int) -> ScheduledRide? {
-        let md: String
+        let monthDay: String
         guard let yesterday = Calendar
             .current.date(byAdding: .day,
                           value: -1,
@@ -82,11 +82,11 @@ class RideModel: ObservableObject {
         if year == schedYear {
             let month = Calendar.current.component(.month, from: yesterday)
             let day = Calendar.current.component(.day, from: yesterday)
-            md = "\(month)/\(day)"
+            monthDay = "\(month)/\(day)"
         } else {
-            md = "0/0" // give me the first ride of schedYear
+            monthDay = "0/0" // give me the first ride of schedYear
         }
-        return ride(following: md)
+        return ride(following: monthDay)
     }
 
     /// Build the full name of the Scheduled Rides file on the server

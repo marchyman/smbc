@@ -42,7 +42,9 @@ struct RideListView: View {
         .navigationTitle("SMBC Rides in \(state.yearString)")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: { yearPickerPresented = true }) {
+                Button {
+                    yearPickerPresented = true
+                } label: {
                     Text("Change year")
                         .font(.callout)
                 }

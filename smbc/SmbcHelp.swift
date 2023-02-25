@@ -7,11 +7,15 @@
 
 import SwiftUI
 
+// swiftlint:disable line_length
+
 struct SmbcHelp: View {
     @State private var helpPresented = false
 
     var body: some View {
-        Button(action: { helpPresented = true }) {
+        Button {
+            helpPresented = true
+        } label: {
             Image(systemName: "questionmark.circle")
         }
         .alert(isPresented: $helpPresented) { smbcHelp }

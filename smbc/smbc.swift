@@ -9,7 +9,7 @@
 import SwiftUI
 
 @main
-struct smbcApp: App {
+struct SmbcApp: App {
     @StateObject var programState = ProgramState()
 
     var body: some Scene {

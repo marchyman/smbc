@@ -8,6 +8,8 @@
 
 import SwiftUI
 
+// swiftlint:disable line_length
+
 struct NoMoreRideView: View {
     @Environment(\.dismiss) var dismiss
     var body: some View {

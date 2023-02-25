@@ -45,7 +45,7 @@ struct TripDetailView: View {
 }
 
 #if DEBUG
-struct tripView_Previews: PreviewProvider {
+struct TripView_Previews: PreviewProvider {
     static var state = ProgramState()
 
     static var previews: some View {

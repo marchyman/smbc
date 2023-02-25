@@ -25,7 +25,9 @@ struct RestaurantView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: { filter.toggle() }) {
+                Button {
+                    filter.toggle()
+                } label: {
                     Text(filterTitle)
                         .font(.callout)
                 }

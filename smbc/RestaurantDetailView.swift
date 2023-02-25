@@ -21,11 +21,10 @@ struct RestaurantDetailView: View {
     let eta: Bool
 
     var body: some View {
-        GeometryReader {
-            g in
+        GeometryReader { geometry in
             VStack {
                 restaurantInfo
-                    .frame(minHeight: 0, maxHeight: g.size.height * 0.35)
+                    .frame(minHeight: 0, maxHeight: geometry.size.height * 0.35)
                 RestaurantMap(location: CLLocationCoordinate2D(latitude: restaurant.lat,
                                                                longitude: restaurant.lon))
             }
