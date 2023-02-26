@@ -60,6 +60,7 @@
 
 /* Begin PBXFileReference section */
 		4905C3E722C72CEC00D9B7CE /* trips.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = trips.json; sourceTree = "<group>"; };
+		490B75A429AAE6A700EA6EEA /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		49158D8222E970C80067D893 /* ProgramState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramState.swift; sourceTree = "<group>"; };
 		491B760E22DEC9EE00268B60 /* RideDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideDetailView.swift; sourceTree = "<group>"; };
 		492151D3273F342A00B51E94 /* RestaurantDetailViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailViewTests.swift; sourceTree = "<group>"; };
@@ -132,6 +133,7 @@
 			children = (
 				497ED9F1297E294E008AB290 /* README */,
 				497ED9F2297E4BAA008AB290 /* LICENSE */,
+				490B75A429AAE6A700EA6EEA /* .swiftlint.yml */,
 				49B1969B22BEADE2009F51E5 /* smbc */,
 				49B196B222BEADE3009F51E5 /* smbcTests */,
 				49B196BD22BEADE3009F51E5 /* smbcUITests */,
