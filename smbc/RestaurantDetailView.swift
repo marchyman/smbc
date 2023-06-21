@@ -12,21 +12,19 @@ import MapKit
 ///
 /// This view is used when a restaurant is sellect for the list of restaurants and when a Sunday morning
 /// ride is selected from the rides list.
-struct RestaurantDetailView : View {
+struct RestaurantDetailView: View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @EnvironmentObject var state: ProgramState
     @State private var showVisits = false
-
 
     let restaurant: Restaurant
     let eta: Bool
 
     var body: some View {
-        GeometryReader {
-            g in
+        GeometryReader { geometry in
             VStack {
                 restaurantInfo
-                    .frame(minHeight: 0, maxHeight: g.size.height * 0.35)
+                    .frame(minHeight: 0, maxHeight: geometry.size.height * 0.35)
                 RestaurantMap(location: CLLocationCoordinate2D(latitude: restaurant.lat,
                                                                longitude: restaurant.lon))
             }
@@ -38,7 +36,7 @@ struct RestaurantDetailView : View {
             }
         }
     }
-    
+
     var showVisitButton: some View {
         Button("Show Visits") {
             showVisits = true
@@ -95,7 +93,7 @@ struct RestaurantDetailView : View {
 }
 
 #if DEBUG
-struct RestaurantDetailView_Previews : PreviewProvider {
+struct RestaurantDetailView_Previews: PreviewProvider {
     static var state = ProgramState()
 
     static var previews: some View {

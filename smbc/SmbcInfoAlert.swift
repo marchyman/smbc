@@ -8,9 +8,13 @@
 
 import SwiftUI
 
+// swiftlint:disable line_length
+
 struct SmbcInfo: View {
     var body: some View {
-        Button(action: { self.infoPresented = true }) {
+        Button {
+            infoPresented = true
+        } label: {
             Image(systemName: "info.circle")
         }
         .alert(isPresented: $infoPresented) { smbcInfo }
@@ -38,3 +42,5 @@ struct SmbcInfoAlert_Previews: PreviewProvider {
         SmbcInfo()
     }
 }
+
+// swiftlint:enable line_length

@@ -31,17 +31,29 @@ struct RestaurantMap: View {
     }
 
     var body: some View {
-        Map(coordinateRegion: $region,
-            annotationItems: [place]) { place in
-            MapMarker(coordinate: place.location, tint: Color.red)
+        Group {
+            Map(coordinateRegion: $region,
+                annotationItems: [place]) { place in
+                MapMarker(coordinate: place.location, tint: Color.red)
+            }
+        }
+        .onChange(of: place.location) { location in
+            region.center = location
         }
     }
 
 }
+
 struct RestaurantMap_Previews: PreviewProvider {
     static var previews: some View {
         RestaurantMap(location: CLLocationCoordinate2D(latitude: 37.7244,
                                                        longitude: -122.4381))
             .environmentObject(ProgramState())
+    }
+}
+
+extension CLLocationCoordinate2D: Equatable {
+    public static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
+        lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
     }
 }

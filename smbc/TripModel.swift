@@ -7,16 +7,16 @@
 
 import Foundation
 
-fileprivate let tripFileName = "trips.json"
+private let tripFileName = "trips.json"
 
 @MainActor
 class TripModel: ObservableObject {
-    @Published var trips = [String : String]()
+    @Published var trips = [String: String]()
 
     /// Initialize list of restaurants from the cache
     ///
     init() {
-        let cache = Cache(name: tripFileName, type: [String : String].self)
+        let cache = Cache(name: tripFileName, type: [String: String].self)
         trips = cache.cachedData()
     }
 
@@ -27,9 +27,8 @@ class TripModel: ObservableObject {
         trips = try await Downloader.fetch(
             name: tripFileName,
             url: url,
-            type: [String : String].self
+            type: [String: String].self
         )
     }
 
 }
-

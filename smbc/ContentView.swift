@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
     let color: Color
     switch colorScheme {
@@ -48,7 +47,7 @@ struct ContentView: View {
                     .padding()
                 Spacer()
                 SmbcImage()
-                    .onTapGesture{
+                    .onTapGesture {
                         if let nextRide = state.nextRide {
                             path.append(ridesKey)
                             path.append(nextRide)
@@ -105,7 +104,7 @@ struct ContentView: View {
     /// refresh model data from server when necessary
     ///
     private
-    func refresh()  {
+    func refresh() {
         let today = Date()
         var year = Calendar.current.component(.year, from: today)
         let weekOfYear = Calendar.current.component(.weekOfYear, from: today)
@@ -172,7 +171,7 @@ public struct SmbcButtonStyle: ButtonStyle {
 }
 
 #if DEBUG
-struct ContentView_Previews : PreviewProvider {
+struct ContentView_Previews: PreviewProvider {
     static var state = ProgramState()
 
     static var previews: some View {

@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// swiftlint:disable line_length
+
 struct RefreshAlerts {
     enum RefreshType: String {
         case refreshing
@@ -40,3 +42,5 @@ struct RefreshAlerts {
 
     var type: RefreshType
 }
+
+// swiftlint:enable line_length

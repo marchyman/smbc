@@ -8,8 +8,8 @@
 import Foundation
 import Combine
 
-fileprivate let scheduleBase = "schedule"
-fileprivate let scheduleExt = "json"
+private let scheduleBase = "schedule"
+private let scheduleExt = "json"
 
 /// Format of a scheduled ride record retrieved from server
 /// All rides have an ID and a start date.
@@ -23,7 +23,7 @@ struct ScheduledRide: Codable, Identifiable, Hashable {
     let end: String?
     let description: String?
     let comment: String?
-    
+
     var month: Int {
         Int(String(start.split(separator: "/")[0])) ?? 0
     }
@@ -69,7 +69,7 @@ class RideModel: ObservableObject {
     /// The  next breakfast ride on a date >=  todays  date
     ///
     func nextRide(for schedYear: Int) -> ScheduledRide? {
-        let md: String
+        let monthDay: String
         guard let yesterday = Calendar
             .current.date(byAdding: .day,
                           value: -1,
@@ -82,11 +82,11 @@ class RideModel: ObservableObject {
         if year == schedYear {
             let month = Calendar.current.component(.month, from: yesterday)
             let day = Calendar.current.component(.day, from: yesterday)
-            md = "\(month)/\(day)"
+            monthDay = "\(month)/\(day)"
         } else {
-            md = "0/0" // give me the first ride of schedYear
+            monthDay = "0/0" // give me the first ride of schedYear
         }
-        return ride(following: md)
+        return ride(following: monthDay)
     }
 
     /// Build the full name of the Scheduled Rides file on the server

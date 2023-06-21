@@ -35,8 +35,7 @@ struct RideVisitsView: View {
             if filteredRides.isEmpty {
                 Spacer()
             } else {
-                List (filteredRides) {
-                    ride in
+                List(filteredRides) { ride in
                     Text(ride.start)
                         .font(.headline)
                 }.padding()
@@ -53,10 +52,10 @@ struct RideVisitsView: View {
     }
 
     private
-    func spellOut(_ n: Int) -> String {
+    func spellOut(_ number: Int) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .spellOut
-        return formatter.string(for: n) ?? ""
+        return formatter.string(for: number) ?? ""
     }
 
 }

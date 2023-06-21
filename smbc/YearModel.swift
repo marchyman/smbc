@@ -7,7 +7,7 @@
 
 import Foundation
 
-fileprivate let yearModelName = "schedule-years.json"
+private let yearModelName = "schedule-years.json"
 
 /// A string containting a 4 digit year for which a schedule exists
 ///

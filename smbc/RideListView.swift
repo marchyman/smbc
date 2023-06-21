@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RideListView : View {
+struct RideListView: View {
     @EnvironmentObject var state: ProgramState
     @State private var yearPickerPresented = false
     @State private var fetchFailed = false
@@ -16,7 +16,7 @@ struct RideListView : View {
     var body: some View {
         VStack {
             ScrollViewReader { proxy in
-                List (state.rideModel.rides) { ride in
+                List(state.rideModel.rides) { ride in
                     if ride.restaurant != nil {
                         RideRowView(ride: ride).id(ride.id)
                     }
@@ -42,7 +42,9 @@ struct RideListView : View {
         .navigationTitle("SMBC Rides in \(state.yearString)")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: { yearPickerPresented = true } ) {
+                Button {
+                    yearPickerPresented = true
+                } label: {
                     Text("Change year")
                         .font(.callout)
                 }
@@ -81,7 +83,7 @@ struct RideListView : View {
 }
 
 #if DEBUG
-struct RideView_Previews : PreviewProvider {
+struct RideView_Previews: PreviewProvider {
     static var state = ProgramState()
 
     static var previews: some View {
