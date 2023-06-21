@@ -7,8 +7,6 @@
 
 import Foundation
 
-// swiftlint:disable force_cast
-
 struct Cache<T: Decodable> {
     var name: String
     var type: T.Type
@@ -49,7 +47,9 @@ struct Cache<T: Decodable> {
             do {
                 let decoder = JSONDecoder()
                 let decoded = try decoder.decode(type, from: cachedData)
+                // swiftlint:disable force_cast
                 return decoded as! T
+                // swiftlint:enable force_cast
             } catch let DecodingError.dataCorrupted(context) {
                 print(context)
             } catch let DecodingError.keyNotFound(key, context) {

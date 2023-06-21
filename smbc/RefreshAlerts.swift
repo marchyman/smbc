@@ -42,3 +42,5 @@ struct RefreshAlerts {
 
     var type: RefreshType
 }
+
+// swiftlint:enable line_length

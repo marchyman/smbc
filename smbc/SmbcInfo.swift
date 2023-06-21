@@ -43,6 +43,8 @@ struct SmbcInfo: View {
 
 }
 
+// swiftlint:enable line_length
+
 struct SmbcInfoAlert_Previews: PreviewProvider {
     static var previews: some View {
         SmbcInfo()

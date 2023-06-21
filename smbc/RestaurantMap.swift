@@ -38,6 +38,7 @@ struct RestaurantMap: View {
     }
 
 }
+
 struct RestaurantMap_Previews: PreviewProvider {
     static var previews: some View {
         RestaurantMap(location: CLLocationCoordinate2D(latitude: 37.7244,

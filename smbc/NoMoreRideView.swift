@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-// swiftlint:disable line_length
-
 struct NoMoreRideView: View {
     @Environment(\.dismiss) var dismiss
     var body: some View {
@@ -22,8 +20,9 @@ struct NoMoreRideView: View {
             }
             .padding()
 
+            // swiftlint:disable line_length
             Text("There are no more rides scheduled for the current year.  Please load the schedule for the next year.  This normally happens automatically some time during the last week of the year.")
-
+            // swiftlint:enable line_length
             Spacer()
         }
         .padding()

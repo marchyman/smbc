@@ -42,3 +42,5 @@ struct SmbcInfoAlert_Previews: PreviewProvider {
         SmbcInfo()
     }
 }
+
+// swiftlint:enable line_length
