@@ -6,12 +6,13 @@
 //
 
 import Foundation
+import Observation
 
 private let tripFileName = "trips.json"
 
-@MainActor
-class TripModel: ObservableObject {
-    @Published var trips = [String: String]()
+@Observable
+final class TripModel {
+    var trips = [String: String]()
 
     /// Initialize list of restaurants from the cache
     ///

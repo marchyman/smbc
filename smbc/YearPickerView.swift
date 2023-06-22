@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct YearPickerView: View {
-    @EnvironmentObject var state: ProgramState
+    @Environment(ProgramState.self) var state
     @Environment(\.dismiss) var dismiss
     @Binding var selectedIndex: Int
 
@@ -31,4 +31,11 @@ struct YearPickerView: View {
             Spacer()
         }
     }
+}
+
+#Preview {
+    let state = ProgramState()
+    @State var yearIndex: Int = 0
+    return YearPickerView(selectedIndex: $yearIndex)
+        .environment(state)
 }

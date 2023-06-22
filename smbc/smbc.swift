@@ -10,12 +10,12 @@ import SwiftUI
 
 @main
 struct SmbcApp: App {
-    @StateObject var programState = ProgramState()
+    var programState = ProgramState()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(programState)
+                .environment(programState)
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  RestaruantView.swift
+//  RestaruantListView.swift
 //  smbc
 //
 //  Created by Marco S Hyman on 6/23/19.
@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct RestaurantView: View {
-    @EnvironmentObject var state: ProgramState
+struct RestaurantListView: View {
+    @Environment(ProgramState.self) var state
     @State private var filter = true
     var title: String {
         (filter ? "Active" : "All") + " Restaurants"
@@ -62,15 +62,11 @@ struct RestaurantRow: View {
     }
 }
 
-#if DEBUG
-struct RestaurantView_Previews: PreviewProvider {
-    static var state = ProgramState()
+#Preview {
+    let state = ProgramState()
 
-    static var previews: some View {
-        NavigationStack {
-            RestaurantView()
-                .environmentObject(state)
-        }
+    return NavigationStack {
+        RestaurantListView()
+            .environment(state)
     }
 }
-#endif

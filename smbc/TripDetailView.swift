@@ -5,11 +5,10 @@
 //  Created by Marco S Hyman on 6/27/19.
 //
 
-import Foundation
 import SwiftUI
 
 struct TripDetailView: View {
-    @EnvironmentObject var state: ProgramState
+    @Environment(ProgramState.self) var state
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     var ride: ScheduledRide
 
@@ -44,19 +43,14 @@ struct TripDetailView: View {
     }
 }
 
-#if DEBUG
-struct TripView_Previews: PreviewProvider {
-    static var state = ProgramState()
-
-    static var previews: some View {
-        NavigationStack {
-            TripDetailView(ride: ScheduledRide(start: "7/12",
-                                               restaurant: nil,
-                                               end: "7/13",
-                                               description: "Camping blah",
-                                               comment: "preview"))
-            .environmentObject(state)
-        }
-    }
+#Preview {
+    let state = ProgramState()
+    return NavigationStack {
+        TripDetailView(ride: ScheduledRide(start: "7/12",
+                                           restaurant: nil,
+                                           end: "7/13",
+                                           description: "Camping blah",
+                                           comment: "preview"))
+            .environment(state)
+     }
 }
-#endif

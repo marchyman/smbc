@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RideRowView: View {
-    @EnvironmentObject var state: ProgramState
+    @Environment(ProgramState.self) var state
     var ride: ScheduledRide
 
     var body: some View {
@@ -28,17 +28,14 @@ struct RideRowView: View {
     }
 }
 
-#if DEBUG
-struct RideRowView_Previews: PreviewProvider {
-    static var state = ProgramState()
+#Preview {
+    let state = ProgramState()
 
-    static var previews: some View {
-        RideRowView(ride: ScheduledRide(start: "5/7",
-                                        restaurant: "countryinn",
-                                        end: nil,
-                                        description: nil,
-                                        comment: "Testing"))
-            .environmentObject(state)
-    }
+    return RideRowView(ride: ScheduledRide(start: "5/7",
+                                           restaurant: "countryinn",
+                                           end: nil,
+                                           description: nil,
+                                           comment: "Testing"))
+        .environment(state)
+
 }
-#endif

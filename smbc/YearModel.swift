@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Observation
 
 private let yearModelName = "schedule-years.json"
 
@@ -17,9 +18,9 @@ struct ScheduleYear: Codable, Equatable {
 
 /// A list of years for which a schedule exists.
 ///
-@MainActor
-class YearModel: ObservableObject {
-    @Published var scheduleYears: [ScheduleYear]
+@Observable
+final class YearModel {
+    var scheduleYears: [ScheduleYear] = []  // ;;; should not need initial value
 
     // Initialize YearsModel from the cache.
     init() {

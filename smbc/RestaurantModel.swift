@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Observation
 
 private let restaurantFileName = "restaurants.json"
 
@@ -24,9 +25,9 @@ struct Restaurant: Decodable, Identifiable {
     let lon: Double
 }
 
-@MainActor
-class RestaurantModel: ObservableObject {
-    @Published var restaurants = [Restaurant]()
+@Observable
+final class RestaurantModel {
+    var restaurants = [Restaurant]()
 
     /// Initialize list of restaurants from the cache
     ///

@@ -8,15 +8,14 @@
 import SwiftUI
 
 func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
-    let color: Color
-    switch colorScheme {
-    case .light:
-        color = .white
-    case .dark:
-        color = .black
-    @unknown default:
-        fatalError("Unknown ColorScheme")
-    }
+    let color: Color = switch colorScheme {
+                       case .light:
+                            .white
+                       case .dark:
+                            .black
+                       @unknown default:
+                            fatalError("Unknown ColorScheme")
+                       }
     return LinearGradient(gradient: Gradient(colors: [color, .gray, color]),
                           startPoint: .top,
                           endPoint: .bottom)
@@ -25,7 +24,7 @@ func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
 // MARK: - Initial Content
 
 struct ContentView: View {
-    @EnvironmentObject var state: ProgramState
+    @Environment(ProgramState.self) var state
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
 
     @State var path = NavigationPath()
@@ -48,7 +47,7 @@ struct ContentView: View {
                 Spacer()
                 SmbcImage()
                     .onTapGesture {
-                        if let nextRide = state.nextRide {
+                        if let nextRide = state.rideModel.nextRide() {
                             path.append(ridesKey)
                             path.append(nextRide)
                         } else {
@@ -56,7 +55,7 @@ struct ContentView: View {
                         }
                     }
                     .onLongPressGesture {
-                        state.needRefresh = true
+//                        state.needRefresh = true
                         alertView = RefreshAlerts(type: .refreshing).type.view
                         refreshPresented = true
                         refresh()
@@ -76,7 +75,7 @@ struct ContentView: View {
                 if key == ridesKey {
                     RideListView()
                 } else {
-                    RestaurantView()
+                    RestaurantListView()
                 }
             }
             .navigationDestination(for: ScheduledRide.self) { ride in
@@ -105,23 +104,23 @@ struct ContentView: View {
     ///
     private
     func refresh() {
-        let today = Date()
-        var year = Calendar.current.component(.year, from: today)
-        let weekOfYear = Calendar.current.component(.weekOfYear, from: today)
-
-        // If the loaded schedule isn't current load the appropriate schedule.
-        // If the schedule is current but there are no more rides load the
-        // schedule for the following year if it exists.
-        if (weekOfYear <= 52 && year != state.year) ||
-            state.nextRide == nil {
-            if year == state.year {
-                year += 1
-            }
-            state.needRefresh = state.yearModel.scheduleExists(for: year)
-        }
-        // alway try a refresh here as state.needRefresh may have been
-        // set elsewhere.
         Task {
+            @AppStorage(ASKeys.scheduleYear) var scheduleYear = bundleScheduleYear
+            let today = Date()
+            var year = Calendar.current.component(.year, from: today)
+            let weekOfYear = Calendar.current.component(.weekOfYear, from: today)
+
+            // If the loaded schedule isn't current load the appropriate schedule.
+            // If the schedule is current but there are no more rides load the
+            // schedule for the following year if it exists.
+
+            if (weekOfYear <= 52 && year != scheduleYear) ||
+                state.rideModel.nextRide() == nil {
+                if year == scheduleYear {
+                    year += 1
+                }
+            }
+
             do {
                 try await state.refresh(year)
             } catch FetchError.yearModelError {
@@ -146,7 +145,7 @@ struct ContentView: View {
 
 struct SmbcImage: View {
     var body: some View {
-        Image("smbc")
+        Image(.smbc)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .clipShape(Circle())
@@ -170,12 +169,9 @@ public struct SmbcButtonStyle: ButtonStyle {
     }
 }
 
-#if DEBUG
-struct ContentView_Previews: PreviewProvider {
-    static var state = ProgramState()
+#Preview {
+    let state = ProgramState()
 
-    static var previews: some View {
-        ContentView().environmentObject(state)
-    }
+    return ContentView()
+        .environment(state)
 }
-#endif

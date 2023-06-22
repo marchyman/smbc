@@ -23,17 +23,13 @@ struct TripRowView: View {
     }
 }
 
-#if DEBUG
-struct TripRowView_Previews: PreviewProvider {
-    static var state = ProgramState()
+#Preview {
+    let state = ProgramState()
 
-    static var previews: some View {
-        TripRowView(ride: ScheduledRide(start: "5/7",
-                                        restaurant: nil,
-                                        end: "5/9",
-                                        description: "A ride to somewhere",
-                                        comment: "Testing"))
-            .environmentObject(state)
-    }
+    return TripRowView(ride: ScheduledRide(start: "5/7",
+                                           restaurant: nil,
+                                           end: "5/9",
+                                           description: "A ride to somewhere",
+                                           comment: "Testing"))
+        .environment(state)
 }
-#endif

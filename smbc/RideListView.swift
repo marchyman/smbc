@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct RideListView: View {
-    @EnvironmentObject var state: ProgramState
+    @AppStorage(ASKeys.scheduleYear) var scheduleYear = bundleScheduleYear
+    @Environment(ProgramState.self) var state
     @State private var yearPickerPresented = false
     @State private var fetchFailed = false
     @State private var yearIndex = 0
@@ -25,21 +26,21 @@ struct RideListView: View {
                     }
                 }
                 .onAppear {
-                    if let nextRideId = state.nextRide?.id {
+                    if let nextRideId = state.rideModel.nextRide()?.id {
                         withAnimation {
                             proxy.scrollTo(nextRideId, anchor: .top)
                         }
                     }
                 }
             }
-            if state.nextRide != nil {
+            if let nextRide = state.rideModel.nextRide() {
                 NavigationLink("Show next ride",
-                               destination: RideDetailView(ride: state.nextRide!))
+                               destination: RideDetailView(ride: nextRide))
                     .font(.title)
                     .padding(.bottom)
             }
         }
-        .navigationTitle("SMBC Rides in \(state.yearString)")
+        .navigationTitle("SMBC Rides in \(state.scheduleYearString)")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
@@ -58,22 +59,21 @@ struct RideListView: View {
                 YearPickerView(selectedIndex: $yearIndex)
         }
         .onAppear {
-            yearIndex = state.yearModel.findYearIndex(for: state.year)
+            yearIndex = state.yearModel.findYearIndex(for: scheduleYear)
         }
     }
 
     /// If the user selected a different year fetch the schedule for that year
     func fetchRideData() {
-        guard let year = Int(state.yearModel.scheduleYears[yearIndex].year)
+        guard let selectedYear = Int(state.yearModel.scheduleYears[yearIndex].year)
         else {
             fetchFailed = true
             return
         }
-        if year != state.year {
+        if selectedYear != scheduleYear {
             Task {
                 do {
-                    try await state.rideModel.fetch(year: year)
-                    state.year = year
+                    try await state.rideModel.fetch(scheduleFor: selectedYear)
                 } catch {
                     fetchFailed = true
                 }
@@ -82,15 +82,11 @@ struct RideListView: View {
     }
 }
 
-#if DEBUG
-struct RideView_Previews: PreviewProvider {
-    static var state = ProgramState()
+#Preview {
+    let state = ProgramState()
 
-    static var previews: some View {
-        NavigationStack {
-            RideListView()
-                .environmentObject(state)
-        }
+    return NavigationStack {
+        RideListView()
+            .environment(state)
     }
 }
-#endif

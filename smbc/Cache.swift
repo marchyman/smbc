@@ -41,15 +41,13 @@ struct Cache<T: Decodable> {
 
     /// Return cached data for this name/type
     ///
-    func cachedData<T: Decodable>() -> T {
+    func cachedData() -> T {
         let url = fileUrl()
         if let cachedData = try? Data(contentsOf: url) {
             do {
                 let decoder = JSONDecoder()
                 let decoded = try decoder.decode(type, from: cachedData)
-                // swiftlint:disable force_cast
-                return decoded as! T
-                // swiftlint:enable force_cast
+                return decoded
             } catch let DecodingError.dataCorrupted(context) {
                 print(context)
             } catch let DecodingError.keyNotFound(key, context) {

@@ -40,8 +40,6 @@ struct SmbcHelp: View {
 
 // swiftlint:enable line_length
 
-struct SmbcHelp_Previews: PreviewProvider {
-    static var previews: some View {
-        SmbcHelp()
-    }
+#Preview {
+    SmbcHelp()
 }
