@@ -25,13 +25,13 @@ struct RideDetailView: View {
                         dragOffset = .zero
                         switch value.translation.width {
                         case ...(-100):
-                            if let next = state.rideModel.ride(following: ride.start) {
-                                withAnimation {
-                                    ride = next
-                                }
+                            if let next = state.rideModel.ride(following: ride) {
+                                ride = next
                             }
                         case 100...:
-                            print("Previous Ride")
+                            if let prev = state.rideModel.ride(preceding: ride) {
+                                ride = prev
+                            }
                         default:
                             break
                         }

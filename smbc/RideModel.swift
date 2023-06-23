@@ -90,6 +90,42 @@ final class RideModel {
         return ride(following: monthDay)
     }
 
+    /// return the ride from the rides array following the ride with the given start data
+    /// Only Sunday rides to breakfast are returned.  The function skips over trips.
+    ///
+    func ride(following start: String) -> ScheduledRide? {
+        let date = start.split(separator: "/")
+        let month = Int(String(date[0])) ?? 0
+        let day = Int(String(date[1])) ?? 0
+        guard let index = rides.firstIndex(where: {
+            ($0.month > month || ($0.month == month && $0.day > day)) &&
+            $0.restaurant != nil
+        }) else { return nil }
+        return index < rides.endIndex ? rides[index] : nil
+    }
+
+    /// return the ride following the given ride assuming one exists
+
+    func ride(following ride: ScheduledRide) -> ScheduledRide? {
+        if let rideIndex = rides.firstIndex(of: ride) {
+            if rideIndex + 1 < rides.count {
+                return rides[rideIndex + 1]
+            }
+        }
+        return nil
+    }
+
+    /// return the ride preceding the given ride assuming one exists
+
+    func ride(preceding ride: ScheduledRide) -> ScheduledRide? {
+        if let rideIndex = rides.firstIndex(of: ride) {
+            if rideIndex > 0 {
+                return rides[rideIndex - 1]
+            }
+        }
+        return nil
+    }
+
     /// Build the full name of the Scheduled Rides file on the server
     ///
     private
@@ -104,17 +140,4 @@ final class RideModel {
         return URL(string: fullName)!
     }
 
-    /// return the ride from the rides array following the ride with the given start data
-    /// Only Sunday rides to breakfast are returned.  The function skips over trips.
-    ///
-    func ride(following start: String) -> ScheduledRide? {
-        let date = start.split(separator: "/")
-        let month = Int(String(date[0])) ?? 0
-        let day = Int(String(date[1])) ?? 0
-        guard let index = rides.firstIndex(where: {
-            ($0.month > month || ($0.month == month && $0.day > day)) &&
-            $0.restaurant != nil
-        }) else { return nil }
-        return index < rides.endIndex ? rides[index] : nil
-    }
 }
