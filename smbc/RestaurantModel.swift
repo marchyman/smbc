@@ -57,3 +57,6 @@ final class RestaurantModel {
         return restaurant
     }
 }
+
+extension Restaurant: Equatable {
+}

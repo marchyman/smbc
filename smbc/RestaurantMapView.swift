@@ -11,20 +11,35 @@ import MapKit
 
 struct RestaurantMapView: View {
     let restaurant: Restaurant
+    @State private var position: MapCameraPosition = .automatic
+
+    // automatic positioning zooms in more than I like. Override the position
+    // to be centered on the restaurant within a 1 km border
+
+    init(restaurant: Restaurant) {
+        self.restaurant = restaurant
+        _position = State(initialValue: makePosition())
+    }
 
     var body: some View {
         let location = CLLocationCoordinate2D(latitude: restaurant.lat,
                                               longitude: restaurant.lon)
-        Map(initialPosition:
-                MapCameraPosition.region(
-                    MKCoordinateRegion(center: location,
-                                       latitudinalMeters: 1000,
-                                       longitudinalMeters: 1000)
-                    )
-        ) {
+        Map(position: $position) {
             Marker(restaurant.name, coordinate: location)
                 .tint(.red)
         }
+        .onChange(of: restaurant) {
+            position = makePosition()
+        }
+    }
+
+    private func makePosition() -> MapCameraPosition {
+        return MapCameraPosition.region(
+            MKCoordinateRegion(
+                center: CLLocationCoordinate2D(latitude: restaurant.lat,
+                                               longitude: restaurant.lon),
+                latitudinalMeters: 1000,
+                longitudinalMeters: 1000))
     }
 }
 
