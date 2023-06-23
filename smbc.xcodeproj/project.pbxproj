@@ -293,7 +293,7 @@
 					New,
 				);
 				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = "Marco S Hyman";
 				TargetAttributes = {
 					49B1969822BEADE2009F51E5 = {
