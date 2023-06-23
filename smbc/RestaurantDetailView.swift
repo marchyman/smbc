@@ -16,7 +16,6 @@ struct RestaurantDetailView: View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @Environment(ProgramState.self) var state
     @State private var showVisits = false
-    @State private var dragOffset = CGSize.zero
 
     let restaurant: Restaurant
     let eta: Bool
@@ -26,22 +25,6 @@ struct RestaurantDetailView: View {
             VStack {
                 RestaurantInfoView(restaurant: restaurant, eta: eta)
                     .frame(minHeight: 0, maxHeight: geometry.size.height * 0.35)
-                    .gesture(
-                        DragGesture()
-                            .onChanged { value in
-                                dragOffset = value.translation
-                                if dragOffset.width < 10 {
-                                    //
-                                    print("swipe left")
-                                } else if dragOffset.width > 10 {
-                                    //
-                                    print("swipe right")
-                                }
-                            }
-                            .onEnded { _ in
-                                dragOffset = .zero
-                            }
-                    )
                 RestaurantMapView(restaurant: restaurant)
             }
             .background(backgroundGradient(colorScheme))
@@ -56,7 +39,6 @@ struct RestaurantDetailView: View {
                 RideVisitsView(restaurant: restaurant)
             }
         }
-        .offset(x: dragOffset.width)
     }
 }
 

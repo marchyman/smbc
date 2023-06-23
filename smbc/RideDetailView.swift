@@ -9,11 +9,34 @@ import SwiftUI
 
 struct RideDetailView: View {
     @Environment(ProgramState.self) var state
-    var ride: ScheduledRide
+    @State var ride: ScheduledRide
+    @State private var dragOffset: CGSize = .zero
 
     var body: some View {
         RestaurantDetailView(restaurant: restaurant(id: ride.restaurant!),
                              eta: true)
+            .offset(x: dragOffset.width)
+            .gesture(
+                DragGesture()
+                    .onChanged { value in
+                        dragOffset = value.translation
+                    }
+                    .onEnded { value in
+                        dragOffset = .zero
+                        switch value.translation.width {
+                        case ...(-100):
+                            if let next = state.rideModel.ride(following: ride.start) {
+                                withAnimation {
+                                    ride = next
+                                }
+                            }
+                        case 100...:
+                            print("Previous Ride")
+                        default:
+                            break
+                        }
+                    }
+            )
             .navigationTitle("\(ride.start)/\(state.scheduleYearString) Ride")
     }
 
