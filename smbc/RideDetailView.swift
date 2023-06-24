@@ -43,12 +43,8 @@ struct RideDetailView: View {
                         }
                     }
             )
-            .alert("First ride of the year", isPresented: $firstRide) {
-                Button("OK") {}
-            }
-            .alert("Last ride of the year", isPresented: $lastRide) {
-                Button("OK") {}
-            }
+            .alert("First ride of the year", isPresented: $firstRide) { }
+            .alert("Last ride of the year", isPresented: $lastRide) { }
             .navigationTitle("\(ride.start)/\(state.scheduleYearString) Ride")
     }
 

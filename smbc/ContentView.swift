@@ -89,7 +89,7 @@ struct ContentView: View {
                     HStack { SmbcHelp(); SmbcInfo() }
                 }
             }
-           .alert(isPresented: $refreshPresented) { alertView }
+            .alert(isPresented: $refreshPresented) { alertView }
             .onAppear {
                 refresh()
             }
