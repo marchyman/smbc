@@ -11,6 +11,8 @@ struct RideDetailView: View {
     @Environment(ProgramState.self) var state
     @State var ride: ScheduledRide
     @State private var dragOffset: CGSize = .zero
+    @State private var firstRide = false
+    @State private var lastRide = false
 
     var body: some View {
         RestaurantDetailView(restaurant: restaurant(id: ride.restaurant!),
@@ -27,16 +29,26 @@ struct RideDetailView: View {
                         case ...(-100):
                             if let next = state.rideModel.ride(following: ride) {
                                 ride = next
+                            } else {
+                                lastRide.toggle()
                             }
                         case 100...:
                             if let prev = state.rideModel.ride(preceding: ride) {
                                 ride = prev
+                            } else {
+                                firstRide.toggle()
                             }
                         default:
                             break
                         }
                     }
             )
+            .alert("First ride of the year", isPresented: $firstRide) {
+                Button("OK") {}
+            }
+            .alert("Last ride of the year", isPresented: $lastRide) {
+                Button("OK") {}
+            }
             .navigationTitle("\(ride.start)/\(state.scheduleYearString) Ride")
     }
 

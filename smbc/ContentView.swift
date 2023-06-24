@@ -89,11 +89,7 @@ struct ContentView: View {
                     HStack { SmbcHelp(); SmbcInfo() }
                 }
             }
-            .sheet(isPresented: $noMoreRides) {
-                NoMoreRideView()
-                    .presentationDetents([.medium])
-            }
-            .alert(isPresented: $refreshPresented) { alertView }
+           .alert(isPresented: $refreshPresented) { alertView }
             .onAppear {
                 refresh()
             }
