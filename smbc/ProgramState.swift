@@ -34,7 +34,7 @@ class ProgramState {
     /// refresh schedule model data from the server
     ///
     func refresh(_ schedYear: Int) async throws {
-        @AppStorage(ASKeys.refreshTime) var refreshTime = Date()
+        @AppStorage(ASKeys.refreshDate) var refreshDate = Date()
 
         do { try await yearModel.fetch() } catch {
             throw FetchError.yearModelError
@@ -50,11 +50,16 @@ class ProgramState {
         do { try await tripModel.fetch() } catch {
             throw FetchError.tripModelError
         }
-        refreshTime = Date()
+
+        // set the refresh date to 10 days in the future
+
+        refreshDate = Calendar.current.date(byAdding: .day,
+                                            value: 10,
+                                            to: Date()) ?? Date()
     }
 }
 
-/// Date fetching error types
+/// Data fetching error types
 ///
 enum FetchError: Error {
     case yearModelError

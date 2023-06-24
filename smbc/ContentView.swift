@@ -30,8 +30,12 @@ struct ContentView: View {
     @State var path = NavigationPath()
 
     @State private var noMoreRides = false
+
+    // three state variables to control schedule data refreshing
+
     @State private var refreshPresented = false
-    @State private var alertView = RefreshAlerts(type: .refreshing).type.view
+    @State private var forceRefresh = false
+    @State private var runRefreshTask = false
 
     // Button text and Navigation Link values
     let ridesKey = "Rides"
@@ -55,10 +59,9 @@ struct ContentView: View {
                         }
                     }
                     .onLongPressGesture {
-//                        state.needRefresh = true
-                        alertView = RefreshAlerts(type: .refreshing).type.view
                         refreshPresented = true
-                        refresh()
+                        forceRefresh = true
+                        runRefreshTask.toggle()
                     }
                 Spacer()
                 HStack {
@@ -89,51 +92,76 @@ struct ContentView: View {
                     HStack { SmbcHelp(); SmbcInfo() }
                 }
             }
-            .alert(isPresented: $refreshPresented) { alertView }
-            .onAppear {
-                refresh()
+            .sheet(isPresented: $noMoreRides) {
+                NoMoreRideView()
+                    .presentationDetents([.medium])
+            }
+            .alert("Schedule Reload", isPresented: $refreshPresented) {
+                // let the system provide the button
+            } message: {
+                // swiftlint:disable line_length
+                Text("""
+                     Up to date Trip, Restaurant, and Schedule data is being retrieved from smbc.snafu.org
+
+                     It may take a few seconds for the updated data to be received and processed.
+                     """)
+                // swiftlint:enable line_length
+            }
+            .task(id: runRefreshTask) {
+                await refresh()
             }
         }
     }
 
     /// refresh model data from server when necessary
     ///
+    /// Refresh rules:
+    /// 1) Refresh when asked due to a long press on SmbcImage
+    /// 2) Refresh when the current date is greater than the refreshDate
+    /// 3) Refresh for the following year when there are no more rides for the year
+    /// 4) Refresh when the current schedule is not loaded.  Handle the case where
+    ///   the current date is the end of the year
     private
-    func refresh() {
-        Task {
-            @AppStorage(ASKeys.scheduleYear) var scheduleYear = bundleScheduleYear
-            let today = Date()
-            var year = Calendar.current.component(.year, from: today)
+    func refresh() async {
+        @AppStorage(ASKeys.refreshDate) var refreshDate = Date()
+        @AppStorage(ASKeys.scheduleYear) var scheduleYear = bundleScheduleYear
+
+        var needRefresh = false
+        let today = Date()
+        var year = Calendar.current.component(.year, from: today)
+
+        if forceRefresh {
+            forceRefresh = false
+            needRefresh = true
+        } else if today > refreshDate {
+            needRefresh = true
+        } else if year == scheduleYear && state.rideModel.nextRide() == nil {
+            year += 1
+            needRefresh = true
+        } else {
             let weekOfYear = Calendar.current.component(.weekOfYear, from: today)
-
-            // If the loaded schedule isn't current load the appropriate schedule.
-            // If the schedule is current but there are no more rides load the
-            // schedule for the following year if it exists.
-
-            if (weekOfYear <= 52 && year != scheduleYear) ||
-                state.rideModel.nextRide() == nil {
-                if year == scheduleYear {
-                    year += 1
-                }
+            if weekOfYear <= 52 && year != scheduleYear {
+                needRefresh = true
             }
-
+        }
+        if needRefresh {
             do {
                 try await state.refresh(year)
             } catch FetchError.yearModelError {
-                alertView = RefreshAlerts(type: .year).type.view
-                refreshPresented = true
+//                alertView = RefreshAlerts(type: .year).type.view
+//                refreshPresented = true
             } catch FetchError.restaurantModelError {
-                alertView = RefreshAlerts(type: .restaurant).type.view
-                refreshPresented = true
+//                alertView = RefreshAlerts(type: .restaurant).type.view
+//                refreshPresented = true
             } catch FetchError.rideModelError {
-                alertView = RefreshAlerts(type: .ride).type.view
-                refreshPresented = true
+//                alertView = RefreshAlerts(type: .ride).type.view
+//                refreshPresented = true
             } catch FetchError.tripModelError {
-                alertView = RefreshAlerts(type: .trip).type.view
-                refreshPresented = true
+//                alertView = RefreshAlerts(type: .trip).type.view
+//                refreshPresented = true
             } catch {
-                alertView = RefreshAlerts(type: .all).type.view
-                refreshPresented = true
+//                alertView = RefreshAlerts(type: .all).type.view
+//                refreshPresented = true
             }
         }
     }

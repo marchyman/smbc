@@ -71,10 +71,9 @@ final class RideModel {
     func nextRide() -> ScheduledRide? {
         @AppStorage(ASKeys.scheduleYear) var scheduleYear = bundleScheduleYear
         let monthDay: String
-        guard let yesterday = Calendar
-            .current.date(byAdding: .day,
-                          value: -1,
-                          to: Date())
+        guard let yesterday = Calendar.current.date(byAdding: .day,
+                                                    value: -1,
+                                                    to: Date())
         else {
             return nil
         }

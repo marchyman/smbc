@@ -17,8 +17,7 @@ let bundleScheduleYear = 2023
 
 enum ASKeys {
     static let scheduleYear = "ScheduleYear"
-    static let refreshTime = "RefreshTime"
-    static let mapTypeIndex = "MapTypeIndex"
+    static let refreshDate = "RefreshDate"
 }
 
 // Make Date RawRepresentable so they can be stored in AppStorage

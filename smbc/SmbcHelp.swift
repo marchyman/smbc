@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-// swiftlint:disable line_length
-
 struct SmbcHelp: View {
     @State private var helpPresented = false
 
@@ -18,13 +16,10 @@ struct SmbcHelp: View {
         } label: {
             Image(systemName: "questionmark.circle")
         }
-        .alert(isPresented: $helpPresented) { smbcHelp }
-    }
-
-    var smbcHelp: Alert {
-        Alert(title: Text("Application Help"),
-              message: Text(
-                """
+        .alert("Application Help", isPresented: $helpPresented) {
+        } message: {
+            // swiftlint:disable line_length
+            Text("""
                  Tap on the center image to show the next ride.
 
                  Long press on the center image to force schedule data refresh from the SMBC server.
@@ -33,12 +28,14 @@ struct SmbcHelp: View {
 
                  Tap on the Rides button to list the rides for a schedule year.  Different years may be selected.  The schedule for the year of the next ride will always be loaded when returning to the home screen.
 
+                 When viewing rides you can swipe left/right to look at the next/previous ride.
+
                  Tap on "Sunday Morning Breakfast Club" text to open a browser window to the SMBC web site home page.
-                 """))
+                 """)
+            // swiftlint:enable line_length
+        }
     }
 }
-
-// swiftlint:enable line_length
 
 #Preview {
     SmbcHelp()

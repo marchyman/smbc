@@ -51,9 +51,9 @@ struct RideListView: View {
                 }
             }
         }
-        .alert(isPresented: $fetchFailed) {
-             RefreshAlerts(type: .ride).type.view
-        }
+//        .alert(isPresented: $fetchFailed) {
+//             RefreshAlerts(type: .ride).type.view
+//        }
         .sheet(isPresented: $yearPickerPresented,
                onDismiss: fetchRideData) {
                 YearPickerView(selectedIndex: $yearIndex)
