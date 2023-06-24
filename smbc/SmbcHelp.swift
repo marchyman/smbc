@@ -17,6 +17,7 @@ struct SmbcHelp: View {
             Image(systemName: "questionmark.circle")
         }
         .alert("Application Help", isPresented: $helpPresented) {
+            // let system provide the button
         } message: {
             // swiftlint:disable line_length
             Text("""

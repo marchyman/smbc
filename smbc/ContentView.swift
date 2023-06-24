@@ -37,6 +37,9 @@ struct ContentView: View {
     @State private var forceRefresh = false
     @State private var runRefreshTask = false
 
+    @State private var refreshError: String = ""
+    @State private var refreshErrorPresented = false
+
     // Button text and Navigation Link values
     let ridesKey = "Rides"
     let restaurantsKey = "Restaurants"
@@ -98,14 +101,11 @@ struct ContentView: View {
             }
             .alert("Schedule Reload", isPresented: $refreshPresented) {
                 // let the system provide the button
+            } message: { ScheduleReloadView() }
+            .alert("Schedule Reload Error", isPresented: $refreshErrorPresented) {
+                // let the system provide the button
             } message: {
-                // swiftlint:disable line_length
-                Text("""
-                     Up to date Trip, Restaurant, and Schedule data is being retrieved from smbc.snafu.org
-
-                     It may take a few seconds for the updated data to be received and processed.
-                     """)
-                // swiftlint:enable line_length
+                ReloadErrorView(description: refreshError)
             }
             .task(id: runRefreshTask) {
                 await refresh()
@@ -147,21 +147,9 @@ struct ContentView: View {
         if needRefresh {
             do {
                 try await state.refresh(year)
-            } catch FetchError.yearModelError {
-//                alertView = RefreshAlerts(type: .year).type.view
-//                refreshPresented = true
-            } catch FetchError.restaurantModelError {
-//                alertView = RefreshAlerts(type: .restaurant).type.view
-//                refreshPresented = true
-            } catch FetchError.rideModelError {
-//                alertView = RefreshAlerts(type: .ride).type.view
-//                refreshPresented = true
-            } catch FetchError.tripModelError {
-//                alertView = RefreshAlerts(type: .trip).type.view
-//                refreshPresented = true
-            } catch {
-//                alertView = RefreshAlerts(type: .all).type.view
-//                refreshPresented = true
+            } catch let error {
+                refreshError = error.localizedDescription
+                refreshErrorPresented.toggle()
             }
         }
     }
