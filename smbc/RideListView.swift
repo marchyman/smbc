@@ -51,9 +51,11 @@ struct RideListView: View {
                 }
             }
         }
-//        .alert(isPresented: $fetchFailed) {
-//             RefreshAlerts(type: .ride).type.view
-//        }
+        .alert("Schedule Reload Error", isPresented: $fetchFailed) {
+            // let the system provide the button
+        } message: {
+            ReloadErrorView(description: "Failed to fetch ride data for selected year")
+        }
         .sheet(isPresented: $yearPickerPresented,
                onDismiss: fetchRideData) {
                 YearPickerView(selectedIndex: $yearIndex)
