@@ -10,7 +10,7 @@ import SwiftUI
 
 @main
 struct SmbcApp: App {
-    var programState = ProgramState()
+    @State var programState = ProgramState()
 
     var body: some Scene {
         WindowGroup {

@@ -24,23 +24,27 @@ struct RideDetailView: View {
                         dragOffset = value.translation
                     }
                     .onEnded { value in
-                        dragOffset = .zero
                         switch value.translation.width {
                         case ...(-100):
                             if let next = state.rideModel.ride(following: ride) {
-                                ride = next
+                                withAnimation(.easeInOut(duration: 0.3)) {
+                                    ride = next
+                                }
                             } else {
                                 lastRide.toggle()
                             }
                         case 100...:
                             if let prev = state.rideModel.ride(preceding: ride) {
-                                ride = prev
+                                withAnimation(.easeInOut(duration: 0.3)) {
+                                    ride = prev
+                                }
                             } else {
                                 firstRide.toggle()
                             }
                         default:
                             break
                         }
+                        dragOffset = .zero
                     }
             )
             .alert("First ride of the year", isPresented: $firstRide) { }
