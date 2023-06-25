@@ -12,6 +12,7 @@ import MapKit
 struct RestaurantMapView: View {
     let restaurant: Restaurant
     @State private var position: MapCameraPosition = .automatic
+    @State private var selectedItem: MKMapItem?
 
     // automatic positioning zooms in more than I like. Override the position
     // to be centered on the restaurant within a 1 km border
@@ -24,12 +25,28 @@ struct RestaurantMapView: View {
     var body: some View {
         let location = CLLocationCoordinate2D(latitude: restaurant.lat,
                                               longitude: restaurant.lon)
-        Map(position: $position) {
+        Map(position: $position, selection: $selectedItem) {
             Marker(restaurant.name, coordinate: location)
+                .tag(restaurant.name)
                 .tint(.red)
         }
         .onChange(of: restaurant) {
             position = makePosition()
+        }
+        .onChange(of: selectedItem) {
+            // never printed.  Wait for the next beta?
+            print("item selection changed")
+        }
+        .overlay(alignment: .bottom) {
+            if let selectedItem {
+                // replace this with a lookaround preview when
+                // selection is working
+                Text(selectedItem.description)
+                    .frame (height: 128)
+                    .clipShape (RoundedRectangle (cornerRadius: 10))
+                    .padding ([.top, .horizontal])
+                    .background (.thinMaterial)
+            }
         }
     }
 
