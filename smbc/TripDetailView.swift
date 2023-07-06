@@ -44,13 +44,12 @@ struct TripDetailView: View {
 }
 
 #Preview {
-    let state = ProgramState()
-    return NavigationStack {
+    NavigationStack {
         TripDetailView(ride: ScheduledRide(start: "7/12",
                                            restaurant: nil,
                                            end: "7/13",
                                            description: "Camping blah",
                                            comment: "preview"))
-            .environment(state)
+            .environment(ProgramState())
      }
 }

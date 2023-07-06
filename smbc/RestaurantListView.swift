@@ -63,10 +63,8 @@ struct RestaurantRow: View {
 }
 
 #Preview {
-    let state = ProgramState()
-
-    return NavigationStack {
+    NavigationStack {
         RestaurantListView()
-            .environment(state)
+            .environment(ProgramState())
     }
 }

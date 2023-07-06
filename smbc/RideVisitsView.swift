@@ -61,18 +61,16 @@ struct RideVisitsView: View {
 }
 
 #Preview{
-    let state = ProgramState()
-
-    return RideVisitsView(restaurant: Restaurant(id: "test",
-                                                 name: "Test Restaurant",
-                                                 address: "123 Main Street",
-                                                 route: "(101/202/303)",
-                                                 city: "Some City",
-                                                 phone: "(123) 456-7890",
-                                                 status: "CLOSED",
-                                                 eta: "8:05",
-                                                 lat: 37.7244,
-                                                 lon: -122.4381))
-                  .environment(state)
+    RideVisitsView(restaurant: Restaurant(id: "test",
+                                          name: "Test Restaurant",
+                                          address: "123 Main Street",
+                                          route: "(101/202/303)",
+                                          city: "Some City",
+                                          phone: "(123) 456-7890",
+                                          status: "CLOSED",
+                                          eta: "8:05",
+                                          lat: 37.7244,
+                                          lon: -122.4381))
+        .environment(ProgramState())
 
 }

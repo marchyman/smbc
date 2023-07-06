@@ -103,23 +103,31 @@ final class RideModel {
         return index < rides.endIndex ? rides[index] : nil
     }
 
-    /// return the ride following the given ride assuming one exists
+    /// return the ride following the given ride assuming one exists.  This function skips over trips.
 
     func ride(following ride: ScheduledRide) -> ScheduledRide? {
         if let rideIndex = rides.firstIndex(of: ride) {
-            if rideIndex + 1 < rides.count {
-                return rides[rideIndex + 1]
+            var offset = 1
+            while rideIndex + offset < rides.count {
+                if rides[rideIndex + offset].restaurant != nil {
+                    return rides[rideIndex + offset]
+                }
+                offset += 1
             }
         }
         return nil
     }
 
-    /// return the ride preceding the given ride assuming one exists
+    /// return the ride preceding the given ride assuming one exists.  This functipn skips over trips.
 
     func ride(preceding ride: ScheduledRide) -> ScheduledRide? {
         if let rideIndex = rides.firstIndex(of: ride) {
-            if rideIndex > 0 {
-                return rides[rideIndex - 1]
+            var offset = 1
+            while rideIndex - offset >= 0 {
+                if rides[rideIndex - offset].restaurant != nil {
+                    return rides[rideIndex - offset]
+                }
+                offset += 1
             }
         }
         return nil

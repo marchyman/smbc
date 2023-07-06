@@ -85,10 +85,8 @@ struct RideListView: View {
 }
 
 #Preview {
-    let state = ProgramState()
-
-    return NavigationStack {
+    NavigationStack {
         RideListView()
-            .environment(state)
+            .environment(ProgramState())
     }
 }

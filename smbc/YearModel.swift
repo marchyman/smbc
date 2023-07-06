@@ -20,7 +20,7 @@ struct ScheduleYear: Codable, Equatable {
 ///
 @Observable
 final class YearModel {
-    var scheduleYears: [ScheduleYear] = []  // ;;; should not need initial value
+    var scheduleYears: [ScheduleYear]
 
     // Initialize YearsModel from the cache.
     init() {

@@ -59,14 +59,12 @@ struct RideDetailView: View {
 }
 
 #Preview {
-    let state = ProgramState()
-
-    return NavigationStack {
+    NavigationStack {
         RideDetailView(ride: ScheduledRide(start: "5/7",
                                            restaurant: "countryinn",
                                            end: nil,
                                            description: nil,
                                            comment: "Testing"))
-            .environment(state)
+            .environment(ProgramState())
     }
 }

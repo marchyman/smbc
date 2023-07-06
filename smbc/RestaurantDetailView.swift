@@ -43,9 +43,7 @@ struct RestaurantDetailView: View {
 }
 
 #Preview {
-    let state = ProgramState()
-
-    return NavigationStack {
+    NavigationStack {
         RestaurantDetailView(restaurant: Restaurant(id: "beachstreet",
                                                     name: "Beach Street",
                                                     address: "435 W. Beach Street",
@@ -57,6 +55,6 @@ struct RestaurantDetailView: View {
                                                     lat: 37.113013,
                                                     lon: -121.637845),
                              eta: false)
-        .environment(state)
+        .environment(ProgramState())
     }
 }

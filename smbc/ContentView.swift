@@ -7,20 +7,6 @@
 
 import SwiftUI
 
-func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
-    let color: Color = switch colorScheme {
-                       case .light:
-                            .white
-                       case .dark:
-                            .black
-                       @unknown default:
-                            fatalError("Unknown ColorScheme")
-                       }
-    return LinearGradient(gradient: Gradient(colors: [color, .gray, color]),
-                          startPoint: .top,
-                          endPoint: .bottom)
-}
-
 // MARK: - Initial Content
 
 struct ContentView: View {
@@ -166,6 +152,23 @@ struct SmbcImage: View {
     }
 }
 
+// MARK: Background gradient
+
+func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
+    let color: Color = switch colorScheme {
+                       case .light:
+                            .white
+                       case .dark:
+                            .black
+                       @unknown default:
+                            fatalError("Unknown ColorScheme")
+                       }
+    return LinearGradient(gradient: Gradient(colors: [color, .gray, color]),
+                          startPoint: .top,
+                          endPoint: .bottom)
+}
+
+
 // MARK: - Main screen button styles
 
 public struct SmbcButtonStyle: ButtonStyle {
@@ -182,8 +185,6 @@ public struct SmbcButtonStyle: ButtonStyle {
 }
 
 #Preview {
-    let state = ProgramState()
-
-    return ContentView()
-        .environment(state)
+    ContentView()
+        .environment(ProgramState())
 }

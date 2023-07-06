@@ -24,12 +24,10 @@ struct TripRowView: View {
 }
 
 #Preview {
-    let state = ProgramState()
-
-    return TripRowView(ride: ScheduledRide(start: "5/7",
-                                           restaurant: nil,
-                                           end: "5/9",
-                                           description: "A ride to somewhere",
-                                           comment: "Testing"))
-        .environment(state)
+    TripRowView(ride: ScheduledRide(start: "5/7",
+                                    restaurant: nil,
+                                    end: "5/9",
+                                    description: "A ride to somewhere",
+                                    comment: "Testing"))
+        .environment(ProgramState())
 }

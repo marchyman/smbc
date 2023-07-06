@@ -27,9 +27,17 @@ struct ReloadErrorView: View {
         Text("""
              \(description)
 
-             There may be internet and/or server issues. As a result the ride schedule   data on this device may be out of date.
+             There may be internet and/or server issues. As a result the ride schedule data on this device may be out of date.
 
-             Please try to refresh the data again once the issue has been resolved.  You can always find the current schedule from the SMBC home page.
+             Please try to refresh the data again once the issue has been resolved. You can also obtain the current schedule from the [SMBC home page](https://smbc.snafu.org).
              """)
     }
+}
+
+#Preview {
+    ScheduleReloadView()
+}
+
+#Preview {
+    ReloadErrorView(description: "Error description goes here")
 }
