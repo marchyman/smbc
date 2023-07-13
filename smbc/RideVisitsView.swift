@@ -22,11 +22,11 @@ struct RideVisitsView: View {
                 Spacer()
                 Button("Done") {
                     dismiss()
-                }.padding()
+                }.padding([.top, .horizontal])
             }
             Text(restaurant.name)
                 .font(.title)
-                .padding(.top, 40)
+                .padding(.top, 20)
             Text("""
                  \(rideCountLabel(filteredRides.count))
                  scheduled in \(state.scheduleYearString)

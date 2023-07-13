@@ -16,16 +16,28 @@ struct RestaurantDetailView: View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @Environment(ProgramState.self) var state
     @State private var showVisits = false
+    @State private var orientation = UIDeviceOrientation.unknown
 
     let restaurant: Restaurant
     let eta: Bool
 
     var body: some View {
         GeometryReader { geometry in
-            VStack {
-                RestaurantInfoView(restaurant: restaurant, eta: eta)
-                    .frame(minHeight: 0, maxHeight: geometry.size.height * 0.35)
-                RestaurantMapView(restaurant: restaurant)
+            Group {
+                switch orientation {
+                case .landscapeLeft, .landscapeRight:
+                    HStack {
+                        RestaurantInfoView(restaurant: restaurant, eta: eta)
+                            .frame(minHeight: 0, maxHeight: geometry.size.width * 0.35)
+                        RestaurantMapView(restaurant: restaurant)
+                    }
+                default:
+                    VStack {
+                        RestaurantInfoView(restaurant: restaurant, eta: eta)
+                            .frame(minHeight: 0, maxHeight: geometry.size.height * 0.35)
+                        RestaurantMapView(restaurant: restaurant)
+                    }
+                }
             }
             .background(backgroundGradient(colorScheme))
             .toolbar {
@@ -38,6 +50,12 @@ struct RestaurantDetailView: View {
             .sheet(isPresented: $showVisits) {
                 RideVisitsView(restaurant: restaurant)
             }
+        }
+        .onAppear {
+            orientation = UIDevice.current.orientation
+        }
+        .onRotate { newOrientation in
+            orientation = newOrientation
         }
     }
 }
