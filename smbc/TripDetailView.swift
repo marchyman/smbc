@@ -21,7 +21,7 @@ struct TripDetailView: View {
         }.frame(minWidth: 0, maxWidth: .infinity,
                 minHeight: 0, maxHeight: .infinity)
          .background(backgroundGradient(colorScheme))
-         .navigationTitle("\(ride.start) - \(ride.end!) Trip")
+         .navigationTitle(tripTitle())
          .navigationBarTitleDisplayMode(.inline)
     }
 
@@ -41,6 +41,13 @@ struct TripDetailView: View {
                 \(ride.description!)
                 """
     }
+
+    private func tripTitle() -> String {
+        if let end = ride.end {
+            return "\(ride.start) - \(end)"
+        }
+        return "\(ride.start)"
+    }
 }
 
 #Preview {
@@ -49,6 +56,17 @@ struct TripDetailView: View {
                                            restaurant: nil,
                                            end: "7/13",
                                            description: "Camping blah",
+                                           comment: "preview"))
+            .environment(ProgramState())
+     }
+}
+
+#Preview {
+    NavigationStack {
+        TripDetailView(ride: ScheduledRide(start: "8/24",
+                                           restaurant: nil,
+                                           end: nil,
+                                           description: "Boot Dinner",
                                            comment: "preview"))
             .environment(ProgramState())
      }

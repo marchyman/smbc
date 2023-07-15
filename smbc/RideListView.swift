@@ -20,8 +20,7 @@ struct RideListView: View {
                 List(state.rideModel.rides) { ride in
                     if ride.restaurant != nil {
                         RideRowView(ride: ride).id(ride.id)
-                    }
-                    if ride.end != nil {
+                    } else if ride.description != nil {
                         TripRowView(ride: ride).id(ride.id)
                     }
                 }
