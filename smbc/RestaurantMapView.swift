@@ -13,6 +13,10 @@ struct RestaurantMapView: View {
     let restaurant: Restaurant
     @State private var position: MapCameraPosition = .automatic
     @State private var selectedItem: MKMapItem?
+    @State private var popoverPresented = false
+    @AppStorage(ASKeys.mapStyle) var mapStyle = 0
+
+    let mapStyles = [MapStyle.standard, MapStyle.hybrid, MapStyle.imagery]
 
     // automatic positioning zooms in more than I like. Override the position
     // to be centered on the restaurant within a 1 km border
@@ -30,6 +34,7 @@ struct RestaurantMapView: View {
                 .tag(restaurant.name)
                 .tint(.red)
         }
+        .mapStyle(mapStyles[mapStyle])
         .onChange(of: restaurant) {
             position = makePosition()
         }
@@ -46,6 +51,33 @@ struct RestaurantMapView: View {
                     .clipShape (RoundedRectangle (cornerRadius: 10))
                     .padding ([.top, .horizontal])
                     .background (.thinMaterial)
+            } else {
+                styleButton
+            }
+        }
+    }
+
+    var styleButton: some View {
+        HStack {
+            Spacer()
+            Button("Change Map Style") {
+                popoverPresented.toggle()
+            }
+            .buttonStyle(.bordered)
+            .tint(.red)
+            .padding(.horizontal)
+            .popover(isPresented: $popoverPresented,
+                     attachmentAnchor: .point(.center),
+                     arrowEdge: .top) {
+                Picker("Map Type", selection: $mapStyle) {
+                    Text("Standard").tag(0)
+                    Text("Hybrid").tag(1)
+                    Text("Imagery").tag(2)
+                }
+                .labelsHidden()
+                .pickerStyle(.segmented)
+                .padding()
+                .presentationCompactAdaptation(.none)
             }
         }
     }
@@ -69,8 +101,8 @@ struct RestaurantMapView: View {
                                 phone: "831-722-2233",
                                 status: "open",
                                 eta: "8:17",
-                                lat: 37.113013,
-                                lon: -121.637845)
+                                lat: 36.906514,
+                                lon: -121.764811)
 
     return RestaurantMapView(restaurant: restaurant)
 }
