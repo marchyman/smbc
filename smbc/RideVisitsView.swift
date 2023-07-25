@@ -28,9 +28,9 @@ struct RideVisitsView: View {
                 .font(.title)
                 .padding(.top, 20)
             Text("""
-                 \(rideCountLabel(filteredRides.count))
-                 scheduled in \(state.scheduleYearString)
-                 """)
+                \(rideCountLabel(filteredRides.count))
+                scheduled in \(state.scheduleYearString)
+                """)
                 .padding()
             if filteredRides.isEmpty {
                 Spacer()

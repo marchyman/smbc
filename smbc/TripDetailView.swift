@@ -35,11 +35,11 @@ struct TripDetailView: View {
 
         }
         return """
-                Sorry!
+            Sorry!
 
-                I don't have any information about
-                \(ride.description!)
-                """
+            I don't have any information about
+            \(ride.description!)
+            """
     }
 
     private func tripTitle() -> String {
@@ -67,6 +67,17 @@ struct TripDetailView: View {
                                            restaurant: nil,
                                            end: nil,
                                            description: "Boot Dinner",
+                                           comment: "preview"))
+            .environment(ProgramState())
+     }
+}
+
+#Preview {
+    NavigationStack {
+        TripDetailView(ride: ScheduledRide(start: "8/24",
+                                           restaurant: nil,
+                                           end: nil,
+                                           description: "unknown trip",
                                            comment: "preview"))
             .environment(ProgramState())
      }
