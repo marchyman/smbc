@@ -12,7 +12,7 @@ import MapKit
 struct RestaurantMapView: View {
     let restaurant: Restaurant
     @State private var position: MapCameraPosition = .automatic
-    @State private var selectedItem: MKMapItem?
+    @State private var selectedId: String?
     @State private var popoverPresented = false
     @AppStorage(ASKeys.mapStyle) var mapStyle = 0
 
@@ -27,26 +27,26 @@ struct RestaurantMapView: View {
     }
 
     var body: some View {
-        let location = CLLocationCoordinate2D(latitude: restaurant.lat,
-                                              longitude: restaurant.lon)
-        Map(position: $position, selection: $selectedItem) {
-            Marker(restaurant.name, coordinate: location)
-                .tag(restaurant.name)
-                .tint(.red)
+        let markers = makeMarkers(for: restaurant)
+        Map(position: $position, selection: $selectedId) {
+            ForEach(markers) { marker in
+                Marker(marker.title, coordinate: marker.location)
+                    .tint(.red)
+            }
         }
         .mapStyle(mapStyles[mapStyle])
         .onChange(of: restaurant) {
             position = makePosition()
         }
-        .onChange(of: selectedItem) {
+        .onChange(of: selectedId) {
             // never printed.  Wait for the next beta?
             print("item selection changed")
         }
         .overlay(alignment: .bottom) {
-            if let selectedItem {
+            if let selectedId {
                 // replace this with a lookaround preview when
                 // selection is working
-                Text(selectedItem.description)
+                Text(restaurant.name)
                     .frame (height: 128)
                     .clipShape (RoundedRectangle (cornerRadius: 10))
                     .padding ([.top, .horizontal])
@@ -66,6 +66,7 @@ struct RestaurantMapView: View {
             .buttonStyle(.bordered)
             .tint(.red)
             .padding(.horizontal)
+            .padding(.bottom, 5)
             .popover(isPresented: $popoverPresented,
                      attachmentAnchor: .point(.center),
                      arrowEdge: .top) {
@@ -89,6 +90,21 @@ struct RestaurantMapView: View {
                                                longitude: restaurant.lon),
                 latitudinalMeters: 1000,
                 longitudinalMeters: 1000))
+    }
+
+    // Apparently needed for marker selection
+    struct MarkerModel: Identifiable {
+        var id: String
+        var location: CLLocationCoordinate2D
+        var title: String
+    }
+
+    private func makeMarkers(for restaurant: Restaurant) -> [MarkerModel] {
+        let marker = MarkerModel(id: restaurant.id,
+                                 location: CLLocationCoordinate2D(latitude: restaurant.lat,
+                                                                  longitude: restaurant.lon),
+                                 title: restaurant.name)
+        return [marker]
     }
 }
 
