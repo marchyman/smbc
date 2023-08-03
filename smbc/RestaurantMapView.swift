@@ -38,17 +38,13 @@ struct RestaurantMapView: View {
         .onChange(of: restaurant) {
             position = makePosition()
         }
-//        .onChange(of: selectedId) {
-//            // never printed.  Wait for the next beta?
-//            print("item selection changed")
-//        }
         .overlay(alignment: .bottom) {
             if let marker = markers.first(where: { $0.id == selectedId }) {
                 LookAroundView(marker: marker)
                     .frame (height: 128)
-                    .clipShape (RoundedRectangle (cornerRadius: 10))
-                    .padding()
                     .background (.thinMaterial)
+                    .clipShape (RoundedRectangle (cornerRadius: 10))
+                    .padding(5)
             } else {
                 styleButton
             }
@@ -118,5 +114,8 @@ struct RestaurantMapView: View {
                                 lat: 36.906514,
                                 lon: -121.764811)
 
-    return RestaurantMapView(restaurant: restaurant)
+    return VStack {
+        Spacer(minLength: 300)
+        RestaurantMapView(restaurant: restaurant)
+    }
 }

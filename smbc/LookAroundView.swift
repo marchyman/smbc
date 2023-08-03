@@ -14,34 +14,45 @@ struct LookAroundView: View {
     @State private var lookAroundScene: MKLookAroundScene?
     
     var body: some View {
-        LookAroundPreview(initialScene: lookAroundScene)
-            .overlay {
-                Text("No data for this location")
-                    .padding(5)
-                    .background(.thinMaterial)
-                    .cornerRadius(10)
-                    .opacity(lookAroundScene == nil ? 1 : 0)
-            }
-            .onAppear {
-                getLookAroundScene()
-            }
+        ZStack {
+            Text("No Look Around for this location")
+                .opacity(lookAroundScene == nil ? 1 : 0)
+            LookAroundPreview(initialScene: lookAroundScene)
+                .opacity(lookAroundScene == nil ? 0 : 1)
+        }
+        .onAppear {
+            getLookAroundScene()
+        }
     }
-    
+
     func getLookAroundScene() {
         lookAroundScene = nil
         Task {
             let request = MKLookAroundSceneRequest(coordinate: marker.location)
             lookAroundScene = try? await request.scene
-            if lookAroundScene == nil {
-                print("Couldn't get scene for \(marker.title)")
-            }
         }
     }
 }
 
-#Preview {
+#Preview("No Data") {
     LookAroundView(marker: RestaurantMapView.MarkerModel(
         id: "beachstreet",
         location: CLLocationCoordinate2D(latitude: 36.906494, longitude: -121.764847),
         title: "Beach Street"))
+        .frame (height: 128)
+        .background (.thinMaterial)
+        .clipShape (RoundedRectangle (cornerRadius: 10))
+        .padding(5)
+}
+
+#Preview("Data") {
+    LookAroundView(marker: RestaurantMapView.MarkerModel(
+        id: "countryinn3",
+        location: CLLocationCoordinate2D(latitude: 37.325222,
+                                         longitude: -122.013779),
+        title: "Country Inn"))
+        .frame (height: 128)
+        .background (.thinMaterial)
+        .clipShape (RoundedRectangle (cornerRadius: 10))
+        .padding(5)
 }
