@@ -21,6 +21,7 @@
 		49779888297F466B0081A776 /* RestaurantMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49779887297F466B0081A776 /* RestaurantMapView.swift */; };
 		497ED9EE297E03DB008AB290 /* smbc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ED9ED297E03DB008AB290 /* smbc.swift */; };
 		498A078522C421500026FB5D /* schedule.json in Resources */ = {isa = PBXBuildFile; fileRef = 498A078422C421500026FB5D /* schedule.json */; };
+		49943F502A7B2D1400573997 /* LookAroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49943F4F2A7B2D1400573997 /* LookAroundView.swift */; };
 		499EEB322A476EC600F96101 /* FetchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499EEB312A476EC600F96101 /* FetchError.swift */; };
 		499EEB342A47871A00F96101 /* RefreshMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499EEB332A47871A00F96101 /* RefreshMessages.swift */; };
 		49AA7CF52742F8ED00FC71E6 /* SmbcHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA7CF42742F8ED00FC71E6 /* SmbcHelp.swift */; };
@@ -82,6 +83,7 @@
 		497ED9F1297E294E008AB290 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		497ED9F2297E4BAA008AB290 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		498A078422C421500026FB5D /* schedule.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schedule.json; sourceTree = "<group>"; };
+		49943F4F2A7B2D1400573997 /* LookAroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAroundView.swift; sourceTree = "<group>"; };
 		499EEB312A476EC600F96101 /* FetchError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchError.swift; sourceTree = "<group>"; };
 		499EEB332A47871A00F96101 /* RefreshMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshMessages.swift; sourceTree = "<group>"; };
 		49AA7CF42742F8ED00FC71E6 /* SmbcHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmbcHelp.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				4947F16322C16515008E6D6A /* RestaurantDetailView.swift */,
 				4915FD4B2A44FD9600845BD6 /* RestaurantInfoView.swift */,
 				49779887297F466B0081A776 /* RestaurantMapView.swift */,
+				49943F4F2A7B2D1400573997 /* LookAroundView.swift */,
 				492151D5273F3AAF00B51E94 /* RideVisitsView.swift */,
 				493BBFDC22C01B1000E2B437 /* RideListView.swift */,
 				49AFCBB8273B815D0082046F /* YearPickerView.swift */,
@@ -433,6 +436,7 @@
 				49AA7CF52742F8ED00FC71E6 /* SmbcHelp.swift in Sources */,
 				499EEB342A47871A00F96101 /* RefreshMessages.swift in Sources */,
 				49F2C34122C58B980089CF3C /* TripDetailView.swift in Sources */,
+				49943F502A7B2D1400573997 /* LookAroundView.swift in Sources */,
 				49CECB31273A165200BE6A2A /* YearModel.swift in Sources */,
 				49779888297F466B0081A776 /* RestaurantMapView.swift in Sources */,
 				49AFCBB3273B50EB0082046F /* TripRowView.swift in Sources */,

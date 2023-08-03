@@ -38,18 +38,16 @@ struct RestaurantMapView: View {
         .onChange(of: restaurant) {
             position = makePosition()
         }
-        .onChange(of: selectedId) {
-            // never printed.  Wait for the next beta?
-            print("item selection changed")
-        }
+//        .onChange(of: selectedId) {
+//            // never printed.  Wait for the next beta?
+//            print("item selection changed")
+//        }
         .overlay(alignment: .bottom) {
-            if let selectedId {
-                // replace this with a lookaround preview when
-                // selection is working
-                Text(restaurant.name)
+            if let marker = markers.first(where: { $0.id == selectedId }) {
+                LookAroundView(marker: marker)
                     .frame (height: 128)
                     .clipShape (RoundedRectangle (cornerRadius: 10))
-                    .padding ([.top, .horizontal])
+                    .padding()
                     .background (.thinMaterial)
             } else {
                 styleButton
