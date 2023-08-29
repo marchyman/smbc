@@ -15,7 +15,7 @@ struct LookAroundView: View {
     
     var body: some View {
         ZStack {
-            Text("No Look Around for this location")
+            Text("*Look Around* not available for this location")
                 .opacity(lookAroundScene == nil ? 1 : 0)
             LookAroundPreview(initialScene: lookAroundScene)
                 .opacity(lookAroundScene == nil ? 0 : 1)
