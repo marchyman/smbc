@@ -31,7 +31,7 @@ struct SmbcHelp: View {
 
                 Tap on the Rides button to list the rides for a schedule year. Other years may be selected from the list of rides. The schedule for the year of the next ride will always be loaded when returning to the home screen.
 
-                When viewing rides you can swipe left/right to look at the next/previous ride. A tap on the restaurant location marker will invoke look-around when look-around data is available.
+                When viewing rides you can swipe left/right to look at the next/previous ride. A tap on the restaurant location marker will toggle look-around.  Look-around data is not always available.
                 """)
             // swiftlint:enable line_length
         }
