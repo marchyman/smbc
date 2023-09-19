@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RideVisitsView: View {
-    @EnvironmentObject var state: ProgramState
+    @Environment(ProgramState.self) var state
     @Environment(\.dismiss) var dismiss
 
     let restaurant: Restaurant
@@ -22,15 +22,15 @@ struct RideVisitsView: View {
                 Spacer()
                 Button("Done") {
                     dismiss()
-                }.padding()
+                }.padding([.top, .horizontal])
             }
             Text(restaurant.name)
                 .font(.title)
-                .padding(.top, 40)
+                .padding(.top, 20)
             Text("""
-                 \(rideCountLabel(filteredRides.count))
-                 scheduled in \(state.yearString)
-                 """)
+                \(rideCountLabel(filteredRides.count))
+                scheduled in \(state.scheduleYearString)
+                """)
                 .padding()
             if filteredRides.isEmpty {
                 Spacer()
@@ -60,21 +60,17 @@ struct RideVisitsView: View {
 
 }
 
-#if DEBUG
-struct RideVisitsView_Previews: PreviewProvider {
-    static var state = ProgramState()
-    static var previews: some View {
-        RideVisitsView(restaurant: Restaurant(id: "test",
-                                           name: "Test Restaurant",
-                                           address: "123 Main Street",
-                                           route: "(101/202/303)",
-                                           city: "Some City",
-                                           phone: "(123) 456-7890",
-                                           status: "CLOSED",
-                                           eta: "8:05",
-                                           lat: 37.7244,
-                                           lon: -122.4381))
-            .environmentObject(state)
-    }
+#Preview{
+    RideVisitsView(restaurant: Restaurant(id: "test",
+                                          name: "Test Restaurant",
+                                          address: "123 Main Street",
+                                          route: "(101/202/303)",
+                                          city: "Some City",
+                                          phone: "(123) 456-7890",
+                                          status: "CLOSED",
+                                          eta: "8:05",
+                                          lat: 37.7244,
+                                          lon: -122.4381))
+        .environment(ProgramState())
+
 }
-#endif

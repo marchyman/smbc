@@ -9,27 +9,32 @@
 /* Begin PBXBuildFile section */
 		4905C3E822C72CEC00D9B7CE /* trips.json in Resources */ = {isa = PBXBuildFile; fileRef = 4905C3E722C72CEC00D9B7CE /* trips.json */; };
 		49158D8322E970C80067D893 /* ProgramState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49158D8222E970C80067D893 /* ProgramState.swift */; };
+		4915FD4A2A44E3C200845BD6 /* AppStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915FD492A44E3C200845BD6 /* AppStorage.swift */; };
+		4915FD4C2A44FD9600845BD6 /* RestaurantInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915FD4B2A44FD9600845BD6 /* RestaurantInfoView.swift */; };
 		491B760F22DEC9EE00268B60 /* RideDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491B760E22DEC9EE00268B60 /* RideDetailView.swift */; };
 		492151D4273F342A00B51E94 /* RestaurantDetailViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492151D3273F342A00B51E94 /* RestaurantDetailViewTests.swift */; };
 		492151D6273F3AAF00B51E94 /* RideVisitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492151D5273F3AAF00B51E94 /* RideVisitsView.swift */; };
-		493BBFDB22C01AE600E2B437 /* RestaurantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDA22C01AE600E2B437 /* RestaurantView.swift */; };
+		493BBFDB22C01AE600E2B437 /* RestaurantListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDA22C01AE600E2B437 /* RestaurantListView.swift */; };
 		493BBFDD22C01B1000E2B437 /* RideListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDC22C01B1000E2B437 /* RideListView.swift */; };
 		4947F16422C16515008E6D6A /* RestaurantDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4947F16322C16515008E6D6A /* RestaurantDetailView.swift */; };
-		49779888297F466B0081A776 /* RestaurantMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49779887297F466B0081A776 /* RestaurantMap.swift */; };
+		4952EF0D2A5F781A00277508 /* OrientationViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4952EF0C2A5F781A00277508 /* OrientationViewModifier.swift */; };
+		49779888297F466B0081A776 /* RestaurantMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49779887297F466B0081A776 /* RestaurantMapView.swift */; };
 		497ED9EE297E03DB008AB290 /* smbc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ED9ED297E03DB008AB290 /* smbc.swift */; };
-		497ED9F4297E4FBB008AB290 /* NoMoreRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ED9F3297E4FBB008AB290 /* NoMoreRideView.swift */; };
 		498A078522C421500026FB5D /* schedule.json in Resources */ = {isa = PBXBuildFile; fileRef = 498A078422C421500026FB5D /* schedule.json */; };
+		49943F502A7B2D1400573997 /* LookAroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49943F4F2A7B2D1400573997 /* LookAroundView.swift */; };
+		499EEB322A476EC600F96101 /* FetchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499EEB312A476EC600F96101 /* FetchError.swift */; };
+		499EEB342A47871A00F96101 /* RefreshMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499EEB332A47871A00F96101 /* RefreshMessages.swift */; };
 		49AA7CF52742F8ED00FC71E6 /* SmbcHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA7CF42742F8ED00FC71E6 /* SmbcHelp.swift */; };
 		49AFCBB1273B4F920082046F /* RideRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB0273B4F920082046F /* RideRowView.swift */; };
 		49AFCBB3273B50EB0082046F /* TripRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB2273B50EB0082046F /* TripRowView.swift */; };
 		49AFCBB5273B5C760082046F /* SmbcInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB4273B5C760082046F /* SmbcInfo.swift */; };
-		49AFCBB7273B6DC70082046F /* RefreshAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB6273B6DC70082046F /* RefreshAlerts.swift */; };
 		49AFCBB9273B815D0082046F /* YearPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB8273B815D0082046F /* YearPickerView.swift */; };
 		49B196A122BEADE2009F51E5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B196A022BEADE2009F51E5 /* ContentView.swift */; };
 		49B196A322BEADE3009F51E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49B196A222BEADE3009F51E5 /* Assets.xcassets */; };
 		49B196A622BEADE3009F51E5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49B196A522BEADE3009F51E5 /* Preview Assets.xcassets */; };
 		49B196B422BEADE3009F51E5 /* smbcTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B196B322BEADE3009F51E5 /* smbcTests.swift */; };
 		49B196BF22BEADE3009F51E5 /* ContentViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B196BE22BEADE3009F51E5 /* ContentViewTests.swift */; };
+		49C7FEDA2A467745008F2C4A /* NoMoreRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C7FED92A467745008F2C4A /* NoMoreRideView.swift */; };
 		49CECB31273A165200BE6A2A /* YearModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CECB30273A165200BE6A2A /* YearModel.swift */; };
 		49CECB33273A1F2300BE6A2A /* schedule-years.json in Resources */ = {isa = PBXBuildFile; fileRef = 49CECB32273A1F2300BE6A2A /* schedule-years.json */; };
 		49D3A82F22EE6E4F00C6682C /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D3A82C22EE6E4F00C6682C /* Downloader.swift */; };
@@ -62,25 +67,29 @@
 		4905C3E722C72CEC00D9B7CE /* trips.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = trips.json; sourceTree = "<group>"; };
 		490B75A429AAE6A700EA6EEA /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		49158D8222E970C80067D893 /* ProgramState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramState.swift; sourceTree = "<group>"; };
+		4915FD492A44E3C200845BD6 /* AppStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorage.swift; sourceTree = "<group>"; };
+		4915FD4B2A44FD9600845BD6 /* RestaurantInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantInfoView.swift; sourceTree = "<group>"; };
 		491B760E22DEC9EE00268B60 /* RideDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideDetailView.swift; sourceTree = "<group>"; };
 		492151D3273F342A00B51E94 /* RestaurantDetailViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailViewTests.swift; sourceTree = "<group>"; };
 		492151D5273F3AAF00B51E94 /* RideVisitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideVisitsView.swift; sourceTree = "<group>"; };
-		493BBFDA22C01AE600E2B437 /* RestaurantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantView.swift; sourceTree = "<group>"; };
+		493BBFDA22C01AE600E2B437 /* RestaurantListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantListView.swift; sourceTree = "<group>"; };
 		493BBFDC22C01B1000E2B437 /* RideListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideListView.swift; sourceTree = "<group>"; };
 		493BBFE022C0966700E2B437 /* smbc.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = smbc.entitlements; sourceTree = "<group>"; };
 		4947F16322C16515008E6D6A /* RestaurantDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailView.swift; sourceTree = "<group>"; };
-		49779887297F466B0081A776 /* RestaurantMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantMap.swift; sourceTree = "<group>"; };
+		4952EF0C2A5F781A00277508 /* OrientationViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationViewModifier.swift; sourceTree = "<group>"; };
+		49779887297F466B0081A776 /* RestaurantMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantMapView.swift; sourceTree = "<group>"; };
 		497ED9ED297E03DB008AB290 /* smbc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smbc.swift; sourceTree = "<group>"; };
 		497ED9EF297E17D0008AB290 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		497ED9F1297E294E008AB290 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		497ED9F2297E4BAA008AB290 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		497ED9F3297E4FBB008AB290 /* NoMoreRideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoMoreRideView.swift; sourceTree = "<group>"; };
 		498A078422C421500026FB5D /* schedule.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schedule.json; sourceTree = "<group>"; };
+		49943F4F2A7B2D1400573997 /* LookAroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAroundView.swift; sourceTree = "<group>"; };
+		499EEB312A476EC600F96101 /* FetchError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchError.swift; sourceTree = "<group>"; };
+		499EEB332A47871A00F96101 /* RefreshMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshMessages.swift; sourceTree = "<group>"; };
 		49AA7CF42742F8ED00FC71E6 /* SmbcHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmbcHelp.swift; sourceTree = "<group>"; };
 		49AFCBB0273B4F920082046F /* RideRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideRowView.swift; sourceTree = "<group>"; };
 		49AFCBB2273B50EB0082046F /* TripRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRowView.swift; sourceTree = "<group>"; };
 		49AFCBB4273B5C760082046F /* SmbcInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmbcInfo.swift; sourceTree = "<group>"; };
-		49AFCBB6273B6DC70082046F /* RefreshAlerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshAlerts.swift; sourceTree = "<group>"; };
 		49AFCBB8273B815D0082046F /* YearPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearPickerView.swift; sourceTree = "<group>"; };
 		49B1969922BEADE2009F51E5 /* smbc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = smbc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49B196A022BEADE2009F51E5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -92,6 +101,7 @@
 		49B196BA22BEADE3009F51E5 /* smbcUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = smbcUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		49B196BE22BEADE3009F51E5 /* ContentViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewTests.swift; sourceTree = "<group>"; };
 		49B196C022BEADE3009F51E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		49C7FED92A467745008F2C4A /* NoMoreRideView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoMoreRideView.swift; sourceTree = "<group>"; };
 		49CECB30273A165200BE6A2A /* YearModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearModel.swift; sourceTree = "<group>"; };
 		49CECB32273A1F2300BE6A2A /* schedule-years.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "schedule-years.json"; sourceTree = "<group>"; };
 		49D3A82C22EE6E4F00C6682C /* Downloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
@@ -155,14 +165,18 @@
 			isa = PBXGroup;
 			children = (
 				497ED9ED297E03DB008AB290 /* smbc.swift */,
+				4915FD492A44E3C200845BD6 /* AppStorage.swift */,
 				49B196A022BEADE2009F51E5 /* ContentView.swift */,
 				49AFCBB4273B5C760082046F /* SmbcInfo.swift */,
 				49AA7CF42742F8ED00FC71E6 /* SmbcHelp.swift */,
-				497ED9F3297E4FBB008AB290 /* NoMoreRideView.swift */,
-				49AFCBB6273B6DC70082046F /* RefreshAlerts.swift */,
-				493BBFDA22C01AE600E2B437 /* RestaurantView.swift */,
+				49C7FED92A467745008F2C4A /* NoMoreRideView.swift */,
+				4952EF0C2A5F781A00277508 /* OrientationViewModifier.swift */,
+				499EEB332A47871A00F96101 /* RefreshMessages.swift */,
+				493BBFDA22C01AE600E2B437 /* RestaurantListView.swift */,
 				4947F16322C16515008E6D6A /* RestaurantDetailView.swift */,
-				49779887297F466B0081A776 /* RestaurantMap.swift */,
+				4915FD4B2A44FD9600845BD6 /* RestaurantInfoView.swift */,
+				49779887297F466B0081A776 /* RestaurantMapView.swift */,
+				49943F4F2A7B2D1400573997 /* LookAroundView.swift */,
 				492151D5273F3AAF00B51E94 /* RideVisitsView.swift */,
 				493BBFDC22C01B1000E2B437 /* RideListView.swift */,
 				49AFCBB8273B815D0082046F /* YearPickerView.swift */,
@@ -172,6 +186,7 @@
 				49F2C34022C58B980089CF3C /* TripDetailView.swift */,
 				49D3A82D22EE6E4F00C6682C /* Cache.swift */,
 				49D3A82C22EE6E4F00C6682C /* Downloader.swift */,
+				499EEB312A476EC600F96101 /* FetchError.swift */,
 				49158D8222E970C80067D893 /* ProgramState.swift */,
 				49CECB30273A165200BE6A2A /* YearModel.swift */,
 				49D3A83222EE6E5F00C6682C /* RestaurantModel.swift */,
@@ -377,7 +392,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint > /dev/null; then\n  echo swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		498C2CD922D8FED1009656E4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -407,27 +422,32 @@
 			files = (
 				49D3A83022EE6E4F00C6682C /* Cache.swift in Sources */,
 				49AFCBB9273B815D0082046F /* YearPickerView.swift in Sources */,
+				4952EF0D2A5F781A00277508 /* OrientationViewModifier.swift in Sources */,
 				493BBFDD22C01B1000E2B437 /* RideListView.swift in Sources */,
 				49AFCBB1273B4F920082046F /* RideRowView.swift in Sources */,
 				49AFCBB5273B5C760082046F /* SmbcInfo.swift in Sources */,
 				491B760F22DEC9EE00268B60 /* RideDetailView.swift in Sources */,
 				49158D8322E970C80067D893 /* ProgramState.swift in Sources */,
+				499EEB322A476EC600F96101 /* FetchError.swift in Sources */,
 				492151D6273F3AAF00B51E94 /* RideVisitsView.swift in Sources */,
 				4947F16422C16515008E6D6A /* RestaurantDetailView.swift in Sources */,
+				4915FD4A2A44E3C200845BD6 /* AppStorage.swift in Sources */,
 				497ED9EE297E03DB008AB290 /* smbc.swift in Sources */,
 				49AA7CF52742F8ED00FC71E6 /* SmbcHelp.swift in Sources */,
+				499EEB342A47871A00F96101 /* RefreshMessages.swift in Sources */,
 				49F2C34122C58B980089CF3C /* TripDetailView.swift in Sources */,
+				49943F502A7B2D1400573997 /* LookAroundView.swift in Sources */,
 				49CECB31273A165200BE6A2A /* YearModel.swift in Sources */,
-				49779888297F466B0081A776 /* RestaurantMap.swift in Sources */,
+				49779888297F466B0081A776 /* RestaurantMapView.swift in Sources */,
 				49AFCBB3273B50EB0082046F /* TripRowView.swift in Sources */,
 				49D3A83322EE6E5F00C6682C /* TripModel.swift in Sources */,
 				49D3A83622EE6E9F00C6682C /* RideModel.swift in Sources */,
+				49C7FEDA2A467745008F2C4A /* NoMoreRideView.swift in Sources */,
 				49D3A83422EE6E5F00C6682C /* RestaurantModel.swift in Sources */,
 				49D3A82F22EE6E4F00C6682C /* Downloader.swift in Sources */,
 				49B196A122BEADE2009F51E5 /* ContentView.swift in Sources */,
-				493BBFDB22C01AE600E2B437 /* RestaurantView.swift in Sources */,
-				497ED9F4297E4FBB008AB290 /* NoMoreRideView.swift in Sources */,
-				49AFCBB7273B6DC70082046F /* RefreshAlerts.swift in Sources */,
+				493BBFDB22C01AE600E2B437 /* RestaurantListView.swift in Sources */,
+				4915FD4C2A44FD9600845BD6 /* RestaurantInfoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,6 +488,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -515,7 +536,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -529,6 +550,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -570,7 +592,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -585,19 +607,24 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = smbc/smbc.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A3UXBEBE8Z;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = smbc/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.snafu.smbc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -606,19 +633,24 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = smbc/smbc.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A3UXBEBE8Z;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = smbc/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.snafu.smbc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

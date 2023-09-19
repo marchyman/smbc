@@ -7,32 +7,24 @@
 
 import SwiftUI
 
-func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
-    let color: Color
-    switch colorScheme {
-    case .light:
-        color = .white
-    case .dark:
-        color = .black
-    @unknown default:
-        fatalError("Unknown ColorScheme")
-    }
-    return LinearGradient(gradient: Gradient(colors: [color, .gray, color]),
-                          startPoint: .top,
-                          endPoint: .bottom)
-}
-
 // MARK: - Initial Content
 
 struct ContentView: View {
-    @EnvironmentObject var state: ProgramState
+    @Environment(ProgramState.self) var state
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
 
     @State var path = NavigationPath()
 
     @State private var noMoreRides = false
+
+    // three state variables to control schedule data refreshing
+
     @State private var refreshPresented = false
-    @State private var alertView = RefreshAlerts(type: .refreshing).type.view
+    @State private var forceRefresh = false
+    @State private var runRefreshTask = false
+
+    @State private var refreshError: String = ""
+    @State private var refreshErrorPresented = false
 
     // Button text and Navigation Link values
     let ridesKey = "Rides"
@@ -48,7 +40,7 @@ struct ContentView: View {
                 Spacer()
                 SmbcImage()
                     .onTapGesture {
-                        if let nextRide = state.nextRide {
+                        if let nextRide = state.rideModel.nextRide() {
                             path.append(ridesKey)
                             path.append(nextRide)
                         } else {
@@ -56,10 +48,9 @@ struct ContentView: View {
                         }
                     }
                     .onLongPressGesture {
-                        state.needRefresh = true
-                        alertView = RefreshAlerts(type: .refreshing).type.view
                         refreshPresented = true
-                        refresh()
+                        forceRefresh = true
+                        runRefreshTask.toggle()
                     }
                 Spacer()
                 HStack {
@@ -76,7 +67,7 @@ struct ContentView: View {
                 if key == ridesKey {
                     RideListView()
                 } else {
-                    RestaurantView()
+                    RestaurantListView()
                 }
             }
             .navigationDestination(for: ScheduledRide.self) { ride in
@@ -94,66 +85,92 @@ struct ContentView: View {
                 NoMoreRideView()
                     .presentationDetents([.medium])
             }
-            .alert(isPresented: $refreshPresented) { alertView }
-            .onAppear {
-                refresh()
+            .alert("Schedule Reload", isPresented: $refreshPresented) {
+                // let the system provide the button
+            } message: { ScheduleReloadView() }
+            .alert("Schedule Reload Error", isPresented: $refreshErrorPresented) {
+                // let the system provide the button
+            } message: {
+                ReloadErrorView(description: refreshError)
+            }
+            .task(id: runRefreshTask) {
+                await refresh()
             }
         }
     }
 
     /// refresh model data from server when necessary
     ///
+    /// Refresh rules:
+    /// 1) Refresh when asked due to a long press on SmbcImage
+    /// 2) Refresh when the current date is greater than the refreshDate
+    /// 3) Refresh for the following year when there are no more rides for the year
+    /// 4) Refresh when the current schedule is not loaded.  Handle the case where
+    ///   the current date is the end of the year
     private
-    func refresh() {
+    func refresh() async {
+        @AppStorage(ASKeys.refreshDate) var refreshDate = Date()
+        @AppStorage(ASKeys.scheduleYear) var scheduleYear = bundleScheduleYear
+
+        var needRefresh = false
         let today = Date()
         var year = Calendar.current.component(.year, from: today)
-        let weekOfYear = Calendar.current.component(.weekOfYear, from: today)
 
-        // If the loaded schedule isn't current load the appropriate schedule.
-        // If the schedule is current but there are no more rides load the
-        // schedule for the following year if it exists.
-        if (weekOfYear <= 52 && year != state.year) ||
-            state.nextRide == nil {
-            if year == state.year {
-                year += 1
+        if forceRefresh {
+            forceRefresh = false
+            needRefresh = true
+        } else if today > refreshDate {
+            needRefresh = true
+        } else if year == scheduleYear && state.rideModel.nextRide() == nil {
+            year += 1
+            needRefresh = true
+        } else {
+            let weekOfYear = Calendar.current.component(.weekOfYear, from: today)
+            if weekOfYear <= 52 && year != scheduleYear {
+                needRefresh = true
             }
-            state.needRefresh = state.yearModel.scheduleExists(for: year)
         }
-        // alway try a refresh here as state.needRefresh may have been
-        // set elsewhere.
-        Task {
+        if needRefresh {
             do {
                 try await state.refresh(year)
-            } catch FetchError.yearModelError {
-                alertView = RefreshAlerts(type: .year).type.view
-                refreshPresented = true
-            } catch FetchError.restaurantModelError {
-                alertView = RefreshAlerts(type: .restaurant).type.view
-                refreshPresented = true
-            } catch FetchError.rideModelError {
-                alertView = RefreshAlerts(type: .ride).type.view
-                refreshPresented = true
-            } catch FetchError.tripModelError {
-                alertView = RefreshAlerts(type: .trip).type.view
-                refreshPresented = true
-            } catch {
-                alertView = RefreshAlerts(type: .all).type.view
-                refreshPresented = true
+            } catch let error {
+                refreshError = error.localizedDescription
+                refreshErrorPresented.toggle()
             }
         }
     }
 }
 
 struct SmbcImage: View {
+    @Environment(\.horizontalSizeClass) var sizeClass
+
     var body: some View {
-        Image("smbc")
+        let paddingSize: CGFloat? = sizeClass == .compact ? nil : 100.0
+        Image(.smbc)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .clipShape(Circle())
             .overlay(Circle().stroke(Color.black, lineWidth: 2))
-            .padding(.horizontal)
+            .padding(.horizontal, paddingSize)
     }
 }
+
+// MARK: Background gradient
+
+func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
+    let color: Color = switch colorScheme {
+                       case .light:
+                            .white
+                       case .dark:
+                            .black
+                       @unknown default:
+                            fatalError("Unknown ColorScheme")
+                       }
+    return LinearGradient(gradient: Gradient(colors: [color, .gray, color]),
+                          startPoint: .top,
+                          endPoint: .bottom)
+}
+
 
 // MARK: - Main screen button styles
 
@@ -170,12 +187,7 @@ public struct SmbcButtonStyle: ButtonStyle {
     }
 }
 
-#if DEBUG
-struct ContentView_Previews: PreviewProvider {
-    static var state = ProgramState()
-
-    static var previews: some View {
-        ContentView().environmentObject(state)
-    }
+#Preview {
+    ContentView()
+        .environment(ProgramState())
 }
-#endif

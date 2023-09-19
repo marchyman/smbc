@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct RideListView: View {
-    @EnvironmentObject var state: ProgramState
+    @AppStorage(ASKeys.scheduleYear) var scheduleYear = bundleScheduleYear
+    @Environment(ProgramState.self) var state
     @State private var yearPickerPresented = false
     @State private var fetchFailed = false
     @State private var yearIndex = 0
@@ -19,27 +20,26 @@ struct RideListView: View {
                 List(state.rideModel.rides) { ride in
                     if ride.restaurant != nil {
                         RideRowView(ride: ride).id(ride.id)
-                    }
-                    if ride.end != nil {
+                    } else if ride.description != nil {
                         TripRowView(ride: ride).id(ride.id)
                     }
                 }
                 .onAppear {
-                    if let nextRideId = state.nextRide?.id {
+                    if let nextRideId = state.rideModel.nextRide()?.id {
                         withAnimation {
                             proxy.scrollTo(nextRideId, anchor: .top)
                         }
                     }
                 }
             }
-            if state.nextRide != nil {
+            if let nextRide = state.rideModel.nextRide() {
                 NavigationLink("Show next ride",
-                               destination: RideDetailView(ride: state.nextRide!))
+                               destination: RideDetailView(ride: nextRide))
                     .font(.title)
                     .padding(.bottom)
             }
         }
-        .navigationTitle("SMBC Rides in \(state.yearString)")
+        .navigationTitle("SMBC Rides in \(state.scheduleYearString)")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
@@ -50,30 +50,31 @@ struct RideListView: View {
                 }
             }
         }
-        .alert(isPresented: $fetchFailed) {
-             RefreshAlerts(type: .ride).type.view
+        .alert("Schedule Reload Error", isPresented: $fetchFailed) {
+            // let the system provide the button
+        } message: {
+            ReloadErrorView(description: "Failed to fetch ride data for selected year")
         }
         .sheet(isPresented: $yearPickerPresented,
                onDismiss: fetchRideData) {
                 YearPickerView(selectedIndex: $yearIndex)
         }
         .onAppear {
-            yearIndex = state.yearModel.findYearIndex(for: state.year)
+            yearIndex = state.yearModel.findYearIndex(for: scheduleYear)
         }
     }
 
     /// If the user selected a different year fetch the schedule for that year
     func fetchRideData() {
-        guard let year = Int(state.yearModel.scheduleYears[yearIndex].year)
+        guard let selectedYear = Int(state.yearModel.scheduleYears[yearIndex].year)
         else {
             fetchFailed = true
             return
         }
-        if year != state.year {
+        if selectedYear != scheduleYear {
             Task {
                 do {
-                    try await state.rideModel.fetch(year: year)
-                    state.year = year
+                    try await state.rideModel.fetch(scheduleFor: selectedYear)
                 } catch {
                     fetchFailed = true
                 }
@@ -82,15 +83,9 @@ struct RideListView: View {
     }
 }
 
-#if DEBUG
-struct RideView_Previews: PreviewProvider {
-    static var state = ProgramState()
-
-    static var previews: some View {
-        NavigationStack {
-            RideListView()
-                .environmentObject(state)
-        }
+#Preview {
+    NavigationStack {
+        RideListView()
+            .environment(ProgramState())
     }
 }
-#endif

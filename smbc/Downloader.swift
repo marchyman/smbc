@@ -18,11 +18,7 @@ struct Downloader<T: Decodable> {
     /// - Parameter type:   The type of structure that should match the downloaded data
     /// - Returns:          Decoded downloaded data
     ///
-    static func fetch(
-        name: String,
-        url: URL,
-        type: T.Type
-    ) async throws -> T {
+    static func fetch(name: String, url: URL, type: T.Type) async throws -> T {
         let configuration = URLSessionConfiguration.default
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         let session = URLSession(configuration: configuration,

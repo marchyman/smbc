@@ -29,8 +29,6 @@ struct NoMoreRideView: View {
     }
 }
 
-struct NoMoreRideView_Previews: PreviewProvider {
-    static var previews: some View {
-        NoMoreRideView()
-    }
+#Preview {
+    NoMoreRideView()
 }

@@ -8,50 +8,63 @@
 import SwiftUI
 
 struct RideDetailView: View {
-    @EnvironmentObject var state: ProgramState
+    @Environment(ProgramState.self) var state
     @State var ride: ScheduledRide
+    @State private var dragOffset: CGSize = .zero
+    @State private var firstRide = false
+    @State private var lastRide = false
 
     var body: some View {
         RestaurantDetailView(restaurant: restaurant(id: ride.restaurant!),
                              eta: true)
-            .navigationTitle("\(ride.start)/\(state.yearString) Ride")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: nextRide ) {
-                        Text("Next ride")
-                            .font(.callout)
+            .offset(x: dragOffset.width)
+            .gesture(
+                DragGesture()
+                    .onChanged { value in
+                        dragOffset = value.translation
                     }
-                    .disabled(state.rideModel.ride(following: ride.start) == nil)
-            }
-        }
+                    .onEnded { value in
+                        switch value.translation.width {
+                        case ...(-100):
+                            if let next = state.rideModel.ride(following: ride) {
+                                withAnimation(.easeInOut(duration: 0.3)) {
+                                    ride = next
+                                }
+                            } else {
+                                lastRide.toggle()
+                            }
+                        case 100...:
+                            if let prev = state.rideModel.ride(preceding: ride) {
+                                withAnimation(.easeInOut(duration: 0.3)) {
+                                    ride = prev
+                                }
+                            } else {
+                                firstRide.toggle()
+                            }
+                        default:
+                            break
+                        }
+                        dragOffset = .zero
+                    }
+            )
+            .alert("First ride of the year", isPresented: $firstRide) { }
+            .alert("Last ride of the year", isPresented: $lastRide) { }
+            .navigationTitle("\(ride.start)/\(state.scheduleYearString) Ride")
     }
 
     private
     func restaurant(id: String) -> Restaurant {
         return state.restaurantModel.idToRestaurant(id: id)
     }
-
-    private
-    func nextRide() {
-        if let next = state.rideModel.ride(following: ride.start) {
-            ride = next
-        }
-    }
 }
 
-#if DEBUG
-struct RideDetailView_Previews: PreviewProvider {
-    static var state = ProgramState()
-
-    static var previews: some View {
-        NavigationStack {
-            RideDetailView(ride: ScheduledRide(start: "5/7",
-                                               restaurant: "countryinn",
-                                               end: nil,
-                                               description: nil,
-                                               comment: "Testing"))
-            .environmentObject(state)
-        }
+#Preview {
+    NavigationStack {
+        RideDetailView(ride: ScheduledRide(start: "5/7",
+                                           restaurant: "countryinn",
+                                           end: nil,
+                                           description: nil,
+                                           comment: "Testing"))
+            .environment(ProgramState())
     }
 }
-#endif

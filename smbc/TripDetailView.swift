@@ -5,11 +5,10 @@
 //  Created by Marco S Hyman on 6/27/19.
 //
 
-import Foundation
 import SwiftUI
 
 struct TripDetailView: View {
-    @EnvironmentObject var state: ProgramState
+    @Environment(ProgramState.self) var state
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     var ride: ScheduledRide
 
@@ -22,7 +21,7 @@ struct TripDetailView: View {
         }.frame(minWidth: 0, maxWidth: .infinity,
                 minHeight: 0, maxHeight: .infinity)
          .background(backgroundGradient(colorScheme))
-         .navigationTitle("\(ride.start) - \(ride.end!) Trip")
+         .navigationTitle(tripTitle())
          .navigationBarTitleDisplayMode(.inline)
     }
 
@@ -36,27 +35,50 @@ struct TripDetailView: View {
 
         }
         return """
-                Sorry!
+            Sorry!
 
-                I don't have any information about
-                \(ride.description!)
-                """
+            I don't have any information about
+            \(ride.description!)
+            """
     }
-}
 
-#if DEBUG
-struct TripView_Previews: PreviewProvider {
-    static var state = ProgramState()
-
-    static var previews: some View {
-        NavigationStack {
-            TripDetailView(ride: ScheduledRide(start: "7/12",
-                                               restaurant: nil,
-                                               end: "7/13",
-                                               description: "Camping blah",
-                                               comment: "preview"))
-            .environmentObject(state)
+    private func tripTitle() -> String {
+        if let end = ride.end {
+            return "\(ride.start) - \(end)"
         }
+        return "\(ride.start)"
     }
 }
-#endif
+
+#Preview {
+    NavigationStack {
+        TripDetailView(ride: ScheduledRide(start: "7/12",
+                                           restaurant: nil,
+                                           end: "7/13",
+                                           description: "Camping blah",
+                                           comment: "preview"))
+            .environment(ProgramState())
+     }
+}
+
+#Preview {
+    NavigationStack {
+        TripDetailView(ride: ScheduledRide(start: "8/24",
+                                           restaurant: nil,
+                                           end: nil,
+                                           description: "Boot Dinner",
+                                           comment: "preview"))
+            .environment(ProgramState())
+     }
+}
+
+#Preview {
+    NavigationStack {
+        TripDetailView(ride: ScheduledRide(start: "8/24",
+                                           restaurant: nil,
+                                           end: nil,
+                                           description: "unknown trip",
+                                           comment: "preview"))
+            .environment(ProgramState())
+     }
+}
