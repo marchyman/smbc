@@ -179,7 +179,7 @@ public struct SmbcButtonStyle: ButtonStyle {
         configuration.label
             .frame(width: 120)
             .font(.title2)
-            .foregroundColor(.blue)
+            .foregroundStyle(.blue)
             .padding()
             .accentColor(.black)
             .background(Color.gray.opacity(0.25))
