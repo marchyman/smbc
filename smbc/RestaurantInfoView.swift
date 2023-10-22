@@ -36,7 +36,12 @@ struct RestaurantInfoView: View {
                     }
                     Spacer()
                     Text("ETA: \(restaurant.eta)")
+
                 }.padding([.top, .leading, .trailing])
+                if restaurant.eta.hasSuffix("‡") {
+                    Text("‡ ETA indicates restaurant open time.")
+                        .font(.footnote)
+                }
             } else {
                 Text(restaurant.route).padding(.top)
             }
