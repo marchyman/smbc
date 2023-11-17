@@ -17,8 +17,8 @@ enum FetchError: Error {
     case tripModelError
 }
 
-extension FetchError: CustomStringConvertible {
-    public var description: String {
+extension FetchError: LocalizedError {
+    public var errorDescription: String? {
         switch self {
         case .yearModelError:
             return "Failed to fetch list of available schedules"
