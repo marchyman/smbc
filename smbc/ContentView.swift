@@ -54,9 +54,9 @@ struct ContentView: View {
                     }
                 Spacer()
                 HStack {
-                    NavigationLink(restaurantsKey, value: restaurantsKey)
+                    NavigationLink(restaurantsKey) { RestaurantListView() }
                     Spacer()
-                    NavigationLink(ridesKey, value: ridesKey)
+                    NavigationLink(ridesKey) { RideListView() }
                 }
                 .buttonStyle(SmbcButtonStyle())
                 .padding(30)
