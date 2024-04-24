@@ -24,17 +24,11 @@ enum ASKeys {
 // Make Date RawRepresentable so they can be stored in AppStorage
 
 extension Date: RawRepresentable {
-    static var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        return formatter
-    }()
-
     public var rawValue: String {
-        Date.dateFormatter.string(from: self)
+        self.timeIntervalSinceReferenceDate.description
     }
 
     public init?(rawValue: String) {
-        self = Date.dateFormatter.date(from: rawValue) ?? Date()
+        self = Date(timeIntervalSinceReferenceDate: Double(rawValue) ?? 0.0)
     }
 }

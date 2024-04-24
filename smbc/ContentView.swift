@@ -107,8 +107,8 @@ struct ContentView: View {
     /// 3) Refresh for the following year when there are no more rides for the year
     /// 4) Refresh when the current schedule is not loaded.  Handle the case where
     ///   the current date is the end of the year
-    private
-    func refresh() async {
+    @MainActor
+    private func refresh() async {
         @AppStorage(ASKeys.refreshDate) var refreshDate = Date()
         @AppStorage(ASKeys.scheduleYear) var scheduleYear = bundleScheduleYear
 

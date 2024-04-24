@@ -52,8 +52,8 @@ struct RideDetailView: View {
             .navigationTitle("\(ride.start)/\(state.scheduleYearString) Ride")
     }
 
-    private
-    func restaurant(id: String) -> Restaurant {
+    @MainActor
+    private func restaurant(id: String) -> Restaurant {
         return state.restaurantModel.idToRestaurant(id: id)
     }
 }

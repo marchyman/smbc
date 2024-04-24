@@ -9,6 +9,7 @@
 import SwiftUI
 
 @main
+@MainActor
 struct SmbcApp: App {
     @State var programState = ProgramState()
 

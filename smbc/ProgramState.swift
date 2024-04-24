@@ -15,6 +15,7 @@ let serverDir = "schedule/"
 
 /// A class to hold program state
 ///
+@MainActor
 @Observable
 class ProgramState {
     /// The various models that make up the total state of the system

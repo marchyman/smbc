@@ -25,8 +25,8 @@ struct TripDetailView: View {
          .navigationBarTitleDisplayMode(.inline)
     }
 
-    private
-    func tripText() -> String {
+    @MainActor
+    private func tripText() -> String {
         if let spaceIndex = ride.description?.firstIndex(of: " ") {
             let key = String(ride.description![..<spaceIndex])
             if let trip = state.tripModel.trips[key] {

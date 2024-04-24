@@ -41,6 +41,7 @@ struct ScheduledRide: Codable, Identifiable, Hashable {
     }
 }
 
+@MainActor
 @Observable
 final class RideModel {
     var rides = [ScheduledRide]()

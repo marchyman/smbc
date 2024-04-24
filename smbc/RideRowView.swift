@@ -22,8 +22,8 @@ struct RideRowView: View {
         }
     }
 
-    private
-    func restaurantName(id: String?) -> String {
+    @MainActor
+    private func restaurantName(id: String?) -> String {
         return state.restaurantModel.idToRestaurant(id: id).name
     }
 }

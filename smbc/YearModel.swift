@@ -18,6 +18,7 @@ struct ScheduleYear: Codable, Equatable {
 
 /// A list of years for which a schedule exists.
 ///
+@MainActor
 @Observable
 final class YearModel {
     var scheduleYears: [ScheduleYear]

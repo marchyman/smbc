@@ -56,6 +56,7 @@ struct RideListView: View {
     }
 
     /// If the user selected a different year fetch the schedule for that year
+    @MainActor
     func fetchRideData() {
         guard let selectedYear = Int(state.yearModel.scheduleYears[yearIndex].year)
         else {

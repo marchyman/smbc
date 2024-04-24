@@ -25,6 +25,7 @@ struct Restaurant: Decodable, Identifiable {
     let lon: Double
 }
 
+@MainActor
 @Observable
 final class RestaurantModel {
     var restaurants = [Restaurant]()

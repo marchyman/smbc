@@ -20,17 +20,15 @@ struct LookAroundView: View {
             LookAroundPreview(initialScene: lookAroundScene)
                 .opacity(lookAroundScene == nil ? 0 : 1)
         }
-        .onAppear {
-            getLookAroundScene()
+        .task {
+            lookAroundScene = await getLookAroundScene()
         }
     }
 
-    func getLookAroundScene() {
-        lookAroundScene = nil
-        Task {
-            let request = MKLookAroundSceneRequest(coordinate: marker.location)
-            lookAroundScene = try? await request.scene
-        }
+    func getLookAroundScene() async -> MKLookAroundScene? {
+        let location = marker.location
+        let request = MKLookAroundSceneRequest(coordinate: location)
+        return try? await request.scene
     }
 }
 
