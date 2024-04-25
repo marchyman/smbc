@@ -9,6 +9,11 @@
 import SwiftUI
 import MapKit
 
+// The following two lines get rid of crossing actor boundary
+// warnings with strict concurrency checking.
+extension MKLookAroundScene: @unchecked Sendable { }
+extension MKLookAroundSceneRequest: @unchecked Sendable { }
+
 struct LookAroundView: View {
     var marker: RestaurantMapView.MarkerModel
     @State private var lookAroundScene: MKLookAroundScene?
@@ -25,6 +30,7 @@ struct LookAroundView: View {
         }
     }
 
+    @MainActor
     func getLookAroundScene() async -> MKLookAroundScene? {
         let location = marker.location
         let request = MKLookAroundSceneRequest(coordinate: location)
@@ -34,9 +40,10 @@ struct LookAroundView: View {
 
 #Preview("No Data") {
     LookAroundView(marker: RestaurantMapView.MarkerModel(
-        id: "beachstreet",
-        location: CLLocationCoordinate2D(latitude: 36.906494, longitude: -121.764847),
-        title: "Beach Street"))
+        id: "bogus",
+        location: CLLocationCoordinate2D(latitude: 37.308351,
+                                         longitude: -122.90166),
+        title: "Bogus"))
         .frame (height: 128)
         .background (.thinMaterial)
         .clipShape (RoundedRectangle (cornerRadius: 10))
