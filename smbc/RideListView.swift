@@ -10,6 +10,7 @@ import SwiftUI
 struct RideListView: View {
     @AppStorage(ASKeys.scheduleYear) var scheduleYear = bundleScheduleYear
     @Environment(ProgramState.self) var state
+    @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @Binding var viewState: ViewState
     @State private var yearPickerPresented = false
     @State private var fetchFailed = false
@@ -28,10 +29,11 @@ struct RideListView: View {
                 if let nextRide = state.rideModel.nextRide() {
                     NavigationLink("Show next ride",
                                    destination: RideDetailView(ride: nextRide))
-                    .font(.title2)
-                    .padding(.bottom)
+                        .buttonStyle(.bordered)
+                        .padding(.bottom)
                 }
             }
+            .background(backgroundGradient(colorScheme))
             .navigationDestination(for: ScheduledRide.self) { ride in
                 RideDetailView(ride: ride)
             }

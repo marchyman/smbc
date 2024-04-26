@@ -37,6 +37,7 @@ struct HomeView: View {
                     }
                 Spacer()
             }
+            .background(backgroundGradient(colorScheme))
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("SMBC")
             .toolbar {

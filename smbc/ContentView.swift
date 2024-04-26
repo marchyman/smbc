@@ -23,21 +23,18 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $viewState.selectedTab) {
             HomeView(viewState: viewState)
-                .background(backgroundGradient(colorScheme))
                 .tabItem {
                     Label("Home", systemImage: "house")
                 }
                 .tag(TabItems.home)
 
             RestaurantListView()
-                .background(backgroundGradient(colorScheme))
                 .tabItem {
                     Label("Restaurants", systemImage: "fork.knife")
                 }
                 .tag(TabItems.restaurants)
 
             RideListView(viewState: $viewState)
-                .background(backgroundGradient(colorScheme))
                 .tabItem {
                     Label("Rides", systemImage: "map")
                 }
@@ -134,22 +131,6 @@ func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
     return LinearGradient(gradient: Gradient(colors: [color, .gray, color]),
                           startPoint: .top,
                           endPoint: .bottom)
-}
-
-
-// MARK: - Main screen button styles
-
-public struct SmbcButtonStyle: ButtonStyle {
-    public func makeBody(configuration: Self.Configuration) -> some View {
-        configuration.label
-            .frame(width: 120)
-            .font(.title2)
-            .foregroundStyle(.blue)
-            .padding()
-            .accentColor(.black)
-            .background(Color.gray.opacity(0.25))
-            .cornerRadius(20)
-    }
 }
 
 #Preview {

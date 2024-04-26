@@ -8,12 +8,6 @@
 
 import SwiftUI
 
-// Button text and Navigation Link values
-enum Keys {
-    static let rides = "Rides"
-    static let restaurants = "Restaurants"
-}
-
 // State shared among views
 @Observable
 final class ViewState {

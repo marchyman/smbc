@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RestaurantListView: View {
     @Environment(ProgramState.self) var state
+    @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @State private var filter = true
     var title: String {
         (filter ? "Active" : "All") + " Restaurants"
@@ -22,6 +23,7 @@ struct RestaurantListView: View {
             List(filteredRestaurants(filter)) { restaurant in
                 RestaurantRow(restaurant: restaurant)
             }
+            .background(backgroundGradient(colorScheme))
             .navigationTitle(title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
