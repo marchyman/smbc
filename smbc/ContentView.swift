@@ -7,95 +7,60 @@
 
 import SwiftUI
 
+enum TabItems {
+    case home
+    case restaurants
+    case rides
+}
+
 // MARK: - Initial Content
 
 struct ContentView: View {
     @Environment(ProgramState.self) var state
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
-
-    @State var path = NavigationPath()
-
-    @State private var noMoreRides = false
-
-    // three state variables to control schedule data refreshing
-
-    @State private var refreshPresented = false
-    @State private var forceRefresh = false
-    @State private var runRefreshTask = false
-
-    @State private var refreshError: String = ""
-    @State private var refreshErrorPresented = false
-
-    // Button text and Navigation Link values
-    let ridesKey = "Rides"
-    let restaurantsKey = "Restaurants"
+    @Binding var viewState: ViewState
 
     var body: some View {
-        NavigationStack(path: $path) {
-            VStack {
-                    Text("[Sunday Morning Breakfast Club\nBreakfast and beyond since 1949](https://smbc.snafu.org/)")
-                    .font(.headline)
-                    .lineLimit(2)
-                    .padding()
-                Spacer()
-                SmbcImage()
-                    .onTapGesture {
-                        if let nextRide = state.rideModel.nextRide() {
-                            path.append(ridesKey)
-                            path.append(nextRide)
-                        } else {
-                            noMoreRides.toggle()
-                        }
-                    }
-                    .onLongPressGesture {
-                        refreshPresented = true
-                        forceRefresh = true
-                        runRefreshTask.toggle()
-                    }
-                Spacer()
-                HStack {
-                    NavigationLink(restaurantsKey) { RestaurantListView() }
-                    Spacer()
-                    NavigationLink(ridesKey) { RideListView() }
+        TabView(selection: $viewState.selectedTab) {
+            HomeView(viewState: viewState)
+                .background(backgroundGradient(colorScheme))
+                .tabItem {
+                    Label("Home", systemImage: "house")
                 }
-                .buttonStyle(SmbcButtonStyle())
-                .padding(30)
-            }
-            .navigationDestination(for: String.self) { key in
-                // key can only be ridesKey or restaurantsKey.  To simplify the
-                // code assume anything not equal to ridesKey is restaurantsKey
-                if key == ridesKey {
-                    RideListView()
-                } else {
-                    RestaurantListView()
+                .tag(TabItems.home)
+
+            RestaurantListView()
+                .background(backgroundGradient(colorScheme))
+                .tabItem {
+                    Label("Restaurants", systemImage: "fork.knife")
                 }
-            }
-            .navigationDestination(for: ScheduledRide.self) { ride in
-                RideDetailView(ride: ride)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(backgroundGradient(colorScheme))
-            .navigationTitle("SMBC")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack { SmbcHelp(); SmbcInfo() }
+                .tag(TabItems.restaurants)
+
+            RideListView(viewState: $viewState)
+                .background(backgroundGradient(colorScheme))
+                .tabItem {
+                    Label("Rides", systemImage: "map")
                 }
-            }
-            .sheet(isPresented: $noMoreRides) {
-                NoMoreRideView()
-                    .presentationDetents([.medium])
-            }
-            .alert("Schedule Reload", isPresented: $refreshPresented) {
-                // let the system provide the button
-            } message: { ScheduleReloadView() }
-            .alert("Schedule Reload Error", isPresented: $refreshErrorPresented) {
-                // let the system provide the button
-            } message: {
-                ReloadErrorView(description: refreshError)
-            }
-            .task(id: runRefreshTask) {
-                await refresh()
-            }
+                .tag(TabItems.rides)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .sheet(isPresented: $viewState.noMoreRides) {
+            NoMoreRideView()
+                .presentationDetents([.medium])
+        }
+        .alert("Schedule Reload", isPresented: $viewState.refreshPresented) {
+            // let the system provide the button
+        } message: {
+            ScheduleReloadView()
+        }
+        .alert("Schedule Reload Error",
+               isPresented: $viewState.refreshErrorPresented) {
+            // let the system provide the button
+        } message: {
+            ReloadErrorView(description: viewState.refreshError)
+        }
+        .task(id: viewState.runRefreshTask) {
+            await refresh()
         }
     }
 
@@ -116,8 +81,8 @@ struct ContentView: View {
         let today = Date()
         var year = Calendar.current.component(.year, from: today)
 
-        if forceRefresh {
-            forceRefresh = false
+        if viewState.forceRefresh {
+            viewState.forceRefresh = false
             needRefresh = true
         } else if today > refreshDate {
             needRefresh = true
@@ -134,8 +99,8 @@ struct ContentView: View {
             do {
                 try await state.refresh(year)
             } catch let error {
-                refreshError = error.localizedDescription
-                refreshErrorPresented.toggle()
+                viewState.refreshError = error.localizedDescription
+                viewState.refreshErrorPresented.toggle()
             }
         }
     }
@@ -188,6 +153,7 @@ public struct SmbcButtonStyle: ButtonStyle {
 }
 
 #Preview {
-    ContentView()
+    @State var viewState: ViewState = .init()
+    return ContentView(viewState: $viewState)
         .environment(ProgramState())
 }

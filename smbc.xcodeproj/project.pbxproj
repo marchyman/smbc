@@ -35,6 +35,8 @@
 		49B196B422BEADE3009F51E5 /* smbcTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B196B322BEADE3009F51E5 /* smbcTests.swift */; };
 		49B196BF22BEADE3009F51E5 /* ContentViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B196BE22BEADE3009F51E5 /* ContentViewTests.swift */; };
 		49C7FEDA2A467745008F2C4A /* NoMoreRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C7FED92A467745008F2C4A /* NoMoreRideView.swift */; };
+		49C946DC2BDB0CDE007D1E52 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C946DB2BDB0CDE007D1E52 /* HomeView.swift */; };
+		49C946DE2BDB1312007D1E52 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C946DD2BDB1312007D1E52 /* ViewState.swift */; };
 		49CECB31273A165200BE6A2A /* YearModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CECB30273A165200BE6A2A /* YearModel.swift */; };
 		49CECB33273A1F2300BE6A2A /* schedule-years.json in Resources */ = {isa = PBXBuildFile; fileRef = 49CECB32273A1F2300BE6A2A /* schedule-years.json */; };
 		49D3A82F22EE6E4F00C6682C /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D3A82C22EE6E4F00C6682C /* Downloader.swift */; };
@@ -102,6 +104,8 @@
 		49B196BE22BEADE3009F51E5 /* ContentViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewTests.swift; sourceTree = "<group>"; };
 		49B196C022BEADE3009F51E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49C7FED92A467745008F2C4A /* NoMoreRideView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoMoreRideView.swift; sourceTree = "<group>"; };
+		49C946DB2BDB0CDE007D1E52 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		49C946DD2BDB1312007D1E52 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		49CECB30273A165200BE6A2A /* YearModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearModel.swift; sourceTree = "<group>"; };
 		49CECB32273A1F2300BE6A2A /* schedule-years.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "schedule-years.json"; sourceTree = "<group>"; };
 		49D3A82C22EE6E4F00C6682C /* Downloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
@@ -166,7 +170,9 @@
 			children = (
 				497ED9ED297E03DB008AB290 /* smbc.swift */,
 				4915FD492A44E3C200845BD6 /* AppStorage.swift */,
+				49C946DD2BDB1312007D1E52 /* ViewState.swift */,
 				49B196A022BEADE2009F51E5 /* ContentView.swift */,
+				49C946DB2BDB0CDE007D1E52 /* HomeView.swift */,
 				49AFCBB4273B5C760082046F /* SmbcInfo.swift */,
 				49AA7CF42742F8ED00FC71E6 /* SmbcHelp.swift */,
 				49C7FED92A467745008F2C4A /* NoMoreRideView.swift */,
@@ -429,10 +435,12 @@
 				49AFCBB5273B5C760082046F /* SmbcInfo.swift in Sources */,
 				491B760F22DEC9EE00268B60 /* RideDetailView.swift in Sources */,
 				49158D8322E970C80067D893 /* ProgramState.swift in Sources */,
+				49C946DE2BDB1312007D1E52 /* ViewState.swift in Sources */,
 				499EEB322A476EC600F96101 /* FetchError.swift in Sources */,
 				492151D6273F3AAF00B51E94 /* RideVisitsView.swift in Sources */,
 				4947F16422C16515008E6D6A /* RestaurantDetailView.swift in Sources */,
 				4915FD4A2A44E3C200845BD6 /* AppStorage.swift in Sources */,
+				49C946DC2BDB0CDE007D1E52 /* HomeView.swift in Sources */,
 				497ED9EE297E03DB008AB290 /* smbc.swift in Sources */,
 				49AA7CF52742F8ED00FC71E6 /* SmbcHelp.swift in Sources */,
 				499EEB342A47871A00F96101 /* RefreshMessages.swift in Sources */,

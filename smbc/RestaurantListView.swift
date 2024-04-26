@@ -18,18 +18,20 @@ struct RestaurantListView: View {
     }
 
     var body: some View {
-        List(filteredRestaurants(filter)) { restaurant in
-            RestaurantRow(restaurant: restaurant)
-        }
-        .navigationTitle(title)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    filter.toggle()
-                } label: {
-                    Text(filterTitle)
-                        .font(.callout)
+        NavigationStack {
+            List(filteredRestaurants(filter)) { restaurant in
+                RestaurantRow(restaurant: restaurant)
+            }
+            .navigationTitle(title)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        filter.toggle()
+                    } label: {
+                        Text(filterTitle)
+                            .font(.callout)
+                    }
                 }
             }
         }

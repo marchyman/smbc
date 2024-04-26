@@ -10,34 +10,40 @@ import SwiftUI
 struct RideListView: View {
     @AppStorage(ASKeys.scheduleYear) var scheduleYear = bundleScheduleYear
     @Environment(ProgramState.self) var state
+    @Binding var viewState: ViewState
     @State private var yearPickerPresented = false
     @State private var fetchFailed = false
     @State private var yearIndex = 0
 
     var body: some View {
-        VStack {
-            List(state.rideModel.rides) { ride in
-                if ride.restaurant != nil {
-                    RideRowView(ride: ride).id(ride.id)
-                } else if ride.description != nil {
-                    TripRowView(ride: ride).id(ride.id)
+        NavigationStack(path: $viewState.path) {
+            VStack {
+                List(state.rideModel.rides) { ride in
+                    if ride.restaurant != nil {
+                        RideRowView(ride: ride).id(ride.id)
+                    } else if ride.description != nil {
+                        TripRowView(ride: ride).id(ride.id)
+                    }
+                }
+                if let nextRide = state.rideModel.nextRide() {
+                    NavigationLink("Show next ride",
+                                   destination: RideDetailView(ride: nextRide))
+                    .font(.title2)
+                    .padding(.bottom)
                 }
             }
-            if let nextRide = state.rideModel.nextRide() {
-                NavigationLink("Show next ride",
-                               destination: RideDetailView(ride: nextRide))
-                    .font(.title)
-                    .padding(.bottom)
+            .navigationDestination(for: ScheduledRide.self) { ride in
+                RideDetailView(ride: ride)
             }
-        }
-        .navigationTitle("SMBC Rides in \(state.scheduleYearString)")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    yearPickerPresented = true
-                } label: {
-                    Text("Change year")
-                        .font(.callout)
+            .navigationTitle("SMBC Rides in \(state.scheduleYearString)")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        yearPickerPresented = true
+                    } label: {
+                        Text("Change year")
+                            .font(.callout)
+                    }
                 }
             }
         }
@@ -52,6 +58,10 @@ struct RideListView: View {
         }
         .onAppear {
             yearIndex = state.yearModel.findYearIndex(for: scheduleYear)
+            if let nextRide = viewState.nextRide {
+                viewState.nextRide = nil
+                viewState.path.append(nextRide)
+            }
         }
     }
 
@@ -77,7 +87,7 @@ struct RideListView: View {
 
 #Preview {
     NavigationStack {
-        RideListView()
+        RideListView(viewState: .constant(ViewState()))
             .environment(ProgramState())
     }
 }
