@@ -27,7 +27,7 @@ struct Downloader<T: Decodable> {
         let (data, _) = try await session.data(from: url)
         let decodedData = try decoder.decode(type, from: data)
         // update the cache in the background
-        Task.detached(priority: .background) {
+        Task(priority: .background) {
             let cache = Cache(name: name, type: type)
             let cacheUrl = cache.fileUrl()
             try data.write(to: cacheUrl)
