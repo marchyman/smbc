@@ -8,16 +8,20 @@
 
 import SwiftUI
 
-// State shared among views
+// State shared between view
+enum TabItems {
+    case home
+    case restaurants
+    case rides
+}
+
+@MainActor
 @Observable
 final class ViewState {
     var selectedTab: TabItems = .home
-    var path: NavigationPath = .init()
-    var noMoreRides: Bool = false
-    var refreshPresented = false
-    var forceRefresh = false
-    var runRefreshTask = false
-    var refreshError: String = ""
-    var refreshErrorPresented = false
     var nextRide: ScheduledRide? = nil
+
+    static let shared: ViewState = .init()
+
+    private init() { }
 }

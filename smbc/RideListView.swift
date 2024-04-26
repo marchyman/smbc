@@ -7,17 +7,19 @@
 
 import SwiftUI
 
+@MainActor
 struct RideListView: View {
     @AppStorage(ASKeys.scheduleYear) var scheduleYear = bundleScheduleYear
     @Environment(ProgramState.self) var state
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
-    @Binding var viewState: ViewState
+    @Bindable var viewState = ViewState.shared
+    @State private var path: NavigationPath = .init()
     @State private var yearPickerPresented = false
     @State private var fetchFailed = false
     @State private var yearIndex = 0
 
     var body: some View {
-        NavigationStack(path: $viewState.path) {
+        NavigationStack(path: $path) {
             VStack {
                 List(state.rideModel.rides) { ride in
                     if ride.restaurant != nil {
@@ -62,13 +64,12 @@ struct RideListView: View {
             yearIndex = state.yearModel.findYearIndex(for: scheduleYear)
             if let nextRide = viewState.nextRide {
                 viewState.nextRide = nil
-                viewState.path.append(nextRide)
+                path.append(nextRide)
             }
         }
     }
 
     /// If the user selected a different year fetch the schedule for that year
-    @MainActor
     func fetchRideData() {
         guard let selectedYear = Int(state.yearModel.scheduleYears[yearIndex].year)
         else {
@@ -89,7 +90,7 @@ struct RideListView: View {
 
 #Preview {
     NavigationStack {
-        RideListView(viewState: .constant(ViewState()))
+        RideListView()
             .environment(ProgramState())
     }
 }
