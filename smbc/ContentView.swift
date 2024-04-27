@@ -31,7 +31,7 @@ struct ContentView: View {
 
             RideListView()
                 .tabItem {
-                    Label("Rides", image: .motorcycleSFSymbol)
+                    Label("Rides", image: .motoiconSFSymbol)
                 }
                 .tag(TabItems.rides)
         }
