@@ -7,10 +7,14 @@
 
 import SwiftUI
 
+@MainActor
 struct RestaurantListView: View {
     @Environment(ProgramState.self) var state
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
+    var viewState = ViewState.shared
+
     @State private var filter = true
+
     var title: String {
         (filter ? "Active" : "All") + " Restaurants"
     }
@@ -35,6 +39,9 @@ struct RestaurantListView: View {
                             .font(.callout)
                     }
                 }
+            }
+            .refreshable {
+                await viewState.refresh(state)
             }
         }
     }

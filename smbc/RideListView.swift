@@ -28,6 +28,9 @@ struct RideListView: View {
                         TripRowView(ride: ride).id(ride.id)
                     }
                 }
+                .refreshable {
+                    await viewState.refresh(state)
+                }
                 if let nextRide = state.rideModel.nextRide() {
                     NavigationLink("Show next ride",
                                    destination: RideDetailView(ride: nextRide))
