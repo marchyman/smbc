@@ -38,10 +38,13 @@ struct Downloader<T: Decodable> {
                 let cacheUrl = cache.fileUrl()
                 try data.write(to: cacheUrl)
             }
+            Task { @MainActor in
+                logger.notice("\(url.path, privacy: .public) downloaded")
+            }
             return decodedData
         } catch {
             Task { @MainActor in
-                logger.notice("\(#function) \(error.localizedDescription, privacy: .public)")
+                logger.error("\(#function) \(error.localizedDescription, privacy: .public)")
             }
             throw error
         }

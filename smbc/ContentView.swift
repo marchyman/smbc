@@ -36,6 +36,20 @@ struct ContentView: View {
                 .tag(TabItems.rides)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .alert("Schedule Reload", isPresented: $viewState.refreshPresented) {
+            // let the system provide the button
+        } message: {
+            ScheduleReloadView()
+        }
+        .alert("Schedule Reload Error",
+               isPresented: $viewState.refreshErrorPresented) {
+            // let the system provide the button
+        } message: {
+            ReloadErrorView(description: viewState.refreshError)
+        }
+        .task(id: viewState.runRefreshTask) {
+            await viewState.refresh(state)
+        }
     }
 }
 

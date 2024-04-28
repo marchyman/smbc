@@ -15,7 +15,6 @@ struct HomeView: View {
     @Bindable var viewState = ViewState.shared
 
     @State private var noMoreRides = false
-    @State private var runRefreshTask = false
 
     var body: some View {
         NavigationStack {
@@ -37,7 +36,7 @@ struct HomeView: View {
                     .onLongPressGesture {
                         viewState.refreshPresented = true
                         viewState.forceRefresh = true
-                        runRefreshTask.toggle()
+                        viewState.runRefreshTask.toggle()
                     }
                 Spacer()
             }
@@ -49,27 +48,12 @@ struct HomeView: View {
                     HStack { SmbcHelp(); SmbcInfo() }
                 }
             }
-            .alert("Schedule Reload", isPresented: $viewState.refreshPresented) {
-                // let the system provide the button
-            } message: {
-                ScheduleReloadView()
-            }
-            .alert("Schedule Reload Error",
-                   isPresented: $viewState.refreshErrorPresented) {
-                // let the system provide the button
-            } message: {
-                ReloadErrorView(description: viewState.refreshError)
-            }
             .sheet(isPresented: $noMoreRides) {
                 NoMoreRideView()
                     .presentationDetents([.medium])
             }
-            .task(id: runRefreshTask) {
-                await viewState.refresh(state)
-            }
         }
     }
-
 }
 
 #Preview {

@@ -29,6 +29,7 @@ struct RideListView: View {
                     }
                 }
                 .refreshable {
+                    viewState.forceRefresh = true
                     await viewState.refresh(state)
                 }
                 if let nextRide = state.rideModel.nextRide() {

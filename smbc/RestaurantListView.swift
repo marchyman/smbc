@@ -41,6 +41,7 @@ struct RestaurantListView: View {
                 }
             }
             .refreshable {
+                viewState.forceRefresh = true
                 await viewState.refresh(state)
             }
         }

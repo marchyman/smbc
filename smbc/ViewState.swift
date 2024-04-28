@@ -21,6 +21,7 @@ final class ViewState {
     var selectedTab: TabItems = .home
     var nextRide: ScheduledRide? = nil
     var forceRefresh = false
+    var runRefreshTask = false
     var refreshPresented = false
     var refreshError: String = ""
     var refreshErrorPresented = false
