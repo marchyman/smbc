@@ -30,6 +30,7 @@ struct LogView: View {
             List(logEntries, id: \.self) { entry in
                 Text(entry)
             }
+            .listStyle(.plain)
             .padding()
         }
         .onAppear {

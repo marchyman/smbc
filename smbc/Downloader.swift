@@ -62,15 +62,20 @@ struct Downloader {
             let myEntries = try logStore.getEntries()
                                         .compactMap { $0 as? OSLogEntryLog }
                                         .filter { $0.subsystem == subsystem }
-            for entry in myEntries {
-                let formattedTime = timeFormatter.string(from: entry.date)
-                let formatedEntry = "\(formattedTime):  \(entry.category)  \(entry.composedMessage)"
-                entries.append(formatedEntry)
+            if myEntries.isEmpty {
+                entries.append("No log entries found")
+            } else {
+                for entry in myEntries {
+                    let formattedTime = timeFormatter.string(from: entry.date)
+                    let formatedEntry = "\(formattedTime):  \(entry.category)  \(entry.composedMessage)"
+                    entries.append(formatedEntry)
+                }
             }
         } catch {
             Task { @MainActor in
                 logger.error("failed to access log store: \(error.localizedDescription, privacy: .public)")
             }
+            entries.append("Failed to access log store: \(error.localizedDescription)")
         }
 
         return entries
