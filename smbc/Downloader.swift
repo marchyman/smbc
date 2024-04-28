@@ -6,6 +6,11 @@
 //
 
 import Foundation
+import OSLog
+
+@MainActor
+private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!,
+                            category: "Downloader")
 
 /// Ecapsulate a generic version of the code to download the various bits of data that make up
 /// the program model.
@@ -24,14 +29,21 @@ struct Downloader<T: Decodable> {
         let session = URLSession(configuration: configuration,
                                  delegate: nil, delegateQueue: nil)
         let decoder = JSONDecoder()
-        let (data, _) = try await session.data(from: url)
-        let decodedData = try decoder.decode(type, from: data)
-        // update the cache in the background
-        Task(priority: .background) {
-            let cache = Cache(name: name, type: type)
-            let cacheUrl = cache.fileUrl()
-            try data.write(to: cacheUrl)
+        do {
+            let (data, _) = try await session.data(from: url)
+            let decodedData = try decoder.decode(type, from: data)
+            // update the cache in the background
+            Task(priority: .background) {
+                let cache = Cache(name: name, type: type)
+                let cacheUrl = cache.fileUrl()
+                try data.write(to: cacheUrl)
+            }
+            return decodedData
+        } catch {
+            Task { @MainActor in
+                logger.notice("\(#function) \(error.localizedDescription, privacy: .public)")
+            }
+            throw error
         }
-        return decodedData
     }
 }
