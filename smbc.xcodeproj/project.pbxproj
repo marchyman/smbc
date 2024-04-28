@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4905C3E822C72CEC00D9B7CE /* trips.json in Resources */ = {isa = PBXBuildFile; fileRef = 4905C3E722C72CEC00D9B7CE /* trips.json */; };
+		4911C15B2BDEDE2900703FA3 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4911C15A2BDEDE2900703FA3 /* LogView.swift */; };
 		49158D8322E970C80067D893 /* ProgramState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49158D8222E970C80067D893 /* ProgramState.swift */; };
 		4915FD4A2A44E3C200845BD6 /* AppStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915FD492A44E3C200845BD6 /* AppStorage.swift */; };
 		4915FD4C2A44FD9600845BD6 /* RestaurantInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915FD4B2A44FD9600845BD6 /* RestaurantInfoView.swift */; };
@@ -68,6 +69,7 @@
 /* Begin PBXFileReference section */
 		4905C3E722C72CEC00D9B7CE /* trips.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = trips.json; sourceTree = "<group>"; };
 		490B75A429AAE6A700EA6EEA /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		4911C15A2BDEDE2900703FA3 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		49158D8222E970C80067D893 /* ProgramState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramState.swift; sourceTree = "<group>"; };
 		4915FD492A44E3C200845BD6 /* AppStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorage.swift; sourceTree = "<group>"; };
 		4915FD4B2A44FD9600845BD6 /* RestaurantInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantInfoView.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				49AFCBB2273B50EB0082046F /* TripRowView.swift */,
 				491B760E22DEC9EE00268B60 /* RideDetailView.swift */,
 				49F2C34022C58B980089CF3C /* TripDetailView.swift */,
+				4911C15A2BDEDE2900703FA3 /* LogView.swift */,
 				49D3A82D22EE6E4F00C6682C /* Cache.swift */,
 				49D3A82C22EE6E4F00C6682C /* Downloader.swift */,
 				499EEB312A476EC600F96101 /* FetchError.swift */,
@@ -455,6 +458,7 @@
 				49D3A83422EE6E5F00C6682C /* RestaurantModel.swift in Sources */,
 				49D3A82F22EE6E4F00C6682C /* Downloader.swift in Sources */,
 				49B196A122BEADE2009F51E5 /* ContentView.swift in Sources */,
+				4911C15B2BDEDE2900703FA3 /* LogView.swift in Sources */,
 				493BBFDB22C01AE600E2B437 /* RestaurantListView.swift in Sources */,
 				4915FD4C2A44FD9600845BD6 /* RestaurantInfoView.swift in Sources */,
 			);

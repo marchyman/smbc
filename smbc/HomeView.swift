@@ -15,6 +15,7 @@ struct HomeView: View {
     @Bindable var viewState = ViewState.shared
 
     @State private var noMoreRides = false
+    @State private var showLog = false
 
     var body: some View {
         NavigationStack {
@@ -44,6 +45,16 @@ struct HomeView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("SMBC")
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        showLog = true
+                    } label: {
+                        // the label is hidden, but still can be tapped
+                        Text("Log")
+                            .padding(.horizontal)
+                            .opacity(0.0)
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack { SmbcHelp(); SmbcInfo() }
                 }
@@ -51,6 +62,9 @@ struct HomeView: View {
             .sheet(isPresented: $noMoreRides) {
                 NoMoreRideView()
                     .presentationDetents([.medium])
+            }
+            .sheet(isPresented: $showLog) {
+                LogView()
             }
         }
     }

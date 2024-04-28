@@ -8,14 +8,15 @@
 import Foundation
 import OSLog
 
-@MainActor
-private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!,
-                            category: "Downloader")
+// Ecapsulate a generic version of the code to download the various bits of data that make up
+// the program model.
+struct Downloader {
 
-/// Ecapsulate a generic version of the code to download the various bits of data that make up
-/// the program model.
-struct Downloader<T: Decodable> {
+    // Logging to help diagnose potential downloader issues
 
+    @MainActor
+    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier!,
+                                       category: "Downloader")
     /// Fetch data from url and store in a local cache.  Decode the data as JSON.
     ///
     /// - Parameter name:   The name of the locally cached file
@@ -23,7 +24,7 @@ struct Downloader<T: Decodable> {
     /// - Parameter type:   The type of structure that should match the downloaded data
     /// - Returns:          Decoded downloaded data
     ///
-    static func fetch(name: String, url: URL, type: T.Type) async throws -> T {
+    static func fetch<T: Decodable>(name: String, url: URL, type: T.Type) async throws -> T {
         let configuration = URLSessionConfiguration.default
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         let session = URLSession(configuration: configuration,
@@ -48,5 +49,30 @@ struct Downloader<T: Decodable> {
             }
             throw error
         }
+    }
+
+    // function to get any messages logged by the downloader
+    static func logEntries() -> [String] {
+        var entries: [String] = []
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "HH:mm:ss.SSS"
+        do {
+            let subsystem = Bundle.main.bundleIdentifier!
+            let logStore = try OSLogStore(scope: .currentProcessIdentifier)
+            let myEntries = try logStore.getEntries()
+                                        .compactMap { $0 as? OSLogEntryLog }
+                                        .filter { $0.subsystem == subsystem }
+            for entry in myEntries {
+                let formattedTime = timeFormatter.string(from: entry.date)
+                let formatedEntry = "\(formattedTime):  \(entry.category)  \(entry.composedMessage)"
+                entries.append(formatedEntry)
+            }
+        } catch {
+            Task { @MainActor in
+                logger.error("failed to access log store: \(error.localizedDescription, privacy: .public)")
+            }
+        }
+
+        return entries
     }
 }
