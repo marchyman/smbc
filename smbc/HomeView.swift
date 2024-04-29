@@ -42,6 +42,7 @@ struct HomeView: View {
                     }
                 Spacer()
             }
+            .frame(maxWidth: .infinity)
             .background(backgroundGradient(colorScheme))
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("SMBC")
