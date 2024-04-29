@@ -37,6 +37,9 @@ struct RideListView: View {
                                    destination: RideDetailView(ride: nextRide))
                         .buttonStyle(.bordered)
                         .padding(.bottom)
+                } else {
+                    Text("Not current year")
+                        .padding(.bottom)
                 }
             }
             .background(backgroundGradient(colorScheme))

@@ -66,6 +66,9 @@ struct HomeView: View {
             .sheet(isPresented: $showLog) {
                 LogView()
             }
+            .onAppear {
+               // load current schedule if necessary.
+            }
         }
     }
 }
