@@ -47,9 +47,6 @@ struct ContentView: View {
         } message: {
             ReloadErrorView(description: viewState.refreshError)
         }
-        .task(id: viewState.runRefreshTask) {
-            await viewState.refresh(state)
-        }
     }
 }
 

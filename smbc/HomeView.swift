@@ -14,6 +14,7 @@ struct HomeView: View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @Bindable var viewState = ViewState.shared
 
+    @State private var runRefreshTask = false
     @State private var noMoreRides = false
     @State private var showLog = false
 
@@ -37,7 +38,7 @@ struct HomeView: View {
                     .onLongPressGesture {
                         viewState.refreshPresented = true
                         viewState.forceRefresh = true
-                        viewState.runRefreshTask.toggle()
+                        runRefreshTask.toggle()
                     }
                 Spacer()
             }
@@ -66,8 +67,9 @@ struct HomeView: View {
             .sheet(isPresented: $showLog) {
                 LogView()
             }
-            .onAppear {
-               // load current schedule if necessary.
+            .task(id: runRefreshTask) {
+                // load current schedule if necessary.
+                await viewState.refresh(state)
             }
         }
     }
