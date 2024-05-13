@@ -6,11 +6,17 @@
 //
 
 import Foundation
+import OSLog
 
-/// Ecapsulate a generic version of the code to download the various bits of data that make up
-/// the program model.
-struct Downloader<T: Decodable> {
+// Ecapsulate a generic version of the code to download the various bits of data that make up
+// the program model.
+struct Downloader {
 
+    // Logging to help diagnose potential downloader issues
+
+    @MainActor
+    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier!,
+                                       category: "Downloader")
     /// Fetch data from url and store in a local cache.  Decode the data as JSON.
     ///
     /// - Parameter name:   The name of the locally cached file
@@ -18,20 +24,60 @@ struct Downloader<T: Decodable> {
     /// - Parameter type:   The type of structure that should match the downloaded data
     /// - Returns:          Decoded downloaded data
     ///
-    static func fetch(name: String, url: URL, type: T.Type) async throws -> T {
+    static func fetch<T: Decodable>(name: String, url: URL, type: T.Type) async throws -> T {
         let configuration = URLSessionConfiguration.default
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         let session = URLSession(configuration: configuration,
                                  delegate: nil, delegateQueue: nil)
         let decoder = JSONDecoder()
-        let (data, _) = try await session.data(from: url)
-        let decodedData = try decoder.decode(type, from: data)
-        // update the cache in the background
-        Task.detached(priority: .background) {
-            let cache = Cache(name: name, type: type)
-            let cacheUrl = cache.fileUrl()
-            try data.write(to: cacheUrl)
+        do {
+            let (data, _) = try await session.data(from: url)
+            let decodedData = try decoder.decode(type, from: data)
+            // update the cache in the background
+            Task(priority: .background) {
+                let cache = Cache(name: name, type: type)
+                let cacheUrl = cache.fileUrl()
+                try data.write(to: cacheUrl)
+            }
+            Task { @MainActor in
+                logger.notice("\(url.path, privacy: .public) downloaded")
+            }
+            return decodedData
+        } catch {
+            Task { @MainActor in
+                logger.error("\(#function) \(error.localizedDescription, privacy: .public)")
+            }
+            throw error
         }
-        return decodedData
+    }
+
+    // function to get any messages logged by the downloader
+    static func logEntries() -> [String] {
+        var entries: [String] = []
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "HH:mm:ss.SSS"
+        do {
+            let subsystem = Bundle.main.bundleIdentifier!
+            let logStore = try OSLogStore(scope: .currentProcessIdentifier)
+            let myEntries = try logStore.getEntries()
+                                        .compactMap { $0 as? OSLogEntryLog }
+                                        .filter { $0.subsystem == subsystem }
+            if myEntries.isEmpty {
+                entries.append("No log entries found")
+            } else {
+                for entry in myEntries {
+                    let formattedTime = timeFormatter.string(from: entry.date)
+                    let formatedEntry = "\(formattedTime):  \(entry.category)  \(entry.composedMessage)"
+                    entries.append(formatedEntry)
+                }
+            }
+        } catch {
+            Task { @MainActor in
+                logger.error("failed to access log store: \(error.localizedDescription, privacy: .public)")
+            }
+            entries.append("Failed to access log store: \(error.localizedDescription)")
+        }
+
+        return entries
     }
 }

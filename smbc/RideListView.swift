@@ -7,37 +7,54 @@
 
 import SwiftUI
 
+@MainActor
 struct RideListView: View {
     @AppStorage(ASKeys.scheduleYear) var scheduleYear = bundleScheduleYear
     @Environment(ProgramState.self) var state
+    @Environment(\.colorScheme) private var colorScheme: ColorScheme
+    @Bindable var viewState = ViewState.shared
+    @State private var path: NavigationPath = .init()
     @State private var yearPickerPresented = false
     @State private var fetchFailed = false
     @State private var yearIndex = 0
 
     var body: some View {
-        VStack {
-            List(state.rideModel.rides) { ride in
-                if ride.restaurant != nil {
-                    RideRowView(ride: ride).id(ride.id)
-                } else if ride.description != nil {
-                    TripRowView(ride: ride).id(ride.id)
+        NavigationStack(path: $path) {
+            VStack {
+                List(state.rideModel.rides) { ride in
+                    if ride.restaurant != nil {
+                        RideRowView(ride: ride).id(ride.id)
+                    } else if ride.description != nil {
+                        TripRowView(ride: ride).id(ride.id)
+                    }
+                }
+                .refreshable {
+                    viewState.forceRefresh = true
+                    await viewState.refresh(state)
+                }
+                if let nextRide = state.rideModel.nextRide() {
+                    NavigationLink("Show next ride",
+                                   destination: RideDetailView(ride: nextRide))
+                        .buttonStyle(.bordered)
+                        .padding(.bottom)
+                } else {
+                    Text("Not current year")
+                        .padding(.bottom)
                 }
             }
-            if let nextRide = state.rideModel.nextRide() {
-                NavigationLink("Show next ride",
-                               destination: RideDetailView(ride: nextRide))
-                    .font(.title)
-                    .padding(.bottom)
+            .background(backgroundGradient(colorScheme))
+            .navigationDestination(for: ScheduledRide.self) { ride in
+                RideDetailView(ride: ride)
             }
-        }
-        .navigationTitle("SMBC Rides in \(state.scheduleYearString)")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    yearPickerPresented = true
-                } label: {
-                    Text("Change year")
-                        .font(.callout)
+            .navigationTitle("SMBC Rides in \(state.scheduleYearString)")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        yearPickerPresented = true
+                    } label: {
+                        Text("Change year")
+                            .font(.callout)
+                    }
                 }
             }
         }
@@ -52,11 +69,14 @@ struct RideListView: View {
         }
         .onAppear {
             yearIndex = state.yearModel.findYearIndex(for: scheduleYear)
+            if let nextRide = viewState.nextRide {
+                viewState.nextRide = nil
+                path.append(nextRide)
+            }
         }
     }
 
     /// If the user selected a different year fetch the schedule for that year
-    @MainActor
     func fetchRideData() {
         guard let selectedYear = Int(state.yearModel.scheduleYears[yearIndex].year)
         else {

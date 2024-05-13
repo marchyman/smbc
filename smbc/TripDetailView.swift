@@ -42,11 +42,11 @@ struct TripDetailView: View {
             """
     }
 
-    private func tripTitle() -> String {
+    @MainActor private func tripTitle() -> String {
         if let end = ride.end {
-            return "\(ride.start) - \(end)"
+            return "\(ride.start) - \(end), \(state.scheduleYearString)"
         }
-        return "\(ride.start)"
+        return "\(ride.start), \(state.scheduleYearString)"
     }
 }
 

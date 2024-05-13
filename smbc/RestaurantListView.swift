@@ -7,9 +7,14 @@
 
 import SwiftUI
 
+@MainActor
 struct RestaurantListView: View {
     @Environment(ProgramState.self) var state
+    @Environment(\.colorScheme) private var colorScheme: ColorScheme
+    var viewState = ViewState.shared
+
     @State private var filter = true
+
     var title: String {
         (filter ? "Active" : "All") + " Restaurants"
     }
@@ -18,19 +23,26 @@ struct RestaurantListView: View {
     }
 
     var body: some View {
-        List(filteredRestaurants(filter)) { restaurant in
-            RestaurantRow(restaurant: restaurant)
-        }
-        .navigationTitle(title)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    filter.toggle()
-                } label: {
-                    Text(filterTitle)
-                        .font(.callout)
+        NavigationStack {
+            List(filteredRestaurants(filter)) { restaurant in
+                RestaurantRow(restaurant: restaurant)
+            }
+            .background(backgroundGradient(colorScheme))
+            .navigationTitle(title)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        filter.toggle()
+                    } label: {
+                        Text(filterTitle)
+                            .font(.callout)
+                    }
                 }
+            }
+            .refreshable {
+                viewState.forceRefresh = true
+                await viewState.refresh(state)
             }
         }
     }
