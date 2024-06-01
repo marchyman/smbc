@@ -18,6 +18,9 @@
 		493BBFDB22C01AE600E2B437 /* RestaurantListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDA22C01AE600E2B437 /* RestaurantListView.swift */; };
 		493BBFDD22C01B1000E2B437 /* RideListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDC22C01B1000E2B437 /* RideListView.swift */; };
 		4947F16422C16515008E6D6A /* RestaurantDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4947F16322C16515008E6D6A /* RestaurantDetailView.swift */; };
+		494858622C0A7312009B8101 /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494858612C0A7312009B8101 /* GalleryView.swift */; };
+		494858642C0A7F51009B8101 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494858632C0A7F51009B8101 /* ImageView.swift */; };
+		494858662C0AA4EF009B8101 /* ImageZoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494858652C0AA4EF009B8101 /* ImageZoomView.swift */; };
 		4952EF0D2A5F781A00277508 /* OrientationViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4952EF0C2A5F781A00277508 /* OrientationViewModifier.swift */; };
 		49779888297F466B0081A776 /* RestaurantMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49779887297F466B0081A776 /* RestaurantMapView.swift */; };
 		497ED9EE297E03DB008AB290 /* smbc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ED9ED297E03DB008AB290 /* smbc.swift */; };
@@ -80,6 +83,9 @@
 		493BBFDC22C01B1000E2B437 /* RideListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideListView.swift; sourceTree = "<group>"; };
 		493BBFE022C0966700E2B437 /* smbc.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = smbc.entitlements; sourceTree = "<group>"; };
 		4947F16322C16515008E6D6A /* RestaurantDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailView.swift; sourceTree = "<group>"; };
+		494858612C0A7312009B8101 /* GalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
+		494858632C0A7F51009B8101 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		494858652C0AA4EF009B8101 /* ImageZoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageZoomView.swift; sourceTree = "<group>"; };
 		4952EF0C2A5F781A00277508 /* OrientationViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationViewModifier.swift; sourceTree = "<group>"; };
 		49779887297F466B0081A776 /* RestaurantMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantMapView.swift; sourceTree = "<group>"; };
 		497ED9ED297E03DB008AB290 /* smbc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smbc.swift; sourceTree = "<group>"; };
@@ -192,6 +198,9 @@
 				49AFCBB2273B50EB0082046F /* TripRowView.swift */,
 				491B760E22DEC9EE00268B60 /* RideDetailView.swift */,
 				49F2C34022C58B980089CF3C /* TripDetailView.swift */,
+				494858612C0A7312009B8101 /* GalleryView.swift */,
+				494858632C0A7F51009B8101 /* ImageView.swift */,
+				494858652C0AA4EF009B8101 /* ImageZoomView.swift */,
 				4911C15A2BDEDE2900703FA3 /* LogView.swift */,
 				49D3A82D22EE6E4F00C6682C /* Cache.swift */,
 				49D3A82C22EE6E4F00C6682C /* Downloader.swift */,
@@ -433,6 +442,7 @@
 				49D3A83022EE6E4F00C6682C /* Cache.swift in Sources */,
 				49AFCBB9273B815D0082046F /* YearPickerView.swift in Sources */,
 				4952EF0D2A5F781A00277508 /* OrientationViewModifier.swift in Sources */,
+				494858662C0AA4EF009B8101 /* ImageZoomView.swift in Sources */,
 				493BBFDD22C01B1000E2B437 /* RideListView.swift in Sources */,
 				49AFCBB1273B4F920082046F /* RideRowView.swift in Sources */,
 				49AFCBB5273B5C760082046F /* SmbcInfo.swift in Sources */,
@@ -445,6 +455,7 @@
 				4915FD4A2A44E3C200845BD6 /* AppStorage.swift in Sources */,
 				49C946DC2BDB0CDE007D1E52 /* HomeView.swift in Sources */,
 				497ED9EE297E03DB008AB290 /* smbc.swift in Sources */,
+				494858642C0A7F51009B8101 /* ImageView.swift in Sources */,
 				49AA7CF52742F8ED00FC71E6 /* SmbcHelp.swift in Sources */,
 				499EEB342A47871A00F96101 /* RefreshMessages.swift in Sources */,
 				49F2C34122C58B980089CF3C /* TripDetailView.swift in Sources */,
@@ -453,6 +464,7 @@
 				49779888297F466B0081A776 /* RestaurantMapView.swift in Sources */,
 				49AFCBB3273B50EB0082046F /* TripRowView.swift in Sources */,
 				49D3A83322EE6E5F00C6682C /* TripModel.swift in Sources */,
+				494858622C0A7312009B8101 /* GalleryView.swift in Sources */,
 				49D3A83622EE6E9F00C6682C /* RideModel.swift in Sources */,
 				49C7FEDA2A467745008F2C4A /* NoMoreRideView.swift in Sources */,
 				49D3A83422EE6E5F00C6682C /* RestaurantModel.swift in Sources */,

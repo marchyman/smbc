@@ -34,6 +34,12 @@ struct ContentView: View {
                     Label("Rides", image: .motoiconSFSymbol)
                 }
                 .tag(TabItems.rides)
+
+            GalleryView()
+                .tabItem {
+                    Label("Gallery", systemImage: "photo")
+                }
+                .tag(TabItems.gallery)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .alert("Schedule Reload", isPresented: $viewState.refreshPresented) {

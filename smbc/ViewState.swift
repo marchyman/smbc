@@ -13,6 +13,7 @@ enum TabItems {
     case home
     case restaurants
     case rides
+    case gallery
 }
 
 @MainActor
