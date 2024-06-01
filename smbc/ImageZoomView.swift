@@ -30,7 +30,9 @@ struct ImageZoomView: View {
                     }
                     .gesture(magnification.simultaneously(with: drag))
             } placeholder: {
-                ProgressView()
+                ContentUnavailableView( "Image Loading...",
+                    systemImage: "circle.hexagongrid.fill")
+                    .symbolEffect(.pulse, options: .repeating)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -63,6 +65,6 @@ struct ImageZoomView: View {
 
 #Preview {
     NavigationStack {
-        ImageZoomView(imageName: "https://smbc.snafu.org/riders/2024/0526/p-00983.jpg")
+        ImageZoomView(imageName: "riders/2024/0526/p-00983.jpg")
     }
 }

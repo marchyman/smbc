@@ -18,6 +18,7 @@ struct GalleryView: View {
                     ForEach(state.galleryModel.imageNames, id: \.self) { name in
                         NavigationLink(destination: ImageZoomView(imageName: name)) {
                             ImageView(imageName: name)
+                                .frame(height: 300)
                         }
                     }
                 }
