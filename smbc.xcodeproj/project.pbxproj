@@ -21,6 +21,8 @@
 		494858622C0A7312009B8101 /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494858612C0A7312009B8101 /* GalleryView.swift */; };
 		494858642C0A7F51009B8101 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494858632C0A7F51009B8101 /* ImageView.swift */; };
 		494858662C0AA4EF009B8101 /* ImageZoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494858652C0AA4EF009B8101 /* ImageZoomView.swift */; };
+		494858682C0AC124009B8101 /* GalleryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494858672C0AC124009B8101 /* GalleryModel.swift */; };
+		4948586A2C0AC975009B8101 /* gallery.json in Resources */ = {isa = PBXBuildFile; fileRef = 494858692C0AC975009B8101 /* gallery.json */; };
 		4952EF0D2A5F781A00277508 /* OrientationViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4952EF0C2A5F781A00277508 /* OrientationViewModifier.swift */; };
 		49779888297F466B0081A776 /* RestaurantMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49779887297F466B0081A776 /* RestaurantMapView.swift */; };
 		497ED9EE297E03DB008AB290 /* smbc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ED9ED297E03DB008AB290 /* smbc.swift */; };
@@ -86,6 +88,8 @@
 		494858612C0A7312009B8101 /* GalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
 		494858632C0A7F51009B8101 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		494858652C0AA4EF009B8101 /* ImageZoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageZoomView.swift; sourceTree = "<group>"; };
+		494858672C0AC124009B8101 /* GalleryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryModel.swift; sourceTree = "<group>"; };
+		494858692C0AC975009B8101 /* gallery.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = gallery.json; sourceTree = "<group>"; };
 		4952EF0C2A5F781A00277508 /* OrientationViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationViewModifier.swift; sourceTree = "<group>"; };
 		49779887297F466B0081A776 /* RestaurantMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantMapView.swift; sourceTree = "<group>"; };
 		497ED9ED297E03DB008AB290 /* smbc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smbc.swift; sourceTree = "<group>"; };
@@ -210,6 +214,7 @@
 				49D3A83222EE6E5F00C6682C /* RestaurantModel.swift */,
 				49D3A83522EE6E9F00C6682C /* RideModel.swift */,
 				49D3A83122EE6E5F00C6682C /* TripModel.swift */,
+				494858672C0AC124009B8101 /* GalleryModel.swift */,
 				49B196A222BEADE3009F51E5 /* Assets.xcassets */,
 				497ED9EF297E17D0008AB290 /* Info.plist */,
 				493BBFE022C0966700E2B437 /* smbc.entitlements */,
@@ -253,6 +258,7 @@
 				4905C3E722C72CEC00D9B7CE /* trips.json */,
 				498A078422C421500026FB5D /* schedule.json */,
 				49ED466622C1E44A003AAEE4 /* restaurants.json */,
+				494858692C0AC975009B8101 /* gallery.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -372,6 +378,7 @@
 				498A078522C421500026FB5D /* schedule.json in Resources */,
 				49ED466722C1E44A003AAEE4 /* restaurants.json in Resources */,
 				49B196A622BEADE3009F51E5 /* Preview Assets.xcassets in Resources */,
+				4948586A2C0AC975009B8101 /* gallery.json in Resources */,
 				49B196A322BEADE3009F51E5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -463,6 +470,7 @@
 				49CECB31273A165200BE6A2A /* YearModel.swift in Sources */,
 				49779888297F466B0081A776 /* RestaurantMapView.swift in Sources */,
 				49AFCBB3273B50EB0082046F /* TripRowView.swift in Sources */,
+				494858682C0AC124009B8101 /* GalleryModel.swift in Sources */,
 				49D3A83322EE6E5F00C6682C /* TripModel.swift in Sources */,
 				494858622C0A7312009B8101 /* GalleryView.swift in Sources */,
 				49D3A83622EE6E9F00C6682C /* RideModel.swift in Sources */,

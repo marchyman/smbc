@@ -16,7 +16,7 @@ struct ImageZoomView: View {
 
     var body: some View {
         ZStack {
-            AsyncImage(url: URL(string: imageName)) { image in
+            AsyncImage(url: URL(string: serverName + imageName)) { image in
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fill)

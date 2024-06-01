@@ -45,7 +45,7 @@ struct Downloader {
             return decodedData
         } catch {
             Task { @MainActor in
-                logger.error("\(#function) \(error.localizedDescription, privacy: .public)")
+                logger.error("\(#function) \(name, privacy: .public) \(url, privacy: .public) \(error.localizedDescription, privacy: .public)")
             }
             throw error
         }

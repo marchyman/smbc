@@ -15,6 +15,7 @@ enum FetchError: Error {
     case restaurantModelError
     case rideModelError
     case tripModelError
+    case galleryError
 }
 
 extension FetchError: LocalizedError {
@@ -28,6 +29,8 @@ extension FetchError: LocalizedError {
             return "Failed to fetch Ride information"
         case .tripModelError:
             return "Failed to fetch Trip information"
+        case .galleryError:
+            return "Failed to fetch gallery information"
         }
     }
 }

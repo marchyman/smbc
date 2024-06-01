@@ -10,7 +10,7 @@ struct ImageView: View {
     let imageName: String
 
     var body: some View {
-        AsyncImage(url: URL(string: imageName)) { image in
+        AsyncImage(url: URL(string: serverName + imageName)) { image in
             image
                 .resizable()
                 .aspectRatio(contentMode: .fit)
