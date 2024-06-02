@@ -15,9 +15,14 @@ struct GalleryView: View {
         NavigationStack(path: $path) {
             ScrollView {
                 LazyVStack {
-                    ForEach(state.galleryModel.imageNames, id: \.self) { name in
-                        NavigationLink(destination: ImageZoomView(imageName: name)) {
-                            ImageView(imageName: name)
+                    ForEach(state.galleryModel.names, id: \.self) { name in
+                        if name.isJpg() {
+                            NavigationLink(destination: ImageZoomView(imageName: name)) {
+                                ImageView(imageName: name)
+                                    .frame(height: 300)
+                            }
+                        } else {
+                            Text("fetch md content for \(name) here")
                                 .frame(height: 300)
                         }
                     }
