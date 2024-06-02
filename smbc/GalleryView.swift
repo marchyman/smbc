@@ -22,7 +22,7 @@ struct GalleryView: View {
                                     .frame(height: 300)
                             }
                         } else {
-                            Text("fetch md content for \(name) here")
+                            MarkdownView(name: name)
                                 .frame(height: 300)
                         }
                     }

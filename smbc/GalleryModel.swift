@@ -26,6 +26,20 @@ extension GalleryModel {
                                                 url: url,
                                                 type: [String].self)
     }
+
+    nonisolated func fetch(mdFile name: String) async throws -> String {
+        var content: String = ""
+        if let url = URL(string: serverName + name) {
+            let configuration = URLSessionConfiguration.default
+            let session = URLSession(configuration: configuration,
+                                     delegate: nil, delegateQueue: nil)
+            do {
+                let (data, _) = try await session.data(from: url)
+                content = String(decoding: data, as: UTF8.self)
+            }
+        }
+        return content
+    }
 }
 
 extension String {
