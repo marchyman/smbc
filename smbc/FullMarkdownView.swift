@@ -7,7 +7,7 @@
 import MarkdownUI
 import SwiftUI
 
-struct MarkdownView: View {
+struct FullMarkdownView: View {
     @Environment(ProgramState.self) var state
 
     let name: String
@@ -15,7 +15,7 @@ struct MarkdownView: View {
     @State private var markdown: String? = nil
 
     var body: some View {
-        VStack {
+       ScrollView  {
             if let markdown {
                 Markdown(markdown)
                     .padding(.horizontal)
@@ -23,30 +23,16 @@ struct MarkdownView: View {
                 Image(systemName: "circle.hexagongrid.fill")
                     .symbolEffect(.pulse, options: .repeating)
             }
-            Spacer()
-            HStack {
-                Spacer()
-                Text("**more**...")
-                    .font(.footnote)
-                    .padding(.trailing)
-            }
-        }
-        .frame(height: 300, alignment: .top)
-        .overlay {
-            RoundedRectangle(cornerRadius: 7)
-                .stroke(Color.black, lineWidth: 2)
         }
         .padding(.horizontal)
-        .clipped()
         .task {
-            markdown = try? await state.galleryModel.fetch(mdFile: name,
-                                                           start: true)
+            markdown = try? await state.galleryModel.fetch(mdFile: name)
         }
     }
 }
 
 #Preview {
-    MarkdownView(name: "riders/2024/0526/index.md")
+    FullMarkdownView(name: "riders/2024/0526/index.md")
         .environment(ProgramState())
         .frame(height: 300)
 }

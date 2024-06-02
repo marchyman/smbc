@@ -27,6 +27,7 @@
 		4977041C2C0C142C00627F6C /* MarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4977041B2C0C142C00627F6C /* MarkdownView.swift */; };
 		49779888297F466B0081A776 /* RestaurantMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49779887297F466B0081A776 /* RestaurantMapView.swift */; };
 		497ED9EE297E03DB008AB290 /* smbc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ED9ED297E03DB008AB290 /* smbc.swift */; };
+		498093362C0D0C6700F038AD /* FullMarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498093352C0D0C6700F038AD /* FullMarkdownView.swift */; };
 		498A078522C421500026FB5D /* schedule.json in Resources */ = {isa = PBXBuildFile; fileRef = 498A078422C421500026FB5D /* schedule.json */; };
 		49943F502A7B2D1400573997 /* LookAroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49943F4F2A7B2D1400573997 /* LookAroundView.swift */; };
 		499EEB322A476EC600F96101 /* FetchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499EEB312A476EC600F96101 /* FetchError.swift */; };
@@ -99,6 +100,7 @@
 		497ED9EF297E17D0008AB290 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		497ED9F1297E294E008AB290 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		497ED9F2297E4BAA008AB290 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		498093352C0D0C6700F038AD /* FullMarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullMarkdownView.swift; sourceTree = "<group>"; };
 		498A078422C421500026FB5D /* schedule.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schedule.json; sourceTree = "<group>"; };
 		49943F4F2A7B2D1400573997 /* LookAroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAroundView.swift; sourceTree = "<group>"; };
 		499EEB312A476EC600F96101 /* FetchError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchError.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				494858632C0A7F51009B8101 /* ImageView.swift */,
 				494858652C0AA4EF009B8101 /* ImageZoomView.swift */,
 				4977041B2C0C142C00627F6C /* MarkdownView.swift */,
+				498093352C0D0C6700F038AD /* FullMarkdownView.swift */,
 				4911C15A2BDEDE2900703FA3 /* LogView.swift */,
 				49D3A82D22EE6E4F00C6682C /* Cache.swift */,
 				49D3A82C22EE6E4F00C6682C /* Downloader.swift */,
@@ -473,6 +476,7 @@
 				493BBFDD22C01B1000E2B437 /* RideListView.swift in Sources */,
 				49AFCBB1273B4F920082046F /* RideRowView.swift in Sources */,
 				49AFCBB5273B5C760082046F /* SmbcInfo.swift in Sources */,
+				498093362C0D0C6700F038AD /* FullMarkdownView.swift in Sources */,
 				491B760F22DEC9EE00268B60 /* RideDetailView.swift in Sources */,
 				49158D8322E970C80067D893 /* ProgramState.swift in Sources */,
 				49C946DE2BDB1312007D1E52 /* ViewState.swift in Sources */,

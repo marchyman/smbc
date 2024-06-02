@@ -16,14 +16,17 @@ struct GalleryView: View {
             ScrollView {
                 LazyVStack {
                     ForEach(state.galleryModel.names, id: \.self) { name in
-                        if name.isJpg() {
+                        if name.endsInJpg() {
                             NavigationLink(destination: ImageZoomView(imageName: name)) {
                                 ImageView(imageName: name)
                                     .frame(height: 300)
                             }
                         } else {
-                            MarkdownView(name: name)
-                                .frame(height: 300)
+                            NavigationLink(destination: FullMarkdownView(name: name)) {
+                                MarkdownView(name: name)
+                                    .frame(height: 300)
+                            }
+                            .buttonStyle(PlainButtonStyle())
                         }
                     }
                 }
@@ -32,7 +35,7 @@ struct GalleryView: View {
                 try? await state.galleryModel.fetch()
             }
             .background(backgroundGradient(colorScheme))
-            .navigationTitle("Riders Gallery Images")
+            .navigationTitle("Riders Gallery")
         }
     }
 }
