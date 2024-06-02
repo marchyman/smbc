@@ -26,10 +26,12 @@ struct GalleryView: View {
                             NavigationLink(destination: FullMarkdownView(name: name)) {
                                 MarkdownView(name: name)
                                     .frame(height: 300)
+                                    .frame(maxWidth: 700)
                             }
                             .buttonStyle(PlainButtonStyle())
                         }
                     }
+                    .padding(.vertical)
                 }
             }
             .refreshable {

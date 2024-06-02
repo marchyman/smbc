@@ -38,7 +38,7 @@ extension GalleryModel {
                 if start {
                     let content = String(decoding: data, as: UTF8.self)
                         .replacing(/:{|:}|:\[.*\)|!\[.*\)/, with: "")
-                        .prefix(300)
+                        .prefix(250)
                         .replacing(/[[:space:]][^[:space:]]+$/, with: "")
 
                     return String(content) + "..."
