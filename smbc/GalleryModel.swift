@@ -27,16 +27,25 @@ extension GalleryModel {
                                                 type: [String].self)
     }
 
-    nonisolated func fetch(mdFile name: String) async throws -> String {
+    nonisolated func fetch(mdFile name: String,
+                           start: Bool = false) async throws -> String {
         if let url = URL(string: serverName + name) {
             let configuration = URLSessionConfiguration.default
             let session = URLSession(configuration: configuration,
                                      delegate: nil, delegateQueue: nil)
             do {
                 let (data, _) = try await session.data(from: url)
-                let content = String(decoding: data, as: UTF8.self)
-                // strip out snafu image extensions :{, :}, and :[...](...)
-                return content.replacing(/:{|:}|:\[.*\)/, with: "")
+                if start {
+                    let content = String(decoding: data, as: UTF8.self)
+                        .replacing(/:{|:}|:\[.*\)|!\[.*\)/, with: "")
+                        .prefix(300)
+                        .replacing(/[[:space:]][^[:space:]]+$/, with: "")
+
+                    return String(content) + "..."
+                } else {
+                    return String(decoding: data, as: UTF8.self)
+                        .replacing(/:{|:}|:\[.*\)|!\[.*\)/, with: "")
+                }
             }
         }
         return ""
@@ -44,7 +53,8 @@ extension GalleryModel {
 }
 
 extension String {
-    func isJpg() -> Bool {
+    func endsInJpg() -> Bool {
         return !self.ranges(of: /\.[jJ][pP][eE]?[gG]$/).isEmpty
     }
 }
+
