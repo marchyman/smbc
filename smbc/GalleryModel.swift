@@ -27,7 +27,7 @@ extension GalleryModel {
                                                 type: [String].self)
     }
 
-    nonisolated func fetch(mdFile name: String) async throws -> String {
+    nonisolated func fetchStart(mdFile name: String) async throws -> String {
         if let url = URL(string: serverName + name) {
             let configuration = URLSessionConfiguration.default
             let session = URLSession(configuration: configuration,
@@ -35,8 +35,11 @@ extension GalleryModel {
             do {
                 let (data, _) = try await session.data(from: url)
                 let content = String(decoding: data, as: UTF8.self)
-                // strip out snafu image extensions :{, :}, and :[...](...)
-                return content.replacing(/:{|:}|:\[.*\)/, with: "")
+                    .replacing(/:{|:}|:\[.*\)|!\[.*\)/, with: "")
+                    .prefix(300)
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+
+                return String(content) + " **more**..."
             }
         }
         return ""

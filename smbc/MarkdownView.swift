@@ -15,7 +15,7 @@ struct MarkdownView: View {
     @State private var markdown: String? = nil
 
     var body: some View {
-        Group {
+        VStack {
             if let markdown {
                 Markdown(markdown)
                     .padding(.horizontal)
@@ -24,8 +24,10 @@ struct MarkdownView: View {
                     .symbolEffect(.pulse, options: .repeating)
             }
         }
+        .frame(height: 300, alignment: .top)
+        .clipped()
         .task {
-            markdown = try? await state.galleryModel.fetch(mdFile: name)
+            markdown = try? await state.galleryModel.fetchStart(mdFile: name)
         }
     }
 }
