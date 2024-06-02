@@ -21,6 +21,7 @@ struct GalleryView: View {
                                 ImageView(imageName: name)
                                     .frame(height: 300)
                             }
+                            .buttonStyle(PlainButtonStyle())
                         } else {
                             NavigationLink(destination: FullMarkdownView(name: name)) {
                                 MarkdownView(name: name)

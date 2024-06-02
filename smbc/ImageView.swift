@@ -12,7 +12,6 @@ struct ImageView: View {
     var body: some View {
         VStack(spacing: 2) {
             Text(imageName)
-                .foregroundStyle(.black)
                 .font(.headline)
             AsyncImage(url: URL(string: serverName + imageName)) { image in
                 image

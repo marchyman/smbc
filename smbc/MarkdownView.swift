@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MarkdownView: View {
     @Environment(ProgramState.self) var state
+    @Environment(\.colorScheme) private var colorScheme: ColorScheme
 
     let name: String
 
@@ -34,7 +35,7 @@ struct MarkdownView: View {
         .frame(height: 300, alignment: .top)
         .overlay {
             RoundedRectangle(cornerRadius: 7)
-                .stroke(Color.black, lineWidth: 2)
+                .stroke(Color.secondary, lineWidth: 2)
         }
         .padding(.horizontal)
         .clipped()
