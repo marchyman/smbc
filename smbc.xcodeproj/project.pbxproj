@@ -18,14 +18,22 @@
 		493BBFDB22C01AE600E2B437 /* RestaurantListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDA22C01AE600E2B437 /* RestaurantListView.swift */; };
 		493BBFDD22C01B1000E2B437 /* RideListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDC22C01B1000E2B437 /* RideListView.swift */; };
 		4947F16422C16515008E6D6A /* RestaurantDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4947F16322C16515008E6D6A /* RestaurantDetailView.swift */; };
+		494858622C0A7312009B8101 /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494858612C0A7312009B8101 /* GalleryView.swift */; };
+		494858642C0A7F51009B8101 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494858632C0A7F51009B8101 /* ImageView.swift */; };
+		494858662C0AA4EF009B8101 /* ImageZoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494858652C0AA4EF009B8101 /* ImageZoomView.swift */; };
+		494858682C0AC124009B8101 /* GalleryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494858672C0AC124009B8101 /* GalleryModel.swift */; };
+		4948586A2C0AC975009B8101 /* gallery.json in Resources */ = {isa = PBXBuildFile; fileRef = 494858692C0AC975009B8101 /* gallery.json */; };
 		4952EF0D2A5F781A00277508 /* OrientationViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4952EF0C2A5F781A00277508 /* OrientationViewModifier.swift */; };
+		4977041C2C0C142C00627F6C /* MarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4977041B2C0C142C00627F6C /* MarkdownView.swift */; };
 		49779888297F466B0081A776 /* RestaurantMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49779887297F466B0081A776 /* RestaurantMapView.swift */; };
 		497ED9EE297E03DB008AB290 /* smbc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ED9ED297E03DB008AB290 /* smbc.swift */; };
+		498093362C0D0C6700F038AD /* FullMarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498093352C0D0C6700F038AD /* FullMarkdownView.swift */; };
 		498A078522C421500026FB5D /* schedule.json in Resources */ = {isa = PBXBuildFile; fileRef = 498A078422C421500026FB5D /* schedule.json */; };
 		49943F502A7B2D1400573997 /* LookAroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49943F4F2A7B2D1400573997 /* LookAroundView.swift */; };
 		499EEB322A476EC600F96101 /* FetchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499EEB312A476EC600F96101 /* FetchError.swift */; };
 		499EEB342A47871A00F96101 /* RefreshMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499EEB332A47871A00F96101 /* RefreshMessages.swift */; };
 		49AA7CF52742F8ED00FC71E6 /* SmbcHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA7CF42742F8ED00FC71E6 /* SmbcHelp.swift */; };
+		49AC84322C0C254800BD7E39 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 49AC84312C0C254800BD7E39 /* MarkdownUI */; };
 		49AFCBB1273B4F920082046F /* RideRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB0273B4F920082046F /* RideRowView.swift */; };
 		49AFCBB3273B50EB0082046F /* TripRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB2273B50EB0082046F /* TripRowView.swift */; };
 		49AFCBB5273B5C760082046F /* SmbcInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB4273B5C760082046F /* SmbcInfo.swift */; };
@@ -80,12 +88,19 @@
 		493BBFDC22C01B1000E2B437 /* RideListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideListView.swift; sourceTree = "<group>"; };
 		493BBFE022C0966700E2B437 /* smbc.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = smbc.entitlements; sourceTree = "<group>"; };
 		4947F16322C16515008E6D6A /* RestaurantDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailView.swift; sourceTree = "<group>"; };
+		494858612C0A7312009B8101 /* GalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
+		494858632C0A7F51009B8101 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		494858652C0AA4EF009B8101 /* ImageZoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageZoomView.swift; sourceTree = "<group>"; };
+		494858672C0AC124009B8101 /* GalleryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryModel.swift; sourceTree = "<group>"; };
+		494858692C0AC975009B8101 /* gallery.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = gallery.json; sourceTree = "<group>"; };
 		4952EF0C2A5F781A00277508 /* OrientationViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationViewModifier.swift; sourceTree = "<group>"; };
+		4977041B2C0C142C00627F6C /* MarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownView.swift; sourceTree = "<group>"; };
 		49779887297F466B0081A776 /* RestaurantMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantMapView.swift; sourceTree = "<group>"; };
 		497ED9ED297E03DB008AB290 /* smbc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smbc.swift; sourceTree = "<group>"; };
 		497ED9EF297E17D0008AB290 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		497ED9F1297E294E008AB290 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		497ED9F2297E4BAA008AB290 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		498093352C0D0C6700F038AD /* FullMarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullMarkdownView.swift; sourceTree = "<group>"; };
 		498A078422C421500026FB5D /* schedule.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schedule.json; sourceTree = "<group>"; };
 		49943F4F2A7B2D1400573997 /* LookAroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAroundView.swift; sourceTree = "<group>"; };
 		499EEB312A476EC600F96101 /* FetchError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchError.swift; sourceTree = "<group>"; };
@@ -124,6 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49AC84322C0C254800BD7E39 /* MarkdownUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +160,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		49AC84302C0C254800BD7E39 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		49B1969022BEADE2009F51E5 = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +177,7 @@
 				49B196B222BEADE3009F51E5 /* smbcTests */,
 				49B196BD22BEADE3009F51E5 /* smbcUITests */,
 				49B1969A22BEADE2009F51E5 /* Products */,
+				49AC84302C0C254800BD7E39 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -192,6 +216,11 @@
 				49AFCBB2273B50EB0082046F /* TripRowView.swift */,
 				491B760E22DEC9EE00268B60 /* RideDetailView.swift */,
 				49F2C34022C58B980089CF3C /* TripDetailView.swift */,
+				494858612C0A7312009B8101 /* GalleryView.swift */,
+				494858632C0A7F51009B8101 /* ImageView.swift */,
+				494858652C0AA4EF009B8101 /* ImageZoomView.swift */,
+				4977041B2C0C142C00627F6C /* MarkdownView.swift */,
+				498093352C0D0C6700F038AD /* FullMarkdownView.swift */,
 				4911C15A2BDEDE2900703FA3 /* LogView.swift */,
 				49D3A82D22EE6E4F00C6682C /* Cache.swift */,
 				49D3A82C22EE6E4F00C6682C /* Downloader.swift */,
@@ -201,6 +230,7 @@
 				49D3A83222EE6E5F00C6682C /* RestaurantModel.swift */,
 				49D3A83522EE6E9F00C6682C /* RideModel.swift */,
 				49D3A83122EE6E5F00C6682C /* TripModel.swift */,
+				494858672C0AC124009B8101 /* GalleryModel.swift */,
 				49B196A222BEADE3009F51E5 /* Assets.xcassets */,
 				497ED9EF297E17D0008AB290 /* Info.plist */,
 				493BBFE022C0966700E2B437 /* smbc.entitlements */,
@@ -244,6 +274,7 @@
 				4905C3E722C72CEC00D9B7CE /* trips.json */,
 				498A078422C421500026FB5D /* schedule.json */,
 				49ED466622C1E44A003AAEE4 /* restaurants.json */,
+				494858692C0AC975009B8101 /* gallery.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -266,6 +297,9 @@
 			dependencies = (
 			);
 			name = smbc;
+			packageProductDependencies = (
+				49AC84312C0C254800BD7E39 /* MarkdownUI */,
+			);
 			productName = smbc;
 			productReference = 49B1969922BEADE2009F51E5 /* smbc.app */;
 			productType = "com.apple.product-type.application";
@@ -342,6 +376,9 @@
 				Base,
 			);
 			mainGroup = 49B1969022BEADE2009F51E5;
+			packageReferences = (
+				4977041D2C0C20D700627F6C /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
+			);
 			productRefGroup = 49B1969A22BEADE2009F51E5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -363,6 +400,7 @@
 				498A078522C421500026FB5D /* schedule.json in Resources */,
 				49ED466722C1E44A003AAEE4 /* restaurants.json in Resources */,
 				49B196A622BEADE3009F51E5 /* Preview Assets.xcassets in Resources */,
+				4948586A2C0AC975009B8101 /* gallery.json in Resources */,
 				49B196A322BEADE3009F51E5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -433,9 +471,12 @@
 				49D3A83022EE6E4F00C6682C /* Cache.swift in Sources */,
 				49AFCBB9273B815D0082046F /* YearPickerView.swift in Sources */,
 				4952EF0D2A5F781A00277508 /* OrientationViewModifier.swift in Sources */,
+				4977041C2C0C142C00627F6C /* MarkdownView.swift in Sources */,
+				494858662C0AA4EF009B8101 /* ImageZoomView.swift in Sources */,
 				493BBFDD22C01B1000E2B437 /* RideListView.swift in Sources */,
 				49AFCBB1273B4F920082046F /* RideRowView.swift in Sources */,
 				49AFCBB5273B5C760082046F /* SmbcInfo.swift in Sources */,
+				498093362C0D0C6700F038AD /* FullMarkdownView.swift in Sources */,
 				491B760F22DEC9EE00268B60 /* RideDetailView.swift in Sources */,
 				49158D8322E970C80067D893 /* ProgramState.swift in Sources */,
 				49C946DE2BDB1312007D1E52 /* ViewState.swift in Sources */,
@@ -445,6 +486,7 @@
 				4915FD4A2A44E3C200845BD6 /* AppStorage.swift in Sources */,
 				49C946DC2BDB0CDE007D1E52 /* HomeView.swift in Sources */,
 				497ED9EE297E03DB008AB290 /* smbc.swift in Sources */,
+				494858642C0A7F51009B8101 /* ImageView.swift in Sources */,
 				49AA7CF52742F8ED00FC71E6 /* SmbcHelp.swift in Sources */,
 				499EEB342A47871A00F96101 /* RefreshMessages.swift in Sources */,
 				49F2C34122C58B980089CF3C /* TripDetailView.swift in Sources */,
@@ -452,7 +494,9 @@
 				49CECB31273A165200BE6A2A /* YearModel.swift in Sources */,
 				49779888297F466B0081A776 /* RestaurantMapView.swift in Sources */,
 				49AFCBB3273B50EB0082046F /* TripRowView.swift in Sources */,
+				494858682C0AC124009B8101 /* GalleryModel.swift in Sources */,
 				49D3A83322EE6E5F00C6682C /* TripModel.swift in Sources */,
+				494858622C0A7312009B8101 /* GalleryView.swift in Sources */,
 				49D3A83622EE6E9F00C6682C /* RideModel.swift in Sources */,
 				49C7FEDA2A467745008F2C4A /* NoMoreRideView.swift in Sources */,
 				49D3A83422EE6E5F00C6682C /* RestaurantModel.swift in Sources */,
@@ -795,6 +839,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4977041D2C0C20D700627F6C /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:gonzalezreal/swift-markdown-ui.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		49AC84312C0C254800BD7E39 /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4977041D2C0C20D700627F6C /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = MarkdownUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 49B1969122BEADE2009F51E5 /* Project object */;
 }

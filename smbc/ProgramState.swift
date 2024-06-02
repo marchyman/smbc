@@ -24,6 +24,7 @@ class ProgramState {
     var restaurantModel = RestaurantModel()
     var rideModel = RideModel()
     var tripModel = TripModel()
+    var galleryModel = GalleryModel()
 
     // The year of the loaded schedule as a string
 
@@ -37,19 +38,36 @@ class ProgramState {
     func refresh(_ schedYear: Int) async throws {
         @AppStorage(ASKeys.refreshDate) var refreshDate = Date()
 
-        do { try await yearModel.fetch() } catch {
-            throw FetchError.yearModelError
-        }
-        do { try await restaurantModel.fetch() } catch {
-            throw FetchError.restaurantModelError
-        }
-        do {
-            try await rideModel.fetch(scheduleFor: schedYear)
-        } catch {
-            throw FetchError.rideModelError
-        }
-        do { try await tripModel.fetch() } catch {
-            throw FetchError.tripModelError
+        Task {
+            await withThrowingTaskGroup(of: Void.self) { group in
+                group.addTask {
+                    do { try await self.yearModel.fetch() } catch {
+                        throw FetchError.yearModelError
+                    }
+                }
+                group.addTask {
+                    do { try await self.restaurantModel.fetch() } catch {
+                        throw FetchError.restaurantModelError
+                    }
+                }
+                group.addTask {
+                    do {
+                        try await self.rideModel.fetch(scheduleFor: schedYear)
+                    } catch {
+                        throw FetchError.rideModelError
+                    }
+                }
+                group.addTask {
+                    do { try await self.tripModel.fetch() } catch {
+                        throw FetchError.tripModelError
+                    }
+                }
+                group.addTask {
+                    do { try await self.galleryModel.fetch() } catch {
+                        throw FetchError.galleryError
+                    }
+                }
+            }
         }
 
         // set the refresh date to 10 days in the future
