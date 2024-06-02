@@ -4,6 +4,7 @@
 // https://www.snafu.org/
 //
 
+import MarkdownUI
 import SwiftUI
 
 struct MarkdownView: View {
@@ -16,7 +17,7 @@ struct MarkdownView: View {
     var body: some View {
         Group {
             if let markdown {
-                Text(LocalizedStringKey(markdown))
+                Markdown(markdown)
                     .padding(.horizontal)
             } else {
                 Image(systemName: "circle.hexagongrid.fill")

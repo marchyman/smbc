@@ -32,6 +32,7 @@
 		499EEB322A476EC600F96101 /* FetchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499EEB312A476EC600F96101 /* FetchError.swift */; };
 		499EEB342A47871A00F96101 /* RefreshMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499EEB332A47871A00F96101 /* RefreshMessages.swift */; };
 		49AA7CF52742F8ED00FC71E6 /* SmbcHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA7CF42742F8ED00FC71E6 /* SmbcHelp.swift */; };
+		49AC84322C0C254800BD7E39 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 49AC84312C0C254800BD7E39 /* MarkdownUI */; };
 		49AFCBB1273B4F920082046F /* RideRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB0273B4F920082046F /* RideRowView.swift */; };
 		49AFCBB3273B50EB0082046F /* TripRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB2273B50EB0082046F /* TripRowView.swift */; };
 		49AFCBB5273B5C760082046F /* SmbcInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AFCBB4273B5C760082046F /* SmbcInfo.swift */; };
@@ -136,6 +137,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49AC84322C0C254800BD7E39 /* MarkdownUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,6 +158,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		49AC84302C0C254800BD7E39 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		49B1969022BEADE2009F51E5 = {
 			isa = PBXGroup;
 			children = (
@@ -166,6 +175,7 @@
 				49B196B222BEADE3009F51E5 /* smbcTests */,
 				49B196BD22BEADE3009F51E5 /* smbcUITests */,
 				49B1969A22BEADE2009F51E5 /* Products */,
+				49AC84302C0C254800BD7E39 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -284,6 +294,9 @@
 			dependencies = (
 			);
 			name = smbc;
+			packageProductDependencies = (
+				49AC84312C0C254800BD7E39 /* MarkdownUI */,
+			);
 			productName = smbc;
 			productReference = 49B1969922BEADE2009F51E5 /* smbc.app */;
 			productType = "com.apple.product-type.application";
@@ -360,6 +373,9 @@
 				Base,
 			);
 			mainGroup = 49B1969022BEADE2009F51E5;
+			packageReferences = (
+				4977041D2C0C20D700627F6C /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
+			);
 			productRefGroup = 49B1969A22BEADE2009F51E5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -819,6 +835,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4977041D2C0C20D700627F6C /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:gonzalezreal/swift-markdown-ui.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		49AC84312C0C254800BD7E39 /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4977041D2C0C20D700627F6C /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = MarkdownUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 49B1969122BEADE2009F51E5 /* Project object */;
 }
