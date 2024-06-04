@@ -57,8 +57,10 @@ struct RestaurantMapView: View {
             Button("Change Map Style") {
                 popoverPresented.toggle()
             }
+            .background(Color.blue).opacity(0.6)
+            .foregroundColor(.black)
             .buttonStyle(.bordered)
-            .tint(.red)
+            .cornerRadius(7)
             .padding(.horizontal)
             .padding(.bottom, 5)
             .popover(isPresented: $popoverPresented,
