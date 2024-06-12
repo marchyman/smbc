@@ -9,10 +9,9 @@
 import SwiftUI
 import MapKit
 
-// The following two lines get rid of crossing actor boundary
-// warnings with strict concurrency checking.
-extension MKLookAroundScene: @unchecked Sendable { }
-extension MKLookAroundSceneRequest: @unchecked Sendable { }
+// The following gets rid of a crossing actor boundary error.
+// It is probably the wrong thing to do.
+extension MKLookAroundScene: @unchecked @retroactive Sendable { }
 
 struct LookAroundView: View {
     var marker: RestaurantMapView.MarkerModel
@@ -26,13 +25,13 @@ struct LookAroundView: View {
                 .opacity(lookAroundScene == nil ? 0 : 1)
         }
         .task {
-            lookAroundScene = await getLookAroundScene()
+            lookAroundScene = await getLookAroundScene(marker.location)
         }
     }
 
-    @MainActor
-    func getLookAroundScene() async -> MKLookAroundScene? {
-        let location = marker.location
+    nonisolated func getLookAroundScene(
+        _ location: CLLocationCoordinate2D
+    ) async -> MKLookAroundScene? {
         let request = MKLookAroundSceneRequest(coordinate: location)
         return try? await request.scene
     }
