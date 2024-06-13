@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-@MainActor
 struct RestaurantListView: View {
     @Environment(ProgramState.self) var state
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
@@ -47,7 +46,6 @@ struct RestaurantListView: View {
         }
     }
 
-    @MainActor
     private func filteredRestaurants(_ filter: Bool) -> [Restaurant] {
         state.restaurantModel.restaurants.filter {
             !filter || $0.status == "open" || $0.status.hasPrefix("was ")

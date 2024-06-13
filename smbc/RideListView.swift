@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-@MainActor
 struct RideListView: View {
     @AppStorage(ASKeys.scheduleYear) var scheduleYear = bundleScheduleYear
     @Environment(ProgramState.self) var state

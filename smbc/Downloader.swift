@@ -14,7 +14,6 @@ struct Downloader {
 
     // Logging to help diagnose potential downloader issues
 
-    @MainActor
     private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier!,
                                        category: "Downloader")
     /// Fetch data from url and store in a local cache.  Decode the data as JSON.

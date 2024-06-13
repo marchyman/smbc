@@ -25,7 +25,6 @@ struct TripDetailView: View {
          .navigationBarTitleDisplayMode(.inline)
     }
 
-    @MainActor
     private func tripText() -> String {
         if let spaceIndex = ride.description?.firstIndex(of: " ") {
             let key = String(ride.description![..<spaceIndex])
@@ -42,7 +41,7 @@ struct TripDetailView: View {
             """
     }
 
-    @MainActor private func tripTitle() -> String {
+    private func tripTitle() -> String {
         if let end = ride.end {
             return "\(ride.start) - \(end), \(state.scheduleYearString)"
         }

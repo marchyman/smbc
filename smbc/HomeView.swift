@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-@MainActor
 struct HomeView: View {
     @Environment(ProgramState.self) var state
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
