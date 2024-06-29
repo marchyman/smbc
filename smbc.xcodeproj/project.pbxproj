@@ -101,7 +101,7 @@
 		49779887297F466B0081A776 /* RestaurantMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantMapView.swift; sourceTree = "<group>"; };
 		497ED9ED297E03DB008AB290 /* smbc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smbc.swift; sourceTree = "<group>"; };
 		497ED9EF297E17D0008AB290 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		497ED9F1297E294E008AB290 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		497ED9F1297E294E008AB290 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		497ED9F2297E4BAA008AB290 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		498093352C0D0C6700F038AD /* FullMarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullMarkdownView.swift; sourceTree = "<group>"; };
 		498A078422C421500026FB5D /* schedule.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schedule.json; sourceTree = "<group>"; };
@@ -173,7 +173,7 @@
 		49B1969022BEADE2009F51E5 = {
 			isa = PBXGroup;
 			children = (
-				497ED9F1297E294E008AB290 /* README */,
+				497ED9F1297E294E008AB290 /* README.md */,
 				497ED9F2297E4BAA008AB290 /* LICENSE */,
 				495AFFF92C2F37F7002D516F /* Config.xcconfig */,
 				490B75A429AAE6A700EA6EEA /* .swiftlint.yml */,
