@@ -48,7 +48,7 @@ final class RideModel {
 
     /// The name of the cached schedule file
     ///
-    var scheduleFileName = scheduleBase + "." + scheduleExt
+    let scheduleFileName = scheduleBase + "." + scheduleExt
 
     /// Initialize the list of scheduled rides from the cache
     ///

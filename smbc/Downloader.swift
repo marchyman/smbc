@@ -23,7 +23,7 @@ struct Downloader {
     /// - Parameter type:   The type of structure that should match the downloaded data
     /// - Returns:          Decoded downloaded data
     ///
-    static func fetch<T: Decodable>(name: String, url: URL, type: T.Type) async throws -> T {
+    nonisolated static func fetch<T: Decodable>(name: String, url: URL, type: T.Type) async throws -> T {
         let configuration = URLSessionConfiguration.default
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         let session = URLSession(configuration: configuration,
@@ -38,14 +38,10 @@ struct Downloader {
                 let cacheUrl = cache.fileUrl()
                 try data.write(to: cacheUrl)
             }
-            Task { @MainActor in
-                logger.notice("\(url.path, privacy: .public) downloaded")
-            }
+            logger.notice("\(url.path, privacy: .public) downloaded")
             return decodedData
         } catch {
-            Task { @MainActor in
-                logger.error("\(#function) \(name, privacy: .public) \(url, privacy: .public) \(error.localizedDescription, privacy: .public)")
-            }
+            logger.error("\(#function) \(name, privacy: .public) \(url, privacy: .public) \(error.localizedDescription, privacy: .public)")
             throw error
         }
     }
