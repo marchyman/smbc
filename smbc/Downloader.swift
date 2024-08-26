@@ -41,7 +41,11 @@ struct Downloader {
             logger.notice("\(url.path, privacy: .public) downloaded")
             return decodedData
         } catch {
-            logger.error("\(#function) \(name, privacy: .public) \(url, privacy: .public) \(error.localizedDescription, privacy: .public)")
+            logger.error("""
+                \(#function) \(name, privacy: .public) \
+                \(url, privacy: .public) \
+                \(error.localizedDescription, privacy: .public)
+                """)
             throw error
         }
     }
@@ -68,7 +72,10 @@ struct Downloader {
             }
         } catch {
             Task { @MainActor in
-                logger.error("failed to access log store: \(error.localizedDescription, privacy: .public)")
+                logger.error("""
+                    failed to access log store: \
+                    \(error.localizedDescription, privacy: .public)
+                    """)
             }
             entries.append("Failed to access log store: \(error.localizedDescription)")
         }
