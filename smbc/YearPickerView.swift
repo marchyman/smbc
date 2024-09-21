@@ -34,7 +34,6 @@ struct YearPickerView: View {
 }
 
 #Preview {
-    @State var yearIndex: Int = 0
-    return YearPickerView(selectedIndex: $yearIndex)
+    return YearPickerView(selectedIndex: .constant(0))
         .environment(ProgramState())
 }

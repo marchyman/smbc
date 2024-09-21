@@ -9,7 +9,6 @@ import SwiftUI
 
 // MARK: - Initial Content
 
-@MainActor
 struct ContentView: View {
     @Environment(ProgramState.self) var state
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
@@ -73,14 +72,7 @@ struct SmbcImage: View {
 // MARK: Background gradient
 
 func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
-    let color: Color = switch colorScheme {
-                       case .light:
-                            .white
-                       case .dark:
-                            .black
-                       @unknown default:
-                            fatalError("Unknown ColorScheme")
-                       }
+    let color: Color = if colorScheme == .light { .white } else { .black }
     return LinearGradient(gradient: Gradient(colors: [color, .gray, color]),
                           startPoint: .top,
                           endPoint: .bottom)

@@ -23,12 +23,12 @@ extension GalleryModel {
     func fetch() async throws {
         let url = URL(string: serverName + galleryFileName)!
         names = try await Downloader.fetch(name: galleryFileName,
-                                                url: url,
-                                                type: [String].self)
+                                           url: url,
+                                           type: [String].self)
     }
 
-    nonisolated func fetch(mdFile name: String,
-                           start: Bool = false) async throws -> String {
+    nonisolated static func fetch(mdFile name: String,
+                                  start: Bool = false) async throws -> String {
         if let url = URL(string: serverName + name) {
             let configuration = URLSessionConfiguration.default
             let session = URLSession(configuration: configuration,

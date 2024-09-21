@@ -40,8 +40,8 @@ struct MarkdownView: View {
         .padding(.horizontal)
         .clipped()
         .task {
-            markdown = try? await state.galleryModel.fetch(mdFile: name,
-                                                           start: true)
+            markdown = try? await GalleryModel.fetch(mdFile: name,
+                                                     start: true)
         }
     }
 }

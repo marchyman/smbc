@@ -12,32 +12,35 @@ private let scheduleBase = "schedule"
 private let scheduleExt = "json"
 
 /// Format of a scheduled ride record retrieved from server
-/// All rides have an ID and a start date.
+/// All rides have a start date.
 /// Breakfast rides have restaurant and possibly a comment
-/// Trips have an end date , a description, and possibly a comment
+/// Trips may have an end date. The will have a description and possibly a comment
+/// An id is synthesized from the start date and either the restaurant or the first word of the description
 ///
 struct ScheduledRide: Codable, Identifiable, Hashable {
-    let id = UUID()
     let start: String
     let restaurant: String?
     let end: String?
     let description: String?
     let comment: String?
 
+    var id: String {
+        var id = start + "-"
+        if let restaurant {
+            id += restaurant
+        } else if let description {
+            id += description.components(separatedBy: " ").first ?? "desc"
+        } else {
+            id += "unknown"
+        }
+        return id
+    }
+
     var month: Int {
         Int(String(start.split(separator: "/")[0])) ?? 0
     }
     var day: Int {
         Int(String(start.split(separator: "/")[1])) ?? 0
-    }
-
-    // We never decode the ID.
-    private enum CodingKeys: String, CodingKey {
-        case start
-        case restaurant
-        case end
-        case description
-        case comment
     }
 }
 
@@ -48,7 +51,7 @@ final class RideModel {
 
     /// The name of the cached schedule file
     ///
-    var scheduleFileName = scheduleBase + "." + scheduleExt
+    let scheduleFileName = scheduleBase + "." + scheduleExt
 
     /// Initialize the list of scheduled rides from the cache
     ///

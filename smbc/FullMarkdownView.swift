@@ -26,7 +26,7 @@ struct FullMarkdownView: View {
         }
         .padding(.horizontal)
         .task {
-            markdown = try? await state.galleryModel.fetch(mdFile: name)
+            markdown = try? await GalleryModel.fetch(mdFile: name)
         }
     }
 }

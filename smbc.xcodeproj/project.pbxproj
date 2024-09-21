@@ -24,6 +24,7 @@
 		494858682C0AC124009B8101 /* GalleryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494858672C0AC124009B8101 /* GalleryModel.swift */; };
 		4948586A2C0AC975009B8101 /* gallery.json in Resources */ = {isa = PBXBuildFile; fileRef = 494858692C0AC975009B8101 /* gallery.json */; };
 		4952EF0D2A5F781A00277508 /* OrientationViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4952EF0C2A5F781A00277508 /* OrientationViewModifier.swift */; };
+		495AFFF82C2F371E002D516F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 495AFFF72C2F371E002D516F /* PrivacyInfo.xcprivacy */; };
 		4977041C2C0C142C00627F6C /* MarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4977041B2C0C142C00627F6C /* MarkdownView.swift */; };
 		49779888297F466B0081A776 /* RestaurantMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49779887297F466B0081A776 /* RestaurantMapView.swift */; };
 		497ED9EE297E03DB008AB290 /* smbc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ED9ED297E03DB008AB290 /* smbc.swift */; };
@@ -94,11 +95,13 @@
 		494858672C0AC124009B8101 /* GalleryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryModel.swift; sourceTree = "<group>"; };
 		494858692C0AC975009B8101 /* gallery.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = gallery.json; sourceTree = "<group>"; };
 		4952EF0C2A5F781A00277508 /* OrientationViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationViewModifier.swift; sourceTree = "<group>"; };
+		495AFFF72C2F371E002D516F /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		495AFFF92C2F37F7002D516F /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		4977041B2C0C142C00627F6C /* MarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownView.swift; sourceTree = "<group>"; };
 		49779887297F466B0081A776 /* RestaurantMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantMapView.swift; sourceTree = "<group>"; };
 		497ED9ED297E03DB008AB290 /* smbc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smbc.swift; sourceTree = "<group>"; };
 		497ED9EF297E17D0008AB290 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		497ED9F1297E294E008AB290 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		497ED9F1297E294E008AB290 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		497ED9F2297E4BAA008AB290 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		498093352C0D0C6700F038AD /* FullMarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullMarkdownView.swift; sourceTree = "<group>"; };
 		498A078422C421500026FB5D /* schedule.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schedule.json; sourceTree = "<group>"; };
@@ -170,8 +173,9 @@
 		49B1969022BEADE2009F51E5 = {
 			isa = PBXGroup;
 			children = (
-				497ED9F1297E294E008AB290 /* README */,
+				497ED9F1297E294E008AB290 /* README.md */,
 				497ED9F2297E4BAA008AB290 /* LICENSE */,
+				495AFFF92C2F37F7002D516F /* Config.xcconfig */,
 				490B75A429AAE6A700EA6EEA /* .swiftlint.yml */,
 				49B1969B22BEADE2009F51E5 /* smbc */,
 				49B196B222BEADE3009F51E5 /* smbcTests */,
@@ -234,6 +238,7 @@
 				49B196A222BEADE3009F51E5 /* Assets.xcassets */,
 				497ED9EF297E17D0008AB290 /* Info.plist */,
 				493BBFE022C0966700E2B437 /* smbc.entitlements */,
+				495AFFF72C2F371E002D516F /* PrivacyInfo.xcprivacy */,
 				49ED466822C1E46D003AAEE4 /* Resources */,
 			);
 			path = smbc;
@@ -351,7 +356,7 @@
 					New,
 				);
 				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 1600;
 				ORGANIZATIONNAME = "Marco S Hyman";
 				TargetAttributes = {
 					49B1969822BEADE2009F51E5 = {
@@ -401,6 +406,7 @@
 				49ED466722C1E44A003AAEE4 /* restaurants.json in Resources */,
 				49B196A622BEADE3009F51E5 /* Preview Assets.xcassets in Resources */,
 				4948586A2C0AC975009B8101 /* gallery.json in Resources */,
+				495AFFF82C2F371E002D516F /* PrivacyInfo.xcprivacy in Resources */,
 				49B196A322BEADE3009F51E5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -543,6 +549,7 @@
 /* Begin XCBuildConfiguration section */
 		49B196C122BEADE3009F51E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 495AFFF92C2F37F7002D516F /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -579,7 +586,6 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -601,12 +607,13 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_STRICT_CONCURRENCY = complete;
+				_EXPERIMENTAL_SWIFT_EXPLICIT_MODULES = YES;
 			};
 			name = Debug;
 		};
 		49B196C222BEADE3009F51E5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 495AFFF92C2F37F7002D516F /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -643,7 +650,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -658,8 +664,8 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_STRICT_CONCURRENCY = complete;
 				VALIDATE_PRODUCT = YES;
+				_EXPERIMENTAL_SWIFT_EXPLICIT_MODULES = YES;
 			};
 			name = Release;
 		};
@@ -684,7 +690,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -710,7 +715,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -718,7 +722,6 @@
 		49B196C722BEADE3009F51E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A3UXBEBE8Z;
@@ -730,7 +733,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.snafu.smbcTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/smbc.app/smbc";
 			};
@@ -739,7 +741,6 @@
 		49B196C822BEADE3009F51E5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A3UXBEBE8Z;
@@ -751,7 +752,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.snafu.smbcTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/smbc.app/smbc";
 			};
@@ -760,7 +760,6 @@
 		49B196CA22BEADE3009F51E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A3UXBEBE8Z;
 				INFOPLIST_FILE = smbcUITests/Info.plist;
@@ -772,7 +771,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.snafu.smbcUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_STRICT_CONCURRENCY = minimal;
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = smbc;
 			};
@@ -781,7 +779,6 @@
 		49B196CB22BEADE3009F51E5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A3UXBEBE8Z;
 				INFOPLIST_FILE = smbcUITests/Info.plist;
@@ -793,7 +790,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.snafu.smbcUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_STRICT_CONCURRENCY = minimal;
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = smbc;
 			};
