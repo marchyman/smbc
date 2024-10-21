@@ -10,8 +10,8 @@ import MapKit
 
 /// Restaurant detail view.
 ///
-/// This view is used when a restaurant is sellect for the list of restaurants and when a Sunday morning
-/// ride is selected from the rides list.
+/// This view is used when a restaurant is sellect for the list of
+/// restaurants and when a Sunday morning ride is selected from the rides list.
 struct RestaurantDetailView: View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @Environment(ProgramState.self) var state
@@ -28,13 +28,15 @@ struct RestaurantDetailView: View {
                 case .landscapeLeft, .landscapeRight:
                     HStack {
                         RestaurantInfoView(restaurant: restaurant, eta: eta)
-                            .frame(minHeight: 0, maxHeight: geometry.size.width * 0.35)
+                            .frame(minHeight: 0,
+                                   maxHeight: geometry.size.width * 0.35)
                         RestaurantMapView(restaurant: restaurant)
                     }
                 default:
                     VStack {
                         RestaurantInfoView(restaurant: restaurant, eta: eta)
-                            .frame(minHeight: 0, maxHeight: geometry.size.height * 0.35)
+                            .frame(minHeight: 0,
+                                   maxHeight: geometry.size.height * 0.35)
                         RestaurantMapView(restaurant: restaurant)
                     }
                 }

@@ -15,7 +15,8 @@ private let scheduleExt = "json"
 /// All rides have a start date.
 /// Breakfast rides have restaurant and possibly a comment
 /// Trips may have an end date. The will have a description and possibly a comment
-/// An id is synthesized from the start date and either the restaurant or the first word of the description
+/// An id is synthesized from the start date and either the restaurant
+/// or the first word of the description
 ///
 struct ScheduledRide: Codable, Identifiable, Hashable {
     let start: String
@@ -93,8 +94,9 @@ final class RideModel {
         return ride(following: monthDay)
     }
 
-    /// return the ride from the rides array following the ride with the given start data
-    /// Only Sunday rides to breakfast are returned.  The function skips over trips.
+    /// return the ride from the rides array following the ride with the
+    /// given start data Only Sunday rides to breakfast are returned.
+    /// The function skips over trips.
     ///
     func ride(following start: String) -> ScheduledRide? {
         let date = start.split(separator: "/")
@@ -107,7 +109,8 @@ final class RideModel {
         return index < rides.endIndex ? rides[index] : nil
     }
 
-    /// return the ride following the given ride assuming one exists.  This function skips over trips.
+    /// return the ride following the given ride assuming one exists.
+    /// This function skips over trips.
 
     func ride(following ride: ScheduledRide) -> ScheduledRide? {
         if let rideIndex = rides.firstIndex(of: ride) {
@@ -122,7 +125,8 @@ final class RideModel {
         return nil
     }
 
-    /// return the ride preceding the given ride assuming one exists.  This functipn skips over trips.
+    /// return the ride preceding the given ride assuming one exists.
+    /// This functipn skips over trips.
 
     func ride(preceding ride: ScheduledRide) -> ScheduledRide? {
         if let rideIndex = rides.firstIndex(of: ride) {

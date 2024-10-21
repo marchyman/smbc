@@ -35,16 +35,18 @@ extension GalleryModel {
                                      delegate: nil, delegateQueue: nil)
             do {
                 let (data, _) = try await session.data(from: url)
-                if start {
-                    let content = String(decoding: data, as: UTF8.self)
-                        .replacing(/:{|:}|:\[.*\)|!\[.*\)/, with: "")
-                        .prefix(250)
-                        .replacing(/[[:space:]][^[:space:]]+$/, with: "")
-
-                    return String(content) + "..."
-                } else {
-                    return String(decoding: data, as: UTF8.self)
-                        .replacing(/:{|:}|:\[.*\)|!\[.*\)/, with: "")
+                if let content = String(data: data, encoding: .utf8) {
+                    if start {
+                        return String(
+                            content
+                                .replacing(/:{|:}|:\[.*\)|!\[.*\)/, with: "")
+                                .prefix(250)
+                                .replacing(/[[:space:]][^[:space:]]+$/, with: "")
+                        ) + "..."
+                    } else {
+                        return content.replacing(/:{|:}|:\[.*\)|!\[.*\)/,
+                                                 with: "")
+                    }
                 }
             }
         }
@@ -57,4 +59,3 @@ extension String {
         return !self.ranges(of: /\.[jJ][pP][eE]?[gG]$/).isEmpty
     }
 }
-

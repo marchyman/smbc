@@ -20,7 +20,7 @@ enum TabItems {
 @Observable
 final class ViewState {
     var selectedTab: TabItems = .home
-    var nextRide: ScheduledRide? = nil
+    var nextRide: ScheduledRide?
     var forceRefresh = false
     var refreshPresented = false
     var refreshError: String = ""

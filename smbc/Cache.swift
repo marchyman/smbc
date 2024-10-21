@@ -13,9 +13,10 @@ struct Cache<T: Decodable> {
 
     /// Return a URL for the named cache file
     ///
-    /// Cached files live in folder in the users .cachesDirectory.  The folder name is the
-    /// applicatoin bundle ID.  The folder will be created if it does not exist.  If the cached file
-    /// does not exist primeCache() is called to prime the cache with data stored in the bundle.
+    /// Cached files live in folder in the users .cachesDirectory. The folder
+    /// name is the applicatoin bundle ID.  The folder will be created if it
+    /// does not exist.  If the cached file does not exist primeCache() is
+    /// called to prime the cache with data stored in the bundle.
     ///
     func fileUrl() -> URL {
         let fileManager = FileManager.default

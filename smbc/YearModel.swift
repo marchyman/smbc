@@ -50,7 +50,8 @@ final class YearModel {
         return scheduleYears.contains(scheduleYear)
     }
 
-    /// Find the index into scheduleYears for the entry that matches the given year
+    /// Find the index into scheduleYears for the entry that matches
+    /// the given year
     /// - Parameter year: The year to find
     /// - Returns: The index matching the given year
     ///

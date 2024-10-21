@@ -8,7 +8,8 @@
 import SwiftUI
 import Observation
 
-/// The server URL as a string and the name of the folder used to hold most of the schedule data
+/// The server URL as a string and the name of the folder used to hold
+/// most of the schedule data
 ///
 let serverName = "https://smbc.snafu.org/"
 let serverDir = "schedule/"

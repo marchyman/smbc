@@ -8,22 +8,25 @@
 import Foundation
 import OSLog
 
-// Ecapsulate a generic version of the code to download the various bits of data that make up
-// the program model.
+// Ecapsulate a generic version of the code to download the various bits
+// of data that make up the program model.
 struct Downloader {
 
     // Logging to help diagnose potential downloader issues
 
     private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier!,
                                        category: "Downloader")
-    /// Fetch data from url and store in a local cache.  Decode the data as JSON.
+    /// Fetch data from url and store in a local cache. Decode the data as JSON.
     ///
     /// - Parameter name:   The name of the locally cached file
     /// - Parameter url:    The url of a file to download
-    /// - Parameter type:   The type of structure that should match the downloaded data
+    /// - Parameter type:   The type of structure that should match
+    ///                     the downloaded data
     /// - Returns:          Decoded downloaded data
     ///
-    nonisolated static func fetch<T: Decodable>(name: String, url: URL, type: T.Type) async throws -> T {
+    nonisolated static func fetch<T: Decodable>(name: String,
+                                                url: URL,
+                                                type: T.Type) async throws -> T {
         let configuration = URLSessionConfiguration.default
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         let session = URLSession(configuration: configuration,

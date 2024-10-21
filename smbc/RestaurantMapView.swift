@@ -41,9 +41,9 @@ struct RestaurantMapView: View {
         .overlay(alignment: .bottom) {
             if let marker = markers.first(where: { $0.id == selectedId }) {
                 LookAroundView(marker: marker)
-                    .frame (height: 128)
-                    .background (.thinMaterial)
-                    .clipShape (RoundedRectangle (cornerRadius: 10))
+                    .frame(height: 128)
+                    .background(.thinMaterial)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
                     .padding(5)
             } else {
                 styleButton

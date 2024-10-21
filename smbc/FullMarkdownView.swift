@@ -12,10 +12,10 @@ struct FullMarkdownView: View {
 
     let name: String
 
-    @State private var markdown: String? = nil
+    @State private var markdown: String?
 
     var body: some View {
-       ScrollView  {
+       ScrollView {
             if let markdown {
                 Markdown(markdown)
                     .padding(.horizontal)

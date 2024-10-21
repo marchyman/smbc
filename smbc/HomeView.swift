@@ -20,7 +20,10 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Text("[Sunday Morning Breakfast Club\nBreakfast and beyond since 1949](https://smbc.snafu.org/)")
+                Text("""
+                   [Sunday Morning Breakfast Club\nBreakfast and beyond \
+                   since 1949](https://smbc.snafu.org/)
+                   """)
                     .font(.headline)
                     .lineLimit(2)
                     .padding()

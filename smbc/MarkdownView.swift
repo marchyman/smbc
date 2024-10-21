@@ -13,7 +13,7 @@ struct MarkdownView: View {
 
     let name: String
 
-    @State private var markdown: String? = nil
+    @State private var markdown: String?
 
     var body: some View {
         VStack {

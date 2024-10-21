@@ -16,7 +16,7 @@ extension MKLookAroundScene: @unchecked @retroactive Sendable { }
 struct LookAroundView: View {
     var marker: RestaurantMapView.MarkerModel
     @State private var lookAroundScene: MKLookAroundScene?
-    
+
     var body: some View {
         ZStack {
             Text("*Look Around* not available for this location")
@@ -43,9 +43,9 @@ struct LookAroundView: View {
         location: CLLocationCoordinate2D(latitude: 37.308351,
                                          longitude: -122.90166),
         title: "Bogus"))
-        .frame (height: 128)
-        .background (.thinMaterial)
-        .clipShape (RoundedRectangle (cornerRadius: 10))
+        .frame(height: 128)
+        .background(.thinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
         .padding(5)
 }
 
@@ -55,8 +55,8 @@ struct LookAroundView: View {
         location: CLLocationCoordinate2D(latitude: 37.325222,
                                          longitude: -122.013779),
         title: "Country Inn"))
-        .frame (height: 128)
-        .background (.thinMaterial)
-        .clipShape (RoundedRectangle (cornerRadius: 10))
+        .frame(height: 128)
+        .background(.thinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
         .padding(5)
 }
