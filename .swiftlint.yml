@@ -1,9 +1,17 @@
+disabled_rules:
+  - opening_brace
+
 included:
 
 excluded:
   - Build
   - DerivedData
-  
+
+cyclomatic_complexity:
+  ignores_case_statements: true
+
+function_body_length: 100
+
 identifier_name:
   min_length:
     warning: 3
@@ -15,4 +23,4 @@ identifier_name:
     - id
     - ok
     - ix
-    
+
