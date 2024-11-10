@@ -5,8 +5,8 @@
 //  Created by Marco S Hyman on 7/28/19.
 //
 
-import SwiftUI
 import Observation
+import SwiftUI
 
 private let scheduleBase = "schedule"
 private let scheduleExt = "json"
@@ -65,9 +65,10 @@ final class RideModel {
     ///
     func fetch(scheduleFor year: Int) async throws {
         @AppStorage(ASKeys.scheduleYear) var scheduleYear = bundleScheduleYear
-        rides = try await Downloader.fetch(name: scheduleFileName,
-                                           url: ridesUrl(for: year),
-                                           type: [ScheduledRide].self)
+        rides = try await Downloader.fetch(
+            name: scheduleFileName,
+            url: ridesUrl(for: year),
+            type: [ScheduledRide].self)
         scheduleYear = year
     }
 
@@ -76,9 +77,11 @@ final class RideModel {
     func nextRide() -> ScheduledRide? {
         @AppStorage(ASKeys.scheduleYear) var scheduleYear = bundleScheduleYear
         let monthDay: String
-        guard let yesterday = Calendar.current.date(byAdding: .day,
-                                                    value: -1,
-                                                    to: Date())
+        guard
+            let yesterday = Calendar.current.date(
+                byAdding: .day,
+                value: -1,
+                to: Date())
         else {
             return nil
         }
@@ -89,7 +92,7 @@ final class RideModel {
             let day = Calendar.current.component(.day, from: yesterday)
             monthDay = "\(month)/\(day)"
         } else {
-            monthDay = "0/0" // give me the first ride of schedYear
+            monthDay = "0/0"  // give me the first ride of schedYear
         }
         return ride(following: monthDay)
     }
@@ -102,10 +105,12 @@ final class RideModel {
         let date = start.split(separator: "/")
         let month = Int(String(date[0])) ?? 0
         let day = Int(String(date[1])) ?? 0
-        guard let index = rides.firstIndex(where: {
-            ($0.month > month || ($0.month == month && $0.day > day)) &&
-            $0.restaurant != nil
-        }) else { return nil }
+        guard
+            let index = rides.firstIndex(where: {
+                ($0.month > month || ($0.month == month && $0.day > day))
+                    && $0.restaurant != nil
+            })
+        else { return nil }
         return index < rides.endIndex ? rides[index] : nil
     }
 
@@ -143,15 +148,9 @@ final class RideModel {
 
     /// Build the full name of the Scheduled Rides file on the server
     ///
-    private
-    func ridesUrl(for year: Int) -> URL {
-        let fullName = serverName +
-            serverDir +
-            scheduleBase +
-            "-" +
-            String(year) +
-            "." +
-            scheduleExt
+    private func ridesUrl(for year: Int) -> URL {
+        let fullName =
+            serverName + serverDir + scheduleBase + "-" + String(year) + "." + scheduleExt
         return URL(string: fullName)!
     }
 

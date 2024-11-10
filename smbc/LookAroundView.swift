@@ -6,12 +6,12 @@
 //  Copyright © 2023 Marco S Hyman. All rights reserved.
 //
 
-import SwiftUI
 import MapKit
+import SwiftUI
 
 // The following gets rid of a crossing actor boundary error.
 // It is probably the wrong thing to do.
-extension MKLookAroundScene: @unchecked @retroactive Sendable { }
+extension MKLookAroundScene: @unchecked @retroactive Sendable {}
 
 struct LookAroundView: View {
     var marker: RestaurantMapView.MarkerModel
@@ -38,25 +38,31 @@ struct LookAroundView: View {
 }
 
 #Preview("No Data") {
-    LookAroundView(marker: RestaurantMapView.MarkerModel(
-        id: "bogus",
-        location: CLLocationCoordinate2D(latitude: 37.308351,
-                                         longitude: -122.90166),
-        title: "Bogus"))
-        .frame(height: 128)
-        .background(.thinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-        .padding(5)
+    LookAroundView(
+        marker: RestaurantMapView.MarkerModel(
+            id: "bogus",
+            location: CLLocationCoordinate2D(
+                latitude: 37.308351,
+                longitude: -122.90166),
+            title: "Bogus")
+    )
+    .frame(height: 128)
+    .background(.thinMaterial)
+    .clipShape(RoundedRectangle(cornerRadius: 10))
+    .padding(5)
 }
 
 #Preview("Data") {
-    LookAroundView(marker: RestaurantMapView.MarkerModel(
-        id: "countryinn3",
-        location: CLLocationCoordinate2D(latitude: 37.325222,
-                                         longitude: -122.013779),
-        title: "Country Inn"))
-        .frame(height: 128)
-        .background(.thinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-        .padding(5)
+    LookAroundView(
+        marker: RestaurantMapView.MarkerModel(
+            id: "countryinn3",
+            location: CLLocationCoordinate2D(
+                latitude: 37.325222,
+                longitude: -122.013779),
+            title: "Country Inn")
+    )
+    .frame(height: 128)
+    .background(.thinMaterial)
+    .clipShape(RoundedRectangle(cornerRadius: 10))
+    .padding(5)
 }

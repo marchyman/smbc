@@ -49,31 +49,36 @@ struct RestaurantInfoView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
-    private
-    func mapLink() -> URL? {
-        let mapPath = "https://maps.apple.com/?daddr="
+    private func mapLink() -> URL? {
+        let mapPath =
+            "https://maps.apple.com/?daddr="
             + restaurant.address.map { $0 == " " ? "+" : $0 }
             + ","
             + restaurant.city.map { $0 == " " ? "+" : $0 }
             + ",CA"
-        guard let string = NSString(string: mapPath)
-            .addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed),
-              let url = URL(string: string) else { return nil }
+        guard
+            let string = NSString(string: mapPath)
+                .addingPercentEncoding(
+                    withAllowedCharacters: NSCharacterSet.urlQueryAllowed),
+            let url = URL(string: string)
+        else { return nil }
         return url
     }
 
 }
 
 #Preview {
-    RestaurantInfoView(restaurant: Restaurant(id: "beachstreet",
-                                              name: "Beach Street",
-                                              address: "435 W. Beach Street",
-                                              route: "101/92/280/85/17/1",
-                                              city: "Watsonville",
-                                              phone: "831-722-2233",
-                                              status: "open",
-                                              eta: "8:17",
-                                              lat: 37.113013,
-                                              lon: -121.637845),
-                       eta: false)
+    RestaurantInfoView(
+        restaurant: Restaurant(
+            id: "beachstreet",
+            name: "Beach Street",
+            address: "435 W. Beach Street",
+            route: "101/92/280/85/17/1",
+            city: "Watsonville",
+            phone: "831-722-2233",
+            status: "open",
+            eta: "8:17",
+            lat: 37.113013,
+            lon: -121.637845),
+        eta: false)
 }

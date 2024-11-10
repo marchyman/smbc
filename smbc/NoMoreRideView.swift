@@ -20,7 +20,8 @@ struct NoMoreRideView: View {
             }
             .padding()
 
-            Text("""
+            Text(
+                """
                 There are no more rides scheduled for the current year. \
                 Please load the schedule for the next year. This normally \
                 happens automatically some time during the last week of \

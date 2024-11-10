@@ -52,8 +52,9 @@ final class RestaurantModel {
     ///
     func idToRestaurant(id: String?) -> Restaurant {
         guard let id = id,
-              let restaurant = restaurants.first(where: { $0.id == id }) else {
-                fatalError("Missing Restaurant ID")
+            let restaurant = restaurants.first(where: { $0.id == id })
+        else {
+            fatalError("Missing Restaurant ID")
         }
         return restaurant
     }

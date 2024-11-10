@@ -46,8 +46,10 @@ struct ContentView: View {
         } message: {
             ScheduleReloadView()
         }
-        .alert("Schedule Reload Error",
-               isPresented: $viewState.refreshErrorPresented) {
+        .alert(
+            "Schedule Reload Error",
+            isPresented: $viewState.refreshErrorPresented
+        ) {
             // let the system provide the button
         } message: {
             ReloadErrorView(description: viewState.refreshError)
@@ -73,9 +75,10 @@ struct SmbcImage: View {
 
 func backgroundGradient(_ colorScheme: ColorScheme) -> LinearGradient {
     let color: Color = if colorScheme == .light { .white } else { .black }
-    return LinearGradient(gradient: Gradient(colors: [color, .gray, color]),
-                          startPoint: .top,
-                          endPoint: .bottom)
+    return LinearGradient(
+        gradient: Gradient(colors: [color, .gray, color]),
+        startPoint: .top,
+        endPoint: .bottom)
 }
 
 #Preview {

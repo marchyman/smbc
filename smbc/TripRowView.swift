@@ -31,17 +31,21 @@ struct TripRowView: View {
 }
 
 #Preview {
-    TripRowView(ride: ScheduledRide(start: "5/7",
-                                    restaurant: nil,
-                                    end: "5/9",
-                                    description: "A ride to somewhere",
-                                    comment: "Testing"))
+    TripRowView(
+        ride: ScheduledRide(
+            start: "5/7",
+            restaurant: nil,
+            end: "5/9",
+            description: "A ride to somewhere",
+            comment: "Testing"))
 }
 
 #Preview {
-    TripRowView(ride: ScheduledRide(start: "5/7",
-                                    restaurant: nil,
-                                    end: nil,
-                                    description: "A day ride",
-                                    comment: "Testing"))
+    TripRowView(
+        ride: ScheduledRide(
+            start: "5/7",
+            restaurant: nil,
+            end: nil,
+            description: "A day ride",
+            comment: "Testing"))
 }

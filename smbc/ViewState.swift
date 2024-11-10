@@ -28,7 +28,7 @@ final class ViewState {
 
     static let shared: ViewState = .init()
 
-    private init() { }
+    private init() {}
 }
 
 extension ViewState {

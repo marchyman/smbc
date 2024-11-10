@@ -5,8 +5,8 @@
 //  Created by Marco S Hyman on 7/24/19.
 //
 
-import SwiftUI
 import Observation
+import SwiftUI
 
 /// The server URL as a string and the name of the folder used to hold
 /// most of the schedule data
@@ -73,8 +73,10 @@ class ProgramState {
 
         // set the refresh date to 10 days in the future
 
-        refreshDate = Calendar.current.date(byAdding: .day,
-                                            value: 10,
-                                            to: Date()) ?? Date()
+        refreshDate =
+            Calendar.current.date(
+                byAdding: .day,
+                value: 10,
+                to: Date()) ?? Date()
     }
 }

@@ -18,11 +18,13 @@ struct TripDetailView: View {
                 .lineLimit(nil)
                 .padding()
             Spacer()
-        }.frame(minWidth: 0, maxWidth: .infinity,
-                minHeight: 0, maxHeight: .infinity)
-         .background(backgroundGradient(colorScheme))
-         .navigationTitle(tripTitle())
-         .navigationBarTitleDisplayMode(.inline)
+        }.frame(
+            minWidth: 0, maxWidth: .infinity,
+            minHeight: 0, maxHeight: .infinity
+        )
+        .background(backgroundGradient(colorScheme))
+        .navigationTitle(tripTitle())
+        .navigationBarTitleDisplayMode(.inline)
     }
 
     private func tripText() -> String {
@@ -51,33 +53,42 @@ struct TripDetailView: View {
 
 #Preview {
     NavigationStack {
-        TripDetailView(ride: ScheduledRide(start: "7/12",
-                                           restaurant: nil,
-                                           end: "7/13",
-                                           description: "Camping blah",
-                                           comment: "preview"))
-            .environment(ProgramState())
-     }
+        TripDetailView(
+            ride: ScheduledRide(
+                start: "7/12",
+                restaurant: nil,
+                end: "7/13",
+                description: "Camping blah",
+                comment: "preview")
+        )
+        .environment(ProgramState())
+    }
 }
 
 #Preview {
     NavigationStack {
-        TripDetailView(ride: ScheduledRide(start: "8/24",
-                                           restaurant: nil,
-                                           end: nil,
-                                           description: "Boot Dinner",
-                                           comment: "preview"))
-            .environment(ProgramState())
-     }
+        TripDetailView(
+            ride: ScheduledRide(
+                start: "8/24",
+                restaurant: nil,
+                end: nil,
+                description: "Boot Dinner",
+                comment: "preview")
+        )
+        .environment(ProgramState())
+    }
 }
 
 #Preview {
     NavigationStack {
-        TripDetailView(ride: ScheduledRide(start: "8/24",
-                                           restaurant: nil,
-                                           end: nil,
-                                           description: "unknown trip",
-                                           comment: "preview"))
-            .environment(ProgramState())
-     }
+        TripDetailView(
+            ride: ScheduledRide(
+                start: "8/24",
+                restaurant: nil,
+                end: nil,
+                description: "unknown trip",
+                comment: "preview")
+        )
+        .environment(ProgramState())
+    }
 }

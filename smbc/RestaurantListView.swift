@@ -62,8 +62,11 @@ struct RestaurantRow: View {
         return restaurant.city
     }
     var body: some View {
-        NavigationLink(destination: RestaurantDetailView(restaurant: restaurant,
-                                                         eta: false)) {
+        NavigationLink(
+            destination: RestaurantDetailView(
+                restaurant: restaurant,
+                eta: false)
+        ) {
             VStack(alignment: .leading) {
                 Text(restaurant.name).font(.headline)
                 Text(city).font(.subheadline)

@@ -22,17 +22,21 @@ final class GalleryModel {
 extension GalleryModel {
     func fetch() async throws {
         let url = URL(string: serverName + galleryFileName)!
-        names = try await Downloader.fetch(name: galleryFileName,
-                                           url: url,
-                                           type: [String].self)
+        names = try await Downloader.fetch(
+            name: galleryFileName,
+            url: url,
+            type: [String].self)
     }
 
-    nonisolated static func fetch(mdFile name: String,
-                                  start: Bool = false) async throws -> String {
+    nonisolated static func fetch(
+        mdFile name: String,
+        start: Bool = false
+    ) async throws -> String {
         if let url = URL(string: serverName + name) {
             let configuration = URLSessionConfiguration.default
-            let session = URLSession(configuration: configuration,
-                                     delegate: nil, delegateQueue: nil)
+            let session = URLSession(
+                configuration: configuration,
+                delegate: nil, delegateQueue: nil)
             do {
                 let (data, _) = try await session.data(from: url)
                 if let content = String(data: data, encoding: .utf8) {
@@ -44,8 +48,9 @@ extension GalleryModel {
                                 .replacing(/[[:space:]][^[:space:]]+$/, with: "")
                         ) + "..."
                     } else {
-                        return content.replacing(/:{|:}|:\[.*\)|!\[.*\)/,
-                                                 with: "")
+                        return content.replacing(
+                            /:{|:}|:\[.*\)|!\[.*\)/,
+                            with: "")
                     }
                 }
             }

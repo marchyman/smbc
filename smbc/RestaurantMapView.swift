@@ -6,8 +6,8 @@
 //  Copyright © 2023 Marco S Hyman. All rights reserved.
 //
 
-import SwiftUI
 import MapKit
+import SwiftUI
 
 struct RestaurantMapView: View {
     let restaurant: Restaurant
@@ -63,9 +63,11 @@ struct RestaurantMapView: View {
             .cornerRadius(7)
             .padding(.horizontal)
             .padding(.bottom, 5)
-            .popover(isPresented: $popoverPresented,
-                     attachmentAnchor: .point(.center),
-                     arrowEdge: .top) {
+            .popover(
+                isPresented: $popoverPresented,
+                attachmentAnchor: .point(.center),
+                arrowEdge: .top
+            ) {
                 Picker("Map Type", selection: $mapStyle) {
                     Text("Standard").tag(0)
                     Text("Hybrid").tag(1)
@@ -82,8 +84,9 @@ struct RestaurantMapView: View {
     private func makePosition() -> MapCameraPosition {
         return MapCameraPosition.region(
             MKCoordinateRegion(
-                center: CLLocationCoordinate2D(latitude: restaurant.lat,
-                                               longitude: restaurant.lon),
+                center: CLLocationCoordinate2D(
+                    latitude: restaurant.lat,
+                    longitude: restaurant.lon),
                 latitudinalMeters: 1000,
                 longitudinalMeters: 1000))
     }
@@ -96,25 +99,28 @@ struct RestaurantMapView: View {
     }
 
     private func makeMarkers(for restaurant: Restaurant) -> [MarkerModel] {
-        let marker = MarkerModel(id: restaurant.id,
-                                 location: CLLocationCoordinate2D(latitude: restaurant.lat,
-                                                                  longitude: restaurant.lon),
-                                 title: restaurant.name)
+        let marker = MarkerModel(
+            id: restaurant.id,
+            location: CLLocationCoordinate2D(
+                latitude: restaurant.lat,
+                longitude: restaurant.lon),
+            title: restaurant.name)
         return [marker]
     }
 }
 
 #Preview {
-    let restaurant = Restaurant(id: "beachstreet",
-                                name: "Beach Street",
-                                address: "435 W. Beach Street",
-                                route: "101/92/280/85/17/1",
-                                city: "Watsonville",
-                                phone: "831-722-2233",
-                                status: "open",
-                                eta: "8:17",
-                                lat: 36.906514,
-                                lon: -121.764811)
+    let restaurant = Restaurant(
+        id: "beachstreet",
+        name: "Beach Street",
+        address: "435 W. Beach Street",
+        route: "101/92/280/85/17/1",
+        city: "Watsonville",
+        phone: "831-722-2233",
+        status: "open",
+        eta: "8:17",
+        lat: 36.906514,
+        lon: -121.764811)
 
     return VStack {
         Spacer(minLength: 300)

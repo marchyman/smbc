@@ -9,7 +9,7 @@ import SwiftUI
 
 /// View containing a buttom that when pressed displays some generic
 /// information about the SMBC
-/// 
+///
 struct SmbcInfo: View {
     @State private var infoPresented = false
     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
@@ -23,7 +23,8 @@ struct SmbcInfo: View {
         .alert("SMBC Information", isPresented: $infoPresented) {
             Button("Got it!") {}
         } message: {
-            Text("""
+            Text(
+                """
                 The Sunday Morning Breakfast Club is a loose affiliation of \
                 motorcycle riders who meet every Sunday for breakfast. \
                 We also plan several multi-day trips each year.

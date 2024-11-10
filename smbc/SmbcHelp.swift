@@ -19,7 +19,8 @@ struct SmbcHelp: View {
         .alert("Application Help", isPresented: $helpPresented) {
             // let system provide the button
         } message: {
-            Text("""
+            Text(
+                """
                 Tap on the center image to show the next ride.
 
                 Long press on the center image to refresh schedule data from \

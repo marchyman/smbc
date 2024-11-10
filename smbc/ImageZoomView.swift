@@ -30,9 +30,11 @@ struct ImageZoomView: View {
                     }
                     .gesture(magnification.simultaneously(with: drag))
             } placeholder: {
-                ContentUnavailableView( "Image Loading...",
-                    systemImage: "circle.hexagongrid.fill")
-                    .symbolEffect(.pulse, options: .repeating)
+                ContentUnavailableView(
+                    "Image Loading...",
+                    systemImage: "circle.hexagongrid.fill"
+                )
+                .symbolEffect(.pulse, options: .repeating)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

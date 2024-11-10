@@ -32,10 +32,12 @@ struct RideListView: View {
                     await viewState.refresh(state)
                 }
                 if let nextRide = state.rideModel.nextRide() {
-                    NavigationLink("Show next ride",
-                                   destination: RideDetailView(ride: nextRide))
-                        .buttonStyle(.bordered)
-                        .padding(.bottom)
+                    NavigationLink(
+                        "Show next ride",
+                        destination: RideDetailView(ride: nextRide)
+                    )
+                    .buttonStyle(.bordered)
+                    .padding(.bottom)
                 } else {
                     Text("Not current year")
                         .padding(.bottom)
@@ -62,9 +64,11 @@ struct RideListView: View {
         } message: {
             ReloadErrorView(description: "Failed to fetch ride data for selected year")
         }
-        .sheet(isPresented: $yearPickerPresented,
-               onDismiss: fetchRideData) {
-                YearPickerView(selectedIndex: $yearIndex)
+        .sheet(
+            isPresented: $yearPickerPresented,
+            onDismiss: fetchRideData
+        ) {
+            YearPickerView(selectedIndex: $yearIndex)
         }
         .onAppear {
             yearIndex = state.yearModel.findYearIndex(for: scheduleYear)

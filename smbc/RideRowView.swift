@@ -28,11 +28,14 @@ struct RideRowView: View {
 }
 
 #Preview {
-    RideRowView(ride: ScheduledRide(start: "5/7",
-                                    restaurant: "countryinn",
-                                    end: nil,
-                                    description: nil,
-                                    comment: "Testing"))
-        .environment(ProgramState())
+    RideRowView(
+        ride: ScheduledRide(
+            start: "5/7",
+            restaurant: "countryinn",
+            end: nil,
+            description: nil,
+            comment: "Testing")
+    )
+    .environment(ProgramState())
 
 }

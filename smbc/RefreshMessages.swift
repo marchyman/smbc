@@ -10,7 +10,8 @@ import SwiftUI
 
 struct ScheduleReloadView: View {
     var body: some View {
-        Text("""
+        Text(
+            """
             Up to date Trip, Restaurant, and Schedule data is being retrieved \
             from smbc.snafu.org
 
@@ -23,7 +24,8 @@ struct ReloadErrorView: View {
     let description: String
 
     var body: some View {
-        Text("""
+        Text(
+            """
             \(description)
 
             There may be internet and/or server issues. As a result the \

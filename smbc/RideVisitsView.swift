@@ -27,11 +27,13 @@ struct RideVisitsView: View {
             Text(restaurant.name)
                 .font(.title)
                 .padding(.top, 20)
-            Text("""
+            Text(
+                """
                 \(rideCountLabel(filteredRides.count))
                 scheduled in \(state.scheduleYearString)
-                """)
-                .padding()
+                """
+            )
+            .padding()
             if filteredRides.isEmpty {
                 Spacer()
             } else {
@@ -43,16 +45,14 @@ struct RideVisitsView: View {
         }
     }
 
-    private
-    func rideCountLabel(_ count: Int) -> String {
+    private func rideCountLabel(_ count: Int) -> String {
         if count == 1 {
             return "There is one ride"
         }
         return "There are \(spellOut(count)) rides"
     }
 
-    private
-    func spellOut(_ number: Int) -> String {
+    private func spellOut(_ number: Int) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .spellOut
         return formatter.string(for: number) ?? ""
@@ -60,17 +60,20 @@ struct RideVisitsView: View {
 
 }
 
-#Preview{
-    RideVisitsView(restaurant: Restaurant(id: "test",
-                                          name: "Test Restaurant",
-                                          address: "123 Main Street",
-                                          route: "(101/202/303)",
-                                          city: "Some City",
-                                          phone: "(123) 456-7890",
-                                          status: "CLOSED",
-                                          eta: "8:05",
-                                          lat: 37.7244,
-                                          lon: -122.4381))
-        .environment(ProgramState())
+#Preview {
+    RideVisitsView(
+        restaurant: Restaurant(
+            id: "test",
+            name: "Test Restaurant",
+            address: "123 Main Street",
+            route: "(101/202/303)",
+            city: "Some City",
+            phone: "(123) 456-7890",
+            status: "CLOSED",
+            eta: "8:05",
+            lat: 37.7244,
+            lon: -122.4381)
+    )
+    .environment(ProgramState())
 
 }

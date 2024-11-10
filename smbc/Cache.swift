@@ -21,15 +21,17 @@ struct Cache<T: Decodable> {
     func fileUrl() -> URL {
         let fileManager = FileManager.default
         do {
-            let cachesDir = try fileManager.url(for: .cachesDirectory,
-                                                in: .userDomainMask,
-                                                appropriateFor: nil,
-                                                create: true)
+            let cachesDir = try fileManager.url(
+                for: .cachesDirectory,
+                in: .userDomainMask,
+                appropriateFor: nil,
+                create: true)
             let cacheFolderName = "\(Bundle.main.bundleIdentifier!)/"
             let cacheFolder = cachesDir.appendingPathComponent(cacheFolderName)
-            try fileManager.createDirectory(at: cacheFolder,
-                                            withIntermediateDirectories: true,
-                                            attributes: nil)
+            try fileManager.createDirectory(
+                at: cacheFolder,
+                withIntermediateDirectories: true,
+                attributes: nil)
             let cacheUrl = cacheFolder.appendingPathComponent(name)
             if !fileManager.fileExists(atPath: cacheUrl.path) {
                 primeCache(at: cacheUrl)
@@ -79,12 +81,13 @@ struct Cache<T: Decodable> {
                 fatalError("malformed resource name: \(name)")
             }
             let resource = String(name.prefix(upTo: dotIndex))
-            let extRange = name.index(after: dotIndex)..<name.endIndex
+            let extRange = name.index(after: dotIndex) ..< name.endIndex
             let ext = String(name[extRange])
 
             // URL to data in bundle
-            let bundleUrl = Bundle.main.url(forResource: resource,
-                                            withExtension: ext)!
+            let bundleUrl = Bundle.main.url(
+                forResource: resource,
+                withExtension: ext)!
             try FileManager.default.copyItem(at: bundleUrl, to: cacheUrl)
         } catch {
             fatalError("Cannot prime cache: \(name)")

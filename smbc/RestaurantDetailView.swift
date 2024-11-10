@@ -5,8 +5,8 @@
 //  Created by Marco S Hyman on 6/24/19.
 //
 
-import SwiftUI
 import MapKit
+import SwiftUI
 
 /// Restaurant detail view.
 ///
@@ -28,15 +28,17 @@ struct RestaurantDetailView: View {
                 case .landscapeLeft, .landscapeRight:
                     HStack {
                         RestaurantInfoView(restaurant: restaurant, eta: eta)
-                            .frame(minHeight: 0,
-                                   maxHeight: geometry.size.width * 0.35)
+                            .frame(
+                                minHeight: 0,
+                                maxHeight: geometry.size.width * 0.35)
                         RestaurantMapView(restaurant: restaurant)
                     }
                 default:
                     VStack {
                         RestaurantInfoView(restaurant: restaurant, eta: eta)
-                            .frame(minHeight: 0,
-                                   maxHeight: geometry.size.height * 0.35)
+                            .frame(
+                                minHeight: 0,
+                                maxHeight: geometry.size.height * 0.35)
                         RestaurantMapView(restaurant: restaurant)
                     }
                 }
@@ -64,17 +66,20 @@ struct RestaurantDetailView: View {
 
 #Preview {
     NavigationStack {
-        RestaurantDetailView(restaurant: Restaurant(id: "beachstreet",
-                                                    name: "Beach Street",
-                                                    address: "435 W. Beach Street",
-                                                    route: "101/92/280/85/17/1",
-                                                    city: "Watsonville",
-                                                    phone: "831-722-2233",
-                                                    status: "open",
-                                                    eta: "8:17",
-                                                    lat: 37.113013,
-                                                    lon: -121.637845),
-                             eta: false)
+        RestaurantDetailView(
+            restaurant: Restaurant(
+                id: "beachstreet",
+                name: "Beach Street",
+                address: "435 W. Beach Street",
+                route: "101/92/280/85/17/1",
+                city: "Watsonville",
+                phone: "831-722-2233",
+                status: "open",
+                eta: "8:17",
+                lat: 37.113013,
+                lon: -121.637845),
+            eta: false
+        )
         .environment(ProgramState())
     }
 }
