@@ -13,7 +13,6 @@
 		4915FD4A2A44E3C200845BD6 /* AppStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915FD492A44E3C200845BD6 /* AppStorage.swift */; };
 		4915FD4C2A44FD9600845BD6 /* RestaurantInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915FD4B2A44FD9600845BD6 /* RestaurantInfoView.swift */; };
 		491B760F22DEC9EE00268B60 /* RideDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491B760E22DEC9EE00268B60 /* RideDetailView.swift */; };
-		492151D4273F342A00B51E94 /* RestaurantDetailViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492151D3273F342A00B51E94 /* RestaurantDetailViewTests.swift */; };
 		492151D6273F3AAF00B51E94 /* RideVisitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492151D5273F3AAF00B51E94 /* RideVisitsView.swift */; };
 		493BBFDB22C01AE600E2B437 /* RestaurantListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDA22C01AE600E2B437 /* RestaurantListView.swift */; };
 		493BBFDD22C01B1000E2B437 /* RideListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493BBFDC22C01B1000E2B437 /* RideListView.swift */; };
@@ -42,8 +41,6 @@
 		49B196A122BEADE2009F51E5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B196A022BEADE2009F51E5 /* ContentView.swift */; };
 		49B196A322BEADE3009F51E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49B196A222BEADE3009F51E5 /* Assets.xcassets */; };
 		49B196A622BEADE3009F51E5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49B196A522BEADE3009F51E5 /* Preview Assets.xcassets */; };
-		49B196B422BEADE3009F51E5 /* smbcTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B196B322BEADE3009F51E5 /* smbcTests.swift */; };
-		49B196BF22BEADE3009F51E5 /* ContentViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B196BE22BEADE3009F51E5 /* ContentViewTests.swift */; };
 		49C7FEDA2A467745008F2C4A /* NoMoreRideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C7FED92A467745008F2C4A /* NoMoreRideView.swift */; };
 		49C946DC2BDB0CDE007D1E52 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C946DB2BDB0CDE007D1E52 /* HomeView.swift */; };
 		49C946DE2BDB1312007D1E52 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C946DD2BDB1312007D1E52 /* ViewState.swift */; };
@@ -58,23 +55,6 @@
 		49F2C34122C58B980089CF3C /* TripDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F2C34022C58B980089CF3C /* TripDetailView.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		49B196B022BEADE3009F51E5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 49B1969122BEADE2009F51E5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 49B1969822BEADE2009F51E5;
-			remoteInfo = smbc;
-		};
-		49B196BB22BEADE3009F51E5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 49B1969122BEADE2009F51E5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 49B1969822BEADE2009F51E5;
-			remoteInfo = smbc;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		4905C3E722C72CEC00D9B7CE /* trips.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = trips.json; sourceTree = "<group>"; };
 		490B75A429AAE6A700EA6EEA /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -83,7 +63,6 @@
 		4915FD492A44E3C200845BD6 /* AppStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorage.swift; sourceTree = "<group>"; };
 		4915FD4B2A44FD9600845BD6 /* RestaurantInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantInfoView.swift; sourceTree = "<group>"; };
 		491B760E22DEC9EE00268B60 /* RideDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideDetailView.swift; sourceTree = "<group>"; };
-		492151D3273F342A00B51E94 /* RestaurantDetailViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailViewTests.swift; sourceTree = "<group>"; };
 		492151D5273F3AAF00B51E94 /* RideVisitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideVisitsView.swift; sourceTree = "<group>"; };
 		493BBFDA22C01AE600E2B437 /* RestaurantListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantListView.swift; sourceTree = "<group>"; };
 		493BBFDC22C01B1000E2B437 /* RideListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideListView.swift; sourceTree = "<group>"; };
@@ -117,12 +96,6 @@
 		49B196A022BEADE2009F51E5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		49B196A222BEADE3009F51E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		49B196A522BEADE3009F51E5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		49B196AF22BEADE3009F51E5 /* smbcTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = smbcTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		49B196B322BEADE3009F51E5 /* smbcTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smbcTests.swift; sourceTree = "<group>"; };
-		49B196B522BEADE3009F51E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		49B196BA22BEADE3009F51E5 /* smbcUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = smbcUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		49B196BE22BEADE3009F51E5 /* ContentViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewTests.swift; sourceTree = "<group>"; };
-		49B196C022BEADE3009F51E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49C7FED92A467745008F2C4A /* NoMoreRideView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoMoreRideView.swift; sourceTree = "<group>"; };
 		49C946DB2BDB0CDE007D1E52 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		49C946DD2BDB1312007D1E52 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
@@ -146,20 +119,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		49B196AC22BEADE3009F51E5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		49B196B722BEADE3009F51E5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -178,8 +137,6 @@
 				495AFFF92C2F37F7002D516F /* Config.xcconfig */,
 				490B75A429AAE6A700EA6EEA /* .swiftlint.yml */,
 				49B1969B22BEADE2009F51E5 /* smbc */,
-				49B196B222BEADE3009F51E5 /* smbcTests */,
-				49B196BD22BEADE3009F51E5 /* smbcUITests */,
 				49B1969A22BEADE2009F51E5 /* Products */,
 				49AC84302C0C254800BD7E39 /* Frameworks */,
 			);
@@ -189,8 +146,6 @@
 			isa = PBXGroup;
 			children = (
 				49B1969922BEADE2009F51E5 /* smbc.app */,
-				49B196AF22BEADE3009F51E5 /* smbcTests.xctest */,
-				49B196BA22BEADE3009F51E5 /* smbcUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -252,25 +207,6 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		49B196B222BEADE3009F51E5 /* smbcTests */ = {
-			isa = PBXGroup;
-			children = (
-				49B196B322BEADE3009F51E5 /* smbcTests.swift */,
-				49B196B522BEADE3009F51E5 /* Info.plist */,
-			);
-			path = smbcTests;
-			sourceTree = "<group>";
-		};
-		49B196BD22BEADE3009F51E5 /* smbcUITests */ = {
-			isa = PBXGroup;
-			children = (
-				49B196BE22BEADE3009F51E5 /* ContentViewTests.swift */,
-				492151D3273F342A00B51E94 /* RestaurantDetailViewTests.swift */,
-				49B196C022BEADE3009F51E5 /* Info.plist */,
-			);
-			path = smbcUITests;
-			sourceTree = "<group>";
-		};
 		49ED466822C1E46D003AAEE4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -309,42 +245,6 @@
 			productReference = 49B1969922BEADE2009F51E5 /* smbc.app */;
 			productType = "com.apple.product-type.application";
 		};
-		49B196AE22BEADE3009F51E5 /* smbcTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 49B196C622BEADE3009F51E5 /* Build configuration list for PBXNativeTarget "smbcTests" */;
-			buildPhases = (
-				49B196AB22BEADE3009F51E5 /* Sources */,
-				49B196AC22BEADE3009F51E5 /* Frameworks */,
-				49B196AD22BEADE3009F51E5 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				49B196B122BEADE3009F51E5 /* PBXTargetDependency */,
-			);
-			name = smbcTests;
-			productName = smbcTests;
-			productReference = 49B196AF22BEADE3009F51E5 /* smbcTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		49B196B922BEADE3009F51E5 /* smbcUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 49B196C922BEADE3009F51E5 /* Build configuration list for PBXNativeTarget "smbcUITests" */;
-			buildPhases = (
-				49B196B622BEADE3009F51E5 /* Sources */,
-				49B196B722BEADE3009F51E5 /* Frameworks */,
-				49B196B822BEADE3009F51E5 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				49B196BC22BEADE3009F51E5 /* PBXTargetDependency */,
-			);
-			name = smbcUITests;
-			productName = smbcUITests;
-			productReference = 49B196BA22BEADE3009F51E5 /* smbcUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -361,14 +261,6 @@
 				TargetAttributes = {
 					49B1969822BEADE2009F51E5 = {
 						CreatedOnToolsVersion = 11.0;
-					};
-					49B196AE22BEADE3009F51E5 = {
-						CreatedOnToolsVersion = 11.0;
-						TestTargetID = 49B1969822BEADE2009F51E5;
-					};
-					49B196B922BEADE3009F51E5 = {
-						CreatedOnToolsVersion = 11.0;
-						TestTargetID = 49B1969822BEADE2009F51E5;
 					};
 				};
 			};
@@ -389,8 +281,6 @@
 			projectRoot = "";
 			targets = (
 				49B1969822BEADE2009F51E5 /* smbc */,
-				49B196AE22BEADE3009F51E5 /* smbcTests */,
-				49B196B922BEADE3009F51E5 /* smbcUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -408,20 +298,6 @@
 				4948586A2C0AC975009B8101 /* gallery.json in Resources */,
 				495AFFF82C2F371E002D516F /* PrivacyInfo.xcprivacy in Resources */,
 				49B196A322BEADE3009F51E5 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		49B196AD22BEADE3009F51E5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		49B196B822BEADE3009F51E5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -514,37 +390,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		49B196AB22BEADE3009F51E5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				49B196B422BEADE3009F51E5 /* smbcTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		49B196B622BEADE3009F51E5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				492151D4273F342A00B51E94 /* RestaurantDetailViewTests.swift in Sources */,
-				49B196BF22BEADE3009F51E5 /* ContentViewTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		49B196B122BEADE3009F51E5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 49B1969822BEADE2009F51E5 /* smbc */;
-			targetProxy = 49B196B022BEADE3009F51E5 /* PBXContainerItemProxy */;
-		};
-		49B196BC22BEADE3009F51E5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 49B1969822BEADE2009F51E5 /* smbc */;
-			targetProxy = 49B196BB22BEADE3009F51E5 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		49B196C122BEADE3009F51E5 /* Debug */ = {
@@ -719,82 +565,6 @@
 			};
 			name = Release;
 		};
-		49B196C722BEADE3009F51E5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = A3UXBEBE8Z;
-				INFOPLIST_FILE = smbcTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.snafu.smbcTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/smbc.app/smbc";
-			};
-			name = Debug;
-		};
-		49B196C822BEADE3009F51E5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = A3UXBEBE8Z;
-				INFOPLIST_FILE = smbcTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.snafu.smbcTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/smbc.app/smbc";
-			};
-			name = Release;
-		};
-		49B196CA22BEADE3009F51E5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = A3UXBEBE8Z;
-				INFOPLIST_FILE = smbcUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.snafu.smbcUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_STRICT_CONCURRENCY = minimal;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = smbc;
-			};
-			name = Debug;
-		};
-		49B196CB22BEADE3009F51E5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = A3UXBEBE8Z;
-				INFOPLIST_FILE = smbcUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.snafu.smbcUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_STRICT_CONCURRENCY = minimal;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = smbc;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -812,24 +582,6 @@
 			buildConfigurations = (
 				49B196C422BEADE3009F51E5 /* Debug */,
 				49B196C522BEADE3009F51E5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		49B196C622BEADE3009F51E5 /* Build configuration list for PBXNativeTarget "smbcTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				49B196C722BEADE3009F51E5 /* Debug */,
-				49B196C822BEADE3009F51E5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		49B196C922BEADE3009F51E5 /* Build configuration list for PBXNativeTarget "smbcUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				49B196CA22BEADE3009F51E5 /* Debug */,
-				49B196CB22BEADE3009F51E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
