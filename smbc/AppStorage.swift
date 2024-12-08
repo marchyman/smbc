@@ -11,7 +11,7 @@ import Foundation
 /// The schedule for a year is stored in the app bundle to initialize needed state before updated
 /// data is downloaded from the SMBC server.
 ///
-let bundleScheduleYear = 2024
+let bundleScheduleYear = 2025
 
 // AppStorage keys
 
