@@ -43,13 +43,13 @@ extension GalleryModel {
                     if start {
                         return String(
                             content
-                                .replacing(/:{|:}|:\[.*\)|!\[.*\)/, with: "")
+                                .replacing(/!{|!}|!\[.*\)/, with: "")
                                 .prefix(250)
                                 .replacing(/[[:space:]][^[:space:]]+$/, with: "")
                         ) + "..."
                     } else {
                         return content.replacing(
-                            /:{|:}|:\[.*\)|!\[.*\)/,
+                            /!{|!}|!\[.*\)/,
                             with: "")
                     }
                 }
