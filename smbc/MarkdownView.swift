@@ -21,8 +21,10 @@ struct MarkdownView: View {
                 Markdown(markdown)
                     .padding(.horizontal)
             } else {
+                Spacer()
                 Image(systemName: "circle.hexagongrid.fill")
                     .symbolEffect(.pulse, options: .repeating)
+                    .frame(maxWidth: .infinity)
             }
             Spacer()
         }
