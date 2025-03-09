@@ -13,6 +13,7 @@ struct ImageView: View {
         VStack(spacing: 2) {
             Text(imageName)
                 .font(.headline)
+                .padding(.bottom)
             AsyncImage(url: URL(string: serverName + imageName)) { image in
                 image
                     .resizable()
@@ -20,8 +21,10 @@ struct ImageView: View {
                     .cornerRadius(7)
                     .padding(.horizontal)
             } placeholder: {
+                Spacer()
                 Image(systemName: "circle.hexagongrid.fill")
                     .symbolEffect(.pulse, options: .repeating)
+                Spacer()
             }
         }
     }
