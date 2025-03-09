@@ -20,8 +20,13 @@ struct FullMarkdownView: View {
                 Markdown(markdown)
                     .padding(.horizontal)
             } else {
-                Image(systemName: "circle.hexagongrid.fill")
-                    .symbolEffect(.pulse, options: .repeating)
+                VStack {
+                    Spacer()
+                    Image(systemName: "circle.hexagongrid.fill")
+                        .symbolEffect(.pulse, options: .repeating)
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity, minHeight: 300)
             }
         }
         .padding(.horizontal)
