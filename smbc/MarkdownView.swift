@@ -25,14 +25,8 @@ struct MarkdownView: View {
                     .symbolEffect(.pulse, options: .repeating)
             }
             Spacer()
-            HStack {
-                Spacer()
-                Text("**more**...")
-                    .font(.footnote)
-                    .padding(.trailing)
-            }
         }
-        .frame(height: 300, alignment: .top)
+        .frame(height: 270, alignment: .top)
         .overlay {
             RoundedRectangle(cornerRadius: 7)
                 .stroke(Color.secondary, lineWidth: 2)

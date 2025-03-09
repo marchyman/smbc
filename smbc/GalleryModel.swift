@@ -40,17 +40,17 @@ extension GalleryModel {
             do {
                 let (data, _) = try await session.data(from: url)
                 if let content = String(data: data, encoding: .utf8) {
+                    let workingString = content.replacing(/!{|!}|!\[.*\)/, with: "")
                     if start {
-                        return String(
-                            content
-                                .replacing(/!{|!}|!\[.*\)/, with: "")
-                                .prefix(250)
-                                .replacing(/[[:space:]][^[:space:]]+$/, with: "")
+                        if workingString.count < 250 {
+                            return workingString
+                        }
+                        return String(workingString
+                                        .prefix(250)
+                                        .replacing(/[[:space:]][^[:space:]]+$/, with: "")
                         ) + "..."
                     } else {
-                        return content.replacing(
-                            /!{|!}|!\[.*\)/,
-                            with: "")
+                        return workingString
                     }
                 }
             }
