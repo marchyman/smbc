@@ -6,10 +6,15 @@
 //
 
 import Foundation
+import OSLog
 
 struct Cache<T: Decodable> {
     var name: String
     var type: T.Type
+
+    private let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: "Cache")
 
     /// Return a URL for the named cache file
     ///
@@ -21,13 +26,9 @@ struct Cache<T: Decodable> {
     func fileUrl() -> URL {
         let fileManager = FileManager.default
         do {
-            let cachesDir = try fileManager.url(
-                for: .cachesDirectory,
-                in: .userDomainMask,
-                appropriateFor: nil,
-                create: true)
-            let cacheFolderName = "\(Bundle.main.bundleIdentifier!)/"
-            let cacheFolder = cachesDir.appendingPathComponent(cacheFolderName)
+            let cacheFolder = URL
+                .cachesDirectory
+                .appending(component: "\(Bundle.main.bundleIdentifier!)/")
             try fileManager.createDirectory(
                 at: cacheFolder,
                 withIntermediateDirectories: true,
@@ -36,6 +37,10 @@ struct Cache<T: Decodable> {
             if !fileManager.fileExists(atPath: cacheUrl.path) {
                 primeCache(at: cacheUrl)
             }
+            logger.info("""
+                Cache for \(name, privacy: .public) -> \
+                \(cacheUrl.path, privacy: .public)
+                """)
             return cacheUrl
         } catch {
             fatalError("Cannot create cache folder for: \(name)")
@@ -52,18 +57,27 @@ struct Cache<T: Decodable> {
                 let decoded = try decoder.decode(type, from: cachedData)
                 return decoded
             } catch let DecodingError.dataCorrupted(context) {
-                print(context)
+                logger.error("context: \(context.debugDescription, privacy: .public)")
             } catch let DecodingError.keyNotFound(key, context) {
-                print("Key '\(key)' not found:", context.debugDescription)
-                print("codingPath:", context.codingPath)
+                logger.error("""
+                    Key '\(key.debugDescription, privacy: .public)' not found: \
+                    \(context.debugDescription, privacy: .public)
+                    codingPath: \(context.codingPath, privacy: .public)
+                    """)
             } catch let DecodingError.valueNotFound(value, context) {
-                print("Value '\(value)' not found:", context.debugDescription)
-                print("codingPath:", context.codingPath)
+                logger.error("""
+                    Value '\(value, privacy: .public)' not found: \
+                    \(context.debugDescription, privacy: .public)
+                    codingPath: \(context.codingPath, privacy: .public)
+                    """)
             } catch let DecodingError.typeMismatch(type, context) {
-                print("Type '\(type)' mismatch:", context.debugDescription)
-                print("codingPath:", context.codingPath)
+                logger.error("""
+                    Type '\(type, privacy: .public)' not found: \
+                    \(context.debugDescription, privacy: .public)
+                    codingPath: \(context.codingPath, privacy: .public)
+                    """)
             } catch {
-                print("error: ", error)
+                logger.error("Error: \(error.localizedDescription, privacy: .public)")
             }
             fatalError("JSON Decoding Error for \(name)")
         } else {
