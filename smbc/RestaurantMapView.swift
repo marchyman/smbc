@@ -58,7 +58,7 @@ struct RestaurantMapView: View {
                 popoverPresented.toggle()
             }
             .background(Color.blue).opacity(0.6)
-            .foregroundColor(.black)
+            .foregroundStyle(.black)
             .buttonStyle(.bordered)
             .cornerRadius(7)
             .padding(.horizontal)
