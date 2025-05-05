@@ -24,6 +24,8 @@ targets:
     type: application
     platform: iOS
     deploymentTarget: 17.0
+    dependencies:
+      - package: MarkdownUI
     sources:
       - smbc
     settings:
@@ -32,6 +34,7 @@ targets:
         ENABLE_PREVIEWS: YES
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: $(TARGET_NAME)
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.travel
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
@@ -57,4 +60,9 @@ targets:
         name: Swift Lint
         showEnvVars: NO
         basedOnDependencyAnalysis: NO
+
+packages:
+  MarkdownUI:
+    url: git@github.com/gonzalezreal/swift-markdown-ui.git
+    from: 2.3.0
 
