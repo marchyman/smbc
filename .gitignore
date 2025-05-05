@@ -1,7 +1,13 @@
 *~
 .DS_Store
 
+buildServer.json
+smbc.entitlements
+
 Build/
 DerivedData/
+Index.noindex/
 xcuserdata/
+*.xcodeproj/
 *.xcworkspace/
+*.trace/
