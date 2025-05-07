@@ -7,8 +7,8 @@ import WidgetKit
 import SwiftUI
 
 @main
-struct smbcWidgetBundle: WidgetBundle {
+struct SmbcWidgetBundle: WidgetBundle {
     var body: some Widget {
-        smbcWidget()
+        SmbcWidget()
     }
 }

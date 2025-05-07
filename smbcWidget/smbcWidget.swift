@@ -41,7 +41,7 @@ struct SimpleEntry: TimelineEntry {
     let emoji: String
 }
 
-struct smbcWidgetEntryView : View {
+struct SmbcWidgetEntryView : View {
     var entry: Provider.Entry
 
     var body: some View {
@@ -55,16 +55,16 @@ struct smbcWidgetEntryView : View {
     }
 }
 
-struct smbcWidget: Widget {
+struct SmbcWidget: Widget {
     let kind: String = "smbcWidget"
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             if #available(iOS 17.0, *) {
-                smbcWidgetEntryView(entry: entry)
+                SmbcWidgetEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
             } else {
-                smbcWidgetEntryView(entry: entry)
+                SmbcWidgetEntryView(entry: entry)
                     .padding()
                     .background()
             }
@@ -75,7 +75,7 @@ struct smbcWidget: Widget {
 }
 
 #Preview(as: .systemSmall) {
-    smbcWidget()
+    SmbcWidget()
 } timeline: {
     SimpleEntry(date: .now, emoji: "😀")
     SimpleEntry(date: .now, emoji: "🤩")

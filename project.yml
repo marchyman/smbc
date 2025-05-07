@@ -27,6 +27,7 @@ targets:
     deploymentTarget: 17.0
     dependencies:
       - package: MarkdownUI
+      - target: smbcWidgetExtension
     sources:
       - smbc
     entitlements:
@@ -34,8 +35,6 @@ targets:
       properties:
         com.apple.security.application-groups:
           - group.org.snafu.smbc
-    dependencies:
-      - target: smbcWidgetExtension
     settings:
       base:
         ENABLE_PREVIEWS: YES
@@ -101,10 +100,10 @@ targets:
         PRODUCT_NAME: smbcWidgetExtension
         PRODUCT_BUNDLE_IDENTIFIER: org.snafu.smbc.smbcWidgetExtension
     postBuildScripts:
-      - path: .buildversion.sh
-        name: Build Version
-        showEnvVars: NO
-        basedOnDependencyAnalysis: NO
+      # - path: .buildversion.sh
+      #   name: Build Version
+      #   showEnvVars: NO
+      #   basedOnDependencyAnalysis: NO
       - path: .swiftlint.sh
         name: Swift Lint
         showEnvVars: NO
