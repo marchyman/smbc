@@ -46,6 +46,7 @@ struct RestaurantInfoView: View {
                 Text(restaurant.route).padding(.top)
             }
         }
+        .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
