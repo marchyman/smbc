@@ -10,9 +10,10 @@ project:
 xcodebuild:
 	xcodebuild -scheme $(PROJECT)
 
-$(PROJECT).xcodeproj:	project
+$(PROJECT).xcodeproj:	project.yml
+	xcodegen -c
 
-Build:
+Build:	$(PROJECT).xcodeproj
 	xcodebuild -scheme $(PROJECT)
 
 buildServer.json:	Build
