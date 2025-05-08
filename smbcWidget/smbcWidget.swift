@@ -8,11 +8,11 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), emoji: "😀")
+        SimpleEntry(date: Date())
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
-        let entry = SimpleEntry(date: Date(), emoji: "😀")
+        let entry = SimpleEntry(date: Date())
         completion(entry)
     }
 
@@ -23,22 +23,17 @@ struct Provider: TimelineProvider {
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, emoji: "😀")
+            let entry = SimpleEntry(date: entryDate)
             entries.append(entry)
         }
 
         let timeline = Timeline(entries: entries, policy: .atEnd)
         completion(timeline)
     }
-
-//    func relevances() async -> WidgetRelevances<Void> {
-//        // Generate a list containing the contexts this widget is relevant in.
-//    }
 }
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let emoji: String
 }
 
 struct SmbcWidgetEntryView: View {
@@ -48,9 +43,6 @@ struct SmbcWidgetEntryView: View {
         VStack {
             Text("Time:")
             Text(entry.date, style: .time)
-
-            Text("Emoji:")
-            Text(entry.emoji)
         }
     }
 }
@@ -60,23 +52,18 @@ struct SmbcWidget: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
-            if #available(iOS 17.0, *) {
-                SmbcWidgetEntryView(entry: entry)
-                    .containerBackground(.fill.tertiary, for: .widget)
-            } else {
-                SmbcWidgetEntryView(entry: entry)
-                    .padding()
-                    .background()
-            }
+            SmbcWidgetEntryView(entry: entry)
+                .containerBackground(.fill.tertiary, for: .widget)
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("SMBC Widget")
+        .description("Next restaurant the SMBC will visit")
+        .supportedFamilies([.systemSmall])
+        .contentMarginsDisabled()
     }
 }
 
 #Preview(as: .systemSmall) {
     SmbcWidget()
 } timeline: {
-    SimpleEntry(date: .now, emoji: "😀")
-    SimpleEntry(date: .now, emoji: "🤩")
+    SimpleEntry(date: .now)
 }
