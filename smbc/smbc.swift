@@ -16,6 +16,10 @@ struct SmbcApp: App {
         WindowGroup {
             ContentView()
                 .environment(programState)
+                .onOpenURL { url in
+                    print("openURL \(url)")
+                    guard url.scheme == "smbc" else { return }
+                }
         }
     }
 }

@@ -6,34 +6,50 @@
 import WidgetKit
 import SwiftUI
 
+let testRest =  Restaurant(
+                id: "beachstreet",
+                name: "Beach Street",
+                address: "435 W. Beach Street",
+                route: "101/92/280/85/17/1",
+                city: "Watsonville",
+                phone: "831-722-2233",
+                status: "open",
+                eta: "8:17",
+                lat: 37.113013,
+                lon: -121.637845)
+
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date())
+        SimpleEntry(date: Date(), restaurant: testRest )
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
-        let entry = SimpleEntry(date: Date())
+    func getSnapshot(in context: Context,
+                     completion: @escaping (SimpleEntry) -> Void) {
+        let entry = SimpleEntry(date: Date(), restaurant: testRest )
         completion(entry)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
-        var entries: [SimpleEntry] = []
+    func getTimeline(in context: Context,
+                     completion: @escaping (Timeline<Entry>) -> Void) {
+        var entries: [SimpleEntry] = [
+            SimpleEntry(date: Date(), restaurant: testRest )
+        ]
 
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate)
-            entries.append(entry)
-        }
+        let calendar = Calendar.current
+        let monday = 2 // second day of week
+        let components = DateComponents(weekday: monday)
+        let nextMonday = calendar.nextDate(after: Date.now,
+            matching: components,
+            matchingPolicy: .nextTime) ?? Date.now.addingTimeInterval(12*60*60)
 
-        let timeline = Timeline(entries: entries, policy: .atEnd)
+        let timeline = Timeline(entries: entries, policy: .after(nextMonday))
         completion(timeline)
     }
 }
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
+    let restaurant: Restaurant
 }
 
 struct SmbcWidgetEntryView: View {
@@ -41,9 +57,21 @@ struct SmbcWidgetEntryView: View {
 
     var body: some View {
         VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
+            Text("SMBC Next Ride")
+                .font(.caption)
+                .padding(.bottom)
+            Text(entry.restaurant.name)
+                .bold()
+                .padding(.bottom)
+            Text(entry.restaurant.city)
+                .font(.callout)
+            Spacer()
+            Text("ETA: \(entry.restaurant.eta)")
+                .font(.caption2)
         }
+        .backgroundStyle(Color.accentColor)
+        .padding()
+        .widgetURL(URL(string: "smbc://"))
     }
 }
 
@@ -56,7 +84,7 @@ struct SmbcWidget: Widget {
                 .containerBackground(.fill.tertiary, for: .widget)
         }
         .configurationDisplayName("SMBC Widget")
-        .description("Next restaurant the SMBC will visit")
+        .description("Next SMBC ride destination")
         .supportedFamilies([.systemSmall])
         .contentMarginsDisabled()
     }
@@ -65,5 +93,16 @@ struct SmbcWidget: Widget {
 #Preview(as: .systemSmall) {
     SmbcWidget()
 } timeline: {
-    SimpleEntry(date: .now)
+        SimpleEntry(date: .now,
+            restaurant: Restaurant(
+                id: "beachstreet",
+                name: "Beach Street",
+                address: "435 W. Beach Street",
+                route: "101/92/280/85/17/1",
+                city: "Watsonville",
+                phone: "831-722-2233",
+                status: "open",
+                eta: "8:17",
+                lat: 37.113013,
+                lon: -121.637845))
 }
