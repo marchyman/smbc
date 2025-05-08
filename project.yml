@@ -115,6 +115,22 @@ targets:
         showEnvVars: NO
         basedOnDependencyAnalysis: NO
 
+schemes:
+  smbc:
+    build:
+      targets:
+        smbc: all
+
+  smbc-widget:
+    build:
+      targets:
+        smbcWidgetExtension: all
+      run:
+        environmentVariables:
+          - variable: "_XCWidgetFamily"
+            value: "systemSmall"
+            isEnabled: YES
+
 packages:
   MarkdownUI:
     url: git@github.com/gonzalezreal/swift-markdown-ui.git
