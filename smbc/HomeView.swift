@@ -32,12 +32,7 @@ struct HomeView: View {
                 Spacer()
                 SmbcImage()
                     .onTapGesture {
-                        if let nextRide = state.rideModel.nextRide() {
-                            viewState.nextRide = nextRide
-                            viewState.selectedTab = .rides
-                        } else {
-                            noMoreRides.toggle()
-                        }
+                        showNextRide()
                     }
                     .onLongPressGesture {
                         viewState.refreshPresented = true
@@ -79,6 +74,19 @@ struct HomeView: View {
                 // load current schedule if necessary.
                 await viewState.refresh(state)
             }
+            .onOpenURL { url in
+                guard url.scheme == "smbc" else { return }
+                showNextRide()
+            }
+        }
+    }
+
+    func showNextRide() {
+        if let nextRide = state.rideModel.nextRide() {
+            viewState.nextRide = nextRide
+            viewState.selectedTab = .rides
+        } else {
+            noMoreRides.toggle()
         }
     }
 }
