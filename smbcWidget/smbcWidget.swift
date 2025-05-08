@@ -31,9 +31,7 @@ struct Provider: TimelineProvider {
 
     func getTimeline(in context: Context,
                      completion: @escaping (Timeline<Entry>) -> Void) {
-        let entries: [SimpleEntry] = [
-            SimpleEntry(date: Date(), restaurant: testRest )
-        ]
+        let entry = SimpleEntry(date: Date(), restaurant: testRest )
 
         let calendar = Calendar.current
         let monday = 2 // second day of week
@@ -42,7 +40,7 @@ struct Provider: TimelineProvider {
             matching: components,
             matchingPolicy: .nextTime) ?? Date.now.addingTimeInterval(12*60*60)
 
-        let timeline = Timeline(entries: entries, policy: .after(nextMonday))
+        let timeline = Timeline(entries: [entry], policy: .after(nextMonday))
         completion(timeline)
     }
 }
