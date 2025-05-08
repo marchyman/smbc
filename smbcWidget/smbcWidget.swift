@@ -31,7 +31,7 @@ struct Provider: TimelineProvider {
 
     func getTimeline(in context: Context,
                      completion: @escaping (Timeline<Entry>) -> Void) {
-        var entries: [SimpleEntry] = [
+        let entries: [SimpleEntry] = [
             SimpleEntry(date: Date(), restaurant: testRest )
         ]
 
@@ -56,22 +56,27 @@ struct SmbcWidgetEntryView: View {
     var entry: Provider.Entry
 
     var body: some View {
-        VStack {
-            Text("SMBC Next Ride")
-                .font(.caption)
-                .padding(.bottom)
-            Text(entry.restaurant.name)
-                .bold()
-                .padding(.bottom)
-            Text(entry.restaurant.city)
-                .font(.callout)
-            Spacer()
-            Text("ETA: \(entry.restaurant.eta)")
-                .font(.caption2)
+        ZStack {
+            Color.widgetBackground
+            VStack {
+                HStack {
+                    Text("SMBC Next Ride:")
+                        .font(.caption)
+                        .padding(.bottom)
+                    Spacer()
+                }
+                Text(entry.restaurant.name)
+                    .bold()
+                    .padding(.bottom)
+                Text(entry.restaurant.city)
+                    .font(.callout)
+                Spacer()
+                Text("ETA: \(entry.restaurant.eta)")
+                    .font(.caption2)
+            }
+            .padding()
+            .widgetURL(URL(string: "smbc://"))
         }
-        .backgroundStyle(Color.accentColor)
-        .padding()
-        .widgetURL(URL(string: "smbc://"))
     }
 }
 
