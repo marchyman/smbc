@@ -34,6 +34,7 @@ targets:
       - target: smbcWidgetExtension
     sources:
       - smbc
+      - shared
     entitlements:
       path: smbc/smbc.entitlements
       properties:
@@ -77,6 +78,7 @@ targets:
     deploymentTarget: 17.0
     sources:
       - smbcWidget
+      - shared
     dependencies:
       - sdk: SwiftUI.framework
       - sdk: WidgetKit.framework

@@ -57,7 +57,7 @@ struct SmbcWidget: Widget {
         }
         .configurationDisplayName("SMBC Widget")
         .description("Next restaurant the SMBC will visit")
-        .supportedFamilies([.systemSmall])
+        .supportedFamilies([.systemSmall, .systemMedium])
         .contentMarginsDisabled()
     }
 }
