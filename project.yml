@@ -9,10 +9,15 @@ settings:
     DEVELOPMENT_TEAM: A3UXBEBE8Z
     ENABLE_USER_SCRIPT_SANDBOXING: NO
     LOCALIZATION_PREFERS_STRING_CATALOGS: YES
-    PRODUCT_NAME: $(TARGET_NAME)
+    PRODUCT_NAME: smbc
     SWIFT_VERSION: 6.1
     SWIFT_EMIT_LOC_STRINGS: YES
     SWIFT_STRICT_CONCURRENCY: YES
+    # the following are replaced in the target Info.plists by a post
+    # build script. They are needed (?) to build the plist that the
+    # script then modifies.
+    CURRENT_PROJECT_VERSION: 1
+    MARKETING_VERSION: 1.0
   configs:
     debug:
       SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG $(inherited)
@@ -26,14 +31,20 @@ targets:
     deploymentTarget: 17.0
     dependencies:
       - package: MarkdownUI
+      - target: smbcWidgetExtension
     sources:
       - smbc
+      - shared
+    entitlements:
+      path: smbc/smbc.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.org.snafu.smbc
     settings:
       base:
-        CURRENT_PROJECT_VERSION: 1
         ENABLE_PREVIEWS: YES
         GENERATE_INFOPLIST_FILE: YES
-        INFOPLIST_KEY_CFBundleDisplayName: $(TARGET_NAME)
+        INFOPLIST_KEY_CFBundleDisplayName: smbc
         INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.travel
         INFOPLIST_KEY_NSHumanReadableCopyright: Copyright 2025 Marco S Hyman
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
@@ -50,8 +61,7 @@ targets:
           - UIInterfaceOrientationLandscapeRight
         INFOPLIST_KEY_UIBackgroundModes:
           - remote-notification
-        MARKETING_VERSION: 1.0
-        PRODUCT_BUNDLE_IDENTIFIER: org.snafu.$(TARGET_NAME)
+        PRODUCT_BUNDLE_IDENTIFIER: org.snafu.smbc
     postBuildScripts:
       - path: .buildversion.sh
         name: Build Version
@@ -61,6 +71,65 @@ targets:
         name: Swift Lint
         showEnvVars: NO
         basedOnDependencyAnalysis: NO
+
+  smbcWidgetExtension:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: 17.0
+    sources:
+      - smbcWidget
+      - shared
+    dependencies:
+      - sdk: SwiftUI.framework
+      - sdk: WidgetKit.framework
+    entitlements:
+      path: smbcWidget/smbcWidget.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.org.snafu.smbc
+    # INFOPLIST_KEY_NSExtension doesn't seem to exist.
+    # Build the Info.plist here so I can add that key/value
+    # Entries automatically added by xcodegen are skipped
+    info:
+      path: smbcWidget/Info.plist
+      properties:
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleDisplayName: smbcWidgetExtension
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+        NSHumanReadableCopyright: Copyright 2025 Marco S Hyman
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: NO
+        SKIP_INSTALL: YES
+        PRODUCT_NAME: smbcWidgetExtension
+        PRODUCT_BUNDLE_IDENTIFIER: org.snafu.smbc.smbcWidgetExtension
+    postBuildScripts:
+      - path: .buildversion.sh
+        name: Build Version
+        showEnvVars: NO
+        basedOnDependencyAnalysis: NO
+      - path: .swiftlint.sh
+        name: Swift Lint
+        showEnvVars: NO
+        basedOnDependencyAnalysis: NO
+
+schemes:
+  smbc:
+    build:
+      targets:
+        smbc: all
+
+  smbc-widget:
+    build:
+      targets:
+        smbcWidgetExtension: all
+      run:
+        environmentVariables:
+          - variable: "_XCWidgetFamily"
+            value: "systemSmall"
+            isEnabled: YES
 
 packages:
   MarkdownUI:

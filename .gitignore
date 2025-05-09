@@ -2,7 +2,8 @@
 .DS_Store
 
 buildServer.json
-smbc.entitlements
+Info.plist
+*.entitlements
 
 Build/
 DerivedData/

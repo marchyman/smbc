@@ -8,12 +8,6 @@
 import Observation
 import SwiftUI
 
-/// The server URL as a string and the name of the folder used to hold
-/// most of the schedule data
-///
-let serverName = "https://smbc.snafu.org/"
-let serverDir = "schedule/"
-
 /// A class to hold program state
 ///
 @MainActor
@@ -21,11 +15,11 @@ let serverDir = "schedule/"
 class ProgramState {
     /// The various models that make up the total state of the system
     ///
-    var yearModel = YearModel()
-    var restaurantModel = RestaurantModel()
-    var rideModel = RideModel()
-    var tripModel = TripModel()
-    var galleryModel = GalleryModel()
+    let yearModel = YearModel()
+    let restaurantModel = RestaurantModel()
+    let rideModel = RideModel()
+    let tripModel = TripModel()
+    let galleryModel = GalleryModel()
 
     // The year of the loaded schedule as a string
 
@@ -36,37 +30,36 @@ class ProgramState {
 
     /// refresh schedule model data from the server
     ///
+    @MainActor
     func refresh(_ schedYear: Int) async throws {
         @AppStorage(ASKeys.refreshDate) var refreshDate = Date()
 
-        Task {
-            await withThrowingTaskGroup(of: Void.self) { group in
-                group.addTask {
-                    do { try await self.yearModel.fetch() } catch {
-                        throw FetchError.yearModelError
-                    }
+        await withThrowingTaskGroup(of: Void.self) { group in
+            group.addTask {
+                do { try await self.yearModel.fetch() } catch {
+                    throw FetchError.yearModelError
                 }
-                group.addTask {
-                    do { try await self.restaurantModel.fetch() } catch {
-                        throw FetchError.restaurantModelError
-                    }
+            }
+            group.addTask {
+                do { try await self.restaurantModel.fetch() } catch {
+                    throw FetchError.restaurantModelError
                 }
-                group.addTask {
-                    do {
-                        try await self.rideModel.fetch(scheduleFor: schedYear)
-                    } catch {
-                        throw FetchError.rideModelError
-                    }
+            }
+            group.addTask {
+                do {
+                    try await self.rideModel.fetch(scheduleFor: schedYear)
+                } catch {
+                    throw FetchError.rideModelError
                 }
-                group.addTask {
-                    do { try await self.tripModel.fetch() } catch {
-                        throw FetchError.tripModelError
-                    }
+            }
+            group.addTask {
+                do { try await self.tripModel.fetch() } catch {
+                    throw FetchError.tripModelError
                 }
-                group.addTask {
-                    do { try await self.galleryModel.fetch() } catch {
-                        throw FetchError.galleryError
-                    }
+            }
+            group.addTask {
+                do { try await self.galleryModel.fetch() } catch {
+                    throw FetchError.galleryError
                 }
             }
         }
