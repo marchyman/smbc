@@ -5,53 +5,78 @@
 
 import WidgetKit
 import SwiftUI
+import OSLog
 
-private let testRest =  Restaurant(
-    id: "beachstreet",
-    name: "Beach Street",
-    address: "435 W. Beach Street",
-    route: "101/92/280/85/17/1",
-    city: "Watsonville",
-    phone: "831-722-2233",
-    status: "open",
-    eta: "8:17",
-    lat: 37.113013,
-    lon: -121.637845
-)
+struct WidgetData {
+    let rides: [ScheduledRide]
+    let restaurants: [Restaurant]
 
-@MainActor
-struct WidgetState {
-    static var state = ProgramState()
+    init() {
+        let rideCache = Cache(name: scheduleFileName, type: [ScheduledRide].self)
+        rides = rideCache.cachedData()
+        let restaurantCache = Cache(name: restaurantFileName, type: [Restaurant].self)
+        restaurants = restaurantCache.cachedData()
+        Logger().notice("Widget data initialized")
+    }
 
-    static var nextRestaurant: Restaurant {
-        if let nextRide = Self.state.rideModel.nextRide() {
-            if let id = nextRide.restaurant {
-                return Self.state.restaurantModel.idToRestaurant(id: id)
+    func next(after date: Date) -> Restaurant {
+        let month = Calendar.current.component(.month, from: date)
+        let day = Calendar.current.component(.day, from: date)
+
+        // return the "next" restarant to visit.  Next is defined as
+        // the restaurant to be visited on the given data or later
+
+        if let index = rides.firstIndex(where: {
+            ($0.month > month || ($0.month == month && $0.day >= day))
+        }) {
+            if index < rides.endIndex {
+                if let restaurant = restaurants.first(where: {
+                    $0.id == rides[index].restaurant
+                }) {
+                    return restaurant
+                }
             }
         }
-        return testRest
+        return WidgetData.sampleRest
     }
+
+    static let sampleRest =  Restaurant(
+        id: "beachstreet",
+        name: "Beach Street",
+        address: "435 W. Beach Street",
+        route: "101/92/280/85/17/1",
+        city: "Watsonville",
+        phone: "831-722-2233",
+        status: "open",
+        eta: "8:17",
+        lat: 37.113013,
+        lon: -121.637845
+    )
 }
 
 struct Provider: TimelineProvider {
 
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), restaurant: testRest)
+        SimpleEntry(date: Date(), restaurant: WidgetData.sampleRest)
     }
 
     func getSnapshot(in context: Context,
                      completion: @escaping (SimpleEntry) -> Void) {
-        // get restaurant of next visit here
+        let data = WidgetData()
+        let today = Date.now
+        let restaurant = data.next(after: today)
 
-        let entry = SimpleEntry(date: Date(), restaurant: testRest )
+        let entry = SimpleEntry(date: today, restaurant: restaurant)
         completion(entry)
     }
 
     func getTimeline(in context: Context,
                      completion: @escaping (Timeline<Entry>) -> Void) {
-        // get restaurant of next visit here
+        let data = WidgetData()
+        let today = Date.now
+        let restaurant = data.next(after: today)
 
-        let entry = SimpleEntry(date: Date(), restaurant: testRest )
+        let entry = SimpleEntry(date: Date(), restaurant: restaurant)
 
         let calendar = Calendar.current
         let monday = 2 // second day of week
@@ -84,7 +109,7 @@ struct SmbcWidgetEntryView: View {
                         .padding(.bottom)
                     Spacer()
                 }
-                Text(entry.restaurant.name)
+Text(entry.restaurant.name)
                     .bold()
                     .padding(.bottom)
                 Text(entry.restaurant.city)
@@ -117,5 +142,5 @@ struct SmbcWidget: Widget {
 #Preview(as: .systemSmall) {
     SmbcWidget()
 } timeline: {
-        SimpleEntry(date: .now, restaurant: testRest)
+        SimpleEntry(date: .now, restaurant: WidgetData.sampleRest)
 }

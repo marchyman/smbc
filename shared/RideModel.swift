@@ -10,6 +10,7 @@ import SwiftUI
 
 private let scheduleBase = "schedule"
 private let scheduleExt = "json"
+let scheduleFileName = scheduleBase + "." + scheduleExt
 
 /// Format of a scheduled ride record retrieved from server
 /// All rides have a start date.
@@ -49,10 +50,6 @@ struct ScheduledRide: Codable, Identifiable, Hashable {
 @Observable
 final class RideModel {
     var rides = [ScheduledRide]()
-
-    /// The name of the cached schedule file
-    ///
-    let scheduleFileName = scheduleBase + "." + scheduleExt
 
     /// Initialize the list of scheduled rides from the cache
     ///

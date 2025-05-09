@@ -8,7 +8,7 @@
 import Foundation
 import Observation
 
-private let restaurantFileName = "restaurants.json"
+let restaurantFileName = "restaurants.json"
 
 /// Format of  restaurant records retrieved from server
 ///

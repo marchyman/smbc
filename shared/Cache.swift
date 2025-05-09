@@ -8,32 +8,30 @@
 import Foundation
 import OSLog
 
+let groupID = "group.org.snafu.smbc"
+
 struct Cache<T: Decodable> {
     var name: String
     var type: T.Type
 
-    private let logger = Logger(
-        subsystem: Bundle.main.bundleIdentifier!,
-        category: "Cache")
+    private let logger = Logger(subsystem: groupID, category: "Cache")
 
     /// Return a URL for the named cache file
     ///
-    /// Cached files live in folder in the users .cachesDirectory. The folder
-    /// name is the applicatoin bundle ID.  The folder will be created if it
-    /// does not exist.  If the cached file does not exist primeCache() is
+    /// Cached files live in the app shared folder identifed by groupID.
+    /// The folder will be created if it does not exist.
+    /// If the cached file does not exist primeCache() is
     /// called to prime the cache with data stored in the bundle.
     ///
     func fileUrl() -> URL {
         let fileManager = FileManager.default
         do {
-            let cacheFolder = URL
-                .cachesDirectory
-                .appending(component: "\(Bundle.main.bundleIdentifier!)/")
+            let sharedFolder = fileManager.containerURL(forSecurityApplicationGroupIdentifier: groupID)!
             try fileManager.createDirectory(
-                at: cacheFolder,
+                at: sharedFolder,
                 withIntermediateDirectories: true,
                 attributes: nil)
-            let cacheUrl = cacheFolder.appendingPathComponent(name)
+            let cacheUrl = sharedFolder.appendingPathComponent(name)
             if !fileManager.fileExists(atPath: cacheUrl.path) {
                 primeCache(at: cacheUrl)
             }
