@@ -42,7 +42,7 @@ struct WidgetData {
 
     static let sampleRest =  Restaurant(
         id: "beachstreet",
-        name: "Beach Street",
+        name: "Beach Street Restaurant",
         address: "435 W. Beach Street",
         route: "101/92/280/85/17/1",
         city: "Watsonville",
@@ -104,14 +104,15 @@ struct SmbcWidgetEntryView: View {
             Color.widgetBackground
             VStack {
                 HStack {
-                    Text("SMBC Next Ride:")
-                        .font(.caption)
-                        .padding(.bottom)
+                    Text("Next SMBC Breakfast:")
+                        .font(.caption2)
+                        .padding(.bottom, 5)
                     Spacer()
                 }
-Text(entry.restaurant.name)
+                Text(entry.restaurant.name)
                     .bold()
-                    .padding(.bottom)
+                    .lineLimit(nil)
+                    .padding(.bottom, 5)
                 Text(entry.restaurant.city)
                     .font(.callout)
                 Spacer()

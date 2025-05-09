@@ -6,8 +6,6 @@
 
 import Foundation
 
-private let galleryFileName = "gallery.json"
-
 @MainActor
 @Observable
 final class GalleryModel {

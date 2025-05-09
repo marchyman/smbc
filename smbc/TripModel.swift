@@ -8,8 +8,6 @@
 import Foundation
 import Observation
 
-private let tripFileName = "trips.json"
-
 @MainActor
 @Observable
 final class TripModel {

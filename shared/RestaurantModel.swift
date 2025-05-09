@@ -8,8 +8,6 @@
 import Foundation
 import Observation
 
-let restaurantFileName = "restaurants.json"
-
 /// Format of  restaurant records retrieved from server
 ///
 struct Restaurant: Decodable, Identifiable {

@@ -8,10 +8,6 @@
 import Observation
 import SwiftUI
 
-private let scheduleBase = "schedule"
-private let scheduleExt = "json"
-let scheduleFileName = scheduleBase + "." + scheduleExt
-
 /// Format of a scheduled ride record retrieved from server
 /// All rides have a start date.
 /// Breakfast rides have restaurant and possibly a comment
