@@ -97,10 +97,16 @@ struct Cache<T: Decodable> {
             let ext = String(name[extRange])
 
             // URL to data in bundle
-            let bundleUrl = Bundle.main.url(
+            // No bundle for the widget -- but the widget wont run
+            // until the app has been run once which will prime the
+            // cache. I think.  Anyway, don't do anything if bundle
+            // resourced don't exist.  The widget will use sample data
+            // if needed.
+            if let bundleUrl = Bundle.main.url(
                 forResource: resource,
-                withExtension: ext)!
-            try FileManager.default.copyItem(at: bundleUrl, to: cacheUrl)
+                withExtension: ext) {
+                try FileManager.default.copyItem(at: bundleUrl, to: cacheUrl)
+            }
         } catch {
             fatalError("Cannot prime cache: \(name)")
         }
