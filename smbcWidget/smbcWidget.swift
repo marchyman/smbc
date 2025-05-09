@@ -41,12 +41,16 @@ struct Provider: TimelineProvider {
 
     func getSnapshot(in context: Context,
                      completion: @escaping (SimpleEntry) -> Void) {
+        // get restaurant of next visit here
+
         let entry = SimpleEntry(date: Date(), restaurant: testRest )
         completion(entry)
     }
 
     func getTimeline(in context: Context,
                      completion: @escaping (Timeline<Entry>) -> Void) {
+        // get restaurant of next visit here
+
         let entry = SimpleEntry(date: Date(), restaurant: testRest )
 
         let calendar = Calendar.current
@@ -55,6 +59,7 @@ struct Provider: TimelineProvider {
         let nextMonday = calendar.nextDate(after: Date.now,
             matching: components,
             matchingPolicy: .nextTime) ?? Date.now.addingTimeInterval(12*60*60)
+            // above uses 12 hours as a safety fallback
 
         let timeline = Timeline(entries: [entry], policy: .after(nextMonday))
         completion(timeline)
