@@ -6,21 +6,37 @@
 import WidgetKit
 import SwiftUI
 
-let testRest =  Restaurant(
-                id: "beachstreet",
-                name: "Beach Street",
-                address: "435 W. Beach Street",
-                route: "101/92/280/85/17/1",
-                city: "Watsonville",
-                phone: "831-722-2233",
-                status: "open",
-                eta: "8:17",
-                lat: 37.113013,
-                lon: -121.637845)
+private let testRest =  Restaurant(
+    id: "beachstreet",
+    name: "Beach Street",
+    address: "435 W. Beach Street",
+    route: "101/92/280/85/17/1",
+    city: "Watsonville",
+    phone: "831-722-2233",
+    status: "open",
+    eta: "8:17",
+    lat: 37.113013,
+    lon: -121.637845
+)
+
+@MainActor
+struct WidgetState {
+    static var state = ProgramState()
+
+    static var nextRestaurant: Restaurant {
+        if let nextRide = Self.state.rideModel.nextRide() {
+            if let id = nextRide.restaurant {
+                return Self.state.restaurantModel.idToRestaurant(id: id)
+            }
+        }
+        return testRest
+    }
+}
 
 struct Provider: TimelineProvider {
+
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), restaurant: testRest )
+        SimpleEntry(date: Date(), restaurant: testRest)
     }
 
     func getSnapshot(in context: Context,
@@ -96,16 +112,5 @@ struct SmbcWidget: Widget {
 #Preview(as: .systemSmall) {
     SmbcWidget()
 } timeline: {
-        SimpleEntry(date: .now,
-            restaurant: Restaurant(
-                id: "beachstreet",
-                name: "Beach Street",
-                address: "435 W. Beach Street",
-                route: "101/92/280/85/17/1",
-                city: "Watsonville",
-                phone: "831-722-2233",
-                status: "open",
-                eta: "8:17",
-                lat: 37.113013,
-                lon: -121.637845))
+        SimpleEntry(date: .now, restaurant: testRest)
 }
