@@ -1,23 +1,14 @@
 PROJECT = smbc
 
-default:	$(PROJECT).xcodeproj Build buildServer.json
-
-# force regeneration of $(PROJECT).xcodeproj
-project:
-	xcodegen -c
-
-# force build
-xcodebuild:
-	xcodebuild -scheme $(PROJECT)
-
-$(PROJECT).xcodeproj:	project.yml
-	xcodegen -c
-
-Build:	$(PROJECT).xcodeproj
-	xcodebuild -scheme $(PROJECT)
-
 buildServer.json:	Build
-	buildserver $(PROJECT)
+	xcode-build-server config -scheme "$(PROJECT)" -project *.xcodeproj
+	sed -i '~' "/\"build_root\"/s/: \"\(.*\)\"/: \"\1\/DerivedData\/$(PROJECT)\"/" buildServer.json
+
+Build:	$(PROJECT).xcodeproj/project.pbxproj
+	xcodebuild -scheme $(PROJECT)
+
+$(PROJECT).xcodeproj/project.pbxproj:	project.yml
+	xcodegen -c
 
 clean:
 	git clean -fdx
