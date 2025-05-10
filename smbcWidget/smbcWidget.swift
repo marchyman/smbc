@@ -106,15 +106,19 @@ struct SmbcWidgetEntryView: View {
                 HStack {
                     Text("Next SMBC Breakfast:")
                         .font(.caption2)
+                        .foregroundStyle(.secondary)
                         .padding(.bottom, 5)
                     Spacer()
                 }
-                Text(entry.restaurant.name)
-                    .bold()
-                    .lineLimit(nil)
-                    .padding(.bottom, 5)
-                Text(entry.restaurant.city)
-                    .font(.callout)
+                VStack(alignment: .leading){
+                    Text(entry.restaurant.name)
+                        .bold()
+                        .lineLimit(nil)
+                        .padding(.bottom, 2)
+                    Text(entry.restaurant.city)
+                        .font(.callout)
+                        .padding(.leading, 0)
+                }
                 Spacer()
                 Text("ETA: \(entry.restaurant.eta)")
                     .font(.caption2)
