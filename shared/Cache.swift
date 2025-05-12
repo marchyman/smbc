@@ -87,28 +87,29 @@ struct Cache<T: Decodable> {
     /// - Parameter cacheUrl: URL of named file in cache folder
     ///
     func primeCache(at cacheUrl: URL) {
-        do {
-            // break the name into base name and extension
-            guard let dotIndex = name.lastIndex(of: ".") else {
-                fatalError("malformed resource name: \(name)")
-            }
-            let resource = String(name.prefix(upTo: dotIndex))
-            let extRange = name.index(after: dotIndex) ..< name.endIndex
-            let ext = String(name[extRange])
+        // break the name into base name and extension
+        guard let dotIndex = name.lastIndex(of: ".") else {
+            fatalError("malformed resource name: \(name)")
+        }
+        let resource = String(name.prefix(upTo: dotIndex))
+        let extRange = name.index(after: dotIndex) ..< name.endIndex
+        let ext = String(name[extRange])
 
-            // URL to data in bundle
-            // No bundle for the widget -- but the widget wont run
-            // until the app has been run once which will prime the
-            // cache. I think.  Anyway, don't do anything if bundle
-            // resourced don't exist.  The widget will use sample data
-            // if needed.
-            if let bundleUrl = Bundle.main.url(
-                forResource: resource,
-                withExtension: ext) {
+        // URL to data in bundle
+        // No bundle for the widget -- but the widget wont run
+        // until the app has been run once which will prime the
+        // cache. I think. In case I'm wrong create an empty file
+        // cacheUrl if there is no bundle.
+        if let bundleUrl = Bundle.main.url(forResource: resource,
+                                           withExtension: ext) {
+            do {
                 try FileManager.default.copyItem(at: bundleUrl, to: cacheUrl)
+            } catch {
+                fatalError("Cannot prime cache: \(name)")
             }
-        } catch {
-            fatalError("Cannot prime cache: \(name)")
+        } else {
+            FileManager.default.createFile(atPath: cacheUrl.path,
+                contents: nil)
         }
     }
 }
