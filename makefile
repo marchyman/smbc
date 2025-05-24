@@ -10,5 +10,11 @@ Build:	$(PROJECT).xcodeproj/project.pbxproj
 $(PROJECT).xcodeproj/project.pbxproj:	project.yml
 	xcodegen -c
 
+# force project file rebuild
+proj:
+	xcodegen
+
+# remove files created during the build process
+# do **not** use the -d option to git clean without excluding .jj
 clean:
-	git clean -fdx
+	git clean -dfx -e .jj
