@@ -28,6 +28,7 @@ struct WidgetData {
 
         if let index = rides.firstIndex(where: {
             ($0.month > month || ($0.month == month && $0.day >= day))
+            && $0.restaurant != nil
         }) {
             if index < rides.endIndex {
                 if let restaurant = restaurants.first(where: {
