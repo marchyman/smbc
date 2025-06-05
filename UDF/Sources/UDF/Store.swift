@@ -24,18 +24,14 @@ public final class Store<State: Sendable, Action: Sendable> {
         }
     }
 
-    public subscript<T>(dynamicMember keyPath: KeyPath<State, T>) -> T {
-        state[keyPath: keyPath]
-    }
-
     public func send(_ action: Action) {
         state = reduce(state, action)
     }
 
     public func send(_ action: Action,
-                     sideEffects: () -> Void) {
+                     sideEffects: () throws -> Void) rethrows {
         state = reduce(state, action)
-        sideEffects()
+        try sideEffects()
     }
 
     // async versions of send
