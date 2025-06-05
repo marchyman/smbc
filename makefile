@@ -1,4 +1,4 @@
-PROJECT = smbc
+PROJECT = Smbc
 
 buildServer.json:	Build
 	xcode-build-server config -scheme "$(PROJECT)" -project *.xcodeproj
@@ -18,4 +18,4 @@ proj:
 # do **not** use the -d option to git clean without excluding .jj
 clean:
 	jj status
-	git clean -dfx -e .jj
+	git clean -dfx -e .jj -e notes

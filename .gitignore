@@ -1,10 +1,12 @@
 *~
 .DS_Store
 
+notes
 buildServer.json
 Info.plist
 *.entitlements
 
+.build/
 Build/
 DerivedData/
 Index.noindex/

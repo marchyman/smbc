@@ -1,11 +1,13 @@
 disabled_rules:
   - opening_brace
+  - large_tuple
 
 included:
 
 excluded:
   - Build
   - DerivedData
+  - "**/resource_bundle_accessor.swift"
 
 cyclomatic_complexity:
   ignores_case_statements: true

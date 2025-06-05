@@ -1,18 +1,23 @@
-name: smbc
+name: Smbc
+
+options:
+  groupOrdering:
+    - order: [Smbc, Packages, Products]
 
 settings:
   base:
     ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: YES
     ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+    CODE_SIGN_IDENTITY: Apple Development
     CODE_SIGN_STYLE: Automatic
     DEAD_CODE_STRIPPING: YES
     DEVELOPMENT_TEAM: A3UXBEBE8Z
     ENABLE_USER_SCRIPT_SANDBOXING: NO
     LOCALIZATION_PREFERS_STRING_CATALOGS: YES
     PRODUCT_NAME: smbc
-    SWIFT_VERSION: 6.1
     SWIFT_EMIT_LOC_STRINGS: YES
     SWIFT_STRICT_CONCURRENCY: YES
+    SWIFT_VERSION: 6.1
     # the following are replaced in the target Info.plists by a post
     # build script. They are needed (?) to build the plist that the
     # script then modifies.
@@ -25,26 +30,41 @@ settings:
       VALIDATE_PRODUCT:  YES
 
 targets:
-  smbc:
+  Smbc:
     type: application
     platform: iOS
     deploymentTarget: 17.0
     dependencies:
-      - package: MarkdownUI
-      - target: smbcWidgetExtension
+      - target: SmbcWidgetExtension
+      - package: AppModules
+        products:
+          - Gallery
+          - Home
+          - Restaurants
+          - Rides
+          - ViewModifiers
+      - package: SharedModules
+        products:
+          - ASKeys
+          - Cache
+          - Downloader
+          - Schedule
+      - package: UDF
     sources:
-      - smbc
-      - shared
+      - Smbc
     entitlements:
-      path: smbc/smbc.entitlements
+      path: Smbc/Supporting Files/Smbc.entitlements
       properties:
+        com.apple.security.app-sandbox: YES
+        com.apple.security.file.user-selected.read-only: YES
+        com.apple.security.network.client: YES
         com.apple.security.application-groups:
           - group.org.snafu.smbc
     settings:
       base:
         ENABLE_PREVIEWS: YES
         GENERATE_INFOPLIST_FILE: YES
-        INFOPLIST_KEY_CFBundleDisplayName: smbc
+        INFOPLIST_KEY_CFBundleDisplayName: $(TARGET_NAME)
         INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.travel
         INFOPLIST_KEY_NSHumanReadableCopyright: Copyright 2025 Marco S Hyman
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
@@ -72,18 +92,23 @@ targets:
         showEnvVars: NO
         basedOnDependencyAnalysis: NO
 
-  smbcWidgetExtension:
+  SmbcWidgetExtension:
     type: app-extension
     platform: iOS
     deploymentTarget: 17.0
     sources:
-      - smbcWidget
-      - shared
+      - SmbcWidget
     dependencies:
       - sdk: SwiftUI.framework
       - sdk: WidgetKit.framework
+      - package: SharedModules
+        products:
+          - ASKeys
+          - Cache
+          - Downloader
+          - Schedule
     entitlements:
-      path: smbcWidget/smbcWidget.entitlements
+      path: SmbcWidget/SmbcWidget.entitlements
       properties:
         com.apple.security.application-groups:
           - group.org.snafu.smbc
@@ -91,10 +116,10 @@ targets:
     # Build the Info.plist here so I can add that key/value
     # Entries automatically added by xcodegen are skipped
     info:
-      path: smbcWidget/Info.plist
+      path: SmbcWidget/Info.plist
       properties:
         CFBundleShortVersionString: $(MARKETING_VERSION)
-        CFBundleDisplayName: smbcWidgetExtension
+        CFBundleDisplayName: SmbcWidgetExtension
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         NSExtension:
           NSExtensionPointIdentifier: com.apple.widgetkit-extension
@@ -103,7 +128,7 @@ targets:
       base:
         GENERATE_INFOPLIST_FILE: NO
         SKIP_INSTALL: YES
-        PRODUCT_NAME: smbcWidgetExtension
+        PRODUCT_NAME: SmbcWidgetExtension
         PRODUCT_BUNDLE_IDENTIFIER: org.snafu.smbc.smbcWidgetExtension
     postBuildScripts:
       - path: .buildversion.sh
@@ -115,24 +140,40 @@ targets:
         showEnvVars: NO
         basedOnDependencyAnalysis: NO
 
-schemes:
-  smbc:
-    build:
-      targets:
-        smbc: all
-
-  smbc-widget:
-    build:
-      targets:
-        smbcWidgetExtension: all
-      run:
-        environmentVariables:
-          - variable: "_XCWidgetFamily"
-            value: "systemSmall"
-            isEnabled: YES
-
 packages:
-  MarkdownUI:
-    url: git@github.com/gonzalezreal/swift-markdown-ui.git
-    from: 2.3.0
+  AppModules:
+    path: AppModules
+    group: Smbc
+  SharedModules:
+    path: SharedModules
+  UDF:
+    path: UDF
+
+schemes:
+  Smbc:
+    build:
+      targets:
+        Smbc: all
+    run:
+      config: Debug
+      # environmentVariables:
+      #   VARIABLE: VALUE
+    test:
+      config: Debug
+      gatherCoverageData: YES
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
+      revealArchiveInOrganizer: YES
+  NoNextRide:
+    build:
+      targets:
+        Smbc: all
+    run:
+      config: Debug
+      environmentVariables:
+        NONEXTRIDE: 1
 
