@@ -9,8 +9,8 @@ import Testing
 
 @testable import ASKeys
 
-// serialized test to add a date to the @AppStorage in the first test
-// and verify the date is available in the second
+// serialized test to clear @AppStorage, add a date, then verify the
+// date is available
 
 let testDate = Date(timeIntervalSinceReferenceDate: 1_000_000)
 
