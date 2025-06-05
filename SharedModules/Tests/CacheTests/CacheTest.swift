@@ -93,4 +93,32 @@ struct CacheTests {
         // clean up the cache file
         try removeCache()
     }
+
+    @Test func writeToCacheFailure() async throws {
+        let newName = "New content"
+        let newNameJSON = Data(("[\n\"" + newName + "\"\n]").utf8)
+        let cache = try getCache()
+
+        // make the cache append only to force the write to fail
+        try FileManager.default.setAttributes([.appendOnly: 1],
+                                              ofItemAtPath: cache.cacheURL.path)
+
+        await #expect(throws: Never.self) {
+            cache.write(newNameJSON)
+
+            // the above write is performed on a background Task. Give it
+            // a chance to finish before reading and verifying the data
+
+            try await Task.sleep(for: .milliseconds(200))
+        }
+        let names = cache.read(type: [String].self)
+        #expect(names.count != 1)
+        #expect(names.first == "riders/2025/0302/index.md")
+
+        // clean up the cache file
+        try FileManager.default.setAttributes([.appendOnly: 0],
+                                              ofItemAtPath: cache.cacheURL.path)
+
+        try removeCache()
+    }
 }
