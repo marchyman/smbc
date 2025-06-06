@@ -1,0 +1,17 @@
+[
+    { "start" : "5/18",
+      "restaurant" : "elios" },
+    { "start" : "5/25",
+      "restaurant" : "duartes" },
+    { "start" : "6/1",
+      "restaurant" : "heavenly" },
+    { "start" : "6/8",
+      "end" : "6/11",
+      "description" : "Hendy Woods Campout" },
+    { "start" : "6/8",
+      "restaurant" : "giacos" },
+    { "start" : "6/15",
+      "restaurant" : "losgatos" },
+    { "start" : "6/22",
+      "restaurant" : "beachstreet" },
+]

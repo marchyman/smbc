@@ -39,21 +39,31 @@ public struct ScheduleState: Equatable, Sendable {
     let tripCache: Cache
     let restaurantCache: Cache
 
-    public init() {
+    // optional URLs are used to inject test data
+
+    public init(noGroup: Bool = false,
+                rideURL: URL? = nil,
+                tripURL: URL? = nil,
+                restaurantURL: URL? = nil) {
+        let initGroup: String? = noGroup ? nil : "group.org.snafu.smbc"
+        let rideDataURL = rideURL ?? Self.bundleURL(for: Self.rideResource)
+        let tripDataURL = tripURL ?? Self.bundleURL(for: Self.tripResource)
+        let restaurantDataURL = restaurantURL ?? Self.bundleURL(for: Self.restaurantResource)
+
         year = bundleYear
         rideCache = Cache(name: Self.rideResource,
-                          bundleURL: Self.bundleURL(for: Self.rideResource),
-                          group: "group.org.snafu.smbc")
+                          bundleURL: rideDataURL,
+                          group: initGroup)
         rideModel = RideModel(cache: rideCache)
 
         tripCache = Cache(name: Self.tripResource,
-                          bundleURL: Self.bundleURL(for: Self.tripResource),
-                          group: "group.org.snafu.smbc")
+                          bundleURL: tripDataURL,
+                          group: initGroup)
         tripModel = TripModel(cache: tripCache)
 
         restaurantCache = Cache(name: Self.restaurantResource,
-                                bundleURL: Self.bundleURL(for: Self.restaurantResource),
-                                group: "group.org.snafu.smbc")
+                                bundleURL: restaurantDataURL,
+                                group: initGroup)
         restaurantModel = RestaurantModel(cache: restaurantCache)
 
         loadInProgress = false

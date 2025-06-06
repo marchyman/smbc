@@ -36,6 +36,11 @@ let package = Package(
                     .copy("restaurants.json"),
                     .copy("schedule.json"),
                     .copy("trips.json") ]),
-        .testTarget(name: "ScheduleTests", dependencies: ["Schedule"])
+        .testTarget(name: "ScheduleTests",
+                    dependencies: ["Schedule"],
+                    resources: [
+                        .copy("restaurants.json"),
+                        .copy("schedule.json"),
+                        .copy("trips.json") ])
     ]
 )
