@@ -19,7 +19,7 @@ public struct Downloader<T: Decodable>: Sendable {
     }
 
     public func fetchJSON() async throws -> T {
-        let logger = Logger(subsystem: "Downloader", category: "user")
+        let logger = Logger(subsystem: "org.snafu", category: "Downloader")
         logger.debug("\(url, privacy: .public) download request")
         let configuration = URLSessionConfiguration.default
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData

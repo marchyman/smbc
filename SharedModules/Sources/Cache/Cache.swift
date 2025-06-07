@@ -25,10 +25,11 @@ public struct Cache: Equatable, Sendable {
         } else {
             folder = URL.cachesDirectory
         }
-        Logger(subsystem: "Cache", category: "user").info("""
-            Cache Folder for \(name, privacy: .public) is \
-            \(folder.path, privacy: .public)
-            """)
+        Logger(subsystem: "org.snafu", category: "Cache")
+            .info("""
+                Cache Folder for \(name, privacy: .public) is \
+                \(folder.path, privacy: .public)
+                """)
         return folder.appendingPathComponent(name)
     }
 
@@ -44,7 +45,7 @@ public struct Cache: Equatable, Sendable {
     }
 
     public func read<T: Decodable>(type: T.Type) -> T {
-        let logger = Logger(subsystem: "Cache", category: "user")
+        let logger = Logger(subsystem: "org.snafu", category: "Cache")
         if let data = try? Data(contentsOf: cacheURL) {
             do {
                 let decoder = JSONDecoder()
@@ -86,17 +87,18 @@ public struct Cache: Equatable, Sendable {
             do {
                 try data.write(to: cacheURL)
             } catch {
-                Logger().error("""
-                    Failed to update cache for \
-                    \(cacheURL.path, privacy: .public)
-                    Error: \(error.localizedDescription, privacy: .public)
-                    """)
+                Logger(subsystem: "org.snafu", category: "Cache")
+                    .error("""
+                        Failed to update cache for \
+                        \(cacheURL.path, privacy: .public)
+                        Error: \(error.localizedDescription, privacy: .public)
+                        """)
             }
         }
     }
 
     private func prime(from url: URL) {
-        let logger = Logger(subsystem: "Cache", category: "user")
+        let logger = Logger(subsystem: "org.snafu", category: "Cache")
 
         logger.info("""
             priming \(cacheURL.path, privacy: .public) \
@@ -112,6 +114,7 @@ public struct Cache: Equatable, Sendable {
                 \(cacheURL, privacy: .public)
                 from url location \
                 \(url, privacy: .public)
+                error: \(error.localizedDescription, privacy: .public)
                 """)
             fatalError("Cannot prime cache: \(cacheURL)")
         }

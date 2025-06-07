@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "2ABFFF0E-EF5D-41E1-8B37-DCC873FF289B",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : false,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "ScheduleTests",
+        "name" : "ScheduleTests"
+      }
+    }
+  ],
+  "version" : 1
+}

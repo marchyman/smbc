@@ -26,7 +26,8 @@ public struct GalleryState: Equatable, Sendable {
               bundleURL: Self.bundleURL(for: Self.galleryResource))
         galleryModel = GalleryModel(cache: galleryCache)
         loadInProgress = false
-        Logger(subsystem: "GalleryState", category: "user").info("Gallery state created")
+        Logger(subsystem: "org.snafu", category: "GalleryState")
+            .info("Gallery state created")
     }
 }
 
@@ -58,10 +59,11 @@ extension GalleryState {
             byAdding: .day,
             value: 10,
             to: Date()) ?? Date()
-        Logger(subsystem: "GalleryState", category: "user").notice("""
-            \(ASKeys.galleryRefreshDate, privacy: .public) set to \
-            \(refreshDate, privacy: .public)
-            """)
+        Logger(subsystem: "snafu.org", category: "GalleryState")
+            .notice("""
+                \(ASKeys.galleryRefreshDate, privacy: .public) set to \
+                \(refreshDate, privacy: .public)
+                """)
     }
 
     nonisolated func fetchNames() async throws -> [String] {
@@ -88,7 +90,7 @@ public struct GalleryReducer: Reducer {
     public func reduce(_ state: GalleryState, _ action: GalleryAction) -> GalleryState {
         var newState = state
 
-        let logger = Logger(subsystem: "GalleryReducer", category: "user")
+        let logger = Logger(subsystem: "snafu.org", category: "GalleryReducer")
         switch action {
         case .fetchRequested:
             logger.debug("gallery fetch requested")

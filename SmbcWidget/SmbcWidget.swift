@@ -17,7 +17,8 @@ struct WidgetData {
         let state = ScheduleState()
         rides = state.rideModel.rides
         restaurants = state.restaurantModel.restaurants
-        Logger(subsystem: "WidgetData", category: "user").notice("Widget data initialized")
+        Logger(subsystem: "org.snafu", category: "WidgetData")
+            .notice("Widget data initialized")
     }
 
     func next(after date: Date) -> Restaurant {
@@ -126,7 +127,7 @@ struct SmbcWidgetEntryView: View {
                     .font(.caption2)
             }
             .padding()
-            .widgetURL(URL(string: "Smbc://"))
+            .widgetURL(URL(string: "smbc://"))
         }
     }
 }

@@ -20,7 +20,8 @@ public final class Store<State: Sendable, Action: Sendable> {
         self.state = state
         self.reduce = reduce
         if let name {
-            Logger(subsystem: "Store", category: "user").notice("\(name, privacy: .public) store created")
+            Logger(subsystem: "org.snafu", category: "Store")
+                .notice("\(name, privacy: .public) store created")
         }
     }
 

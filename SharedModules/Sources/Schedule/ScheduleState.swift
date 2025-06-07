@@ -15,6 +15,12 @@ import UDF
 
 let bundleYear = 2025
 
+public enum ScheduleLoadStatus: Equatable, Sendable {
+    case idle
+    case loadPending
+    case duplicateLoadPending
+}
+
 public struct ScheduleState: Equatable, Sendable {
 
     // the year of the loaded rides
@@ -30,7 +36,7 @@ public struct ScheduleState: Equatable, Sendable {
     public var tripModel: TripModel
     public var restaurantModel: RestaurantModel
 
-    public var loadInProgress: Bool
+    public var loadInProgress: ScheduleLoadStatus
     public var lastFetchError: String?
     public var nextRide: Ride?
 
@@ -66,9 +72,10 @@ public struct ScheduleState: Equatable, Sendable {
                                 group: initGroup)
         restaurantModel = RestaurantModel(cache: restaurantCache)
 
-        loadInProgress = false
+        loadInProgress = .idle
 
-        Logger(subsystem: "ScheduleState", category: "user").info("Schedule state created")
+        Logger(subsystem: "org.snafu", category: "ScheduleState")
+            .info("Schedule state created for \(initGroup ?? "no group")")
     }
 }
 
@@ -140,10 +147,11 @@ extension ScheduleState {
             byAdding: .day,
             value: 10,
             to: Date()) ?? Date()
-        Logger(subsystem: "ScheduleState", category: "user").notice("""
-            \(ASKeys.scheduleRefreshDate, privacy: .public) set to \
-            \(refreshDate, privacy: .public)
-            """)
+        Logger(subsystem: "org.snafu", category: "ScheduleState")
+            .notice("""
+                \(ASKeys.scheduleRefreshDate, privacy: .public) set to \
+                \(refreshDate, privacy: .public)
+                """)
     }
 
     public nonisolated func fetchRides(for year: Int) async throws -> [Ride] {
@@ -183,7 +191,8 @@ extension ScheduleState {
         async let restaurants = try await restaurantDownloader.fetchJSON()
 
         let results = try await (rideYear, rides, trips, restaurants)
-        Logger().info("rides, trips, and restaurants fetched")
+        Logger(subsystem: "org.snafu", category: "ScheduleState")
+            .info("rides, trips, and restaurants fetched")
         return results
     }
 }
@@ -208,31 +217,38 @@ public struct ScheduleReducer: Reducer {
                        _ action: ScheduleAction) -> ScheduleState {
         var newState = state
 
-        let logger = Logger(subsystem: "ScheduleReducer", category: "user")
+        let logger = Logger(subsystem: "org.snafu", category: "ScheduleReducer")
         switch action {
         case let .fetchRequested(year):
             logger.debug("Schedule fetch requested")
-            if !state.loadInProgress &&
-                (state.year != year || state.timeToFetch()) {
-                logger.debug("load in progress")
-                newState.loadInProgress = true
-                // closure passed to Store send function must
-                // initiate the load
+            switch state.loadInProgress {
+            case .idle:
+                if state.year != year || state.timeToFetch() {
+                    logger.debug("load in progress")
+                    newState.loadInProgress = .loadPending
+                    // closure passed to Store send function must
+                    // initiate the load
+                }
+            default:
+                newState.loadInProgress = .duplicateLoadPending
             }
 
         case .forcedFetchRequested:
             logger.debug("Schedule forced fetch requested")
-            if !state.loadInProgress {
+            switch state.loadInProgress {
+            case .idle:
                 logger.debug("load in progress")
-                newState.loadInProgress = true
+                newState.loadInProgress = .loadPending
                 // closure passed to Store send function must
                 // initiate the load
+            default:
+                newState.loadInProgress = .duplicateLoadPending
             }
 
         case let .fetchResults(year, rides, trips, restaurants):
             logger.debug("Schedule fetch results")
-            if newState.loadInProgress {
-                newState.loadInProgress = false
+            if newState.loadInProgress != .idle {
+                newState.loadInProgress = .idle
                 newState.year = year
                 newState.rideModel.rides = rides
                 newState.tripModel.trips = trips
@@ -245,21 +261,27 @@ public struct ScheduleReducer: Reducer {
 
         case let .fetchError(error):
             logger.debug("Schedule fetch error: \(error, privacy: .public)")
-            newState.loadInProgress = false
-            newState.lastFetchError = error
+            if newState.loadInProgress != .idle {
+                newState.loadInProgress = .idle
+                newState.lastFetchError = error
+            } else {
+                logger.error("Received fetch error when no load was in progress")
+            }
 
         case let .fetchYearRequested(year):
             logger.debug("Schedule fetch year: \(year, privacy: .public)")
-            if !newState.loadInProgress {
+            if newState.loadInProgress == .idle {
                 logger.debug("load in progress")
-                newState.loadInProgress = true
+                newState.loadInProgress = .loadPending
                 // Store send closure will initiate the load
+            } else {
+                newState.loadInProgress = .duplicateLoadPending
             }
 
         case let .fetchYearResults(year, rides):
             logger.debug("Schedule year results for year: \(year, privacy: .public)")
-            if newState.loadInProgress {
-                newState.loadInProgress = false
+            if newState.loadInProgress != .idle {
+                newState.loadInProgress = .idle
                 newState.year = year
                 newState.rideModel.rides = rides
                 newState.lastFetchError = nil

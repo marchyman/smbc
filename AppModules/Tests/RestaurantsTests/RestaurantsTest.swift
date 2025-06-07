@@ -40,7 +40,8 @@ struct RestaurantsModelTests {
 
     @Test func restaurantsBundleURL() async throws {
         let restaurants = RestaurantsModel()
-        Logger().notice("bundleURL = \(restaurants.bundleURL, privacy: .public)")
+        Logger(subsystem: "org.snafu", category: "RestaurantModelTests")
+            .notice("bundleURL = \(restaurants.bundleURL, privacy: .public)")
         // the above either works or dies with a fatalError
     }
 }

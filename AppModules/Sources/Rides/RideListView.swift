@@ -74,7 +74,7 @@ public struct RideListView: View {
         if selectedYear != store.state.year {
             Task {
                 await store.send(.fetchYearRequested(selectedYear)) {
-                    if store.state.loadInProgress {
+                    if store.state.loadInProgress == .loadPending {
                         do {
                             let rides = try await store.state.fetchRides(for: selectedYear)
                             await store.send(.fetchYearResults(selectedYear, rides))
@@ -89,7 +89,7 @@ public struct RideListView: View {
 
     func fetch() async {
         await store.send(.forcedFetchRequested) {
-            if store.state.loadInProgress {
+            if store.state.loadInProgress == .loadPending {
                 do {
                     let (year, rides, trips, restaurants) = try await store.state.fetch()
                     await store.send(.fetchResults(year, rides, trips, restaurants))

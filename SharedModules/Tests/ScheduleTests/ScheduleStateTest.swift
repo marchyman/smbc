@@ -43,7 +43,6 @@ struct StateTests {
         }
     }
 
-
     @Test func initState() async throws {
         // prep by blowing away any existing cache
         let cacheState = createStateWithTestData()
@@ -56,7 +55,7 @@ struct StateTests {
 
         let state = createStateWithTestData()
         #expect(state.year == bundleYear)
-        #expect(state.loadInProgress == false)
+        #expect(state.loadInProgress == .idle)
         #expect(state.lastFetchError == nil)
         #expect(state.nextRide == nil)
 

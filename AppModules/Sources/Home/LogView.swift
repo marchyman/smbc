@@ -44,7 +44,7 @@ struct LogView: View {
             let logStore = try OSLogStore(scope: .currentProcessIdentifier)
             let myEntries = try logStore.getEntries()
                 .compactMap { $0 as? OSLogEntryLog }
-                .filter { $0.category == "user" }
+                .filter { $0.subsystem == "org.snafu" }
             if myEntries.isEmpty {
                 entries.append("No log entries found")
             } else {
@@ -57,11 +57,12 @@ struct LogView: View {
             }
         } catch {
             Task {
-                Logger(subsystem: "LogView", category: "user").error(
-                    """
-                    failed to access log store: \
-                    \(error.localizedDescription, privacy: .public)
-                    """)
+                Logger(subsystem: "org.snafu", category: "LogView")
+                    .error(
+                        """
+                        failed to access log store: \
+                        \(error.localizedDescription, privacy: .public)
+                        """)
             }
             entries.append("Failed to access log store: \(error.localizedDescription)")
         }

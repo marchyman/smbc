@@ -113,7 +113,7 @@ public struct HomeView: View {
         }
         let action = forced ? ScheduleAction.forcedFetchRequested : .fetchRequested(year)
         await store.send(action) {
-            if store.state.loadInProgress {
+            if store.state.loadInProgress == .loadPending {
                 do {
                     let (year, rides, trips, restaurants) = try await store.state.fetch(year: year)
                     await store.send(.fetchResults(year, rides, trips, restaurants))
