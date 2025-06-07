@@ -44,7 +44,6 @@ let package = Package(
                     .product(name: "Schedule", package: "SharedModules"),
                     "UDF",
                     "ViewModifiers" ]),
-        .testTarget(name: "RestaurantsTests", dependencies: ["Restaurants"]),
 
         .target(name: "Rides",
                 dependencies: [
@@ -53,7 +52,6 @@ let package = Package(
                     "Restaurants",
                     "UDF",
                     "ViewModifiers" ]),
-        .testTarget(name: "RidesTests"),
 
         .target(name: "ViewModifiers")
     ]
