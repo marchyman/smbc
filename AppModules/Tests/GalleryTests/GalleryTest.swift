@@ -92,7 +92,7 @@ struct GalleryStateTests {
     @Test func fetchError() async throws {
         let state = try makeState()
         let reduce = GalleryReducer()
-        let nextState = reduce(state, .forceFetchRequested)
+        let nextState = reduce(state, .forcedFetchRequested)
         #expect(nextState.loadInProgress == true)
         let finalState = reduce(nextState, .fetchError("Fetch Failed"))
         #expect(finalState.loadInProgress == false)
