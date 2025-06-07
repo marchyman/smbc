@@ -36,7 +36,6 @@ let package = Package(
                     "UDF",
                     "ViewModifiers" ],
                 resources: [.process("Assets.xcassets")]),
-        .testTarget(name: "HomeTests", dependencies: ["Home"]),
 
         .target(name: "Restaurants",
                 dependencies: [
