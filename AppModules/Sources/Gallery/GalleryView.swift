@@ -47,7 +47,7 @@ public struct GalleryView: View {
     func fetch(forced: Bool = false) async {
         let action = forced ? GalleryAction.forcedFetchRequested : .fetchRequested
         await store.send(action) {
-            if store.state.loadInProgress {
+            if store.state.loadInProgress == .loadPending {
                 do {
                     let names = try await store.state.fetchNames()
                     await store.send(.fetchResults(names))

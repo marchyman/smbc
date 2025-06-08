@@ -13,9 +13,15 @@ import UDF
 
 // The store's state structure
 
+public enum GalleryLoadStatus: Equatable, Sendable {
+    case idle
+    case loadPending
+    case duplicateLoadPending
+}
+
 public struct GalleryState: Equatable, Sendable {
     var galleryModel: GalleryModel
-    var loadInProgress: Bool
+    var loadInProgress: GalleryLoadStatus
 
     let galleryCache: Cache
     let galleryServer = "https://smbc.snafu.org/"
@@ -25,7 +31,7 @@ public struct GalleryState: Equatable, Sendable {
         Cache(name: Self.galleryResource + ".json",
               bundleURL: Self.bundleURL(for: Self.galleryResource))
         galleryModel = GalleryModel(cache: galleryCache)
-        loadInProgress = false
+        loadInProgress = .idle
         Logger(subsystem: "org.snafu", category: "GalleryState")
             .info("Gallery state created")
     }
@@ -94,24 +100,33 @@ public struct GalleryReducer: Reducer {
         switch action {
         case .fetchRequested:
             logger.debug("gallery fetch requested")
-            if state.timeToFetch() && !state.loadInProgress {
-                newState.loadInProgress = true
-                // closure passed to Store send function must
-                // initiate the load
+            switch state.loadInProgress {
+            case .idle:
+                if state.timeToFetch() {
+                    logger.debug("load in progress")
+                    newState.loadInProgress = .loadPending
+                    // closure passed to Store send function must
+                    // initiate the load
+                }
+            default:
+                newState.loadInProgress = .duplicateLoadPending
             }
 
         case .forcedFetchRequested:
             logger.debug("gallery forced fetch requested")
-            if !state.loadInProgress {
-                newState.loadInProgress = true
+            switch state.loadInProgress {
+            case .idle:
+                newState.loadInProgress = .loadPending
                 // closure passed to Store send function must
                 // initiate the load
+            default:
+                newState.loadInProgress = .duplicateLoadPending
             }
 
         case let .fetchResults(entries):
             logger.debug("gallery fetch results")
-            if newState.loadInProgress {
-                newState.loadInProgress = false
+            if newState.loadInProgress != .idle {
+                newState.loadInProgress = .idle
                 newState.galleryModel.names = entries
                 newState.updateTimeFetched()
             } else {
@@ -122,7 +137,13 @@ public struct GalleryReducer: Reducer {
             }
         case let .fetchError(error):
             logger.error("\(error)")
-            newState.loadInProgress = false
+            if newState.loadInProgress != .idle {
+                newState.loadInProgress = .idle
+                // should perhaps save the error so it can be shown
+                // to the user?
+            } else {
+                logger.error("Received fetch error when no load was in progress")
+            }
         }
 
         return newState
