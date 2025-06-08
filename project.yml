@@ -2,7 +2,7 @@ name: Smbc
 
 options:
   groupOrdering:
-    - order: [Smbc, Packages, Products]
+    - order: [Smbc, SmbcWidgetExtesion, SmbcUITests, Packages, Products]
 
 settings:
   base:
@@ -140,6 +140,20 @@ targets:
         showEnvVars: NO
         basedOnDependencyAnalysis: NO
 
+  SmbcUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    deploymentTarget: 17.0
+    dependencies:
+      - target: Smbc
+    sources:
+      - SmbcUITests
+    settings:
+      GENERATE_INFOPLIST_FILE: YES
+      PRODUCT_NAME: $(TARGET_NAME)
+      PRODUCT_BUNDLE_IDENTIFIER: org.snafu.SmbcUITests
+    schemes: none
+
 packages:
   AppModules:
     path: AppModules
@@ -161,6 +175,8 @@ schemes:
     test:
       config: Debug
       gatherCoverageData: YES
+      targets:
+        - name: SmbcUITests
     profile:
       config: Release
     analyze:

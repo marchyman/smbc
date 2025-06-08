@@ -44,6 +44,8 @@ public struct ContentView: View {
                 .tabItem { Label("Gallery", systemImage: "photo") }
                 .tag(TabItems.gallery)
         }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("TabView")
         .onChange(of: store.state.lastFetchError) {
             fetchErrorPresented = store.state.lastFetchError != nil
         }
@@ -56,6 +58,10 @@ public struct ContentView: View {
             // system provides a button to dismiss
         } message: {
             ReloadErrorView(description: store.state.lastFetchError)
+        }
+        .onAppear {
+            uiTestReloadError()
+            uiTestNextRide()
         }
     }
 }
@@ -78,6 +84,27 @@ struct ReloadErrorView: View {
     }
 }
 
+extension ContentView {
+    func uiTestReloadError() {
+#if DEBUG
+        if ProcessInfo.processInfo.environment["RELOADERRORTEST"] != nil {
+            store.send(.forcedFetchRequested) {
+                store.send(.fetchError("Test Fetch Failure"))
+            }
+        }
+#endif
+    }
+
+    func uiTestNextRide() {
+#if DEBUG
+        if ProcessInfo.processInfo.environment["NEXTRIDETEST"] != nil {
+            store.send(.gotNextRide(store.state.rideModel.rides.first))
+        }
+#endif
+    }
+}
+
 #Preview {
     HomeView()
 }
+
