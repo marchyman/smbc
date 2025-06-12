@@ -81,9 +81,7 @@ public struct Cache: Equatable, Sendable {
     }
 
     public func write(_ data: Data) {
-        // create local copy of URL to pass to task
-        let cacheURL = cacheURL
-        Task(priority: .background) {
+        Task(priority: .background) { [cacheURL] in
             do {
                 try data.write(to: cacheURL)
             } catch {
