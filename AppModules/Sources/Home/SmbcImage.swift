@@ -18,3 +18,8 @@ struct SmbcImage: View {
             .padding(.horizontal, paddingSize)
     }
 }
+
+#Preview {
+    SmbcImage()
+}
+

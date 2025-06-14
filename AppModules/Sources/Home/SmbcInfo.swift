@@ -19,7 +19,7 @@ struct SmbcInfo: View {
             Image(systemName: "info.circle")
         }
         .alert("SMBC Information", isPresented: $infoPresented) {
-            Button("Got it!") {}
+            Button("Got it!") {}.accessibilityIdentifier("gotit")
         } message: {
             Text(
                 """

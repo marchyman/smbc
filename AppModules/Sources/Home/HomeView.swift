@@ -54,11 +54,14 @@ public struct HomeView: View {
                             .padding(.horizontal)
                             .opacity(0.0)
                     }
+                    .accessibilityIdentifier("log")
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack {
                         SmbcHelp()
+                            .accessibilityIdentifier("help")
                         SmbcInfo()
+                            .accessibilityIdentifier("info")
                     }
                 }
             }
@@ -127,4 +130,6 @@ public struct HomeView: View {
 
 #Preview {
     HomeView()
+        .environment(Store(initialState: ScheduleState(noGroup: true),
+                           reduce: ScheduleReducer()))
 }

@@ -26,22 +26,9 @@ final class ContentViewTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func takeScreenshot(name: String) {
-        let screenshot = app.windows.firstMatch.screenshot()
-
-        let attachment =
-            XCTAttachment(uniformTypeIdentifier: "public.png",
-                          name: "\(name).png",
-                          payload: screenshot.pngRepresentation,
-                          userInfo: nil)
-        attachment.lifetime = .keepAlways
-        add(attachment)
-    }
-
     func testTabs() {
         app = XCUIApplication()
         app.launch()
-        takeScreenshot(name: "Initial Launch")
 
         XCTAssert(app.descendants(matching: .any)
             .matching(identifier: "TabView").element.exists)

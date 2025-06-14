@@ -84,7 +84,7 @@ extension ScheduleState {
 
     // model resource names used to initialize the models
     public static let rideResource = "schedule.json"
-    static let tripResource = "trips.json"
+    public static let tripResource = "trips.json"
     public static let restaurantResource = "restaurants.json"
 
     static let scheduleServer = "https://smbc.snafu.org/"

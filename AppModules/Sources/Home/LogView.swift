@@ -22,6 +22,7 @@ struct LogView: View {
                 Button("Dismiss") {
                     dismiss()
                 }
+                .accessibilityIdentifier("log dismiss")
             }
             .padding()
 
