@@ -68,18 +68,22 @@ struct RestaurantInfoView: View {
     }
 }
 
+// does not build in Xcode 16, yet this view is part of RestaurantDetailView
+// which previews without error.
+
 #Preview {
-    RestaurantInfoView(
-        restaurant: Restaurant(
-            id: "beachstreet",
-            name: "Beach Street",
-            address: "435 W. Beach Street",
-            route: "101/92/280/85/17/1",
-            city: "Watsonville",
-            phone: "831-722-2233",
-            status: "open",
-            eta: "8:17",
-            lat: 37.113013,
-            lon: -121.637845),
-        eta: false)
+    NavigationStack {
+        RestaurantDetailView(restaurant: Restaurant(
+            id: "test",
+            name: "Test Restaurant",
+            address: "123 Main Street",
+            route: "(101/202/303)",
+            city: "Some City",
+            phone: "(123) 456-7890",
+            status: "CLOSED",
+            eta: "8:05",
+            lat: 37.7244,
+            lon: -122.4381),
+                             eta: false)
+    }
 }

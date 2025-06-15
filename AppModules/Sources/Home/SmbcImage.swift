@@ -22,4 +22,3 @@ struct SmbcImage: View {
 #Preview {
     SmbcImage()
 }
-

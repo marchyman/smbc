@@ -81,7 +81,7 @@ struct RestaurantVisitsView: View {
             lat: 37.7244,
             lon: -122.4381)
     )
-    .environment(Store(initialState: ScheduleState(),
+    .environment(Store(initialState: ScheduleState(noGroup: true),
                        reduce: ScheduleReducer(),
                        name: "Preview Schedule Store"))
 }

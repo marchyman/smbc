@@ -77,7 +77,7 @@ struct RestaurantRow: View {
 
 #Preview {
     RestaurantListView()
-        .environment(Store(initialState: ScheduleState(),
+        .environment(Store(initialState: ScheduleState(noGroup: true),
                            reduce: ScheduleReducer(),
                            name: "Preview Schedule Store"))
 }

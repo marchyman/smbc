@@ -21,6 +21,7 @@ struct LookAroundView: View {
         ZStack {
             Text("*Look Around* not available for this location")
                 .opacity(lookAroundScene == nil ? 1 : 0)
+                .accessibilityIdentifier("lookaround")
             LookAroundPreview(initialScene: lookAroundScene)
                 .opacity(lookAroundScene == nil ? 0 : 1)
         }
