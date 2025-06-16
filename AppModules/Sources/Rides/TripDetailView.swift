@@ -57,7 +57,7 @@ struct TripDetailView: View {
                                   end: "7/13",
                                   description: "Camping blah",
                                   comment: "preview"))
-            .environment(Store(initialState: ScheduleState(),
+            .environment(Store(initialState: ScheduleState(noGroup: true),
                                reduce: ScheduleReducer(),
                                name: "Preview Schedule Store"))
     }
@@ -70,7 +70,7 @@ struct TripDetailView: View {
                                   end: nil,
                                   description: "Boot Dinner",
                                   comment: "preview"))
-        .environment(Store(initialState: ScheduleState(),
+        .environment(Store(initialState: ScheduleState(noGroup: true),
                            reduce: ScheduleReducer(),
                            name: "Preview Schedule Store"))
     }
@@ -83,7 +83,7 @@ struct TripDetailView: View {
                                   end: nil,
                                   description: "unknown trip",
                                   comment: "preview"))
-        .environment(Store(initialState: ScheduleState(),
+        .environment(Store(initialState: ScheduleState(noGroup: true),
                            reduce: ScheduleReducer(),
                            name: "Preview Schedule Store"))
     }

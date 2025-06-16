@@ -104,7 +104,7 @@ public struct RideListView: View {
 #Preview {
     NavigationStack {
         RideListView()
-            .environment(Store(initialState: ScheduleState(),
+            .environment(Store(initialState: ScheduleState(noGroup: true),
                                reduce: ScheduleReducer(),
                                name: "Preview Schedule Store"))
     }

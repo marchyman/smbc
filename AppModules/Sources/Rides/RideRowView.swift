@@ -34,7 +34,7 @@ struct RideRowView: View {
                            end: nil,
                            description: nil,
                            comment: "Testing"))
-        .environment(Store(initialState: ScheduleState(),
+        .environment(Store(initialState: ScheduleState(noGroup: true),
                      reduce: ScheduleReducer(),
                      name: "Preview Schedule Store"))
 
