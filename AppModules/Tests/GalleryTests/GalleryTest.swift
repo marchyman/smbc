@@ -46,7 +46,7 @@ struct GalleryStateTests {
     @Test func initGalleryState() async throws {
         let state = try makeState()
         #expect(state.galleryModel.names.count == 9)
-        #expect(state.loadInProgress == false)
+        #expect(state.loadInProgress == .idle)
     }
 
     // a single test due to reference to @AppStorage
@@ -58,20 +58,20 @@ struct GalleryStateTests {
         let state = try makeState()
         let reduce = GalleryReducer()
         let state1 = reduce(state, .fetchRequested)
-        #expect(state1.loadInProgress == false)
+        #expect(state1.loadInProgress == .idle)
 
         // do the fetch request with a date in the past
 
         refreshDate = Date.distantPast
         let state2 = reduce(state1, .fetchRequested)
-        #expect(state2.loadInProgress == true)
+        #expect(state2.loadInProgress == .loadPending)
 
         // simulate good results from the fetch
 
         let result = "Good Result"
         let results = [ result ]
         let resultState = reduce(state2, .fetchResults(results))
-        #expect(resultState.loadInProgress == false)
+        #expect(resultState.loadInProgress == .idle)
         #expect(resultState.galleryModel.names.count == 1)
         #expect(resultState.galleryModel.names.first == result)
         // Log output shows the refreshDate was updated, but this expectation
@@ -85,7 +85,7 @@ struct GalleryStateTests {
         let state = try makeState()
         let reduce = GalleryReducer()
         let newState = reduce(state, .fetchResults(results))
-        #expect(newState.loadInProgress == false)
+        #expect(newState.loadInProgress == .idle)
         #expect(state.galleryModel == newState.galleryModel)
     }
 
@@ -93,8 +93,8 @@ struct GalleryStateTests {
         let state = try makeState()
         let reduce = GalleryReducer()
         let nextState = reduce(state, .forcedFetchRequested)
-        #expect(nextState.loadInProgress == true)
+        #expect(nextState.loadInProgress == .loadPending)
         let finalState = reduce(nextState, .fetchError("Fetch Failed"))
-        #expect(finalState.loadInProgress == false)
+        #expect(finalState.loadInProgress == .idle)
     }
 }
