@@ -8,7 +8,7 @@ import OSLog
 
 @Observable
 @MainActor
-public final class Store<State: Sendable, Action: Sendable> {
+public final class Store<State, Action> {
     private(set) public var state: State
     private let reduce: any Reducer<State, Action>
 

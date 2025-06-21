@@ -89,6 +89,7 @@ struct StateTests {
         await #expect(throws: TestError.testError) {
             try await store.send(.actionWithSideEffect) {
                 #expect(store.state.value == "pending")
+                try await Task.sleep(nanoseconds: 100)
                 throw TestError.testError
             }
         }
