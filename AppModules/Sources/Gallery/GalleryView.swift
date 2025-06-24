@@ -18,8 +18,8 @@ public struct GalleryView: View {
         NavigationStack(path: $path) {
             ScrollView {
                 LazyVStack {
-                    ForEach(store.state.galleryModel.names, id: \.self) { name in
-                        let downloadName = store.state.galleryServer + name
+                    ForEach(store.galleryModel.names, id: \.self) { name in
+                        let downloadName = store.galleryServer + name
                         if name.endsInJpg() {
                             NavigationLink(destination: ImageZoomView(imageName: downloadName)) {
                                 ImageView(imageName: downloadName)
@@ -47,7 +47,7 @@ public struct GalleryView: View {
     func fetch(forced: Bool = false) async {
         let action = forced ? GalleryAction.forcedFetchRequested : .fetchRequested
         await store.send(action) {
-            if store.state.loadInProgress == .loadPending {
+            if store.loadInProgress == .loadPending {
                 do {
                     let names = try await store.state.fetchNames()
                     await store.send(.fetchResults(names))

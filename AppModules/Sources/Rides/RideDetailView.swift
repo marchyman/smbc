@@ -18,7 +18,7 @@ struct RideDetailView: View {
 
     var body: some View {
         RestaurantDetailView(
-            restaurant: store.state.restaurantModel.restaurant(from: ride.restaurant!),
+            restaurant: store.restaurantModel.restaurant(from: ride.restaurant!),
             eta: true
         )
         .offset(x: dragOffset.width)
@@ -32,7 +32,7 @@ struct RideDetailView: View {
                     case ...(-100):
                         if ProcessInfo.processInfo.environment["NONEXTRIDE"] != nil {
                             lastRide.toggle()
-                        } else if let next = store.state.rideModel.ride(following: ride) {
+                        } else if let next = store.rideModel.ride(following: ride) {
                             withAnimation(.easeInOut(duration: 0.3)) {
                                 ride = next
                             }
@@ -42,7 +42,7 @@ struct RideDetailView: View {
                     case 100...:
                         if ProcessInfo.processInfo.environment["NONEXTRIDE"] != nil {
                             firstRide.toggle()
-                        } else if let prev = store.state.rideModel.ride(preceding: ride) {
+                        } else if let prev = store.rideModel.ride(preceding: ride) {
                             withAnimation(.easeInOut(duration: 0.3)) {
                                 ride = prev
                             }
@@ -57,7 +57,7 @@ struct RideDetailView: View {
         )
         .alert("First ride of the year", isPresented: $firstRide) {}
         .alert("Last ride of the year", isPresented: $lastRide) {}
-        .navigationTitle("\(ride.start)/\(store.state.yearString) Ride")
+        .navigationTitle("\(ride.start)/\(store.yearString) Ride")
     }
 }
 

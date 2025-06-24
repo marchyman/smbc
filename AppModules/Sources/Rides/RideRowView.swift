@@ -24,7 +24,7 @@ struct RideRowView: View {
     }
 
     private func restaurantName(id: String?) -> String {
-        return store.state.restaurantModel.restaurant(from: id).name
+        return store.restaurantModel.restaurant(from: id).name
     }
 }
 

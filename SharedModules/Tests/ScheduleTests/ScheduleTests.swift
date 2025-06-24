@@ -159,16 +159,16 @@ struct ScheduleTests {
 
     @Test func initStore() async throws {
         let store = createStoreWithTestData()
-        #expect(store.state.loadInProgress == .idle)
+        #expect(store.loadInProgress == .idle)
     }
 
     @Test func fetchRequested() async throws {
         let store = createStoreWithTestData()
-        store.send(.fetchRequested(store.state.year - 1)) {
-            #expect(store.state.loadInProgress == .loadPending)
+        store.send(.fetchRequested(store.year - 1)) {
+            #expect(store.loadInProgress == .loadPending)
         }
-        store.send(.fetchRequested(store.state.year)) {
-            #expect(store.state.loadInProgress == .duplicateLoadPending)
+        store.send(.fetchRequested(store.year)) {
+            #expect(store.loadInProgress == .duplicateLoadPending)
         }
         // Set up to test for not yet time to fetch
         await store.send(.fetchError("reset state"))
@@ -176,8 +176,8 @@ struct ScheduleTests {
         @AppStorage(ASKeys.scheduleRefreshDate) var refreshDate = Date.distantPast
         refreshDate = Date.distantFuture
 
-        store.send(.fetchRequested(store.state.year)) {
-            #expect(store.state.loadInProgress == .idle)
+        store.send(.fetchRequested(store.year)) {
+            #expect(store.loadInProgress == .idle)
         }
     }
 
@@ -188,73 +188,73 @@ struct ScheduleTests {
 
         // initial and duplicate request
         store.send(.forcedFetchRequested) {
-            #expect(store.state.loadInProgress == .loadPending)
+            #expect(store.loadInProgress == .loadPending)
         }
         store.send(.forcedFetchRequested) {
-            #expect(store.state.loadInProgress == .duplicateLoadPending)
+            #expect(store.loadInProgress == .duplicateLoadPending)
         }
 
         // Simulate a load error
         let fetchError = "Fetch Error"
         store.send(.forcedFetchRequested) {
-            #expect(store.state.loadInProgress == .duplicateLoadPending)
+            #expect(store.loadInProgress == .duplicateLoadPending)
             store.send(.fetchError(fetchError))
         }
-        #expect(store.state.loadInProgress == .idle)
-        #expect(store.state.lastFetchError == fetchError)
+        #expect(store.loadInProgress == .idle)
+        #expect(store.lastFetchError == fetchError)
 
         // simulate data received
         let oldRefreshDate = Date.now
         store.send(.forcedFetchRequested) {
             #expect(store.state.loadInProgress == .loadPending)
-            store.send(.fetchResults(store.state.year,
-                                     store.state.rideModel.rides,
-                                     store.state.tripModel.trips,
-                                     store.state.restaurantModel.restaurants))
+            store.send(.fetchResults(store.year,
+                                     store.rideModel.rides,
+                                     store.tripModel.trips,
+                                     store.restaurantModel.restaurants))
         }
-        #expect(store.state.loadInProgress == .idle)
-        #expect(store.state.lastFetchError == nil)
+        #expect(store.loadInProgress == .idle)
+        #expect(store.lastFetchError == nil)
         #expect(refreshDate > oldRefreshDate)
     }
 
     @Test func fetchYearRequested() async throws {
         let store = createStoreWithTestData()
-        store.send(.fetchYearRequested(store.state.year)) {
-            #expect(store.state.loadInProgress == .loadPending)
+        store.send(.fetchYearRequested(store.year)) {
+            #expect(store.loadInProgress == .loadPending)
         }
 
         let error = "Fetch Error"
-        store.send(.fetchYearRequested(store.state.year)) {
-            #expect(store.state.loadInProgress == .duplicateLoadPending)
+        store.send(.fetchYearRequested(store.year)) {
+            #expect(store.loadInProgress == .duplicateLoadPending)
             store.send(.fetchError(error))
         }
-        #expect(store.state.loadInProgress == .idle)
-        #expect(store.state.lastFetchError == error)
+        #expect(store.loadInProgress == .idle)
+        #expect(store.lastFetchError == error)
 
-        let year = store.state.year
-        let rides = store.state.rideModel.rides
-        store.send(.fetchYearRequested(store.state.year)) {
-            #expect(store.state.loadInProgress == .loadPending)
+        let year = store.year
+        let rides = store.rideModel.rides
+        store.send(.fetchYearRequested(store.year)) {
+            #expect(store.loadInProgress == .loadPending)
             store.send(.fetchYearResults(year, rides))
         }
-        #expect(store.state.loadInProgress == .idle)
-        #expect(store.state.lastFetchError == nil)
+        #expect(store.loadInProgress == .idle)
+        #expect(store.lastFetchError == nil)
 
         let badYear = year + 1
         let badRides: [Ride] = []
         await store.send(.fetchYearResults(badYear, badRides))
         // the above request should have been ignored
-        #expect(store.state.year == year)
-        #expect(store.state.rideModel.rides == rides)
+        #expect(store.year == year)
+        #expect(store.rideModel.rides == rides)
     }
 
     @Test func nextRide() async throws {
         let store = createStoreWithTestData()
-        await store.send(.gotNextRide(store.state.rideModel.rides.first))
-        #expect(store.state.nextRide == store.state.rideModel.rides.first)
+        await store.send(.gotNextRide(store.rideModel.rides.first))
+        #expect(store.nextRide == store.rideModel.rides.first)
         await store.send(.clearNextRide)
-        #expect(store.state.nextRide == nil)
+        #expect(store.nextRide == nil)
         await store.send(.gotNextRide(nil))
-        #expect(store.state.nextRide == nil)
+        #expect(store.nextRide == nil)
     }
 }

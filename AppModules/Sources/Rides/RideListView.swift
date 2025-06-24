@@ -19,7 +19,7 @@ public struct RideListView: View {
     public var body: some View {
         NavigationStack(path: $path) {
             VStack {
-                List(store.state.rideModel.rides) { ride in
+                List(store.rideModel.rides) { ride in
                     if ride.restaurant != nil {
                         RideRowView(ride: ride).id(ride.id)
                     } else if ride.description != nil {
@@ -45,7 +45,7 @@ public struct RideListView: View {
             .navigationDestination(for: Ride.self) { ride in
                 RideDetailView(ride: ride)
             }
-            .navigationTitle("SMBC Rides in \(store.state.yearString)")
+            .navigationTitle("SMBC Rides in \(store.yearString)")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
@@ -62,8 +62,8 @@ public struct RideListView: View {
             YearPickerView(selectedYear: $selectedYear)
         }
         .onAppear {
-            selectedYear = store.state.year
-            if let nextRide = store.state.nextRide {
+            selectedYear = store.year
+            if let nextRide = store.nextRide {
                 store.send(.clearNextRide)
                 path.append(nextRide)
             }
@@ -71,10 +71,10 @@ public struct RideListView: View {
     }
 
     func fetchSelectedYear() {
-        if selectedYear != store.state.year {
+        if selectedYear != store.year {
             Task {
                 await store.send(.fetchYearRequested(selectedYear)) {
-                    if store.state.loadInProgress == .loadPending {
+                    if store.loadInProgress == .loadPending {
                         do {
                             let rides = try await store.state.fetchRides(for: selectedYear)
                             await store.send(.fetchYearResults(selectedYear, rides))
@@ -89,7 +89,7 @@ public struct RideListView: View {
 
     func fetch() async {
         await store.send(.forcedFetchRequested) {
-            if store.state.loadInProgress == .loadPending {
+            if store.loadInProgress == .loadPending {
                 do {
                     let (year, rides, trips, restaurants) = try await store.state.fetch()
                     await store.send(.fetchResults(year, rides, trips, restaurants))

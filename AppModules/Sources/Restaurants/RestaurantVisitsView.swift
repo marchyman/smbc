@@ -15,7 +15,7 @@ struct RestaurantVisitsView: View {
     let restaurant: Restaurant
 
     var body: some View {
-        let filteredRides = store.state.rideModel.rides.filter {
+        let filteredRides = store.rideModel.rides.filter {
             $0.restaurant == restaurant.id
         }
         return ZStack {
@@ -33,7 +33,7 @@ struct RestaurantVisitsView: View {
                 Text(
                 """
                 \(rideCountLabel(filteredRides.count))
-                scheduled in \(store.state.yearString)
+                scheduled in \(store.yearString)
                 """
                 )
                 .padding()

@@ -29,7 +29,7 @@ struct TripDetailView: View {
     private func tripText() -> String {
         if let spaceIndex = ride.description?.firstIndex(of: " ") {
             let key = String(ride.description![..<spaceIndex])
-            if let trip = store.state.tripModel.trips[key] {
+            if let trip = store.tripModel.trips[key] {
                 return trip
             }
 
@@ -44,9 +44,9 @@ struct TripDetailView: View {
 
     private func tripTitle() -> String {
         if let end = ride.end {
-            return "\(ride.start) - \(end), \(store.state.yearString)"
+            return "\(ride.start) - \(end), \(store.yearString)"
         }
-        return "\(ride.start), \(store.state.yearString)"
+        return "\(ride.start), \(store.yearString)"
     }
 }
 

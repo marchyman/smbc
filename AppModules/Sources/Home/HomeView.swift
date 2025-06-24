@@ -111,12 +111,12 @@ public struct HomeView: View {
         // of the year that will be the schedule for the following year.
 
         var year = Calendar.current.component(.year, from: .now)
-        if year == store.state.year && store.state.getNextRide() == nil {
+        if year == store.year && store.state.getNextRide() == nil {
             year += 1
         }
         let action = forced ? ScheduleAction.forcedFetchRequested : .fetchRequested(year)
         await store.send(action) {
-            if store.state.loadInProgress == .loadPending {
+            if store.loadInProgress == .loadPending {
                 do {
                     let (year, rides, trips, restaurants) = try await store.state.fetch(year: year)
                     await store.send(.fetchResults(year, rides, trips, restaurants))

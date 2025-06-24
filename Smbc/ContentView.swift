@@ -46,18 +46,18 @@ public struct ContentView: View {
         }
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("TabView")
-        .onChange(of: store.state.lastFetchError) {
-            fetchErrorPresented = store.state.lastFetchError != nil
+        .onChange(of: store.lastFetchError) {
+            fetchErrorPresented = store.lastFetchError != nil
         }
-        .onChange(of: store.state.nextRide) {
-            if store.state.nextRide != nil {
+        .onChange(of: store.nextRide) {
+            if store.nextRide != nil {
                 selectedTab = .rides
             }
         }
         .alert("Reload Error", isPresented: $fetchErrorPresented) {
             // system provides a button to dismiss
         } message: {
-            ReloadErrorView(description: store.state.lastFetchError)
+            ReloadErrorView(description: store.lastFetchError)
         }
         .onAppear {
             uiTestReloadError()
@@ -98,7 +98,7 @@ extension ContentView {
     func uiTestNextRide() {
 #if DEBUG
         if ProcessInfo.processInfo.environment["NEXTRIDETEST"] != nil {
-            store.send(.gotNextRide(store.state.rideModel.rides.first))
+            store.send(.gotNextRide(store.rideModel.rides.first))
         }
 #endif
     }

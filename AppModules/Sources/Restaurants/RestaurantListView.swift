@@ -47,7 +47,7 @@ public struct RestaurantListView: View {
     }
 
     private func filteredRestaurants(_ filter: Bool) -> [Restaurant] {
-        store.state.restaurantModel.restaurants.filter {
+        store.restaurantModel.restaurants.filter {
             !filter || $0.status == "open" || $0.status.hasPrefix("was ")
         }
     }
