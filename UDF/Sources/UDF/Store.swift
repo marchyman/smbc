@@ -7,6 +7,7 @@ import SwiftUI
 import OSLog
 
 @Observable
+@dynamicMemberLookup
 @MainActor
 public final class Store<State, Action> {
     private(set) public var state: State
@@ -23,6 +24,10 @@ public final class Store<State, Action> {
             Logger(subsystem: "org.snafu", category: "Store")
                 .notice("\(name, privacy: .public) store created")
         }
+    }
+
+    public subscript<T>(dynamicMember keyPath: KeyPath<State, T>) -> T {
+        state[keyPath: keyPath]
     }
 
     public func send(_ action: Action) {

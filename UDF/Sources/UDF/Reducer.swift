@@ -8,6 +8,7 @@ import Foundation
 // A Reducer struct must define at least a reduce function. The function
 // is called to reduce a state/action to a new state.
 
+@MainActor
 public protocol Reducer<State, Action>: Sendable {
     associatedtype State
     associatedtype Action

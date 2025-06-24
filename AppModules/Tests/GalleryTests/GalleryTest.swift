@@ -37,6 +37,7 @@ struct GalleryModelTests {
     }
 }
 
+@MainActor
 struct GalleryStateTests {
     func makeState() throws -> GalleryState {
         let cache = try testCache()
