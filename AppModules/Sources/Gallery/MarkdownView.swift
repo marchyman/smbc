@@ -32,7 +32,7 @@ struct MarkdownView: View {
         .padding(.horizontal)
         .clipped()
         .task {
-            markdown = try? await GalleryModel.fetchMarkdown( mdFile: name, start: true)
+            markdown = try? await GalleryModel.fetchMarkdown(mdFile: name, start: true)
         }
     }
 }

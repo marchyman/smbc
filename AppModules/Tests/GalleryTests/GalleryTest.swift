@@ -30,10 +30,21 @@ func testCache() throws -> Cache {
 struct GalleryModelTests {
     @Test func initGallery() async throws {
         let cache = try testCache()
+        let state = GalleryState(testCache: cache)
         let gallery = GalleryModel(cache: cache)
         #expect(gallery.names.count == 9)
         #expect(gallery.names.first == "riders/2025/0302/index.md")
         #expect(gallery.names.last == "riders/2025/0209/p-7881.jpg")
+        let path = state.galleryServer + "riders/2025/0209/index.md"
+        let text = try await GalleryModel.fetchMarkdown(mdFile: path,
+                                                        start: true)
+        // "start" returns up to 250 char plus a suffix of "..."
+        #expect(text.count == 253)
+        let fullText = try await GalleryModel.fetchMarkdown(mdFile: path)
+        #expect(fullText.count == 360)
+        // full text should contain the start text as a prefix
+        // less the added "..."
+        #expect(fullText.hasPrefix(text.prefix(250)))
     }
 }
 
