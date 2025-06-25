@@ -12,22 +12,32 @@ import Testing
 
 @testable import Gallery
 
-let testDataName = "testgallery"
-let testDataExtension = "json"
+// model and state tests combined and serialized.  Both touch a
+// shared cache file.
 
-// return the cache to be used for testing
+@MainActor
+@Suite(.serialized)
+struct GalleryStateTests {
+    let testDataName = "testgallery"
+    let testDataExtension = "json"
 
-func testCache() throws -> Cache {
-    let cacheFileName = testDataName + "." + testDataExtension
-    let dataURL = Bundle.module.url(forResource: testDataName,
-                                    withExtension: testDataExtension)
-    let bundleURL = try #require(dataURL)
-    let cache = Cache(name: cacheFileName, bundleURL: bundleURL)
-    // Cache will abort if the cache could not be created and primed
-    return cache
-}
+    // return the cache to be used for testing
 
-struct GalleryModelTests {
+    func testCache() throws -> Cache {
+        let cacheFileName = testDataName + "." + testDataExtension
+        let dataURL = Bundle.module.url(forResource: testDataName,
+                                        withExtension: testDataExtension)
+        let bundleURL = try #require(dataURL)
+        let cache = Cache(name: cacheFileName, bundleURL: bundleURL)
+        // Cache will abort if the cache could not be created and primed
+        return cache
+    }
+
+    func makeState() throws -> GalleryState {
+        let cache = try testCache()
+        return GalleryState(testCache: cache)
+    }
+
     @Test func initGallery() async throws {
         let cache = try testCache()
         let state = GalleryState(testCache: cache)
@@ -45,14 +55,6 @@ struct GalleryModelTests {
         // full text should contain the start text as a prefix
         // less the added "..."
         #expect(fullText.hasPrefix(text.prefix(250)))
-    }
-}
-
-@MainActor
-struct GalleryStateTests {
-    func makeState() throws -> GalleryState {
-        let cache = try testCache()
-        return GalleryState(testCache: cache)
     }
 
     @Test func initGalleryState() async throws {
