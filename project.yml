@@ -1,6 +1,9 @@
 name: Smbc
 
 options:
+  fileTypes:
+    "icon":
+      file: true 
   groupOrdering:
     - order: [Smbc, SmbcWidgetExtesion, SmbcUITests, Packages, Products]
 
