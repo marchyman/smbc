@@ -57,7 +57,7 @@ final class HomeViewTests: XCTestCase {
         XCTAssert(app.staticTexts["SMBC Information"].exists)
         XCTAssert(app.buttons["gotit"].exists)
         takeScreenshot(name: "SMBC Info")
-        app.buttons["gotit"].tap()
+        app.buttons["gotit"].firstMatch.tap()
 
         // check the help button
         XCTAssert(app.buttons["help"].exists)
@@ -68,8 +68,8 @@ final class HomeViewTests: XCTestCase {
         app.buttons["OK"].tap()
 
         // check the hidden log button
-        XCTAssert(app.buttons["log"].exists)
-        app.buttons["log"].tap()
+        XCTAssert(app.staticTexts["smbc link"].exists)
+        app.staticTexts["smbc link"].press(forDuration: 1.0)
         XCTAssert(app.buttons["log dismiss"].exists)
         app.buttons["log dismiss"].tap()
 

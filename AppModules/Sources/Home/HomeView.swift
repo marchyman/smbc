@@ -27,6 +27,10 @@ public struct HomeView: View {
                     .font(.headline)
                     .lineLimit(2)
                     .padding()
+                    .onLongPressGesture {
+                        showLog = true
+                    }
+                    .accessibilityIdentifier("smbc link")
                 Spacer()
                 SmbcImage()
                 .onTapGesture {
@@ -45,18 +49,7 @@ public struct HomeView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("SMBC")
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        showLog = true
-                    } label: {
-                        // the label is hidden, but still can be tapped
-                        Text("Log")
-                            .padding(.horizontal)
-                            .opacity(0.0)
-                    }
-                    .accessibilityIdentifier("log")
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .topBarTrailing) {
                     HStack {
                         SmbcHelp()
                             .accessibilityIdentifier("help")
