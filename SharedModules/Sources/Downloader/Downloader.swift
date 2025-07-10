@@ -7,7 +7,7 @@ import Cache
 import Foundation
 import OSLog
 
-public struct Downloader<T: Decodable>: Sendable where T.Type: Sendable {
+public struct Downloader<T: Decodable & SendableMetatype>: Sendable {
     let url: URL
     let cache: Cache?
     let decodeType: T.Type
