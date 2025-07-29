@@ -17,55 +17,57 @@ public struct RideListView: View {
     public init() {}
 
     public var body: some View {
-        NavigationStack(path: $path) {
-            VStack {
-                List(store.rideModel.rides) { ride in
-                    if ride.restaurant != nil {
-                        RideRowView(ride: ride).id(ride.id)
-                    } else if ride.description != nil {
-                        TripRowView(ride: ride).id(ride.id)
+        ScrollViewReader { proxy in
+            NavigationStack(path: $path) {
+                VStack {
+                    List(store.rideModel.rides) { ride in
+                        if ride.restaurant != nil {
+                            RideRowView(ride: ride).id(ride.id)
+                        } else if ride.description != nil {
+                            TripRowView(ride: ride).id(ride.id)
+                        }
+                    }
+                    .listStyle(.insetGrouped)
+                    .smbcBackground()
+                    .scrollContentBackground(.hidden)
+                    .refreshable { await fetch() }
+                    if let nextRide = store.state.getNextRide() {
+                        NavigationLink("Show next ride",
+                                       destination: RideDetailView(ride: nextRide))
+                            .buttonStyle(.bordered)
+                            .padding(.bottom)
+                    } else {
+                        Text("Not current year")
+                            .padding(.bottom)
                     }
                 }
-                .listStyle(.insetGrouped)
-                .smbcBackground()
-                .scrollContentBackground(.hidden)
-                .refreshable { await fetch() }
-                if let nextRide = store.state.getNextRide() {
-                    NavigationLink(
-                        "Show next ride",
-                        destination: RideDetailView(ride: nextRide)
-                    )
-                    .buttonStyle(.bordered)
-                    .padding(.bottom)
-                } else {
-                    Text("Not current year")
-                        .padding(.bottom)
+                .navigationDestination(for: Ride.self) { ride in
+                    RideDetailView(ride: ride)
                 }
-            }
-            .navigationDestination(for: Ride.self) { ride in
-                RideDetailView(ride: ride)
-            }
-            .navigationTitle("SMBC Rides in \(store.yearString)")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        yearPickerPresented.toggle()
-                    } label: {
-                        Text("Change year")
-                            .font(.callout)
+                .navigationTitle("SMBC Rides in \(store.yearString)")
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button {
+                                yearPickerPresented.toggle()
+                            } label: {
+                                Text("Change year")
+                                    .font(.callout)
+                            }
+                        }
                     }
-                }
             }
-        }
-        .sheet(isPresented: $yearPickerPresented,
-               onDismiss: fetchSelectedYear) {
-            YearPickerView(selectedYear: $selectedYear)
-        }
-        .onAppear {
-            selectedYear = store.year
-            if let nextRide = store.nextRide {
-                store.send(.clearNextRide)
-                path.append(nextRide)
+            .sheet(isPresented: $yearPickerPresented,
+                   onDismiss: fetchSelectedYear) {
+                YearPickerView(selectedYear: $selectedYear)
+            }
+            .onAppear {
+                selectedYear = store.year
+                if let nextRide = store.nextRide {
+                    store.send(.clearNextRide)
+                    path.append(nextRide)
+                } else if let ride = store.state.getNextRide() {
+                    proxy.scrollTo(ride.id, anchor: .center)
+                }
             }
         }
     }
