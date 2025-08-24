@@ -10,6 +10,10 @@ Build:	$(PROJECT).xcodeproj/project.pbxproj
 $(PROJECT).xcodeproj/project.pbxproj:	project.yml
 	xcodegen -c
 
+# Unit tests (none exist right now and UI tests require a physical device)
+# test:
+# 	xcodebuild -scheme $(PROJECT) test | tee .test.out | xcbeautify
+
 # force project file rebuild
 proj:
 	xcodegen
