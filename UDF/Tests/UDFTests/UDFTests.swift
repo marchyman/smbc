@@ -37,6 +37,10 @@ enum TestError: Error {
 @MainActor
 struct StateTests {
 
+    func doNothing() throws {
+        //
+    }
+
     @Test func storeInit() async throws {
         let store = Store(initialState: TestState(),
                           reduce: TestReducer(),
@@ -50,13 +54,7 @@ struct StateTests {
         #expect(store.value == "action")
     }
 
-    @Test func storeAsyncAction() async throws {
-        let store = Store(initialState: TestState(), reduce: TestReducer())
-        await store.send(.action)
-        #expect(store.value == "action")
-    }
-
-    @Test func storeActionWithSideEffect() throws {
+    @Test func storeActionWithSideEffect() {
         let store = Store(initialState: TestState(), reduce: TestReducer())
         store.send(.actionWithSideEffect) {
             #expect(store.value == "pending")
@@ -65,16 +63,17 @@ struct StateTests {
         #expect(store.value == "side effect")
     }
 
-    @Test func storeAsyncActionWithSideEffect() async throws {
+    @Test func storeActionWithThrowingSideEffect() throws {
         let store = Store(initialState: TestState(), reduce: TestReducer())
-        await store.send(.actionWithSideEffect) {
+        try store.send(.actionWithSideEffect) {
             #expect(store.value == "pending")
-            await store.send(.sideEffectAction)
+            try doNothing()
+            store.send(.sideEffectAction)
         }
         #expect(store.value == "side effect")
     }
 
-    @Test func storeSendSideEffectThrows() throws {
+    @Test func storeActionWithThrowingSideEffectThrows() throws {
         let store = Store(initialState: TestState(), reduce: TestReducer())
         #expect(throws: TestError.testError) {
             try store.send(.actionWithSideEffect) {
@@ -83,8 +82,18 @@ struct StateTests {
             }
         }
     }
+    @Test func storeActionWithAsyncThrowingSideEffect() async throws {
+        let store = Store(initialState: TestState(), reduce: TestReducer())
+        try await store.send(.actionWithSideEffect) {
+            #expect(store.value == "pending")
+            try await Task.sleep(nanoseconds: 1000)
+            store.send(.sideEffectAction)
+        }
+        #expect(store.value == "side effect")
+    }
 
-    @Test func storeAsyncSendSideEffectThrows() async throws {
+
+    @Test func storeActionWithAsyncThrowingSideEffectThrows() async throws {
         let store = Store(initialState: TestState(), reduce: TestReducer())
         await #expect(throws: TestError.testError) {
             try await store.send(.actionWithSideEffect) {

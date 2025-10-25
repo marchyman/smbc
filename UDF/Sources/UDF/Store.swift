@@ -40,11 +40,7 @@ public final class Store<State, Action> {
         try sideEffects()
     }
 
-    // async versions of send
-
-    public func send(_ action: Action) async {
-        state = reduce(state, action)
-    }
+    // version of send with an async side effect
 
     public func send(_ action: Action,
                      sideEffects: () async throws -> Void) async rethrows {
