@@ -12,7 +12,8 @@ let package = Package(
         .library(name: "Schedule", targets: ["Schedule"])
     ],
     dependencies: [
-        .package(name: "UDF", path: "../UDF")
+        .package(url: "git://snafu.org/udf",
+                 branch: "main")
     ],
     targets: [
         .target(name: "ASKeys" ),
@@ -31,7 +32,7 @@ let package = Package(
                     "ASKeys",
                     "Cache",
                     "Downloader",
-                    "UDF" ],
+                    .product(name: "UDF", package: "udf") ],
                 resources: [
                     .copy("restaurants.json"),
                     .copy("schedule.json"),

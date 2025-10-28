@@ -165,7 +165,8 @@ packages:
   SharedModules:
     path: SharedModules
   UDF:
-    path: UDF
+    url: git://snafu.org/UDF
+    branch: main
 
 schemes:
   Smbc:

@@ -114,7 +114,7 @@ public struct HomeView: View {
                     let (year, rides, trips, restaurants) = try await store.state.fetch(year: year)
                     await store.send(.fetchResults(year, rides, trips, restaurants))
                 } catch {
-                    await store.send(.fetchError(error.localizedDescription))
+                    store.send(.fetchError(error.localizedDescription))
                 }
             }
         }

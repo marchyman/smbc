@@ -81,7 +81,7 @@ public struct RideListView: View {
                             let rides = try await store.state.fetchRides(for: selectedYear)
                             await store.send(.fetchYearResults(selectedYear, rides))
                         } catch {
-                            await store.send(.fetchError(error.localizedDescription))
+                            store.send(.fetchError(error.localizedDescription))
                         }
                     }
                 }
@@ -94,9 +94,9 @@ public struct RideListView: View {
             if store.loadInProgress == .loadPending {
                 do {
                     let (year, rides, trips, restaurants) = try await store.state.fetch()
-                    await store.send(.fetchResults(year, rides, trips, restaurants))
+                    store.send(.fetchResults(year, rides, trips, restaurants))
                 } catch {
-                    await store.send(.fetchError(error.localizedDescription))
+                    store.send(.fetchError(error.localizedDescription))
                 }
             }
         }

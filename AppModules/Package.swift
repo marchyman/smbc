@@ -12,7 +12,8 @@ let package = Package(
         .library(name: "Rides", targets: ["Rides"]),
         .library(name: "ViewModifiers", targets: ["ViewModifiers"]) ],
     dependencies: [
-        .package(name: "UDF", path: "../UDF"),
+        .package(url: "git://snafu.org/udf",
+                 branch: "main"),
         .package(name: "SharedModules", path: "../SharedModules"),
         .package(url: "git@github.com/gonzalezreal/swift-markdown-ui.git",
                  from: "2.3.0") ],
@@ -22,7 +23,7 @@ let package = Package(
                     .product(name: "ASKeys", package: "SharedModules"),
                     .product(name: "Cache", package: "SharedModules"),
                     .product(name: "Downloader", package: "SharedModules"),
-                    "UDF",
+                    .product(name: "UDF", package: "udf"),
                     "ViewModifiers",
                     .product(name: "MarkdownUI", package: "swift-markdown-ui") ],
                 resources: [.copy("gallery.json")]),
@@ -33,7 +34,7 @@ let package = Package(
         .target(name: "Home",
                 dependencies: [
                     .product(name: "Schedule", package: "SharedModules"),
-                    "UDF",
+                    .product(name: "UDF", package: "udf"),
                     "ViewModifiers" ],
                 resources: [.process("Assets.xcassets")]),
 
@@ -42,7 +43,7 @@ let package = Package(
                     .product(name: "ASKeys", package: "SharedModules"),
                     .product(name: "Cache", package: "SharedModules"),
                     .product(name: "Schedule", package: "SharedModules"),
-                    "UDF",
+                    .product(name: "UDF", package: "udf"),
                     "ViewModifiers" ]),
 
         .target(name: "Rides",
@@ -50,7 +51,7 @@ let package = Package(
                     .product(name: "Cache", package: "SharedModules"),
                     .product(name: "Downloader", package: "SharedModules"),
                     "Restaurants",
-                    "UDF",
+                    .product(name: "UDF", package: "udf"),
                     "ViewModifiers" ]),
 
         .target(name: "ViewModifiers")

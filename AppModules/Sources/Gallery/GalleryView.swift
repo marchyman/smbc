@@ -50,9 +50,9 @@ public struct GalleryView: View {
             if store.loadInProgress == .loadPending {
                 do {
                     let names = try await store.state.fetchNames()
-                    await store.send(.fetchResults(names))
+                    store.send(.fetchResults(names))
                 } catch {
-                    await store.send(.fetchError(error.localizedDescription))
+                    store.send(.fetchError(error.localizedDescription))
                 }
             }
         }
