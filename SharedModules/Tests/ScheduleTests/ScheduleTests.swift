@@ -54,7 +54,7 @@ struct ScheduleTests {
                              restaurantURL: restaurantURL)
     }
 
-    func createStoreWithTestData() -> Store<ScheduleState, ScheduleAction> {
+    func createStoreWithTestData() -> Store<ScheduleState, ScheduleEvent> {
         return Store(initialState: createStateWithTestData(),
                      reduce: ScheduleReducer(),
                      name: "Schedule reducer test store")

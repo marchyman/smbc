@@ -19,7 +19,7 @@ enum TabItems {
 }
 
 public struct ContentView: View {
-    @Environment(Store<ScheduleState, ScheduleAction>.self) var store
+    @Environment(Store<ScheduleState, ScheduleEvent>.self) var store
     @State private var selectedTab: TabItems = .home
     @State private var fetchErrorPresented = false
 

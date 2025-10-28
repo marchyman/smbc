@@ -79,9 +79,9 @@ extension GalleryState {
     }
 }
 
-// Actions that may cause the state to be updated
+// Events that may cause the state to be updated
 
-public enum GalleryAction: Equatable, Sendable {
+public enum GalleryEvent: Equatable, Sendable {
     case fetchRequested
     case forcedFetchRequested
     case fetchResults(_ entries: [String])
@@ -93,11 +93,11 @@ public enum GalleryAction: Equatable, Sendable {
 public struct GalleryReducer: Reducer {
     public init() {}
 
-    public func reduce(_ state: GalleryState, _ action: GalleryAction) -> GalleryState {
+    public func reduce(_ state: GalleryState, _ event: GalleryEvent) -> GalleryState {
         var newState = state
 
         let logger = Logger(subsystem: "snafu.org", category: "GalleryReducer")
-        switch action {
+        switch event {
         case .fetchRequested:
             logger.debug("gallery fetch requested")
             switch state.loadInProgress {

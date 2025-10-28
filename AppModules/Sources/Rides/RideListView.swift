@@ -9,7 +9,7 @@ import UDF
 import ViewModifiers
 
 public struct RideListView: View {
-    @Environment(Store<ScheduleState, ScheduleAction>.self) var store
+    @Environment(Store<ScheduleState, ScheduleEvent>.self) var store
     @State private var path: NavigationPath = .init()
     @State private var yearPickerPresented = false
     @State private var selectedYear: Int = 0

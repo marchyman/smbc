@@ -197,8 +197,8 @@ extension ScheduleState {
     }
 }
 
-// actions that may cause state updates
-public enum ScheduleAction: Equatable, Sendable {
+// events that may cause state updates
+public enum ScheduleEvent: Equatable, Sendable {
     case fetchRequested(_ year: Int)
     case forcedFetchRequested
     case fetchResults(_ year: Int, _ rides: [Ride],
@@ -214,11 +214,11 @@ public struct ScheduleReducer: Reducer {
     public init() {}
 
     public func reduce(_ state: ScheduleState,
-                       _ action: ScheduleAction) -> ScheduleState {
+                       _ event: ScheduleEvent) -> ScheduleState {
         var newState = state
 
         let logger = Logger(subsystem: "org.snafu", category: "ScheduleReducer")
-        switch action {
+        switch event {
         case let .fetchRequested(year):
             logger.debug("Schedule fetch requested")
             switch state.loadInProgress {

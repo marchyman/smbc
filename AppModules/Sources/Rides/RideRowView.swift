@@ -8,7 +8,7 @@ import SwiftUI
 import UDF
 
 struct RideRowView: View {
-    @Environment(Store<ScheduleState, ScheduleAction>.self) var store
+    @Environment(Store<ScheduleState, ScheduleEvent>.self) var store
 
     var ride: Ride
 

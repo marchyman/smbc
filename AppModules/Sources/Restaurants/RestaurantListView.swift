@@ -10,7 +10,7 @@ import UDF
 import ViewModifiers
 
 public struct RestaurantListView: View {
-    @Environment(Store<ScheduleState, ScheduleAction>.self) var store
+    @Environment(Store<ScheduleState, ScheduleEvent>.self) var store
 
     @State private var filter = true
 

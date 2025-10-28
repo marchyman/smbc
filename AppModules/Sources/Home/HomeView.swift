@@ -9,7 +9,7 @@ import UDF
 import ViewModifiers
 
 public struct HomeView: View {
-    @Environment(Store<ScheduleState, ScheduleAction>.self) var store
+    @Environment(Store<ScheduleState, ScheduleEvent>.self) var store
     @State private var reloadingPresented = false
     @State private var noMoreRides = false
     @State var showLog = false
@@ -107,8 +107,8 @@ public struct HomeView: View {
         if year == store.year && store.state.getNextRide() == nil {
             year += 1
         }
-        let action = forced ? ScheduleAction.forcedFetchRequested : .fetchRequested(year)
-        await store.send(action) {
+        let event = forced ? ScheduleEvent.forcedFetchRequested : .fetchRequested(year)
+        await store.send(event) {
             if store.loadInProgress == .loadPending {
                 do {
                     let (year, rides, trips, restaurants) = try await store.state.fetch(year: year)

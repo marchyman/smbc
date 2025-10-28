@@ -9,7 +9,7 @@ import UDF
 import ViewModifiers
 
 struct RestaurantVisitsView: View {
-    @Environment(Store<ScheduleState, ScheduleAction>.self) var store
+    @Environment(Store<ScheduleState, ScheduleEvent>.self) var store
     @Environment(\.dismiss) var dismiss
 
     let restaurant: Restaurant

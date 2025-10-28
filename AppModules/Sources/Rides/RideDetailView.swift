@@ -10,7 +10,7 @@ import UDF
 import ViewModifiers
 
 struct RideDetailView: View {
-    @Environment(Store<ScheduleState, ScheduleAction>.self) var store
+    @Environment(Store<ScheduleState, ScheduleEvent>.self) var store
     @State var ride: Ride
     @State private var dragOffset: CGSize = .zero
     @State private var firstRide = false

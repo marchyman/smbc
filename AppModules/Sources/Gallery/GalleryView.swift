@@ -9,7 +9,7 @@ import ASKeys
 import ViewModifiers
 
 public struct GalleryView: View {
-    @Environment(Store<GalleryState, GalleryAction>.self) var store
+    @Environment(Store<GalleryState, GalleryEvent>.self) var store
     @State private var path: NavigationPath = .init()
 
     public init() {}
@@ -45,8 +45,8 @@ public struct GalleryView: View {
     }
 
     func fetch(forced: Bool = false) async {
-        let action = forced ? GalleryAction.forcedFetchRequested : .fetchRequested
-        await store.send(action) {
+        let event = forced ? GalleryEvent.forcedFetchRequested : .fetchRequested
+        await store.send(event) {
             if store.loadInProgress == .loadPending {
                 do {
                     let names = try await store.state.fetchNames()
