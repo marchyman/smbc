@@ -61,10 +61,12 @@ final class RideViewsTests: XCTestCase {
         XCTAssert(app.buttons["Rides"].isSelected)
         takeScreenshot(name: "Rides Tab")
 
-        // find the first ride and tap on it
-        let rides = app.collectionViews.element(boundBy: 0)
+        // find the second ride and tap on it.
+        // The first ride might be at the very top of the screen and not
+        // be tapable.
+        let rides = app.collectionViews.element(boundBy: 1)
         XCTAssert(rides.exists)
-        let someRide = rides.buttons.element(boundBy: 0)
+        let someRide = rides.buttons.element(boundBy: 1)
         XCTAssert(someRide.exists)
         someRide.tap()
         rideDetails()
