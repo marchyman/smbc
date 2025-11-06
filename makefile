@@ -20,6 +20,6 @@ proj:
 # remove files created during the build process
 # do **not** use the -d option to git clean without excluding .jj
 clean:
-	xcodebuild clean
+	test -d $(PROJECTF).xcodeproj && xcodebuild clean || true
 	jj status
 	git clean -dfx -e .jj -e notes
