@@ -1,4 +1,5 @@
 PROJECT = Smbc
+YEAR = 2026
 
 buildServer.json:	Build
 	xcode-build-server config -scheme "$(PROJECT)" -project *.xcodeproj
@@ -16,6 +17,15 @@ $(PROJECT).xcodeproj/project.pbxproj:	project.yml
 # force project file rebuild
 proj:
 	xcodegen
+
+# Update the json data files in the project from the current values
+# on the smbc web site. Only works on snafu machines
+
+json:
+	cp /Users/www/smbc/restaurants.json SharedModules/Sources/Schedule
+	cp /Users/www/smbc/schedule/schedule-${YEAR}.json SharedModules/Sources/Schedule/schedule.json
+	cp /Users/www/smbc/schedule/trips.json SharedModules/Sources/Schedule
+	cp /Users/www/smbc/gallery.json AppModules/Sources/Gallery
 
 # remove files created during the build process
 # do **not** use the -d option to git clean without excluding .jj
