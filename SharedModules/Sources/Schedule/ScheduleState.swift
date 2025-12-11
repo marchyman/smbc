@@ -13,7 +13,7 @@ import UDF
 
 // the schedule in the app bundle is for this year.
 
-let bundleYear = 2025
+let bundleYear = 2026
 
 public enum ScheduleLoadStatus: Equatable, Sendable {
     case idle
