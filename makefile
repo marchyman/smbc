@@ -26,6 +26,7 @@ json:
 	cp /Users/www/smbc/schedule/schedule-${YEAR}.json SharedModules/Sources/Schedule/schedule.json
 	cp /Users/www/smbc/schedule/trips.json SharedModules/Sources/Schedule
 	cp /Users/www/smbc/gallery.json AppModules/Sources/Gallery
+	sed -i '' -E -e "s/[0-9]{4}$$/${YEAR}/" SharedModules/Sources/Schedule/ScheduleState.swift
 
 # remove files created during the build process
 # do **not** use the -d option to git clean without excluding .jj
