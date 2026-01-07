@@ -171,7 +171,7 @@ struct ScheduleTests {
             #expect(store.loadInProgress == .duplicateLoadPending)
         }
         // Set up to test for not yet time to fetch
-        await store.send(.fetchError("reset state"))
+        store.send(.fetchError("reset state"))
 
         @AppStorage(ASKeys.scheduleRefreshDate) var refreshDate = Date.distantPast
         refreshDate = Date.distantFuture
@@ -250,11 +250,11 @@ struct ScheduleTests {
 
     @Test func nextRide() async throws {
         let store = createStoreWithTestData()
-        await store.send(.gotNextRide(store.rideModel.rides.first))
+        store.send(.gotNextRide(store.rideModel.rides.first))
         #expect(store.nextRide == store.rideModel.rides.first)
-        await store.send(.clearNextRide)
+        store.send(.clearNextRide)
         #expect(store.nextRide == nil)
-        await store.send(.gotNextRide(nil))
+        store.send(.gotNextRide(nil))
         #expect(store.nextRide == nil)
     }
 }

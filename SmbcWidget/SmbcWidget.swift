@@ -44,12 +44,12 @@ struct WidgetData {
     }
 
     static let sampleRest =  Restaurant(
-        id: "beachstreet",
-        name: "Beach Street Restaurant",
-        address: "435 W. Beach Street",
+        id: "sample",
+        name: "Sample Restaurant",
+        address: "123 Main Street",
         route: "101/92/280/85/17/1",
-        city: "Watsonville",
-        phone: "831-722-2233",
+        city: "Someplace",
+        phone: "555-867-5309",
         status: "open",
         eta: "8:17",
         lat: 37.113013,
