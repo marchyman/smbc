@@ -26,8 +26,10 @@ public struct GalleryView: View {
                             }
                             .buttonStyle(PlainButtonStyle())
                         } else {
-                            NavigationLink(destination: MarkdownZoomView(name: downloadName)) {
-                                MarkdownView(name: downloadName)
+                            NavigationLink(destination: MarkdownZoomView(name: name,
+                                                                         server: store.galleryServer)) {
+                                MarkdownView(name: name,
+                                             server: store.galleryServer)
                                     .frame(maxWidth: 700)
                             }
                             .buttonStyle(PlainButtonStyle())

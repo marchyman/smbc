@@ -8,6 +8,7 @@ import SwiftUI
 
 struct MarkdownView: View {
     let name: String
+    let server: String
 
     @State private var markdown: String?
 
@@ -32,7 +33,9 @@ struct MarkdownView: View {
         .padding(.horizontal)
         .clipped()
         .task {
-            markdown = try? await GalleryModel.fetchMarkdown(mdFile: name, start: true)
+            markdown = try? await GalleryModel.fetchMarkdown(mdFile: name,
+                                                             from: server,
+                                                             start: true)
         }
     }
 }

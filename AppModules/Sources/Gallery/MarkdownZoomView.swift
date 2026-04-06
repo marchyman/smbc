@@ -9,6 +9,7 @@ import ViewModifiers
 
 struct MarkdownZoomView: View {
     let name: String
+    let server: String
 
     @State private var markdown: String?
 
@@ -30,7 +31,8 @@ struct MarkdownZoomView: View {
         .padding(.horizontal)
         .smbcBackground()
         .task {
-            markdown = try? await GalleryModel.fetchMarkdown(mdFile: name)
+            markdown = try? await GalleryModel.fetchMarkdown(mdFile: name,
+                                                             from: server)
         }
     }
 }
