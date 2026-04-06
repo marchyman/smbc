@@ -23,6 +23,7 @@ public struct RideListView: View {
                     List(store.rideModel.rides) { ride in
                         if ride.restaurant != nil {
                             RideRowView(ride: ride).id(ride.id)
+                                .accessibilityIdentifier("rideRow")
                         } else if ride.description != nil {
                             TripRowView(ride: ride).id(ride.id)
                         }

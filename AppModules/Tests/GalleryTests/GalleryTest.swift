@@ -42,15 +42,17 @@ struct GalleryStateTests {
         let cache = try testCache()
         let state = GalleryState(testCache: cache)
         let gallery = GalleryModel(cache: cache)
-        #expect(gallery.names.count == 9)
-        #expect(gallery.names.first == "riders/2025/0302/index.md")
+        #expect(gallery.names.count == 10)
+        #expect(gallery.names.first == "riders/2026/0405/index.md")
         #expect(gallery.names.last == "riders/2025/0209/p-7881.jpg")
-        let path = state.galleryServer + "riders/2025/0209/index.md"
+        let path = "riders/2025/0209/index.md"
         let text = try await GalleryModel.fetchMarkdown(mdFile: path,
+                                                        from: state.galleryServer,
                                                         start: true)
         // "start" returns up to 250 char plus a suffix of "..."
         #expect(text.count == 253)
-        let fullText = try await GalleryModel.fetchMarkdown(mdFile: path)
+        let fullText = try await GalleryModel.fetchMarkdown(mdFile: path,
+                                                            from: state.galleryServer)
         #expect(fullText.count == 360)
         // full text should contain the start text as a prefix
         // less the added "..."
@@ -59,7 +61,7 @@ struct GalleryStateTests {
 
     @Test func initGalleryState() async throws {
         let state = try makeState()
-        #expect(state.galleryModel.names.count == 9)
+        #expect(state.galleryModel.names.count == 10)
         #expect(state.loadInProgress == .idle)
     }
 

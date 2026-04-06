@@ -61,14 +61,18 @@ final class RideViewsTests: XCTestCase {
         XCTAssert(app.buttons["Rides"].isSelected)
         takeScreenshot(name: "Rides Tab")
 
-        // find the second ride and tap on it.
-        // The first ride might be at the very top of the screen and not
-        // be tapable.
-        let rides = app.collectionViews.element(boundBy: 1)
-        XCTAssert(rides.exists)
-        let someRide = rides.buttons.element(boundBy: 1)
-        XCTAssert(someRide.exists)
-        someRide.tap()
+        // find the second ride, scroll to it if necessary, then tap
+        let ride = app.descendants(matching: .button)
+                      .matching(identifier: "rideRow")
+                      .element(boundBy: 1)
+        // the ride might not be on the screen.  Swipe down a few time.
+        // not sure if two are enough. ride.isHittable is true even when not
+        // on screen. tap(), however, is ignored when the button is off screen.
+        app.swipeDown()
+        app.swipeDown()
+        XCTAssert(ride.exists)
+        XCTAssert(ride.isHittable)
+        ride.tap()
         rideDetails()
     }
 
